@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Linear Design System Tokens */
+  --color-accent: #5e6ad2;
+  --color-accent-hover: #828fff;
+  --color-accent-focus: #5e69d1;
+  --color-canvas: #010102;
+  --color-surface-1: #0f1011;
+  --color-surface-2: #141516;
+  --color-surface-3: #18191a;
+  --color-surface-4: #191a1b;
+  --color-hairline-1: #23252a;
+  --color-hairline-2: #34343a;
+  --color-hairline-3: #3e3e44;
+  --color-text-ink: #f7f8f8;
+  --color-text-muted: #d0d6e0;
+  --color-text-subtle: #8a8f98;
+  --color-text-tertiary: #62666d;
+  --color-success: #27a644;
+
+  /* Typography */
+  --font-display: "Inter", "SF Pro Display", system-ui, sans-serif;
+  --font-text: "Inter", "SF Pro Display", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", Monaco, "Courier New", monospace;
+
+  /* Spacing */
+  --spacing-section: 96px;
+}
+
+body {
+  font-family: var(--font-text);
+  background-color: var(--color-canvas);
+  color: var(--color-text-ink);
+  letter-spacing: -0.05px;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Display typography with aggressive negative tracking */
+  .text-display-lg {
+    font-size: 80px;
+    line-height: 1.1;
+    letter-spacing: -3.0px;
+    font-weight: 700;
+  }
+
+  .text-display-md {
+    font-size: 48px;
+    line-height: 1.2;
+    letter-spacing: -1.5px;
+    font-weight: 600;
+  }
+
+  .text-display-sm {
+    font-size: 32px;
+    line-height: 1.25;
+    letter-spacing: -0.8px;
+    font-weight: 600;
+  }
+
+  .text-eyebrow {
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: 0.4px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+}

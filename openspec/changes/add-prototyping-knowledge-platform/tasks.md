@@ -2,10 +2,10 @@
 
 ## 1. Project Setup and Shell Foundation
 
-- [ ] 1.1 Initialize Next.js project with TypeScript and verify dev server starts successfully
-- [ ] 1.2 Install and configure Tailwind CSS with Linear design tokens and verify token CSS variables render correctly
-- [ ] 1.3 Set up Linear design tokens (colors, typography, radii, spacing) as CSS variables and verify all token values match design.md specification
-- [ ] 1.4 Create base shell layout with `Riot-Games-Project` root and verify navigation structure renders
+- [x] 1.1 Initialize Next.js project with TypeScript and verify dev server starts successfully
+- [x] 1.2 Install and configure Tailwind CSS with Linear design tokens and verify token CSS variables render correctly
+- [x] 1.3 Set up Linear design tokens (colors, typography, radii, spacing) as CSS variables and verify all token values match design.md specification
+- [x] 1.4 Create base shell layout with `Riot-Games-Project` root and verify navigation structure renders
 
 ## 2. Design System Implementation (Linear for Shell)
 

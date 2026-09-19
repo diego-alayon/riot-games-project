@@ -6,6 +6,10 @@ node_modules/
 # Testing
 coverage/
 
+# Next.js
+.next/
+out/
+
 # Production
 build/
 dist/
@@ -33,3 +37,7 @@ yarn-error.log*
 
 # Vercel
 .vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
