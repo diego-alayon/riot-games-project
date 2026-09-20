@@ -43,6 +43,14 @@ export default function ProductPage() {
           Architecture, infrastructure, initiatives, and core domain knowledge with full traceability.
         </Body>
 
+        <div className="mb-6">
+          <Link href="/product/graph">
+            <span className="inline-flex items-center gap-2 text-sm text-linear-accent border border-linear-accent/30 bg-linear-accent/5 px-4 py-2 rounded-linear-md hover:bg-linear-accent/10 transition-colors">
+              Knowledge Graph →
+            </span>
+          </Link>
+        </div>
+
         <div className="grid md:grid-cols-2 gap-6">
           {sections.map((section) => (
             <Card key={section.id} level={1}>

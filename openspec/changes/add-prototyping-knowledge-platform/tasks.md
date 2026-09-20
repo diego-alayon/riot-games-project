@@ -84,10 +84,10 @@
 
 ## 12. Knowledge Base Graph Navigation
 
-- [ ] 12.1 Implement graph visualization component and verify graph renders all node types
-- [ ] 12.2 Add interactive navigation in graph view (click node to navigate) and verify clicking nodes navigates to entity views
-- [ ] 12.3 Implement bidirectional link traversal UI and verify both directions of each link type are navigable
-- [ ] 12.4 Add graph filters (node type, link type) and verify filtering shows only selected types
+- [x] 12.1 Implement graph visualization component and verify graph renders all node types
+- [x] 12.2 Add interactive navigation in graph view (click node to navigate) and verify clicking nodes navigates to entity views
+- [x] 12.3 Implement bidirectional link traversal UI and verify both directions of each link type are navigable
+- [x] 12.4 Add graph filters (node type, link type) and verify filtering shows only selected types
 
 ## 13. End-to-End Validation (Riftbound Ticketing Portal)
 
