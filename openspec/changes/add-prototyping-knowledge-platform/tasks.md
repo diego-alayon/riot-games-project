@@ -30,10 +30,10 @@
 
 ## 5. Design System Registry
 
-- [ ] 5.1 Implement design system schema (name, tokens, components) and verify schema validation works
-- [ ] 5.2 Create design system selector/editor UI and verify new design systems can be created and edited
-- [ ] 5.3 Implement design system isolation per prototype and verify prototype design tokens do not leak into shell
-- [ ] 5.4 Register Linear as the default shell design system and verify shell always renders with Linear tokens
+- [x] 5.1 Implement design system schema (name, tokens, components) and verify schema validation works
+- [x] 5.2 Create design system selector/editor UI and verify new design systems can be created and edited
+- [x] 5.3 Implement design system isolation per prototype and verify prototype design tokens do not leak into shell
+- [x] 5.4 Register Linear as the default shell design system and verify shell always renders with Linear tokens
 
 ## 6. Prototype Builder (Applications Module)
 
