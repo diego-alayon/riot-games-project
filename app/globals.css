@@ -1,9 +1,42 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+@theme {
+  /* Linear Design System — Color Tokens */
+  --color-linear-accent: #5e6ad2;
+  --color-linear-accent-hover: #828fff;
+  --color-linear-accent-focus: #5e69d1;
+  --color-linear-canvas: #010102;
+  --color-linear-surface-1: #0f1011;
+  --color-linear-surface-2: #141516;
+  --color-linear-surface-3: #18191a;
+  --color-linear-surface-4: #191a1b;
+  --color-linear-hairline-1: #23252a;
+  --color-linear-hairline-2: #34343a;
+  --color-linear-hairline-3: #3e3e44;
+  --color-linear-text-ink: #f7f8f8;
+  --color-linear-text-muted: #d0d6e0;
+  --color-linear-text-subtle: #8a8f98;
+  --color-linear-text-tertiary: #62666d;
+  --color-linear-success: #27a644;
+
+  /* Border radius */
+  --radius-linear-sm: 4px;
+  --radius-linear-base: 6px;
+  --radius-linear-md: 8px;
+  --radius-linear-lg: 12px;
+  --radius-linear-xl: 16px;
+  --radius-linear-2xl: 24px;
+
+  /* Spacing */
+  --spacing-section: 96px;
+
+  /* Font families */
+  --font-family-display: "Inter", "SF Pro Display", system-ui, sans-serif;
+  --font-family-mono: "JetBrains Mono", Monaco, "Courier New", monospace;
+}
+
+/* CSS custom properties for runtime use (design system provider, etc.) */
 :root {
-  /* Linear Design System Tokens */
   --color-accent: #5e6ad2;
   --color-accent-hover: #828fff;
   --color-accent-focus: #5e69d1;
@@ -20,56 +53,46 @@
   --color-text-subtle: #8a8f98;
   --color-text-tertiary: #62666d;
   --color-success: #27a644;
+}
 
-  /* Typography */
-  --font-display: "Inter", "SF Pro Display", system-ui, sans-serif;
-  --font-text: "Inter", "SF Pro Display", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", Monaco, "Courier New", monospace;
-
-  /* Spacing */
-  --spacing-section: 96px;
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: var(--font-text);
-  background-color: var(--color-canvas);
-  color: var(--color-text-ink);
+  background-color: #010102;
+  color: #f7f8f8;
+  font-family: "Inter", "SF Pro Display", system-ui, sans-serif;
   letter-spacing: -0.05px;
 }
 
-@layer base {
-  html {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+/* Display typography — Linear aggressive negative tracking */
+.text-display-lg {
+  font-size: 80px;
+  line-height: 1.1;
+  letter-spacing: -3.0px;
+  font-weight: 700;
+}
 
-  /* Display typography with aggressive negative tracking */
-  .text-display-lg {
-    font-size: 80px;
-    line-height: 1.1;
-    letter-spacing: -3.0px;
-    font-weight: 700;
-  }
+.text-display-md {
+  font-size: 48px;
+  line-height: 1.2;
+  letter-spacing: -1.5px;
+  font-weight: 600;
+}
 
-  .text-display-md {
-    font-size: 48px;
-    line-height: 1.2;
-    letter-spacing: -1.5px;
-    font-weight: 600;
-  }
+.text-display-sm {
+  font-size: 32px;
+  line-height: 1.25;
+  letter-spacing: -0.8px;
+  font-weight: 600;
+}
 
-  .text-display-sm {
-    font-size: 32px;
-    line-height: 1.25;
-    letter-spacing: -0.8px;
-    font-weight: 600;
-  }
-
-  .text-eyebrow {
-    font-size: 12px;
-    line-height: 1.5;
-    letter-spacing: 0.4px;
-    font-weight: 500;
-    text-transform: uppercase;
-  }
+.text-eyebrow {
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.4px;
+  font-weight: 500;
+  text-transform: uppercase;
 }
