@@ -37,12 +37,12 @@
 
 ## 6. Prototype Builder (Applications Module)
 
-- [ ] 6.1 Implement Prototype entity CRUD operations and verify prototypes can be created, read, updated, deleted
-- [ ] 6.2 Create Page entity within prototypes and verify pages can be added to prototypes
-- [ ] 6.3 Implement prototype page editor UI and verify pages can be visually edited
-- [ ] 6.4 Create Riftbound Ticketing Portal prototype with initial pages and verify prototype appears in Applications listing
-- [ ] 6.5 Register OneVenue Backoffice as reserved (no detail) and verify it appears as placeholder in Applications
-- [ ] 6.6 Implement GateFlow as integration (no frontend) within Riftbound and verify GateFlow does not appear as separate application in Applications
+- [x] 6.1 Implement Prototype entity CRUD operations and verify prototypes can be created, read, updated, deleted
+- [x] 6.2 Create Page entity within prototypes and verify pages can be added to prototypes
+- [x] 6.3 Implement prototype page editor UI and verify pages can be visually edited
+- [x] 6.4 Create Riftbound Ticketing Portal prototype with initial pages and verify prototype appears in Applications listing
+- [x] 6.5 Register OneVenue Backoffice as reserved (no detail) and verify it appears as placeholder in Applications
+- [x] 6.6 Implement GateFlow as integration (no frontend) within Riftbound and verify GateFlow does not appear as separate application in Applications
 
 ## 7. Product Workspace Structure
 

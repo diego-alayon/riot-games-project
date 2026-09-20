@@ -58,8 +58,8 @@ export default function ApplicationsPage() {
                   <Button variant="secondary">Open Prototype</Button>
                 </Link>
               ) : (
-                <Button variant="ghost" disabled>
-                  Coming Soon
+                <Button variant="ghost" disabled className="cursor-not-allowed opacity-50">
+                  Reserved
                 </Button>
               )}
             </Card>
