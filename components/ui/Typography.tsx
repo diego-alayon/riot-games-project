@@ -5,6 +5,30 @@ interface TypoProps {
   className?: string;
 }
 
+// Page title — 20px weight 510 (Linear compact scale)
+export function PageTitle({ children, className = "" }: TypoProps) {
+  return (
+    <h1
+      className={className}
+      style={{ fontSize: 20, fontWeight: 510, color: "#0f0f0f", letterSpacing: "-0.24px", lineHeight: 1.3 }}
+    >
+      {children}
+    </h1>
+  );
+}
+
+// Section title — 16px weight 510
+export function SectionTitle({ children, className = "" }: TypoProps) {
+  return (
+    <h2
+      className={className}
+      style={{ fontSize: 16, fontWeight: 510, color: "#0f0f0f", letterSpacing: "-0.16px", lineHeight: 1.4 }}
+    >
+      {children}
+    </h2>
+  );
+}
+
 export function Display({ children, className = "" }: TypoProps) {
   return <h1 className={`text-display ${className}`}>{children}</h1>;
 }
@@ -14,11 +38,11 @@ export function HeadingLg({ children, className = "" }: TypoProps) {
 }
 
 export function Heading({ children, className = "" }: TypoProps) {
-  return <h2 className={`text-heading ${className}`}>{children}</h2>;
+  return <PageTitle className={className}>{children}</PageTitle>;
 }
 
 export function Subheading({ children, className = "" }: TypoProps) {
-  return <h3 className={`text-subheading ${className}`}>{children}</h3>;
+  return <SectionTitle className={className}>{children}</SectionTitle>;
 }
 
 export function HeadingSm({ children, className = "" }: TypoProps) {
