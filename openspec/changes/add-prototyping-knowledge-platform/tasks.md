@@ -69,11 +69,11 @@
 
 ## 10. Requirements Catalog and Bidirectional Navigation
 
-- [ ] 10.1 Create requirements catalog view with filterable table (Classification, Area, Represented) and verify filters work correctly
-- [ ] 10.2 Implement search functionality in catalog and verify search returns matching requirements
-- [ ] 10.3 Add "Where" column linking back to prototype views and verify links navigate to correct prototype pages
-- [ ] 10.4 Implement "Not prototyped" indicator for requirements without UI representation and verify indicator displays when no view reference exists
-- [ ] 10.5 Add "Copy as Markdown" export functionality and verify export generates valid Markdown
+- [x] 10.1 Create requirements catalog view with filterable table (Classification, Area, Represented) and verify filters work correctly
+- [x] 10.2 Implement search functionality in catalog and verify search returns matching requirements
+- [x] 10.3 Add "Where" column linking back to prototype views and verify links navigate to correct prototype pages
+- [x] 10.4 Implement "Not prototyped" indicator for requirements without UI representation and verify indicator displays when no view reference exists
+- [x] 10.5 Add "Copy as Markdown" export functionality and verify export generates valid Markdown
 
 ## 11. Requirement Links to Documentation and Components
 

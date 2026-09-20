@@ -39,6 +39,14 @@ export default function InitiativesPage() {
           Product initiatives and their functional requirements.
         </Body>
 
+        <div className="mb-6">
+          <Link href="/product/initiatives/catalog">
+            <span className="inline-flex items-center gap-2 text-sm text-linear-accent border border-linear-accent/30 bg-linear-accent/5 px-4 py-2 rounded-linear-md hover:bg-linear-accent/10 transition-colors">
+              Requirements Catalog →
+            </span>
+          </Link>
+        </div>
+
         <div className="space-y-3">
           {initiatives.map((initiative) => {
             const reqCount = requirementStore.getRequirementsForInitiative(initiative.id).length;
