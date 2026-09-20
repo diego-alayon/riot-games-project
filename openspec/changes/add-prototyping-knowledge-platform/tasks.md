@@ -77,10 +77,10 @@
 
 ## 11. Requirement Links to Documentation and Components
 
-- [ ] 11.1 Implement requirement → document links (documented-by) and verify links can be created and navigated
-- [ ] 11.2 Implement requirement → component links (implements) and verify component links display correctly
-- [ ] 11.3 Add link creation UI in requirement editor and verify links can be added from requirement view
-- [ ] 11.4 Display linked documents and components in requirement view and verify clicking links navigates to targets
+- [x] 11.1 Implement requirement → document links (documented-by) and verify links can be created and navigated
+- [x] 11.2 Implement requirement → component links (implements) and verify component links display correctly
+- [x] 11.3 Add link creation UI in requirement editor and verify links can be added from requirement view
+- [x] 11.4 Display linked documents and components in requirement view and verify clicking links navigates to targets
 
 ## 12. Knowledge Base Graph Navigation
 

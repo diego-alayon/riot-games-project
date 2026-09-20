@@ -1,6 +1,6 @@
 import { graphStore } from "./graph-store";
-import type { FunctionalRequirement } from "../types/graph";
-import type { BelongsToLink } from "../types/links";
+import type { FunctionalRequirement, Document, Component } from "../types/graph";
+import type { BelongsToLink, DocumentedByLink, ImplementsLink } from "../types/links";
 
 function generateId(): string {
   return `req-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -86,6 +86,56 @@ class RequirementStore {
 
   deleteRequirement(id: string): boolean {
     return graphStore.deleteNode(id);
+  }
+
+  linkToDocument(requirementId: string, documentId: string): void {
+    const req = this.getRequirement(requirementId);
+    const doc = graphStore.getNode(documentId);
+    if (!req || !doc || doc.type !== "Document") {
+      throw new Error("Requirement or Document not found");
+    }
+    const link: DocumentedByLink = {
+      id: `link-docby-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+      type: "documented-by",
+      sourceId: requirementId,
+      sourceType: "FunctionalRequirement",
+      targetId: documentId,
+      targetType: "Document",
+      createdAt: new Date(),
+    };
+    graphStore.addLink(link);
+  }
+
+  getLinkedDocuments(requirementId: string): Document[] {
+    const links = graphStore.getLinksFrom(requirementId, "documented-by");
+    return links
+      .map((l) => graphStore.getNode(l.targetId))
+      .filter((n): n is Document => n?.type === "Document");
+  }
+
+  linkToComponent(requirementId: string, componentId: string): void {
+    const req = this.getRequirement(requirementId);
+    const comp = graphStore.getNode(componentId);
+    if (!req || !comp || comp.type !== "Component") {
+      throw new Error("Requirement or Component not found");
+    }
+    const link: ImplementsLink = {
+      id: `link-impl-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+      type: "implements",
+      sourceId: requirementId,
+      sourceType: "FunctionalRequirement",
+      targetId: componentId,
+      targetType: "Component",
+      createdAt: new Date(),
+    };
+    graphStore.addLink(link);
+  }
+
+  getLinkedComponents(requirementId: string): Component[] {
+    const links = graphStore.getLinksFrom(requirementId, "implements");
+    return links
+      .map((l) => graphStore.getNode(l.targetId))
+      .filter((n): n is Component => n?.type === "Component");
   }
 }
 
