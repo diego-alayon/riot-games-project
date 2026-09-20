@@ -61,11 +61,11 @@
 
 ## 9. Requirement Traceability (UI Labels)
 
-- [ ] 9.1 Implement UIFunctionality entity with mandatory traceability label field and verify label is required at creation
-- [ ] 9.2 Create UI functionality editor that enforces requirement link and verify orphan functionalities cannot be saved
-- [ ] 9.3 Implement traceability label display in prototype views (FR-XXX-NN tags) and verify labels render next to UI elements
-- [ ] 9.4 Create global toggle for showing/hiding traceability labels and verify toggle shows/hides all labels simultaneously
-- [ ] 9.5 Implement click handler on FR labels to jump to requirements catalog and verify clicking label opens filtered catalog
+- [x] 9.1 Implement UIFunctionality entity with mandatory traceability label field and verify label is required at creation
+- [x] 9.2 Create UI functionality editor that enforces requirement link and verify orphan functionalities cannot be saved
+- [x] 9.3 Implement traceability label display in prototype views (FR-XXX-NN tags) and verify labels render next to UI elements
+- [x] 9.4 Create global toggle for showing/hiding traceability labels and verify toggle shows/hides all labels simultaneously
+- [x] 9.5 Implement click handler on FR labels to jump to requirements catalog and verify clicking label opens filtered catalog
 
 ## 10. Requirements Catalog and Bidirectional Navigation
 

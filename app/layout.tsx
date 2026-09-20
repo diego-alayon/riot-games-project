@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Shell } from "@/components/Shell";
+import { TraceabilityProvider } from "@/lib/context/traceability-context";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Shell>{children}</Shell>
+        <TraceabilityProvider>
+          <Shell>{children}</Shell>
+        </TraceabilityProvider>
       </body>
     </html>
   );

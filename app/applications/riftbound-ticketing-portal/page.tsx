@@ -5,11 +5,17 @@ import { DisplayMedium, Eyebrow, Body } from "@/components/ui/Typography";
 import { Card } from "@/components/ui/Surface";
 import { prototypeStore } from "@/lib/store/prototype-store";
 import { pageStore } from "@/lib/store/page-store";
+import { uiFunctionalityStore } from "@/lib/store/ui-functionality-store";
 import { PrototypePageList } from "@/components/prototype/PrototypePageList";
 import type { Page, Prototype } from "@/lib/types/graph";
 
 const PROTOTYPE_NAME = "Riftbound Ticketing Portal";
 const INITIAL_PAGES = ["Login", "Dashboard", "Ticket List", "Ticket Detail", "New Ticket"];
+
+const LOGIN_FUNCS = [
+  { label: "Login Form", requirementCode: "FR-LAY-01", description: "SSO entry form with branding" },
+  { label: "SSO Button", requirementCode: "FR-AUTH-01", description: "Triggers SSO authentication flow" },
+];
 
 export default function RiftboundPrototypePage() {
   const [prototype, setPrototype] = useState<Prototype | null>(null);
@@ -24,9 +30,34 @@ export default function RiftboundPrototypePage() {
         { isReserved: false }
       );
       for (const pageName of INITIAL_PAGES) {
-        pageStore.create(proto.id, pageName);
+        const page = pageStore.create(proto.id, pageName);
+        if (pageName === "Login") {
+          for (const func of LOGIN_FUNCS) {
+            try {
+              const existing = uiFunctionalityStore.getUIFunctionalitiesForPage(page.id);
+              if (!existing.some((f) => f.requirementCode === func.requirementCode)) {
+                uiFunctionalityStore.create(page.id, func.label, func.requirementCode, func.description);
+              }
+            } catch {}
+          }
+        }
+      }
+    } else {
+      // Seed login page functionalities if not yet seeded
+      const protoPages = pageStore.getForPrototype(proto.id);
+      const loginPage = protoPages.find((p) => p.name === "Login");
+      if (loginPage) {
+        const existing = uiFunctionalityStore.getUIFunctionalitiesForPage(loginPage.id);
+        for (const func of LOGIN_FUNCS) {
+          if (!existing.some((f) => f.requirementCode === func.requirementCode)) {
+            try {
+              uiFunctionalityStore.create(loginPage.id, func.label, func.requirementCode, func.description);
+            } catch {}
+          }
+        }
       }
     }
+
     setPrototype(proto);
     setPages(pageStore.getForPrototype(proto.id));
   }, []);

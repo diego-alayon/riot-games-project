@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTraceability } from "@/lib/context/traceability-context";
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { showLabels, toggleLabels } = useTraceability();
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Top Navigation */}
       <header className="border-b border-linear-hairline-1" style={{ backgroundColor: "var(--color-surface-1)" }}>
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
@@ -39,11 +40,23 @@ export function Shell({ children }: { children: React.ReactNode }) {
                 </Link>
               </nav>
             </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={toggleLabels}
+                className={`text-xs font-mono px-2 py-1 rounded-linear-sm border transition-colors ${
+                  showLabels
+                    ? "border-linear-accent text-linear-accent bg-linear-surface-3"
+                    : "border-linear-hairline-2 text-linear-text-tertiary hover:text-linear-text-muted"
+                }`}
+                title={showLabels ? "Hide traceability labels" : "Show traceability labels"}
+              >
+                FR
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1">{children}</main>
     </div>
   );
