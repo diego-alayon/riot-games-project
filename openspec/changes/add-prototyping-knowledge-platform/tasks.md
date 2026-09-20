@@ -53,11 +53,11 @@
 
 ## 8. Initiatives and Functional Requirements
 
-- [ ] 8.1 Implement Initiative entity CRUD operations and verify initiatives can be created, read, updated, deleted
-- [ ] 8.2 Implement FunctionalRequirement entity with stable ID generation (FR-XXX-NN) and verify IDs are unique and stable
-- [ ] 8.3 Create requirements editor with area, source, classification, and note fields and verify all fields save correctly
-- [ ] 8.4 Create three initiatives (Riftbound Ticketing Portal, GateFlow - Access Control, OneVenue Backoffice) and verify all appear in Initiatives section
-- [ ] 8.5 Add sample requirements to Riftbound initiative and verify requirements appear in initiative view
+- [x] 8.1 Implement Initiative entity CRUD operations and verify initiatives can be created, read, updated, deleted
+- [x] 8.2 Implement FunctionalRequirement entity with stable ID generation (FR-XXX-NN) and verify IDs are unique and stable
+- [x] 8.3 Create requirements editor with area, source, classification, and note fields and verify all fields save correctly
+- [x] 8.4 Create three initiatives (Riftbound Ticketing Portal, GateFlow - Access Control, OneVenue Backoffice) and verify all appear in Initiatives section
+- [x] 8.5 Add sample requirements to Riftbound initiative and verify requirements appear in initiative view
 
 ## 9. Requirement Traceability (UI Labels)
 
