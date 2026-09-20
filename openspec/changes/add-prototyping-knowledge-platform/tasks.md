@@ -99,8 +99,8 @@
 
 ## 14. Testing and Polish
 
-- [ ] 14.1 Add unit tests for core graph operations and verify all tests pass
-- [ ] 14.2 Add integration tests for traceability flows and verify end-to-end traceability works
-- [ ] 14.3 Verify Linear design system implementation against design.md checklist and verify all tokens match specification
-- [ ] 14.4 Test responsive layout on mobile and tablet viewports and verify layouts work at all breakpoints
-- [ ] 14.5 Run accessibility audit and verify no critical WCAG violations exist
+- [x] 14.1 Add unit tests for core graph operations and verify all tests pass
+- [x] 14.2 Add integration tests for traceability flows and verify end-to-end traceability works
+- [x] 14.3 Verify Linear design system implementation against design.md checklist and verify all tokens match specification
+- [x] 14.4 Test responsive layout on mobile and tablet viewports and verify layouts work at all breakpoints
+- [x] 14.5 Run accessibility audit and verify no critical WCAG violations exist
