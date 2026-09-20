@@ -7,30 +7,24 @@ interface SurfaceProps {
   bordered?: boolean;
 }
 
-const surfaceColors: Record<number, string> = {
-  1: "#0f1011", // Carbon
-  2: "#161718", // Obsidian
-  3: "#23252a", // Graphite
+const levelColors: Record<number, string> = {
+  1: "#f9f9f9",
+  2: "#f5f5f5",
+  3: "#efefef",
 };
 
-export function Surface({ children, className = "", level = 1, bordered = true }: SurfaceProps) {
+export function Surface({
+  children,
+  className = "",
+  level = 1,
+  bordered = true,
+}: SurfaceProps) {
   return (
     <div
-      className={`${bordered ? "border border-graphite" : ""} ${className}`}
-      style={{ backgroundColor: surfaceColors[level] }}
-    >
-      {children}
-    </div>
-  );
-}
-
-export function Card({ children, className = "", level = 1 }: Omit<SurfaceProps, "bordered">) {
-  return (
-    <div
-      className={`rounded-xl p-6 border border-graphite ${className}`}
+      className={`${bordered ? "border" : ""} ${className}`}
       style={{
-        backgroundColor: surfaceColors[level],
-        boxShadow: "rgb(35, 37, 42) 0px 0px 0px 1px inset",
+        backgroundColor: levelColors[level],
+        borderColor: "#ebebeb",
       }}
     >
       {children}
@@ -38,13 +32,26 @@ export function Card({ children, className = "", level = 1 }: Omit<SurfaceProps,
   );
 }
 
-export function Panel({ children, className = "", level = 2 }: Omit<SurfaceProps, "bordered">) {
+export function Card({
+  children,
+  className = "",
+  level = 1,
+}: Omit<SurfaceProps, "bordered">) {
   return (
-    <div
-      className={`rounded-xl p-4 border border-graphite ${className}`}
-      style={{ backgroundColor: surfaceColors[level] }}
-    >
+    <Surface level={level} bordered className={`rounded-xl p-5 ${className}`}>
       {children}
-    </div>
+    </Surface>
+  );
+}
+
+export function Panel({
+  children,
+  className = "",
+  level = 2,
+}: Omit<SurfaceProps, "bordered">) {
+  return (
+    <Surface level={level} bordered className={`rounded-lg p-4 ${className}`}>
+      {children}
+    </Surface>
   );
 }

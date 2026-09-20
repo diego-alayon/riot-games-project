@@ -25,7 +25,10 @@ export function TraceabilityLabel({ code, onClick }: TraceabilityLabelProps) {
   return (
     <button
       onClick={handleClick}
-      className="font-mono text-label text-acid-lime bg-graphite border border-graphite px-1.5 py-0.5 rounded cursor-pointer hover:border-smoke transition-colors"
+      className="font-mono text-[11px] px-1.5 py-0.5 rounded cursor-pointer transition-colors"
+      style={{ backgroundColor: "#f0f0f0", color: "#3b3b3b", border: "1px solid #e0e0e0" }}
+      onMouseEnter={e => ((e.currentTarget as HTMLElement).style.backgroundColor = "#ebebeb")}
+      onMouseLeave={e => ((e.currentTarget as HTMLElement).style.backgroundColor = "#f0f0f0")}
       title={`View requirement ${code}`}
     >
       {code}

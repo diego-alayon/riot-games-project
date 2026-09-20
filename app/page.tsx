@@ -1,42 +1,68 @@
 import Link from "next/link";
-import { Card } from "@/components/ui/Surface";
-import { DisplayMedium, Eyebrow, Body } from "@/components/ui/Typography";
-import { Button } from "@/components/ui/Button";
 
 export default function Home() {
   return (
-    <div className="px-8 py-8">
-      <div className="max-w-4xl mx-auto">
-        <Eyebrow className="text-acid-lime mb-2">Riot-Games-Project</Eyebrow>
-        <DisplayMedium className="text-paper mb-4">
-          Prototyping & Knowledge Platform
-        </DisplayMedium>
-        <Body className="text-mist mb-12">
+    <div className="px-8 py-6">
+      <div className="max-w-3xl">
+        <span className="text-eyebrow block mb-3">Riot-Games-Project</span>
+        <h1 className="text-heading mb-2">Prototyping & Knowledge Platform</h1>
+        <p className="text-body mb-8" style={{ color: "#6b6b6b" }}>
           Unified platform for building prototypes and managing product knowledge with full traceability.
-        </Body>
+        </p>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <Card level={1}>
-            <Eyebrow className="text-fog mb-3">Applications</Eyebrow>
-            <h3 className="text-heading-sm text-paper mb-2">Prototyping Studio</h3>
-            <p className="text-body-sm text-fog mb-6">
+        <div className="grid md:grid-cols-2 gap-4">
+          <div
+            className="rounded-xl p-5 border"
+            style={{ backgroundColor: "#f9f9f9", borderColor: "#ebebeb" }}
+          >
+            <span className="text-eyebrow block mb-3">Applications</span>
+            <h3 className="text-heading-sm mb-1.5">Prototyping Studio</h3>
+            <p className="text-body-sm mb-5">
               Build application prototypes with pages, behavior, and independent design systems.
             </p>
-            <Link href="/applications">
-              <Button variant="primary">Open Applications</Button>
+            <Link
+              href="/applications"
+              className="inline-flex items-center h-8 px-3 rounded-md text-[13px] font-medium transition-colors"
+              style={{ backgroundColor: "#e4f222", color: "#0f0f0f" }}
+            >
+              Open Applications
             </Link>
-          </Card>
+          </div>
 
-          <Card level={1}>
-            <Eyebrow className="text-fog mb-3">Product</Eyebrow>
-            <h3 className="text-heading-sm text-paper mb-2">Knowledge Base</h3>
-            <p className="text-body-sm text-fog mb-6">
+          <div
+            className="rounded-xl p-5 border"
+            style={{ backgroundColor: "#f9f9f9", borderColor: "#ebebeb" }}
+          >
+            <span className="text-eyebrow block mb-3">Product</span>
+            <h3 className="text-heading-sm mb-1.5">Knowledge Base</h3>
+            <p className="text-body-sm mb-5">
               Architecture, infrastructure, initiatives, and functional requirements with full traceability.
             </p>
-            <Link href="/product">
-              <Button variant="primary">Open Product</Button>
+            <Link
+              href="/product"
+              className="inline-flex items-center h-8 px-3 rounded-md text-[13px] font-medium transition-colors"
+              style={{ backgroundColor: "#e4f222", color: "#0f0f0f" }}
+            >
+              Open Product
             </Link>
-          </Card>
+          </div>
+        </div>
+
+        {/* Quick stats row */}
+        <div className="flex gap-6 mt-8 pt-6" style={{ borderTop: "1px solid #ebebeb" }}>
+          {[
+            { label: "Applications", value: "2" },
+            { label: "Design Systems", value: "1" },
+            { label: "Initiatives", value: "3" },
+            { label: "Requirements", value: "12+" },
+          ].map((stat) => (
+            <div key={stat.label}>
+              <div className="text-[20px] font-[510] leading-none mb-1" style={{ color: "#0f0f0f" }}>
+                {stat.value}
+              </div>
+              <div className="text-caption">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
