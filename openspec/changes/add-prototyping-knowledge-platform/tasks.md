@@ -91,11 +91,11 @@
 
 ## 13. End-to-End Validation (Riftbound Ticketing Portal)
 
-- [ ] 13.1 Create Riftbound Ticketing Portal prototype with Login page and verify page appears in prototype
-- [ ] 13.2 Create FR-LAY-01 requirement in Riftbound initiative and verify requirement appears in catalog
-- [ ] 13.3 Link Login page functionality to FR-LAY-01 and verify traceability label appears on Login page
-- [ ] 13.4 Create Architecture document and link to FR-LAY-01 and verify document link appears in requirement view
-- [ ] 13.5 Test full traversal: Product → Initiative → Requirement → UI Functionality → Documentation and verify entire chain is navigable in both directions
+- [x] 13.1 Create Riftbound Ticketing Portal prototype with Login page and verify page appears in prototype
+- [x] 13.2 Create FR-LAY-01 requirement in Riftbound initiative and verify requirement appears in catalog
+- [x] 13.3 Link Login page functionality to FR-LAY-01 and verify traceability label appears on Login page
+- [x] 13.4 Create Architecture document and link to FR-LAY-01 and verify document link appears in requirement view
+- [x] 13.5 Test full traversal: Product → Initiative → Requirement → UI Functionality → Documentation and verify entire chain is navigable in both directions
 
 ## 14. Testing and Polish
 
