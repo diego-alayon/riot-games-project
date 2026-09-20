@@ -9,17 +9,17 @@
 
 ## 2. Design System Implementation (Linear for Shell)
 
-- [ ] 2.1 Implement Linear typography scale (Display/Text/Mono with negative tracking) and verify font rendering matches specification
-- [ ] 2.2 Implement surface scale components (#0f1011 → #191a1b) with hairline borders and verify elevation hierarchy displays correctly
-- [ ] 2.3 Create base UI components (buttons, cards, inputs) using Linear tokens and verify components pass visual regression tests
-- [ ] 2.4 Implement focus ring and accent color restrictions (#5e6ad2 usage) and verify accent appears only in brand, focus, and single primary CTA
+- [x] 2.1 Implement Linear typography scale (Display/Text/Mono with negative tracking) and verify font rendering matches specification
+- [x] 2.2 Implement surface scale components (#0f1011 → #191a1b) with hairline borders and verify elevation hierarchy displays correctly
+- [x] 2.3 Create base UI components (buttons, cards, inputs) using Linear tokens and verify components pass visual regression tests
+- [x] 2.4 Implement focus ring and accent color restrictions (#5e6ad2 usage) and verify accent appears only in brand, focus, and single primary CTA
 
 ## 3. Core Data Model and Graph Infrastructure
 
-- [ ] 3.1 Define TypeScript types for all graph nodes (Product, Section, Initiative, FunctionalRequirement, Prototype, Page, UIFunctionality, Document, Component) and verify types compile without errors
-- [ ] 3.2 Define TypeScript types for link types (implements, documented-by, depends-on, integrates-with, belongs-to) and verify link relationships enforce correct node type constraints
-- [ ] 3.3 Implement in-memory graph store with CRUD operations and verify basic node and link operations work
-- [ ] 3.4 Add graph query utilities (bidirectional traversal, filter by type) and verify traversal returns correct connected nodes
+- [x] 3.1 Define TypeScript types for all graph nodes (Product, Section, Initiative, FunctionalRequirement, Prototype, Page, UIFunctionality, Document, Component) and verify types compile without errors
+- [x] 3.2 Define TypeScript types for link types (implements, documented-by, depends-on, integrates-with, belongs-to) and verify link relationships enforce correct node type constraints
+- [x] 3.3 Implement in-memory graph store with CRUD operations and verify basic node and link operations work
+- [x] 3.4 Add graph query utilities (bidirectional traversal, filter by type) and verify traversal returns correct connected nodes
 
 ## 4. Platform Shell Navigation
 
