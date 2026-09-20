@@ -46,10 +46,10 @@
 
 ## 7. Product Workspace Structure
 
-- [ ] 7.1 Implement Architecture section with document CRUD and verify documents can be created in Architecture
-- [ ] 7.2 Implement Infrastructure section with document CRUD and verify documents can be created in Infrastructure
-- [ ] 7.3 Create Core section placeholder and verify Core section renders with "Coming soon" state
-- [ ] 7.4 Implement document viewer/editor UI and verify documents display with proper formatting
+- [x] 7.1 Implement Architecture section with document CRUD and verify documents can be created in Architecture
+- [x] 7.2 Implement Infrastructure section with document CRUD and verify documents can be created in Infrastructure
+- [x] 7.3 Create Core section placeholder and verify Core section renders with "Coming soon" state
+- [x] 7.4 Implement document viewer/editor UI and verify documents display with proper formatting
 
 ## 8. Initiatives and Functional Requirements
 
