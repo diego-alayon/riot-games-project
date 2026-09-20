@@ -22,7 +22,7 @@ const prototypes = [
 
 export default function ApplicationsPage() {
   return (
-    <div className="px-6 py-96">
+    <div className="px-8 py-8">
       <div className="max-w-6xl mx-auto">
         <Eyebrow className="text-fog mb-2">Applications</Eyebrow>
         <DisplayMedium className="text-paper mb-4">

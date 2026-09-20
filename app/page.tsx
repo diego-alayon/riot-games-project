@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 
 export default function Home() {
   return (
-    <div className="px-6 py-96">
+    <div className="px-8 py-8">
       <div className="max-w-4xl mx-auto">
         <Eyebrow className="text-acid-lime mb-2">Riot-Games-Project</Eyebrow>
         <DisplayMedium className="text-paper mb-4">

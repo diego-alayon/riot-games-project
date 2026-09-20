@@ -65,7 +65,7 @@ export default function RiftboundPrototypePage() {
   if (!prototype) return null;
 
   return (
-    <div className="px-6 py-96">
+    <div className="px-8 py-8">
       <div className="max-w-6xl mx-auto space-y-10">
         <div>
           <Eyebrow className="text-fog mb-2">

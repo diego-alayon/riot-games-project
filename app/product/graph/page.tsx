@@ -210,7 +210,7 @@ export default function GraphPage() {
   }, [hoveredId, filteredLinks]);
 
   return (
-    <div className="px-6 py-96">
+    <div className="px-8 py-8">
       <div className="max-w-6xl mx-auto">
         <Link href="/product" className="text-ash text-body-sm hover:text-mist mb-6 inline-block">
           ← Product

@@ -34,7 +34,7 @@ export default function ArchitectureDocumentPage() {
 
   if (!doc) {
     return (
-      <div className="px-6 py-96">
+      <div className="px-8 py-8">
         <div className="max-w-4xl mx-auto">
           <p className="text-mist">Document not found.</p>
           <Link href="/product/architecture" className="text-acid-lime text-body-sm mt-2 inline-block">
@@ -46,7 +46,7 @@ export default function ArchitectureDocumentPage() {
   }
 
   return (
-    <div className="px-6 py-96">
+    <div className="px-8 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-2 mb-6">
           <Link href="/product/architecture" className="text-body-sm text-fog hover:text-paper transition-colors">

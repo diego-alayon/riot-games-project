@@ -115,7 +115,7 @@ function CatalogContent() {
   };
 
   return (
-    <div className="px-6 py-96">
+    <div className="px-8 py-8">
       <div className="max-w-6xl mx-auto">
         <Link href="/product/initiatives" className="text-ash text-body-sm hover:text-mist mb-6 inline-block">
           ← Initiatives
@@ -252,7 +252,7 @@ function CatalogContent() {
 
 export default function CatalogPage() {
   return (
-    <Suspense fallback={<div className="px-6 py-96 text-mist">Loading…</div>}>
+    <Suspense fallback={<div className="px-8 py-8 text-mist">Loading…</div>}>
       <CatalogContent />
     </Suspense>
   );

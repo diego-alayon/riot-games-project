@@ -105,7 +105,7 @@ export default function InitiativeDetailPage() {
 
   if (!initiative) {
     return (
-      <div className="px-6 py-96">
+      <div className="px-8 py-8">
         <div className="max-w-4xl mx-auto">
           <p className="text-mist">Initiative not found.</p>
           <Link href="/product/initiatives" className="text-acid-lime text-body-sm mt-4 inline-block hover:underline">
@@ -117,7 +117,7 @@ export default function InitiativeDetailPage() {
   }
 
   return (
-    <div className="px-6 py-96">
+    <div className="px-8 py-8">
       <div className="max-w-4xl mx-auto">
         <Link href="/product/initiatives" className="text-ash text-body-sm hover:text-mist mb-6 inline-block">
           ← Initiatives

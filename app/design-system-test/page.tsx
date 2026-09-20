@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/Input";
 
 export default function DesignSystemTestPage() {
   return (
-    <div className="px-6 py-96 space-y-12">
+    <div className="px-8 py-8 space-y-12">
       <div className="bg-carbon border border-smoke rounded-xl p-6">
         <Eyebrow className="text-acid-lime mb-2">Linear Design System Test</Eyebrow>
         <p className="text-mist text-sm">
