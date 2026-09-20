@@ -1,8 +1,76 @@
+import Link from "next/link";
+import { DisplayMedium, Eyebrow, Body } from "@/components/ui/Typography";
+import { Card } from "@/components/ui/Surface";
+import { Button } from "@/components/ui/Button";
+
+const sections = [
+  {
+    id: "architecture",
+    name: "Architecture",
+    description: "Technical architecture documentation and decisions",
+    icon: "🏗️",
+  },
+  {
+    id: "infrastructure",
+    name: "Infrastructure",
+    description: "Infrastructure components and deployment documentation",
+    icon: "⚙️",
+  },
+  {
+    id: "initiatives",
+    name: "Initiatives",
+    description: "Product initiatives with functional requirements and traceability",
+    icon: "🎯",
+  },
+  {
+    id: "core",
+    name: "Core",
+    description: "Core domain knowledge and shared entities",
+    icon: "📚",
+    comingSoon: true,
+  },
+];
+
 export default function ProductPage() {
   return (
     <div className="px-6 py-section">
-      <h1 className="text-display-md mb-4">Product</h1>
-      <p className="text-linear-text-muted">Knowledge base with architecture, infrastructure, and initiatives.</p>
+      <div className="max-w-6xl mx-auto">
+        <Eyebrow className="text-linear-text-subtle mb-2">Product</Eyebrow>
+        <DisplayMedium className="text-linear-text-ink mb-4">
+          Knowledge Base
+        </DisplayMedium>
+        <Body className="text-linear-text-muted mb-12">
+          Architecture, infrastructure, initiatives, and core domain knowledge with full traceability.
+        </Body>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          {sections.map((section) => (
+            <Card key={section.id} level={1}>
+              <div className="flex items-start gap-3 mb-3">
+                <span className="text-3xl">{section.icon}</span>
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-linear-text-ink mb-2">
+                    {section.name}
+                  </h3>
+                  <p className="text-linear-text-muted mb-6">
+                    {section.description}
+                  </p>
+                </div>
+              </div>
+
+              {section.comingSoon ? (
+                <Button variant="ghost" disabled>
+                  Coming Soon
+                </Button>
+              ) : (
+                <Link href={`/product/${section.id}`}>
+                  <Button variant="secondary">Open {section.name}</Button>
+                </Link>
+              )}
+            </Card>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

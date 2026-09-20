@@ -23,10 +23,10 @@
 
 ## 4. Platform Shell Navigation
 
-- [ ] 4.1 Implement root navigation (`Riot-Games-Project` → `Applications` / `Product`) and verify both modules are accessible from main nav
-- [ ] 4.2 Create Applications module landing page listing prototypes and verify Riftbound Ticketing Portal and OneVenue Backoffice appear
-- [ ] 4.3 Create Product module landing page with four sections and verify Architecture, Infrastructure, Initiatives, and Core sections display
-- [ ] 4.4 Implement routing between all main navigation nodes and verify deep linking works for all routes
+- [x] 4.1 Implement root navigation (`Riot-Games-Project` → `Applications` / `Product`) and verify both modules are accessible from main nav
+- [x] 4.2 Create Applications module landing page listing prototypes and verify Riftbound Ticketing Portal and OneVenue Backoffice appear
+- [x] 4.3 Create Product module landing page with four sections and verify Architecture, Infrastructure, Initiatives, and Core sections display
+- [x] 4.4 Implement routing between all main navigation nodes and verify deep linking works for all routes
 
 ## 5. Design System Registry
 
