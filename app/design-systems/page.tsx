@@ -68,32 +68,32 @@ export default function DesignSystemsPage() {
   const selectedSystem = systems.find((s) => s.id === selectedId);
 
   return (
-    <div className="px-6 py-section">
+    <div className="px-6 py-96">
       <div className="max-w-6xl mx-auto">
-        <Eyebrow className="text-linear-text-subtle mb-2">Design Systems</Eyebrow>
-        <DisplayMedium className="text-linear-text-ink mb-4">
+        <Eyebrow className="text-fog mb-2">Design Systems</Eyebrow>
+        <DisplayMedium className="text-paper mb-4">
           Design System Registry
         </DisplayMedium>
-        <Body className="text-linear-text-muted mb-8">
+        <Body className="text-mist mb-8">
           Manage design systems for the shell and prototypes. Linear is the default for the shell.
         </Body>
 
         {verification && (
           <div
-            className={`mb-8 p-4 rounded-linear-md border ${
+            className={`mb-8 p-4 rounded-md border ${
               verification.success
-                ? "bg-linear-surface-2 border-linear-success text-linear-success"
-                : "bg-linear-surface-2 border-red-500 text-red-500"
+                ? "bg-obsidian border-pulse-green text-pulse-green"
+                : "bg-obsidian border-red-500 text-red-500"
             }`}
           >
-            <p className="text-sm font-mono">{verification.message}</p>
+            <p className="text-caption font-mono">{verification.message}</p>
           </div>
         )}
 
         <div className="grid md:grid-cols-2 gap-8">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-linear-text-ink">Available Systems</h3>
+              <h3 className="text-heading-sm text-paper">Available Systems</h3>
               <Button variant="primary" size="sm" onClick={() => setShowEditor(!showEditor)}>
                 {showEditor ? "Cancel" : "+ New System"}
               </Button>
@@ -117,11 +117,11 @@ export default function DesignSystemsPage() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-linear-text-ink mb-4">Preview</h3>
+            <h3 className="text-heading-sm text-paper mb-4">Preview</h3>
             {selectedSystem && (
               <DesignSystemProvider designSystem={selectedSystem}>
-                <div className="p-6 rounded-linear-lg border border-linear-hairline-2" style={{ backgroundColor: "var(--color-surface-1)" }}>
-                  <p className="text-sm font-semibold mb-3" style={{ color: "var(--color-text-ink)" }}>
+                <div className="p-6 rounded-xl border border-smoke" style={{ backgroundColor: "var(--color-surface-1)" }}>
+                  <p className="text-body-sm mb-3" style={{ color: "var(--color-text-ink)" }}>
                     {selectedSystem.name} Design System
                   </p>
                   <p className="text-sm mb-4" style={{ color: "var(--color-text-muted)" }}>
@@ -133,7 +133,7 @@ export default function DesignSystemsPage() {
                       {Object.entries(selectedSystem.tokens.colors).slice(0, 12).map(([key, value]) => (
                         <div key={key} className="text-center">
                           <div
-                            className="w-full h-12 rounded-linear-md mb-1 border border-linear-hairline-1"
+                            className="w-full h-12 rounded-md mb-1 border border-graphite"
                             style={{ backgroundColor: value }}
                           />
                           <p className="text-xs" style={{ color: "var(--color-text-tertiary)" }}>

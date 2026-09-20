@@ -210,22 +210,22 @@ export default function GraphPage() {
   }, [hoveredId, filteredLinks]);
 
   return (
-    <div className="px-6 py-section">
+    <div className="px-6 py-96">
       <div className="max-w-6xl mx-auto">
-        <Link href="/product" className="text-linear-text-tertiary text-sm hover:text-linear-text-muted mb-6 inline-block">
+        <Link href="/product" className="text-ash text-body-sm hover:text-mist mb-6 inline-block">
           ← Product
         </Link>
 
-        <Eyebrow className="text-linear-text-subtle mb-2">Product</Eyebrow>
-        <DisplayMedium className="text-linear-text-ink mb-2">Knowledge Graph</DisplayMedium>
-        <Body className="text-linear-text-muted mb-6">
+        <Eyebrow className="text-fog mb-2">Product</Eyebrow>
+        <DisplayMedium className="text-paper mb-2">Knowledge Graph</DisplayMedium>
+        <Body className="text-mist mb-6">
           Visual map of all entities and their relationships. Click a node to navigate.
         </Body>
 
         {/* Filters */}
         <div className="mb-4 space-y-3">
           <div>
-            <p className="text-xs font-semibold text-linear-text-subtle uppercase tracking-wide mb-2">Node Types</p>
+            <p className="text-xs font-w510 text-fog uppercase tracking-wide mb-2">Node Types</p>
             <div className="flex flex-wrap gap-2">
               {NODE_TYPES.map((type) => (
                 <button
@@ -234,7 +234,7 @@ export default function GraphPage() {
                   className={`text-xs px-3 py-1 rounded-full border transition-all ${
                     selectedNodeTypes.has(type)
                       ? "border-transparent text-white"
-                      : "border-linear-hairline-2 text-linear-text-tertiary bg-transparent"
+                      : "border-smoke text-ash bg-transparent"
                   }`}
                   style={selectedNodeTypes.has(type) ? { backgroundColor: NODE_COLORS[type] } : {}}
                 >
@@ -245,7 +245,7 @@ export default function GraphPage() {
           </div>
 
           <div>
-            <p className="text-xs font-semibold text-linear-text-subtle uppercase tracking-wide mb-2">Link Types</p>
+            <p className="text-xs font-w510 text-fog uppercase tracking-wide mb-2">Link Types</p>
             <div className="flex flex-wrap gap-2">
               {LINK_TYPES.map((type) => (
                 <button
@@ -254,7 +254,7 @@ export default function GraphPage() {
                   className={`text-xs px-3 py-1 rounded-full border transition-all ${
                     selectedLinkTypes.has(type)
                       ? "text-white border-transparent"
-                      : "border-linear-hairline-2 text-linear-text-tertiary bg-transparent"
+                      : "border-smoke text-ash bg-transparent"
                   }`}
                   style={selectedLinkTypes.has(type) ? { backgroundColor: LINK_COLORS[type] } : {}}
                 >
@@ -268,7 +268,7 @@ export default function GraphPage() {
         {/* Legend */}
         <div className="mb-4 flex flex-wrap gap-3">
           {NODE_TYPES.filter((t) => selectedNodeTypes.has(t)).map((type) => (
-            <div key={type} className="flex items-center gap-1.5 text-xs text-linear-text-tertiary">
+            <div key={type} className="flex items-center gap-1.5 text-label text-ash">
               <div className="w-3 h-3 rounded-full" style={{ backgroundColor: NODE_COLORS[type] }} />
               {type}
             </div>
@@ -276,7 +276,7 @@ export default function GraphPage() {
         </div>
 
         {/* SVG Graph */}
-        <div className="border border-linear-hairline-2 rounded-linear-lg overflow-auto bg-linear-surface-1">
+        <div className="border border-smoke rounded-xl overflow-auto bg-carbon">
           <svg
             ref={svgRef}
             width={svgWidth}
@@ -368,7 +368,7 @@ export default function GraphPage() {
           </svg>
         </div>
 
-        <p className="text-xs text-linear-text-tertiary mt-3">
+        <p className="text-xs text-ash mt-3">
           {filteredNodes.length} nodes · {filteredLinks.length} links · Hover to highlight connections
         </p>
       </div>

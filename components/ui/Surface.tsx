@@ -3,23 +3,20 @@ import { ReactNode } from "react";
 interface SurfaceProps {
   children: ReactNode;
   className?: string;
-  level?: 1 | 2 | 3 | 4;
+  level?: 1 | 2 | 3;
   bordered?: boolean;
 }
 
+const surfaceColors: Record<number, string> = {
+  1: "#0f1011", // Carbon
+  2: "#161718", // Obsidian
+  3: "#23252a", // Graphite
+};
+
 export function Surface({ children, className = "", level = 1, bordered = true }: SurfaceProps) {
-  const surfaceColors = {
-    1: "var(--color-surface-1)",
-    2: "var(--color-surface-2)",
-    3: "var(--color-surface-3)",
-    4: "var(--color-surface-4)",
-  };
-
-  const borderClass = bordered ? "border border-linear-hairline-1" : "";
-
   return (
     <div
-      className={`${borderClass} ${className}`}
+      className={`${bordered ? "border border-graphite" : ""} ${className}`}
       style={{ backgroundColor: surfaceColors[level] }}
     >
       {children}
@@ -29,16 +26,25 @@ export function Surface({ children, className = "", level = 1, bordered = true }
 
 export function Card({ children, className = "", level = 1 }: Omit<SurfaceProps, "bordered">) {
   return (
-    <Surface level={level} bordered className={`rounded-linear-lg p-6 ${className}`}>
+    <div
+      className={`rounded-xl p-6 border border-graphite ${className}`}
+      style={{
+        backgroundColor: surfaceColors[level],
+        boxShadow: "rgb(35, 37, 42) 0px 0px 0px 1px inset",
+      }}
+    >
       {children}
-    </Surface>
+    </div>
   );
 }
 
 export function Panel({ children, className = "", level = 2 }: Omit<SurfaceProps, "bordered">) {
   return (
-    <Surface level={level} bordered className={`rounded-linear-md p-4 ${className}`}>
+    <div
+      className={`rounded-xl p-4 border border-graphite ${className}`}
+      style={{ backgroundColor: surfaceColors[level] }}
+    >
       {children}
-    </Surface>
+    </div>
   );
 }

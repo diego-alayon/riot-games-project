@@ -1,7 +1,7 @@
 "use client";
 
-import { useTraceability } from "@/lib/context/traceability-context";
 import { useRouter } from "next/navigation";
+import { useTraceability } from "@/lib/context/traceability-context";
 
 interface TraceabilityLabelProps {
   code: string;
@@ -23,16 +23,12 @@ export function TraceabilityLabel({ code, onClick }: TraceabilityLabelProps) {
   };
 
   return (
-    <span
+    <button
       onClick={handleClick}
-      className="inline-flex items-center font-mono text-xs px-2 py-0.5 rounded-linear-sm border border-linear-hairline-2 cursor-pointer hover:border-linear-hairline-3 transition-colors"
-      style={{
-        backgroundColor: "var(--color-surface-3)",
-        color: "var(--color-accent)",
-      }}
+      className="font-mono text-label text-acid-lime bg-graphite border border-graphite px-1.5 py-0.5 rounded cursor-pointer hover:border-smoke transition-colors"
       title={`View requirement ${code}`}
     >
       {code}
-    </span>
+    </button>
   );
 }

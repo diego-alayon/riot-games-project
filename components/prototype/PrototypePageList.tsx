@@ -78,7 +78,7 @@ export function PrototypePageList({ prototypeId, initialPages }: PrototypePageLi
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <Eyebrow className="text-linear-text-subtle">Pages</Eyebrow>
+        <Eyebrow className="text-fog">Pages</Eyebrow>
         <Button variant="secondary" size="sm" onClick={() => setShowPageEditor(true)}>
           + Add Page
         </Button>
@@ -90,7 +90,7 @@ export function PrototypePageList({ prototypeId, initialPages }: PrototypePageLi
 
       {pageItems.length === 0 && !showPageEditor && (
         <Card level={1}>
-          <p className="text-linear-text-tertiary text-center py-6 text-sm">
+          <p className="text-ash text-center py-6 text-sm">
             No pages yet. Add your first page.
           </p>
         </Card>
@@ -99,7 +99,7 @@ export function PrototypePageList({ prototypeId, initialPages }: PrototypePageLi
       {pageItems.map(({ page, functionalities, showFuncEditor }) => (
         <Card key={page.id} level={1}>
           <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-medium text-linear-text-ink">{page.name}</p>
+            <p className="text-sm font-medium text-paper">{page.name}</p>
             <div className="flex gap-2">
               <Button
                 variant="ghost"
@@ -112,7 +112,7 @@ export function PrototypePageList({ prototypeId, initialPages }: PrototypePageLi
                 variant="ghost"
                 size="sm"
                 onClick={() => handleDeletePage(page.id)}
-                className="text-linear-text-tertiary hover:text-red-400"
+                className="text-ash hover:text-red-400"
               >
                 Remove
               </Button>
@@ -120,7 +120,7 @@ export function PrototypePageList({ prototypeId, initialPages }: PrototypePageLi
           </div>
 
           {functionalities.length > 0 && (
-            <div className="border-t border-linear-hairline-1 pt-3 space-y-1">
+            <div className="border-t border-graphite pt-3 space-y-1">
               {functionalities.map((func) => (
                 <UIFunctionalityCard key={func.id} functionality={func} />
               ))}

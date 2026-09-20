@@ -24,9 +24,9 @@ const RIFTBOUND_SEED_REQUIREMENTS = [
 ];
 
 const classificationStyles: Record<string, string> = {
-  build: "bg-linear-accent/10 text-linear-accent border border-linear-accent/30",
-  native: "bg-linear-surface-3 text-linear-text-muted border border-linear-hairline-2",
-  out: "bg-linear-surface-2 text-linear-text-tertiary border border-linear-hairline-1 line-through",
+  build: "bg-acid-lime/10 text-acid-lime border border-linear-accent/30",
+  native: "bg-graphite text-mist border border-smoke",
+  out: "bg-obsidian text-ash border border-graphite line-through",
 };
 
 function getWhereLabel(req: FunctionalRequirement): { label: string; link: string } | null {
@@ -115,15 +115,15 @@ function CatalogContent() {
   };
 
   return (
-    <div className="px-6 py-section">
+    <div className="px-6 py-96">
       <div className="max-w-6xl mx-auto">
-        <Link href="/product/initiatives" className="text-linear-text-tertiary text-sm hover:text-linear-text-muted mb-6 inline-block">
+        <Link href="/product/initiatives" className="text-ash text-body-sm hover:text-mist mb-6 inline-block">
           ← Initiatives
         </Link>
 
-        <Eyebrow className="text-linear-text-subtle mb-2">Product</Eyebrow>
-        <DisplayMedium className="text-linear-text-ink mb-2">Requirements Catalog</DisplayMedium>
-        <Body className="text-linear-text-muted mb-8">
+        <Eyebrow className="text-fog mb-2">Product</Eyebrow>
+        <DisplayMedium className="text-paper mb-2">Requirements Catalog</DisplayMedium>
+        <Body className="text-mist mb-8">
           All functional requirements across initiatives. Click an FR tag in prototype views to jump here.
         </Body>
 
@@ -134,13 +134,13 @@ function CatalogContent() {
             placeholder="Search code, description, source…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="bg-linear-surface-2 border border-linear-hairline-2 rounded-linear-md px-3 py-1.5 text-sm text-linear-text-ink placeholder-linear-text-tertiary focus:outline-none focus:ring-2 focus:ring-linear-accent flex-1 min-w-48"
+            className="bg-obsidian border border-smoke rounded-md px-3 py-1.5 text-body-sm text-paper placeholder-linear-text-tertiary focus:outline-none focus:ring-2 focus:ring-acid-lime flex-1 min-w-48"
           />
 
           <select
             value={filterClassification}
             onChange={(e) => setFilterClassification(e.target.value as typeof filterClassification)}
-            className="bg-linear-surface-2 border border-linear-hairline-2 rounded-linear-md px-3 py-1.5 text-sm text-linear-text-ink focus:outline-none focus:ring-2 focus:ring-linear-accent"
+            className="bg-obsidian border border-smoke rounded-md px-3 py-1.5 text-body-sm text-paper focus:outline-none focus:ring-2 focus:ring-acid-lime"
           >
             <option value="all">All classifications</option>
             <option value="build">build</option>
@@ -151,7 +151,7 @@ function CatalogContent() {
           <select
             value={filterArea}
             onChange={(e) => setFilterArea(e.target.value)}
-            className="bg-linear-surface-2 border border-linear-hairline-2 rounded-linear-md px-3 py-1.5 text-sm text-linear-text-ink focus:outline-none focus:ring-2 focus:ring-linear-accent"
+            className="bg-obsidian border border-smoke rounded-md px-3 py-1.5 text-body-sm text-paper focus:outline-none focus:ring-2 focus:ring-acid-lime"
           >
             <option value="all">All areas</option>
             {uniqueAreas.map((area) => (
@@ -162,7 +162,7 @@ function CatalogContent() {
           <select
             value={filterRepresented}
             onChange={(e) => setFilterRepresented(e.target.value as typeof filterRepresented)}
-            className="bg-linear-surface-2 border border-linear-hairline-2 rounded-linear-md px-3 py-1.5 text-sm text-linear-text-ink focus:outline-none focus:ring-2 focus:ring-linear-accent"
+            className="bg-obsidian border border-smoke rounded-md px-3 py-1.5 text-body-sm text-paper focus:outline-none focus:ring-2 focus:ring-acid-lime"
           >
             <option value="all">All (represented)</option>
             <option value="yes">Represented: Yes</option>
@@ -174,28 +174,28 @@ function CatalogContent() {
           </Button>
         </div>
 
-        <p className="text-xs text-linear-text-tertiary mb-4">
+        <p className="text-xs text-ash mb-4">
           {filtered.length} of {requirements.length} requirements
         </p>
 
         {/* Table */}
-        <div className="border border-linear-hairline-2 rounded-linear-lg overflow-hidden">
+        <div className="border border-smoke rounded-xl overflow-hidden">
           <table className="w-full border-collapse text-sm">
             <thead>
-              <tr className="bg-linear-surface-1 border-b border-linear-hairline-2">
-                <th className="text-left px-4 py-3 text-xs font-semibold text-linear-text-subtle uppercase tracking-wide">Code</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-linear-text-subtle uppercase tracking-wide">Area</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-linear-text-subtle uppercase tracking-wide">Description</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-linear-text-subtle uppercase tracking-wide">Source</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-linear-text-subtle uppercase tracking-wide">Classification</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-linear-text-subtle uppercase tracking-wide">Represented</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-linear-text-subtle uppercase tracking-wide">Where</th>
+              <tr className="bg-carbon border-b border-smoke">
+                <th className="text-left px-4 py-3 text-label font-w510 text-fog uppercase tracking-wide">Code</th>
+                <th className="text-left px-4 py-3 text-label font-w510 text-fog uppercase tracking-wide">Area</th>
+                <th className="text-left px-4 py-3 text-label font-w510 text-fog uppercase tracking-wide">Description</th>
+                <th className="text-left px-4 py-3 text-label font-w510 text-fog uppercase tracking-wide">Source</th>
+                <th className="text-left px-4 py-3 text-label font-w510 text-fog uppercase tracking-wide">Classification</th>
+                <th className="text-left px-4 py-3 text-label font-w510 text-fog uppercase tracking-wide">Represented</th>
+                <th className="text-left px-4 py-3 text-label font-w510 text-fog uppercase tracking-wide">Where</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-10 text-center text-linear-text-tertiary">
+                  <td colSpan={7} className="px-4 py-10 text-center text-ash">
                     No requirements match the current filters.
                   </td>
                 </tr>
@@ -207,16 +207,16 @@ function CatalogContent() {
                   return (
                     <tr
                       key={req.id}
-                      className={`border-b border-linear-hairline-1 last:border-0 transition-colors ${isHighlighted ? "bg-linear-accent/5" : "hover:bg-linear-surface-2"}`}
+                      className={`border-b border-graphite last:border-0 transition-colors ${isHighlighted ? "bg-acid-lime/5" : "hover:bg-obsidian"}`}
                     >
                       <td className="px-4 py-3">
-                        <span className={`font-mono text-xs font-semibold text-linear-accent bg-linear-surface-3 px-2 py-0.5 rounded ${isHighlighted ? "ring-1 ring-linear-accent" : ""}`}>
+                        <span className={`font-mono text-label font-w510 text-acid-lime bg-graphite px-2 py-0.5 rounded ${isHighlighted ? "ring-1 ring-acid-lime" : ""}`}>
                           {req.code}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-xs text-linear-text-muted font-mono">{req.area.toUpperCase()}</td>
-                      <td className="px-4 py-3 text-linear-text-ink max-w-xs">{req.description}</td>
-                      <td className="px-4 py-3 text-xs text-linear-text-tertiary">{req.source}</td>
+                      <td className="px-4 py-3 text-label text-mist font-mono">{req.area.toUpperCase()}</td>
+                      <td className="px-4 py-3 text-paper max-w-xs">{req.description}</td>
+                      <td className="px-4 py-3 text-label text-ash">{req.source}</td>
                       <td className="px-4 py-3">
                         <span className={`text-xs px-2 py-0.5 rounded font-medium ${classificationStyles[req.classification]}`}>
                           {req.classification}
@@ -226,16 +226,16 @@ function CatalogContent() {
                         {represented ? (
                           <span className="text-xs font-medium text-green-400">Yes</span>
                         ) : (
-                          <span className="text-xs text-linear-text-tertiary">No</span>
+                          <span className="text-xs text-ash">No</span>
                         )}
                       </td>
                       <td className="px-4 py-3">
                         {where ? (
-                          <Link href={where.link} className="text-xs text-linear-accent hover:underline">
+                          <Link href={where.link} className="text-xs text-acid-lime hover:underline">
                             {where.label}
                           </Link>
                         ) : (
-                          <span className="text-xs text-linear-text-tertiary">—</span>
+                          <span className="text-xs text-ash">—</span>
                         )}
                       </td>
                     </tr>
@@ -252,7 +252,7 @@ function CatalogContent() {
 
 export default function CatalogPage() {
   return (
-    <Suspense fallback={<div className="px-6 py-section text-linear-text-muted">Loading…</div>}>
+    <Suspense fallback={<div className="px-6 py-96 text-mist">Loading…</div>}>
       <CatalogContent />
     </Suspense>
   );

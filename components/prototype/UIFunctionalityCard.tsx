@@ -14,9 +14,9 @@ export function UIFunctionalityCard({ functionality }: UIFunctionalityCardProps)
   return (
     <div className="flex items-start justify-between gap-3 py-2">
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-linear-text-ink">{functionality.name}</p>
+        <p className="text-sm font-medium text-paper">{functionality.name}</p>
         {functionality.description && (
-          <p className="text-xs text-linear-text-muted mt-0.5">{functionality.description}</p>
+          <p className="text-xs text-mist mt-0.5">{functionality.description}</p>
         )}
       </div>
       {showLabels && (

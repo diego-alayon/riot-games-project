@@ -21,9 +21,9 @@ export function PageEditor({ onSave, onCancel }: PageEditorProps) {
   return (
     <Card level={2}>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <p className="text-sm font-semibold text-linear-text-ink">New Page</p>
+        <p className="text-body-sm text-paper">New Page</p>
         <div>
-          <label className="block text-xs text-linear-text-subtle mb-1">
+          <label className="block text-label text-fog mb-1">
             Page Name
           </label>
           <input
@@ -31,7 +31,7 @@ export function PageEditor({ onSave, onCancel }: PageEditorProps) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Login"
-            className="w-full px-3 py-2 text-sm rounded-linear-md bg-linear-surface-3 border border-linear-hairline-2 text-linear-text-ink placeholder-linear-text-tertiary focus:outline-none focus:ring-2 focus:ring-linear-accent-focus"
+            className="w-full px-3 py-2 text-body-sm rounded-md bg-graphite border border-smoke text-paper placeholder-linear-text-tertiary focus:outline-none focus:ring-2 focus:ring-acid-lime/40"
             autoFocus
           />
         </div>

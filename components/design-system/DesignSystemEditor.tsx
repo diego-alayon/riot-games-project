@@ -56,7 +56,7 @@ export function DesignSystemEditor({
 
   return (
     <Card level={2} className="max-w-2xl">
-      <Eyebrow className="text-linear-text-subtle mb-4">Design System Editor</Eyebrow>
+      <Eyebrow className="text-fog mb-4">Design System Editor</Eyebrow>
 
       <div className="space-y-6">
         <Input
@@ -68,7 +68,7 @@ export function DesignSystemEditor({
 
         <div>
           <div className="flex items-center justify-between mb-3">
-            <label className="text-sm font-medium text-linear-text-muted">
+            <label className="text-sm font-medium text-mist">
               Color Tokens
             </label>
             <Button variant="ghost" size="sm" onClick={addColor}>
@@ -85,7 +85,7 @@ export function DesignSystemEditor({
                     value={color.key}
                     onChange={(e) => updateColor(index, "key", e.target.value)}
                     placeholder="Token name (e.g., primary)"
-                    className="w-full px-3 py-2 rounded-linear-md bg-linear-surface-3 border border-linear-hairline-2 text-linear-text-ink placeholder:text-linear-text-tertiary focus:outline-none focus:ring-2 focus:ring-linear-accent-focus text-sm"
+                    className="w-full px-3 py-2 rounded-md bg-graphite border border-smoke text-paper placeholder:text-ash focus:outline-none focus:ring-2 focus:ring-acid-lime/40 text-sm"
                   />
                 </div>
                 <div className="w-32">
@@ -93,7 +93,7 @@ export function DesignSystemEditor({
                     type="color"
                     value={color.value}
                     onChange={(e) => updateColor(index, "value", e.target.value)}
-                    className="w-full h-10 rounded-linear-md border border-linear-hairline-2 cursor-pointer"
+                    className="w-full h-10 rounded-md border border-smoke cursor-pointer"
                   />
                 </div>
                 <div className="w-24">
@@ -101,7 +101,7 @@ export function DesignSystemEditor({
                     type="text"
                     value={color.value}
                     onChange={(e) => updateColor(index, "value", e.target.value)}
-                    className="w-full px-3 py-2 rounded-linear-md bg-linear-surface-3 border border-linear-hairline-2 text-linear-text-ink text-sm font-mono focus:outline-none focus:ring-2 focus:ring-linear-accent-focus"
+                    className="w-full px-3 py-2 rounded-md bg-graphite border border-smoke text-paper text-caption font-mono focus:outline-none focus:ring-2 focus:ring-acid-lime/40"
                   />
                 </div>
                 <Button
@@ -115,14 +115,14 @@ export function DesignSystemEditor({
             ))}
 
             {colors.length === 0 && (
-              <p className="text-sm text-linear-text-tertiary text-center py-4">
+              <p className="text-body-sm text-ash text-center py-4">
                 No colors defined. Click "Add Color" to create tokens.
               </p>
             )}
           </div>
         </div>
 
-        <div className="flex gap-3 pt-4 border-t border-linear-hairline-1">
+        <div className="flex gap-3 pt-4 border-t border-graphite">
           {onCancel && (
             <Button variant="ghost" onClick={onCancel}>
               Cancel

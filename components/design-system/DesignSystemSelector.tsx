@@ -22,7 +22,7 @@ export function DesignSystemSelector({
 }: DesignSystemSelectorProps) {
   return (
     <div className="space-y-4">
-      <Eyebrow className="text-linear-text-subtle">Available Design Systems</Eyebrow>
+      <Eyebrow className="text-fog">Available Design Systems</Eyebrow>
 
       {systems.map((system) => (
         <div
@@ -32,16 +32,16 @@ export function DesignSystemSelector({
         >
           <Card
             level={selectedId === system.id ? 3 : 1}
-            className={selectedId === system.id ? "ring-2 ring-linear-accent" : ""}
+            className={selectedId === system.id ? "ring-2 ring-acid-lime" : ""}
           >
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-lg font-semibold text-linear-text-ink">
+                <h3 className="text-heading-sm text-paper">
                   {system.name}
                 </h3>
                 {system.isDefault && (
-                  <span className="text-xs bg-linear-accent text-white px-2 py-0.5 rounded-linear-sm">
+                  <span className="text-xs bg-acid-lime text-white px-2 py-0.5 rounded">
                     Default
                   </span>
                 )}
@@ -56,14 +56,14 @@ export function DesignSystemSelector({
                       title={`${key}: ${value}`}
                     >
                       <div
-                        className="w-6 h-6 rounded-linear-sm border border-linear-hairline-2"
+                        className="w-6 h-6 rounded border border-smoke"
                         style={{ backgroundColor: value }}
                       />
-                      <span className="text-linear-text-tertiary">{key}</span>
+                      <span className="text-ash">{key}</span>
                     </div>
                   ))}
                   {Object.keys(system.tokens.colors).length > 8 && (
-                    <span className="text-xs text-linear-text-tertiary">
+                    <span className="text-xs text-ash">
                       +{Object.keys(system.tokens.colors).length - 8} more
                     </span>
                   )}
@@ -104,7 +104,7 @@ export function DesignSystemSelector({
 
       {systems.length === 0 && (
         <Card level={1}>
-          <p className="text-linear-text-tertiary text-center py-8">
+          <p className="text-ash text-center py-8">
             No design systems available.
           </p>
         </Card>

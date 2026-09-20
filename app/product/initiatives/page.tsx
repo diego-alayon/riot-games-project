@@ -31,17 +31,17 @@ export default function InitiativesPage() {
   }, []);
 
   return (
-    <div className="px-6 py-section">
+    <div className="px-6 py-96">
       <div className="max-w-4xl mx-auto">
-        <Eyebrow className="text-linear-text-subtle mb-2">Product</Eyebrow>
-        <DisplayMedium className="text-linear-text-ink mb-4">Initiatives</DisplayMedium>
-        <Body className="text-linear-text-muted mb-8">
+        <Eyebrow className="text-fog mb-2">Product</Eyebrow>
+        <DisplayMedium className="text-paper mb-4">Initiatives</DisplayMedium>
+        <Body className="text-mist mb-8">
           Product initiatives and their functional requirements.
         </Body>
 
         <div className="mb-6">
           <Link href="/product/initiatives/catalog">
-            <span className="inline-flex items-center gap-2 text-sm text-linear-accent border border-linear-accent/30 bg-linear-accent/5 px-4 py-2 rounded-linear-md hover:bg-linear-accent/10 transition-colors">
+            <span className="inline-flex items-center gap-2 text-body-sm text-acid-lime border border-linear-accent/30 bg-acid-lime/5 px-4 py-2 rounded-md hover:bg-acid-lime/10 transition-colors">
               Requirements Catalog →
             </span>
           </Link>
@@ -52,19 +52,19 @@ export default function InitiativesPage() {
             const reqCount = requirementStore.getRequirementsForInitiative(initiative.id).length;
             return (
               <Link key={initiative.id} href={`/product/initiatives/${initiative.id}`}>
-                <Card level={1} className="hover:border-linear-hairline-3 transition-colors cursor-pointer">
+                <Card level={1} className="hover:border-smoke transition-colors cursor-pointer">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="text-base font-semibold text-linear-text-ink mb-1">
+                      <h3 className="text-base font-w510 text-paper mb-1">
                         {initiative.name}
                       </h3>
-                      <p className="text-sm text-linear-text-muted">{initiative.description}</p>
+                      <p className="text-body-sm text-mist">{initiative.description}</p>
                     </div>
                     <div className="ml-4 flex items-center gap-2">
-                      <span className="text-xs text-linear-text-tertiary">
+                      <span className="text-xs text-ash">
                         {reqCount} requirement{reqCount !== 1 ? "s" : ""}
                       </span>
-                      <svg className="w-4 h-4 text-linear-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-ash" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>

@@ -120,34 +120,34 @@ export default function TraceabilityPage() {
 
   const badgeColor: Record<string, string> = {
     "Initiative": "bg-green-900/30 text-green-400 border-green-700/40",
-    "Product": "bg-linear-accent/10 text-linear-accent border-linear-accent/30",
+    "Product": "bg-acid-lime/10 text-acid-lime border-linear-accent/30",
     "build": "bg-amber-900/20 text-amber-400 border-amber-700/30",
-    "native": "bg-linear-surface-3 text-linear-text-muted border-linear-hairline-2",
+    "native": "bg-graphite text-mist border-smoke",
     "UIFunctionality": "bg-emerald-900/20 text-emerald-400 border-emerald-700/30",
     "Document": "bg-violet-900/20 text-violet-400 border-violet-700/30",
   };
 
   return (
-    <div className="px-6 py-section">
+    <div className="px-6 py-96">
       <div className="max-w-4xl mx-auto">
-        <Link href="/product" className="text-linear-text-tertiary text-sm hover:text-linear-text-muted mb-6 inline-block">
+        <Link href="/product" className="text-ash text-body-sm hover:text-mist mb-6 inline-block">
           ← Product
         </Link>
 
-        <Eyebrow className="text-linear-text-subtle mb-2">End-to-End</Eyebrow>
-        <DisplayMedium className="text-linear-text-ink mb-2">Traceability Chain</DisplayMedium>
-        <Body className="text-linear-text-muted mb-8">
+        <Eyebrow className="text-fog mb-2">End-to-End</Eyebrow>
+        <DisplayMedium className="text-paper mb-2">Traceability Chain</DisplayMedium>
+        <Body className="text-mist mb-8">
           Full chain: Product → Initiative → Requirement → UI Functionality → Documentation.
           Click any step to navigate to that entity.
         </Body>
 
         <div
-          className={`mb-8 p-4 rounded-linear-md border text-sm font-mono ${
+          className={`mb-8 p-4 rounded-md border text-caption font-mono ${
             status === "ok"
-              ? "bg-linear-surface-2 border-linear-success text-linear-success"
+              ? "bg-obsidian border-pulse-green text-pulse-green"
               : status === "partial"
-              ? "bg-linear-surface-2 border-amber-600 text-amber-400"
-              : "bg-linear-surface-2 border-linear-hairline-2 text-linear-text-tertiary"
+              ? "bg-obsidian border-amber-600 text-amber-400"
+              : "bg-obsidian border-smoke text-ash"
           }`}
         >
           {status === "ok" && "✓ Full traceability chain verified — all 5 steps linked"}
@@ -162,7 +162,7 @@ export default function TraceabilityPage() {
               {/* Connector line */}
               <div className="flex flex-col items-center">
                 <div className={`w-3 h-3 rounded-full border-2 flex-shrink-0 mt-4 ${
-                  status === "ok" ? "border-linear-success bg-linear-success" : "border-linear-hairline-3 bg-linear-surface-3"
+                  status === "ok" ? "border-pulse-green bg-pulse-green" : "border-smoke bg-graphite"
                 }`} />
                 {i < chain.length - 1 && (
                   <div className="w-px flex-1 bg-linear-hairline-2 my-1" />
@@ -173,19 +173,19 @@ export default function TraceabilityPage() {
               <div className="flex-1 mb-2">
                 {step.href ? (
                   <Link href={step.href}>
-                    <Card level={1} className="hover:border-linear-hairline-3 transition-colors cursor-pointer">
+                    <Card level={1} className="hover:border-smoke transition-colors cursor-pointer">
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <p className="text-xs text-linear-text-tertiary mb-1">{step.label}</p>
-                          <p className="text-sm text-linear-text-ink">{step.value}</p>
+                          <p className="text-xs text-ash mb-1">{step.label}</p>
+                          <p className="text-body-sm text-paper">{step.value}</p>
                         </div>
                         <div className="flex items-center gap-2 flex-shrink-0">
                           {step.badge && (
-                            <span className={`text-xs px-2 py-0.5 rounded border ${badgeColor[step.badge] ?? "bg-linear-surface-3 text-linear-text-muted border-linear-hairline-2"}`}>
+                            <span className={`text-xs px-2 py-0.5 rounded border ${badgeColor[step.badge] ?? "bg-graphite text-mist border-smoke"}`}>
                               {step.badge}
                             </span>
                           )}
-                          <svg className="w-3.5 h-3.5 text-linear-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-3.5 h-3.5 text-ash" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
                           </svg>
                         </div>
@@ -194,8 +194,8 @@ export default function TraceabilityPage() {
                   </Link>
                 ) : (
                   <Card level={1}>
-                    <p className="text-xs text-linear-text-tertiary mb-1">{step.label}</p>
-                    <p className="text-sm text-linear-text-ink">{step.value}</p>
+                    <p className="text-xs text-ash mb-1">{step.label}</p>
+                    <p className="text-body-sm text-paper">{step.value}</p>
                   </Card>
                 )}
               </div>
@@ -205,19 +205,19 @@ export default function TraceabilityPage() {
 
         {chain.length === 0 && (
           <Card level={1}>
-            <p className="text-linear-text-tertiary text-center py-8 text-sm">
-              Visit <Link href="/applications/riftbound-ticketing-portal" className="text-linear-accent hover:underline">/applications/riftbound-ticketing-portal</Link> and <Link href="/product/initiatives" className="text-linear-accent hover:underline">/product/initiatives</Link> first to seed the data.
+            <p className="text-ash text-center py-8 text-sm">
+              Visit <Link href="/applications/riftbound-ticketing-portal" className="text-acid-lime hover:underline">/applications/riftbound-ticketing-portal</Link> and <Link href="/product/initiatives" className="text-acid-lime hover:underline">/product/initiatives</Link> first to seed the data.
             </p>
           </Card>
         )}
 
         {/* Bidirectional note */}
         {chain.length > 0 && (
-          <div className="mt-8 p-4 bg-linear-surface-2 border border-linear-hairline-2 rounded-linear-md">
-            <p className="text-xs text-linear-text-subtle font-semibold uppercase tracking-wide mb-2">Bidirectional Navigation</p>
-            <p className="text-sm text-linear-text-muted">
+          <div className="mt-8 p-4 bg-obsidian border border-smoke rounded-md">
+            <p className="text-xs text-fog font-w510 uppercase tracking-wide mb-2">Bidirectional Navigation</p>
+            <p className="text-body-sm text-mist">
               From any FR label in the prototype view → click to jump to catalog. From catalog → click requirement → initiative detail. From initiative → graph view at{" "}
-              <Link href="/product/graph" className="text-linear-accent hover:underline">/product/graph</Link>.
+              <Link href="/product/graph" className="text-acid-lime hover:underline">/product/graph</Link>.
             </p>
           </div>
         )}

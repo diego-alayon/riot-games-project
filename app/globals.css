@@ -1,58 +1,76 @@
 @import "tailwindcss";
 
 @theme {
-  /* Linear Design System — Color Tokens */
-  --color-linear-accent: #5e6ad2;
-  --color-linear-accent-hover: #828fff;
-  --color-linear-accent-focus: #5e69d1;
-  --color-linear-canvas: #010102;
-  --color-linear-surface-1: #0f1011;
-  --color-linear-surface-2: #141516;
-  --color-linear-surface-3: #18191a;
-  --color-linear-surface-4: #191a1b;
-  --color-linear-hairline-1: #23252a;
-  --color-linear-hairline-2: #34343a;
-  --color-linear-hairline-3: #3e3e44;
-  --color-linear-text-ink: #f7f8f8;
-  --color-linear-text-muted: #d0d6e0;
-  --color-linear-text-subtle: #8a8f98;
-  --color-linear-text-tertiary: #62666d;
-  --color-linear-success: #27a644;
-
-  /* Border radius */
-  --radius-linear-sm: 4px;
-  --radius-linear-base: 6px;
-  --radius-linear-md: 8px;
-  --radius-linear-lg: 12px;
-  --radius-linear-xl: 16px;
-  --radius-linear-2xl: 24px;
-
-  /* Spacing */
-  --spacing-section: 96px;
+  /* Colors — Real Linear Design System */
+  --color-void: #08090a;
+  --color-carbon: #0f1011;
+  --color-obsidian: #161718;
+  --color-graphite: #23252a;
+  --color-smoke: #383b3f;
+  --color-ash: #62666d;
+  --color-fog: #8a8f98;
+  --color-mist: #d0d6e0;
+  --color-bone: #e5e5e6;
+  --color-paper: #ffffff;
+  --color-acid-lime: #e4f222;
+  --color-pulse-green: #27a644;
+  --color-coral-red: #eb5757;
+  --color-signal-teal: #02b8cc;
+  --color-iris-violet: #6366f1;
+  --color-lavender: #8b5cf6;
 
   /* Font families */
-  --font-family-display: "Inter", "SF Pro Display", system-ui, sans-serif;
-  --font-family-mono: "JetBrains Mono", Monaco, "Courier New", monospace;
+  --font-inter: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'Berkeley Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Font weights */
+  --font-weight-w510: 510;
+  --font-weight-w590: 590;
+
+  /* Border Radius */
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+  --spacing-80: 80px;
+  --spacing-96: 96px;
 }
 
-/* CSS custom properties for runtime use (design system provider, etc.) */
+/* CSS custom properties for JS/runtime access */
 :root {
-  --color-accent: #5e6ad2;
-  --color-accent-hover: #828fff;
-  --color-accent-focus: #5e69d1;
-  --color-canvas: #010102;
+  --color-void: #08090a;
+  --color-carbon: #0f1011;
+  --color-obsidian: #161718;
+  --color-graphite: #23252a;
+  --color-smoke: #383b3f;
+  --color-ash: #62666d;
+  --color-fog: #8a8f98;
+  --color-mist: #d0d6e0;
+  --color-bone: #e5e5e6;
+  --color-paper: #ffffff;
+  --color-acid-lime: #e4f222;
+  --color-pulse-green: #27a644;
+  --color-coral-red: #eb5757;
+  /* Surface aliases for DesignSystemProvider */
   --color-surface-1: #0f1011;
-  --color-surface-2: #141516;
-  --color-surface-3: #18191a;
-  --color-surface-4: #191a1b;
-  --color-hairline-1: #23252a;
-  --color-hairline-2: #34343a;
-  --color-hairline-3: #3e3e44;
-  --color-text-ink: #f7f8f8;
+  --color-surface-2: #161718;
+  --color-surface-3: #23252a;
+  --color-text-ink: #ffffff;
   --color-text-muted: #d0d6e0;
   --color-text-subtle: #8a8f98;
   --color-text-tertiary: #62666d;
-  --color-success: #27a644;
+  --color-accent: #e4f222;
 }
 
 html {
@@ -61,38 +79,23 @@ html {
 }
 
 body {
-  background-color: #010102;
-  color: #f7f8f8;
-  font-family: "Inter", "SF Pro Display", system-ui, sans-serif;
-  letter-spacing: -0.05px;
-}
-
-/* Display typography — Linear aggressive negative tracking */
-.text-display-lg {
-  font-size: 80px;
-  line-height: 1.1;
-  letter-spacing: -3.0px;
-  font-weight: 700;
-}
-
-.text-display-md {
-  font-size: 48px;
-  line-height: 1.2;
-  letter-spacing: -1.5px;
-  font-weight: 600;
-}
-
-.text-display-sm {
-  font-size: 32px;
-  line-height: 1.25;
-  letter-spacing: -0.8px;
-  font-weight: 600;
-}
-
-.text-eyebrow {
-  font-size: 12px;
+  background-color: #08090a;
+  color: #d0d6e0;
+  font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "cv01" on, "ss03" on, "zero" on;
+  font-size: 16px;
   line-height: 1.5;
-  letter-spacing: 0.4px;
-  font-weight: 500;
-  text-transform: uppercase;
 }
+
+/* Linear Type Scale */
+.text-display    { font-size: 72px; line-height: 1.0;  letter-spacing: -1.584px; font-weight: 510; }
+.text-heading-lg { font-size: 64px; line-height: 1.0;  letter-spacing: -1.408px; font-weight: 510; }
+.text-heading    { font-size: 48px; line-height: 1.0;  letter-spacing: -1.056px; font-weight: 510; }
+.text-subheading { font-size: 32px; line-height: 1.13; letter-spacing: -0.704px; font-weight: 400; }
+.text-heading-sm { font-size: 24px; line-height: 1.33; letter-spacing: -0.288px; font-weight: 400; }
+.text-body-lg    { font-size: 20px; line-height: 1.33; letter-spacing: -0.24px;  font-weight: 590; }
+.text-body       { font-size: 16px; line-height: 1.5;  font-weight: 400; }
+.text-body-sm    { font-size: 15px; line-height: 1.6;  letter-spacing: -0.165px; font-weight: 400; }
+.text-caption    { font-size: 13px; line-height: 1.2;  font-weight: 400; }
+.text-label      { font-size: 12px; line-height: 1.4;  font-weight: 400; }
+.text-eyebrow    { font-size: 12px; line-height: 1.4;  font-weight: 510; letter-spacing: 0.4px; text-transform: uppercase; }

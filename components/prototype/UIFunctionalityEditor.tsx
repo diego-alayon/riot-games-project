@@ -28,7 +28,7 @@ export function UIFunctionalityEditor({ onSave, onCancel }: UIFunctionalityEdito
 
   return (
     <Card level={2}>
-      <Eyebrow className="text-linear-text-subtle mb-4">New UI Functionality</Eyebrow>
+      <Eyebrow className="text-fog mb-4">New UI Functionality</Eyebrow>
       <div className="space-y-4">
         <Input
           label="Label"
@@ -49,7 +49,7 @@ export function UIFunctionalityEditor({ onSave, onCancel }: UIFunctionalityEdito
           />
         </div>
         <div className="space-y-1">
-          <label className="block text-xs font-medium text-linear-text-muted">
+          <label className="block text-label font-medium text-mist">
             Description (optional)
           </label>
           <textarea
@@ -57,7 +57,7 @@ export function UIFunctionalityEditor({ onSave, onCancel }: UIFunctionalityEdito
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Brief description of this UI element"
             rows={2}
-            className="w-full px-3 py-2 text-sm rounded-linear-md border border-linear-hairline-2 bg-linear-surface-2 text-linear-text-ink placeholder:text-linear-text-tertiary focus:outline-none focus:ring-2 focus:ring-linear-accent focus:border-transparent resize-none"
+            className="w-full px-3 py-2 text-body-sm rounded-md border border-smoke bg-obsidian text-paper placeholder:text-ash focus:outline-none focus:ring-2 focus:ring-acid-lime focus:border-transparent resize-none"
           />
         </div>
         <div className="flex gap-2 justify-end">

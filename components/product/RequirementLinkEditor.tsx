@@ -65,20 +65,20 @@ export function RequirementLinkEditor({ requirementId, onLinksChanged }: Require
   );
 
   return (
-    <div className="space-y-4 pt-3 border-t border-linear-hairline-1">
+    <div className="space-y-4 pt-3 border-t border-graphite">
       {/* Linked Documents */}
       <div>
-        <p className="text-xs font-semibold text-linear-text-subtle uppercase tracking-wide mb-2">Linked Documents</p>
+        <p className="text-xs font-w510 text-fog uppercase tracking-wide mb-2">Linked Documents</p>
         {linkedDocs.length === 0 ? (
-          <p className="text-xs text-linear-text-tertiary">None</p>
+          <p className="text-xs text-ash">None</p>
         ) : (
           <div className="flex flex-wrap gap-2">
             {linkedDocs.map((doc) => (
               <span
                 key={doc.id}
-                className="text-xs bg-linear-surface-3 border border-linear-hairline-2 px-2 py-0.5 rounded text-linear-text-muted"
+                className="text-xs bg-graphite border border-smoke px-2 py-0.5 rounded text-mist"
               >
-                {doc.title} <span className="text-linear-text-tertiary">({doc.sectionName})</span>
+                {doc.title} <span className="text-ash">({doc.sectionName})</span>
               </span>
             ))}
           </div>
@@ -89,7 +89,7 @@ export function RequirementLinkEditor({ requirementId, onLinksChanged }: Require
             <select
               value={selectedDocId}
               onChange={(e) => setSelectedDocId(e.target.value)}
-              className="bg-linear-surface-2 border border-linear-hairline-2 rounded-linear-md px-2 py-1 text-xs text-linear-text-ink focus:outline-none focus:ring-1 focus:ring-linear-accent"
+              className="bg-obsidian border border-smoke rounded-md px-2 py-1 text-label text-paper focus:outline-none focus:ring-1 focus:ring-acid-lime"
             >
               <option value="">Select a document…</option>
               {unlinkedDocs.map((doc) => (
@@ -107,15 +107,15 @@ export function RequirementLinkEditor({ requirementId, onLinksChanged }: Require
 
       {/* Linked Components */}
       <div>
-        <p className="text-xs font-semibold text-linear-text-subtle uppercase tracking-wide mb-2">Linked Components</p>
+        <p className="text-xs font-w510 text-fog uppercase tracking-wide mb-2">Linked Components</p>
         {linkedComps.length === 0 ? (
-          <p className="text-xs text-linear-text-tertiary">None</p>
+          <p className="text-xs text-ash">None</p>
         ) : (
           <div className="flex flex-wrap gap-2">
             {linkedComps.map((comp) => (
               <span
                 key={comp.id}
-                className="text-xs bg-linear-surface-3 border border-linear-hairline-2 px-2 py-0.5 rounded text-linear-text-muted"
+                className="text-xs bg-graphite border border-smoke px-2 py-0.5 rounded text-mist"
               >
                 {comp.name}
               </span>
@@ -129,14 +129,14 @@ export function RequirementLinkEditor({ requirementId, onLinksChanged }: Require
             placeholder="Component name…"
             value={newCompName}
             onChange={(e) => setNewCompName(e.target.value)}
-            className="bg-linear-surface-2 border border-linear-hairline-2 rounded-linear-md px-2 py-1 text-xs text-linear-text-ink placeholder-linear-text-tertiary focus:outline-none focus:ring-1 focus:ring-linear-accent"
+            className="bg-obsidian border border-smoke rounded-md px-2 py-1 text-label text-paper placeholder-linear-text-tertiary focus:outline-none focus:ring-1 focus:ring-acid-lime"
           />
           <input
             type="text"
             placeholder="Description (optional)"
             value={newCompDesc}
             onChange={(e) => setNewCompDesc(e.target.value)}
-            className="bg-linear-surface-2 border border-linear-hairline-2 rounded-linear-md px-2 py-1 text-xs text-linear-text-ink placeholder-linear-text-tertiary focus:outline-none focus:ring-1 focus:ring-linear-accent flex-1"
+            className="bg-obsidian border border-smoke rounded-md px-2 py-1 text-label text-paper placeholder-linear-text-tertiary focus:outline-none focus:ring-1 focus:ring-acid-lime flex-1"
           />
           <Button variant="ghost" size="sm" onClick={handleCreateAndLinkComp} disabled={!newCompName.trim()}>
             Create &amp; Link

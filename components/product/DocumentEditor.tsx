@@ -29,7 +29,7 @@ export function DocumentEditor({
     <Card level={2}>
       <div className="space-y-4">
         <div>
-          <label className="block text-xs text-linear-text-subtle mb-1 uppercase tracking-wide">
+          <label className="block text-label text-fog mb-1 uppercase tracking-wide">
             Title
           </label>
           <input
@@ -37,12 +37,12 @@ export function DocumentEditor({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Document title"
-            className="w-full bg-linear-surface-1 border border-linear-hairline-2 rounded-linear-md px-3 py-2 text-sm text-linear-text-ink placeholder:text-linear-text-tertiary focus:outline-none focus:ring-2 focus:ring-linear-accent"
+            className="w-full bg-carbon border border-smoke rounded-md px-3 py-2 text-body-sm text-paper placeholder:text-ash focus:outline-none focus:ring-2 focus:ring-acid-lime"
           />
         </div>
 
         <div>
-          <label className="block text-xs text-linear-text-subtle mb-1 uppercase tracking-wide">
+          <label className="block text-label text-fog mb-1 uppercase tracking-wide">
             Content (Markdown)
           </label>
           <textarea
@@ -50,7 +50,7 @@ export function DocumentEditor({
             onChange={(e) => setContent(e.target.value)}
             placeholder="Write your document content here..."
             rows={10}
-            className="w-full bg-linear-surface-1 border border-linear-hairline-2 rounded-linear-md px-3 py-2 text-sm text-linear-text-ink placeholder:text-linear-text-tertiary focus:outline-none focus:ring-2 focus:ring-linear-accent font-mono resize-y"
+            className="w-full bg-carbon border border-smoke rounded-md px-3 py-2 text-body-sm text-paper placeholder:text-ash focus:outline-none focus:ring-2 focus:ring-acid-lime font-mono resize-y"
           />
         </div>
 

@@ -34,10 +34,10 @@ export default function InfrastructureDocumentPage() {
 
   if (!doc) {
     return (
-      <div className="px-6 py-section">
+      <div className="px-6 py-96">
         <div className="max-w-4xl mx-auto">
-          <p className="text-linear-text-muted">Document not found.</p>
-          <Link href="/product/infrastructure" className="text-linear-accent text-sm mt-2 inline-block">
+          <p className="text-mist">Document not found.</p>
+          <Link href="/product/infrastructure" className="text-acid-lime text-body-sm mt-2 inline-block">
             ← Back to Infrastructure
           </Link>
         </div>
@@ -46,15 +46,15 @@ export default function InfrastructureDocumentPage() {
   }
 
   return (
-    <div className="px-6 py-section">
+    <div className="px-6 py-96">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-2 mb-6">
-          <Link href="/product/infrastructure" className="text-sm text-linear-text-subtle hover:text-linear-text-ink transition-colors">
+          <Link href="/product/infrastructure" className="text-body-sm text-fog hover:text-paper transition-colors">
             ← Infrastructure
           </Link>
         </div>
 
-        <Eyebrow className="text-linear-text-subtle mb-2">Infrastructure / Document</Eyebrow>
+        <Eyebrow className="text-fog mb-2">Infrastructure / Document</Eyebrow>
 
         {editing ? (
           <DocumentEditor
@@ -66,7 +66,7 @@ export default function InfrastructureDocumentPage() {
         ) : (
           <>
             <div className="flex items-start justify-between mb-6">
-              <DisplayMedium className="text-linear-text-ink">{doc.title}</DisplayMedium>
+              <DisplayMedium className="text-paper">{doc.title}</DisplayMedium>
               <div className="flex gap-2">
                 <Button variant="secondary" size="sm" onClick={() => setEditing(true)}>
                   Edit
@@ -78,12 +78,12 @@ export default function InfrastructureDocumentPage() {
             </div>
 
             <Card level={1}>
-              <pre className="text-sm text-linear-text-muted whitespace-pre-wrap font-sans leading-relaxed">
+              <pre className="text-body-sm text-mist whitespace-pre-wrap font-sans leading-relaxed">
                 {doc.content}
               </pre>
             </Card>
 
-            <p className="text-xs text-linear-text-tertiary mt-4">
+            <p className="text-xs text-ash mt-4">
               Last updated: {new Date(doc.updatedAt).toLocaleString()}
             </p>
           </>

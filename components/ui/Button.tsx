@@ -15,23 +15,24 @@ export function Button({
   className = "",
   ...props
 }: ButtonProps) {
-  const baseStyles = "rounded-linear-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-linear-accent-focus";
+  const base = "rounded-md font-inter transition-colors focus:outline-none focus:ring-2 focus:ring-acid-lime/40 disabled:opacity-40";
 
-  const variantStyles = {
-    primary: "bg-linear-accent text-white hover:bg-linear-accent-hover",
-    secondary: "bg-linear-surface-2 text-linear-text-ink border border-linear-hairline-2 hover:bg-linear-surface-3",
-    ghost: "text-linear-text-muted hover:text-linear-text-ink hover:bg-linear-surface-2",
+  const variants = {
+    primary: "bg-acid-lime text-void hover:bg-[#f0fa44]",
+    secondary: "bg-transparent border border-graphite text-mist hover:border-smoke hover:text-bone",
+    ghost: "bg-transparent text-fog hover:text-mist hover:bg-graphite",
   };
 
-  const sizeStyles = {
-    sm: "px-3 py-1.5 text-sm",
-    md: "px-4 py-2 text-base",
-    lg: "px-6 py-3 text-lg",
+  const sizes = {
+    sm: "px-3 py-1.5 text-caption",
+    md: "px-4 py-2 text-body-sm",
+    lg: "px-5 py-2.5 text-body",
   };
 
   return (
     <button
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
+      className={`${base} ${variants[variant]} ${sizes[size]} ${className}`}
+      style={variant === "primary" ? { fontWeight: 510 } : undefined}
       {...props}
     >
       {children}

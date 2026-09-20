@@ -36,9 +36,9 @@ const RIFTBOUND_SEED_REQUIREMENTS = [
 ];
 
 const classificationStyles: Record<string, string> = {
-  build: "bg-linear-accent/10 text-linear-accent border border-linear-accent/30",
-  native: "bg-linear-surface-3 text-linear-text-muted border border-linear-hairline-2",
-  out: "bg-linear-surface-2 text-linear-text-tertiary border border-linear-hairline-1 line-through",
+  build: "bg-acid-lime/10 text-acid-lime border border-linear-accent/30",
+  native: "bg-graphite text-mist border border-smoke",
+  out: "bg-obsidian text-ash border border-graphite line-through",
 };
 
 export default function InitiativeDetailPage() {
@@ -105,10 +105,10 @@ export default function InitiativeDetailPage() {
 
   if (!initiative) {
     return (
-      <div className="px-6 py-section">
+      <div className="px-6 py-96">
         <div className="max-w-4xl mx-auto">
-          <p className="text-linear-text-muted">Initiative not found.</p>
-          <Link href="/product/initiatives" className="text-linear-accent text-sm mt-4 inline-block hover:underline">
+          <p className="text-mist">Initiative not found.</p>
+          <Link href="/product/initiatives" className="text-acid-lime text-body-sm mt-4 inline-block hover:underline">
             ← Back to Initiatives
           </Link>
         </div>
@@ -117,20 +117,20 @@ export default function InitiativeDetailPage() {
   }
 
   return (
-    <div className="px-6 py-section">
+    <div className="px-6 py-96">
       <div className="max-w-4xl mx-auto">
-        <Link href="/product/initiatives" className="text-linear-text-tertiary text-sm hover:text-linear-text-muted mb-6 inline-block">
+        <Link href="/product/initiatives" className="text-ash text-body-sm hover:text-mist mb-6 inline-block">
           ← Initiatives
         </Link>
 
-        <Eyebrow className="text-linear-text-subtle mb-2">Initiative</Eyebrow>
-        <DisplayMedium className="text-linear-text-ink mb-2">{initiative.name}</DisplayMedium>
-        <Body className="text-linear-text-muted mb-8">{initiative.description}</Body>
+        <Eyebrow className="text-fog mb-2">Initiative</Eyebrow>
+        <DisplayMedium className="text-paper mb-2">{initiative.name}</DisplayMedium>
+        <Body className="text-mist mb-8">{initiative.description}</Body>
 
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-base font-semibold text-linear-text-ink">
+          <h3 className="text-base font-w510 text-paper">
             Requirements
-            <span className="ml-2 text-sm font-normal text-linear-text-tertiary">
+            <span className="ml-2 text-body-sm font-normal text-ash">
               ({requirements.length})
             </span>
           </h3>
@@ -147,7 +147,7 @@ export default function InitiativeDetailPage() {
 
         {requirements.length === 0 ? (
           <Card level={1}>
-            <p className="text-linear-text-tertiary text-center py-8 text-sm">
+            <p className="text-ash text-center py-8 text-sm">
               No requirements yet. Add the first one.
             </p>
           </Card>
@@ -160,7 +160,7 @@ export default function InitiativeDetailPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex flex-col gap-1 min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-mono text-xs font-semibold text-linear-accent bg-linear-surface-3 px-2 py-0.5 rounded">
+                        <span className="font-mono text-label font-w510 text-acid-lime bg-graphite px-2 py-0.5 rounded">
                           {req.code}
                         </span>
                         <span
@@ -169,20 +169,20 @@ export default function InitiativeDetailPage() {
                           {req.classification}
                         </span>
                         {req.prototypeView && (
-                          <span className="text-xs text-linear-text-tertiary border border-linear-hairline-1 px-2 py-0.5 rounded">
+                          <span className="text-xs text-ash border border-graphite px-2 py-0.5 rounded">
                             view: {req.prototypeView}
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-linear-text-ink mt-1">{req.description}</p>
-                      <p className="text-xs text-linear-text-tertiary">Source: {req.source}</p>
+                      <p className="text-body-sm text-paper mt-1">{req.description}</p>
+                      <p className="text-xs text-ash">Source: {req.source}</p>
                       {req.implementationNote && (
-                        <p className="text-xs text-linear-text-muted italic mt-1">{req.implementationNote}</p>
+                        <p className="text-xs text-mist italic mt-1">{req.implementationNote}</p>
                       )}
                     </div>
                     <button
                       onClick={() => toggleExpand(req.id)}
-                      className="text-linear-text-tertiary hover:text-linear-text-muted transition-colors p-1 flex-shrink-0"
+                      className="text-ash hover:text-mist transition-colors p-1 flex-shrink-0"
                       aria-label={isExpanded ? "Collapse" : "Expand"}
                     >
                       <svg

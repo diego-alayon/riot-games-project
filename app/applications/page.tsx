@@ -22,13 +22,13 @@ const prototypes = [
 
 export default function ApplicationsPage() {
   return (
-    <div className="px-6 py-section">
+    <div className="px-6 py-96">
       <div className="max-w-6xl mx-auto">
-        <Eyebrow className="text-linear-text-subtle mb-2">Applications</Eyebrow>
-        <DisplayMedium className="text-linear-text-ink mb-4">
+        <Eyebrow className="text-fog mb-2">Applications</Eyebrow>
+        <DisplayMedium className="text-paper mb-4">
           Prototyping Studio
         </DisplayMedium>
-        <Body className="text-linear-text-muted mb-12">
+        <Body className="text-mist mb-12">
           Build and manage application prototypes with independent design systems.
         </Body>
 
@@ -36,20 +36,20 @@ export default function ApplicationsPage() {
           {prototypes.map((prototype) => (
             <Card key={prototype.id} level={1}>
               <div className="flex items-start justify-between mb-3">
-                <Eyebrow className="text-linear-text-subtle">
+                <Eyebrow className="text-fog">
                   {prototype.status === "reserved" ? "Reserved" : "Active"}
                 </Eyebrow>
                 {prototype.hasFrontend && (
-                  <span className="text-xs text-linear-success bg-linear-surface-3 px-2 py-1 rounded-linear-sm">
+                  <span className="text-xs text-pulse-green bg-graphite px-2 py-1 rounded">
                     Has Frontend
                   </span>
                 )}
               </div>
 
-              <h3 className="text-xl font-semibold text-linear-text-ink mb-2">
+              <h3 className="text-heading-sm text-paper mb-2">
                 {prototype.name}
               </h3>
-              <p className="text-linear-text-muted mb-6">
+              <p className="text-mist mb-6">
                 {prototype.description}
               </p>
 

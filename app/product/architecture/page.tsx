@@ -63,13 +63,13 @@ export default function ArchitecturePage() {
   };
 
   return (
-    <div className="px-6 py-section">
+    <div className="px-6 py-96">
       <div className="max-w-4xl mx-auto">
-        <Eyebrow className="text-linear-text-subtle mb-2">Product / Architecture</Eyebrow>
+        <Eyebrow className="text-fog mb-2">Product / Architecture</Eyebrow>
         <div className="flex items-start justify-between mb-6">
           <div>
-            <DisplayMedium className="text-linear-text-ink mb-2">Architecture</DisplayMedium>
-            <Body className="text-linear-text-muted">Technical architecture documentation and decisions.</Body>
+            <DisplayMedium className="text-paper mb-2">Architecture</DisplayMedium>
+            <Body className="text-mist">Technical architecture documentation and decisions.</Body>
           </div>
           <Button variant="primary" size="sm" onClick={() => setShowEditor(!showEditor)}>
             {showEditor ? "Cancel" : "+ New Document"}
@@ -88,12 +88,12 @@ export default function ArchitecturePage() {
         <div className="space-y-3">
           {docs.map((doc) => (
             <Link key={doc.id} href={`/product/architecture/${doc.id}`}>
-              <Card level={1} className="cursor-pointer hover:border-linear-hairline-3 transition-colors">
-                <h3 className="text-base font-semibold text-linear-text-ink mb-1">{doc.title}</h3>
-                <p className="text-sm text-linear-text-muted line-clamp-2">
+              <Card level={1} className="cursor-pointer hover:border-smoke transition-colors">
+                <h3 className="text-base font-w510 text-paper mb-1">{doc.title}</h3>
+                <p className="text-body-sm text-mist line-clamp-2">
                   {doc.content.replace(/^#.*/gm, "").trim().slice(0, 160)}
                 </p>
-                <p className="text-xs text-linear-text-tertiary mt-2">
+                <p className="text-xs text-ash mt-2">
                   {new Date(doc.updatedAt).toLocaleDateString()}
                 </p>
               </Card>
@@ -102,7 +102,7 @@ export default function ArchitecturePage() {
 
           {docs.length === 0 && !showEditor && (
             <Card level={1}>
-              <p className="text-linear-text-tertiary text-center py-8 text-sm">
+              <p className="text-ash text-center py-8 text-sm">
                 No documents yet. Create one to get started.
               </p>
             </Card>

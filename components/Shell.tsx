@@ -9,54 +9,55 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const { showLabels, toggleLabels } = useTraceability();
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="border-b border-linear-hairline-1" style={{ backgroundColor: "var(--color-surface-1)" }}>
-        <div className="px-6 py-4">
+    <div className="min-h-screen flex flex-col bg-void">
+      <header className="border-b border-graphite" style={{ backgroundColor: "#08090a" }}>
+        <div className="px-6 py-4 max-w-[1200px] mx-auto w-full">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-8">
-              <Link href="/" className="text-eyebrow" style={{ color: "var(--color-accent)" }}>
+            <div className="flex items-center gap-8">
+              <Link
+                href="/"
+                className="text-paper text-body-sm tracking-tight"
+                style={{ fontWeight: 510 }}
+              >
                 Riot-Games-Project
               </Link>
-              <nav className="flex space-x-6">
+              <nav className="flex gap-6">
                 <Link
                   href="/applications"
-                  className={`text-sm transition-colors ${
+                  className={`text-caption transition-colors ${
                     pathname?.startsWith("/applications")
-                      ? "text-linear-text-ink"
-                      : "text-linear-text-muted hover:text-linear-text-ink"
+                      ? "text-paper"
+                      : "text-mist hover:text-paper"
                   }`}
                 >
                   Applications
                 </Link>
                 <Link
                   href="/product"
-                  className={`text-sm transition-colors ${
+                  className={`text-caption transition-colors ${
                     pathname?.startsWith("/product")
-                      ? "text-linear-text-ink"
-                      : "text-linear-text-muted hover:text-linear-text-ink"
+                      ? "text-paper"
+                      : "text-mist hover:text-paper"
                   }`}
                 >
                   Product
                 </Link>
               </nav>
             </div>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={toggleLabels}
-                className={`text-xs font-mono px-2 py-1 rounded-linear-sm border transition-colors ${
-                  showLabels
-                    ? "border-linear-accent text-linear-accent bg-linear-surface-3"
-                    : "border-linear-hairline-2 text-linear-text-tertiary hover:text-linear-text-muted"
-                }`}
-                title={showLabels ? "Hide traceability labels" : "Show traceability labels"}
-              >
-                FR
-              </button>
-            </div>
+            <button
+              onClick={toggleLabels}
+              className={`font-mono text-label px-2 py-1 rounded border transition-colors ${
+                showLabels
+                  ? "border-acid-lime text-acid-lime"
+                  : "border-graphite text-ash hover:text-fog"
+              }`}
+              title={showLabels ? "Hide traceability labels" : "Show traceability labels"}
+            >
+              FR
+            </button>
           </div>
         </div>
       </header>
-
       <main className="flex-1">{children}</main>
     </div>
   );

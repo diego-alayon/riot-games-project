@@ -33,24 +33,24 @@ const sections = [
 
 export default function ProductPage() {
   return (
-    <div className="px-6 py-section">
+    <div className="px-6 py-96">
       <div className="max-w-6xl mx-auto">
-        <Eyebrow className="text-linear-text-subtle mb-2">Product</Eyebrow>
-        <DisplayMedium className="text-linear-text-ink mb-4">
+        <Eyebrow className="text-fog mb-2">Product</Eyebrow>
+        <DisplayMedium className="text-paper mb-4">
           Knowledge Base
         </DisplayMedium>
-        <Body className="text-linear-text-muted mb-12">
+        <Body className="text-mist mb-12">
           Architecture, infrastructure, initiatives, and core domain knowledge with full traceability.
         </Body>
 
         <div className="mb-6 flex flex-wrap gap-3">
           <Link href="/product/graph">
-            <span className="inline-flex items-center gap-2 text-sm text-linear-accent border border-linear-accent/30 bg-linear-accent/5 px-4 py-2 rounded-linear-md hover:bg-linear-accent/10 transition-colors">
+            <span className="inline-flex items-center gap-2 text-body-sm text-acid-lime border border-linear-accent/30 bg-acid-lime/5 px-4 py-2 rounded-md hover:bg-acid-lime/10 transition-colors">
               Knowledge Graph →
             </span>
           </Link>
           <Link href="/product/traceability">
-            <span className="inline-flex items-center gap-2 text-sm text-linear-accent border border-linear-accent/30 bg-linear-accent/5 px-4 py-2 rounded-linear-md hover:bg-linear-accent/10 transition-colors">
+            <span className="inline-flex items-center gap-2 text-body-sm text-acid-lime border border-linear-accent/30 bg-acid-lime/5 px-4 py-2 rounded-md hover:bg-acid-lime/10 transition-colors">
               Traceability Chain →
             </span>
           </Link>
@@ -62,10 +62,10 @@ export default function ProductPage() {
               <div className="flex items-start gap-3 mb-3">
                 <span className="text-3xl">{section.icon}</span>
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-linear-text-ink mb-2">
+                  <h3 className="text-heading-sm text-paper mb-2">
                     {section.name}
                   </h3>
-                  <p className="text-linear-text-muted mb-6">
+                  <p className="text-mist mb-6">
                     {section.description}
                   </p>
                 </div>

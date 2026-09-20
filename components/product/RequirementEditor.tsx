@@ -46,7 +46,7 @@ export function RequirementEditor({ onSave, onCancel, initial }: RequirementEdit
 
   return (
     <Card level={2}>
-      <Eyebrow className="text-linear-text-subtle mb-4">New Requirement</Eyebrow>
+      <Eyebrow className="text-fog mb-4">New Requirement</Eyebrow>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <Input
@@ -57,13 +57,13 @@ export function RequirementEditor({ onSave, onCancel, initial }: RequirementEdit
             required
           />
           <div className="flex flex-col gap-1">
-            <label className="text-xs font-medium text-linear-text-subtle uppercase tracking-wider">
+            <label className="text-xs font-medium text-fog uppercase tracking-wider">
               Classification
             </label>
             <select
               value={classification}
               onChange={(e) => setClassification(e.target.value as "build" | "out" | "native")}
-              className="h-10 rounded-linear-md border border-linear-hairline-2 bg-linear-surface-2 px-3 text-sm text-linear-text-ink focus:outline-none focus:ring-2 focus:ring-linear-accent"
+              className="h-10 rounded-md border border-smoke bg-obsidian px-3 text-body-sm text-paper focus:outline-none focus:ring-2 focus:ring-acid-lime"
             >
               <option value="build">Build</option>
               <option value="native">Native</option>
@@ -73,7 +73,7 @@ export function RequirementEditor({ onSave, onCancel, initial }: RequirementEdit
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-linear-text-subtle uppercase tracking-wider">
+          <label className="text-xs font-medium text-fog uppercase tracking-wider">
             Description
           </label>
           <textarea
@@ -82,7 +82,7 @@ export function RequirementEditor({ onSave, onCancel, initial }: RequirementEdit
             placeholder="What must the system do?"
             required
             rows={3}
-            className="rounded-linear-md border border-linear-hairline-2 bg-linear-surface-2 px-3 py-2 text-sm text-linear-text-ink placeholder:text-linear-text-tertiary focus:outline-none focus:ring-2 focus:ring-linear-accent resize-none"
+            className="rounded-md border border-smoke bg-obsidian px-3 py-2 text-body-sm text-paper placeholder:text-ash focus:outline-none focus:ring-2 focus:ring-acid-lime resize-none"
           />
         </div>
 
@@ -102,7 +102,7 @@ export function RequirementEditor({ onSave, onCancel, initial }: RequirementEdit
         />
 
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-linear-text-subtle uppercase tracking-wider">
+          <label className="text-xs font-medium text-fog uppercase tracking-wider">
             Implementation Note (optional)
           </label>
           <textarea
@@ -110,7 +110,7 @@ export function RequirementEditor({ onSave, onCancel, initial }: RequirementEdit
             onChange={(e) => setImplementationNote(e.target.value)}
             placeholder="Any additional notes..."
             rows={2}
-            className="rounded-linear-md border border-linear-hairline-2 bg-linear-surface-2 px-3 py-2 text-sm text-linear-text-ink placeholder:text-linear-text-tertiary focus:outline-none focus:ring-2 focus:ring-linear-accent resize-none"
+            className="rounded-md border border-smoke bg-obsidian px-3 py-2 text-body-sm text-paper placeholder:text-ash focus:outline-none focus:ring-2 focus:ring-acid-lime resize-none"
           />
         </div>
 
