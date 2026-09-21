@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { useTraceability } from "@/lib/context/traceability-context";
 
 function NavItem({
   href,
@@ -24,44 +23,38 @@ function NavItem({
     : false;
 
   const base =
-    "flex items-center gap-2 h-8 px-3 mx-1 rounded-md text-[13px] leading-none transition-colors duration-100 select-none cursor-pointer";
+    "flex items-center gap-2 leading-none transition-colors duration-100 select-none cursor-pointer";
+  const baseStyle: React.CSSProperties = {
+    height: 28,
+    minHeight: 28,
+    fontSize: 12,
+    paddingLeft: 8,
+    paddingRight: 8,
+    marginLeft: 4,
+    marginRight: 4,
+    borderRadius: 5,
+  };
 
   if (disabled) {
     return (
-      <div className={`${base} cursor-default`} style={{ color: "#c0c0c0" }}>
-        <span style={{ color: "#d0d0d0", display: "flex" }}>{icon}</span>
+      <div className={`${base} cursor-default`} style={{ ...baseStyle, color: "#c0c0c0" }}>
+        <span style={{ color: "#d0d0d0", display: "flex", flexShrink: 0 }}>{icon}</span>
         <span className="flex-1 truncate">{label}</span>
       </div>
     );
   }
 
-  const activeStyle = { backgroundColor: "rgba(0,0,0,0.06)", color: "#0f0f0f" };
-  const inactiveStyle = { color: "#6b6b6b" };
+  const activeStyle: React.CSSProperties = { backgroundColor: "rgba(0,0,0,0.07)", color: "#0f0f0f" };
+  const inactiveStyle: React.CSSProperties = { color: "#4a4a4a" };
 
   const content = (
     <>
-      <span
-        style={{
-          color: isActive ? "#0f0f0f" : "#8c8c8c",
-          display: "flex",
-          alignItems: "center",
-          flexShrink: 0,
-        }}
-      >
+      <span style={{ color: isActive ? "#0f0f0f" : "#6b6b6b", display: "flex", alignItems: "center", flexShrink: 0 }}>
         {icon}
       </span>
       <span className="flex-1 truncate">{label}</span>
       {badge !== undefined && (
-        <span
-          style={{
-            background: "rgba(0,0,0,0.07)",
-            color: "#6b6b6b",
-            fontSize: 11,
-            lineHeight: "16px",
-            padding: "0 5px",
-            borderRadius: 9999,
-          }}
-        >
+        <span style={{ background: "rgba(0,0,0,0.07)", color: "#6b6b6b", fontSize: 11, lineHeight: "16px", padding: "0 5px", borderRadius: 9999 }}>
           {badge}
         </span>
       )}
@@ -70,7 +63,7 @@ function NavItem({
 
   if (!href)
     return (
-      <div className={base} style={inactiveStyle}>
+      <div className={base} style={{ ...baseStyle, ...inactiveStyle }}>
         {content}
       </div>
     );
@@ -79,15 +72,12 @@ function NavItem({
     <Link
       href={href}
       className={base}
-      style={isActive ? activeStyle : inactiveStyle}
+      style={isActive ? { ...baseStyle, ...activeStyle } : { ...baseStyle, ...inactiveStyle }}
       onMouseEnter={(e) => {
-        if (!isActive)
-          (e.currentTarget as HTMLElement).style.backgroundColor =
-            "rgba(0,0,0,0.04)";
+        if (!isActive) (e.currentTarget as HTMLElement).style.backgroundColor = "rgba(0,0,0,0.04)";
       }}
       onMouseLeave={(e) => {
-        if (!isActive)
-          (e.currentTarget as HTMLElement).style.backgroundColor = "";
+        if (!isActive) (e.currentTarget as HTMLElement).style.backgroundColor = "";
       }}
     >
       {content}
@@ -105,18 +95,29 @@ function SectionHeader({
   onToggle: () => void;
 }) {
   return (
+    // pt-5 = 20px gap from last item above, pb-0.5 = 2px before first child item
     <button
       onClick={onToggle}
-      className="flex items-center gap-1.5 w-full px-3 pt-4 pb-1 text-[11px] font-medium tracking-[0.4px] uppercase transition-opacity hover:opacity-80"
-      style={{ color: "#9b9b9b" }}
+      className="flex items-center gap-1.5 w-full transition-opacity hover:opacity-80"
+      style={{
+        color: "#8c8c8c",
+        fontSize: 11,
+        fontWeight: 500,
+        letterSpacing: "0px",
+        textTransform: "none",
+        paddingTop: 18,
+        paddingBottom: 2,
+        paddingLeft: 8,
+        paddingRight: 8,
+      }}
     >
       <svg
-        width="10"
-        height="10"
+        width="9"
+        height="9"
         viewBox="0 0 10 10"
         fill="none"
         stroke="currentColor"
-        strokeWidth="1.5"
+        strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
         style={{
@@ -212,58 +213,23 @@ const I = {
 export function Sidebar() {
   const [appsOpen, setAppsOpen] = useState(true);
   const [productOpen, setProductOpen] = useState(true);
-  const { showLabels, toggleLabels } = useTraceability();
 
   return (
     <aside
       className="flex flex-col flex-shrink-0 h-screen overflow-y-auto overflow-x-hidden"
-      style={{
-        width: 220,
-        backgroundColor: "#f5f5f5",
-        borderRight: "1px solid #e5e5e5",
-      }}
+      style={{ width: 220, backgroundColor: "#ffffff" }}
     >
       {/* Workspace header */}
       <div
-        className="flex items-center gap-2 px-3 flex-shrink-0"
-        style={{ height: 36, borderBottom: "1px solid #e5e5e5" }}
+        className="flex items-center flex-shrink-0"
+        style={{ height: 44, paddingLeft: 10, paddingRight: 10 }}
       >
-        <div
-          className="flex items-center justify-center rounded-md text-[11px] font-bold flex-shrink-0"
-          style={{
-            width: 20,
-            height: 20,
-            backgroundColor: "#0f0f0f",
-            color: "#ffffff",
-          }}
-        >
-          R
-        </div>
         <span
-          className="flex-1 text-[13px] truncate"
-          style={{ color: "#0f0f0f", fontWeight: 510 }}
+          style={{ color: "#0f0f0f", fontWeight: 590, fontSize: 13, letterSpacing: "-0.1px" }}
+          className="truncate"
         >
-          Riot-Games-Project
+          Riot Games Project
         </span>
-        <button
-          className="flex items-center justify-center rounded-md transition-colors flex-shrink-0"
-          style={{ width: 26, height: 26, color: "#8c8c8c" }}
-          onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLElement).style.backgroundColor =
-              "rgba(0,0,0,0.05)")
-          }
-          onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLElement).style.backgroundColor = "")
-          }
-        >
-          {I.search}
-        </button>
-      </div>
-
-      {/* Top nav */}
-      <div className="pt-1.5 pb-0.5">
-        <NavItem href="/" icon={I.home} label="Home" />
-        <NavItem href="/applications" icon={I.apps} label="Applications" />
       </div>
 
       {/* Applications section */}
@@ -273,12 +239,8 @@ export function Sidebar() {
         onToggle={() => setAppsOpen((o) => !o)}
       />
       {appsOpen && (
-        <div className="pb-0.5">
-          <NavItem
-            href="/applications/riftbound-ticketing-portal"
-            icon={I.proto}
-            label="Riftbound Portal"
-          />
+        <div className="pb-1">
+          <NavItem href="/applications/riftbound-ticketing-portal" icon={I.proto} label="Riftbound Portal" />
           <NavItem icon={I.proto} label="OneVenue Backoffice" disabled />
           <NavItem href="/design-systems" icon={I.design} label="Design Systems" />
         </div>
@@ -291,60 +253,17 @@ export function Sidebar() {
         onToggle={() => setProductOpen((o) => !o)}
       />
       {productOpen && (
-        <div className="pb-0.5">
-          <NavItem
-            href="/product/architecture"
-            icon={I.arch}
-            label="Architecture"
-          />
-          <NavItem
-            href="/product/infrastructure"
-            icon={I.infra}
-            label="Infrastructure"
-          />
-          <NavItem
-            href="/product/initiatives"
-            icon={I.init}
-            label="Initiatives"
-          />
-          <NavItem
-            href="/product/initiatives/catalog"
-            icon={I.catalog}
-            label="Req. Catalog"
-          />
-          <NavItem
-            href="/product/graph"
-            icon={I.graph}
-            label="Knowledge Graph"
-          />
+        <div className="pb-1">
+          <NavItem href="/product/architecture" icon={I.arch} label="Architecture" />
+          <NavItem href="/product/infrastructure" icon={I.infra} label="Infrastructure" />
+          <NavItem href="/product/initiatives" icon={I.init} label="Initiatives" />
+          <NavItem href="/product/initiatives/catalog" icon={I.catalog} label="Req. Catalog" />
+          <NavItem href="/product/graph" icon={I.graph} label="Knowledge Graph" />
           <NavItem icon={I.core} label="Core" disabled />
         </div>
       )}
 
       <div className="flex-1" />
-
-      {/* FR Labels toggle */}
-      <div
-        className="px-2 py-2 flex-shrink-0"
-        style={{ borderTop: "1px solid #e5e5e5" }}
-      >
-        <button
-          onClick={toggleLabels}
-          className="flex items-center gap-2 h-7 px-2.5 w-full rounded-md text-[12px] transition-colors"
-          style={
-            showLabels
-              ? {
-                  backgroundColor: "rgba(0,0,0,0.06)",
-                  color: "#0f0f0f",
-                  border: "1px solid rgba(0,0,0,0.12)",
-                }
-              : { color: "#9b9b9b", border: "1px solid #e5e5e5" }
-          }
-        >
-          {I.labels}
-          <span>{showLabels ? "Labels on" : "Labels off"}</span>
-        </button>
-      </div>
     </aside>
   );
 }
