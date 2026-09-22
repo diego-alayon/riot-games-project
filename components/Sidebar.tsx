@@ -257,7 +257,7 @@ export function Sidebar() {
           <NavItem href="/product/architecture" icon={I.arch} label="Architecture" />
           <NavItem href="/product/infrastructure" icon={I.infra} label="Infrastructure" />
           <NavItem href="/product/initiatives" icon={I.init} label="Initiatives" />
-          <NavItem href="/product/initiatives/catalog" icon={I.catalog} label="Req. Catalog" />
+          <NavItem href="/product/initiatives/catalog" icon={I.catalog} label="Functional Req." />
           <NavItem href="/product/graph" icon={I.graph} label="Knowledge Graph" />
           <NavItem icon={I.core} label="Core" disabled />
         </div>
