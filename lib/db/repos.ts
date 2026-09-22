@@ -17,6 +17,18 @@ export const appRepo = {
     db.prepare("INSERT INTO applications (id,name,slug,description,status) VALUES (?,?,?,?,?)").run(id, name, slug, description, status);
     return id;
   },
+  linkInitiative: (appId: string, initiativeId: string) =>
+    db.prepare("INSERT OR IGNORE INTO app_initiative_links (app_id, initiative_id) VALUES (?,?)").run(appId, initiativeId),
+  unlinkInitiative: (appId: string, initiativeId: string) =>
+    db.prepare("DELETE FROM app_initiative_links WHERE app_id=? AND initiative_id=?").run(appId, initiativeId),
+  initiatives: (appId: string) =>
+    db.prepare(`SELECT i.* FROM initiatives i
+      JOIN app_initiative_links l ON i.id = l.initiative_id
+      WHERE l.app_id = ? ORDER BY i.name`).all(appId),
+  appForInitiative: (initiativeId: string) =>
+    db.prepare(`SELECT a.* FROM applications a
+      JOIN app_initiative_links l ON a.id = l.app_id
+      WHERE l.initiative_id = ? LIMIT 1`).get(initiativeId),
 };
 
 // ── Design Systems ────────────────────────────────────────────────────────────
@@ -107,14 +119,31 @@ export const taskRepo = {
 // ── Requirements ──────────────────────────────────────────────────────────────
 export const requirementRepo = {
   all: () => db.prepare("SELECT * FROM requirements ORDER BY code").all(),
+  byInitiative: (initiativeId: string) =>
+    db.prepare("SELECT * FROM requirements WHERE initiative_id=? ORDER BY code").all(initiativeId),
+  byStory: (storyId: string) =>
+    db.prepare("SELECT * FROM requirements WHERE story_id=? ORDER BY code").all(storyId),
   forInitiative: (initiativeId: string) =>
     db.prepare("SELECT * FROM requirements WHERE initiative_id=? ORDER BY code").all(initiativeId),
   get: (id: string) => db.prepare("SELECT * FROM requirements WHERE id=?").get(id),
-  create: (initiativeId: string, code: string, area: string, description: string, source: string, classification: string, note?: string, view?: string) => {
+  create: (data: {
+    initiativeId?: string; epicId?: string; storyId?: string;
+    code: string; area: string; description: string;
+    source?: string; classification?: string; note?: string; view?: string;
+  }) => {
     const id = uuid();
-    db.prepare("INSERT INTO requirements (id,initiative_id,code,area,description,source,classification,implementation_note,prototype_view) VALUES (?,?,?,?,?,?,?,?,?)")
-      .run(id, initiativeId, code, area, description, source, classification, note ?? null, view ?? null);
+    db.prepare(`INSERT INTO requirements
+      (id, initiative_id, epic_id, story_id, code, area, description, source, classification, implementation_note, prototype_view)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?)`)
+      .run(id, data.initiativeId ?? null, data.epicId ?? null, data.storyId ?? null,
+           data.code, data.area, data.description,
+           data.source ?? null, data.classification ?? "build",
+           data.note ?? null, data.view ?? null);
     return id;
+  },
+  update: (id: string, fields: Record<string, unknown>) => {
+    const sets = Object.keys(fields).map(k => `${k}=?`).join(",");
+    db.prepare(`UPDATE requirements SET ${sets} WHERE id=?`).run(...Object.values(fields), id);
   },
   delete: (id: string) => db.prepare("DELETE FROM requirements WHERE id=?").run(id),
 };
@@ -140,13 +169,15 @@ export const documentRepo = {
 export function getInitiativeTree() {
   const initiatives = initiativeRepo.all() as any[];
   return initiatives.map((init) => {
+    const app = appRepo.appForInitiative(init.id);
     const epics = (epicRepo.forInitiative(init.id) as any[]).map((epic) => {
       const stories = (storyRepo.forEpic(epic.id) as any[]).map((story) => {
         const tasks = taskRepo.forStory(story.id) as any[];
-        return { ...story, tasks };
+        const requirements = requirementRepo.byStory(story.id) as any[];
+        return { ...story, tasks, requirements };
       });
       return { ...epic, stories };
     });
-    return { ...init, epics };
+    return { ...init, app: app ?? null, epics };
   });
 }

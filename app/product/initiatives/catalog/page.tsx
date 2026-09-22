@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 // ── Domain catalogue ──────────────────────────────────────────────────────────
 const AREAS: Record<string, { label: string; service: string; db: string; category: string }> = {
@@ -51,13 +51,16 @@ const KIND_BADGE: Record<RowKind, { bg: string; color: string; border: string }>
 interface FR         { id: string; code: string; area: string; description: string; classification: Classification; }
 interface Story      { id: string; name: string; frs: FR[]; }
 interface Epic       { id: string; name: string; stories: Story[]; }
-interface Initiative { id: string; name: string; epics: Epic[]; }
+interface Initiative { id: string; name: string; epics: Epic[]; app?: { id: string; name: string } | null; }
+interface ApiInitiative { id: string; name: string; description?: string; }
 
 // ── BMAD epics.md parser ──────────────────────────────────────────────────────
-function parseBmadMarkdown(md: string): Initiative[] {
+interface ParsedEpic { title: string; stories: { title: string; frs: { code: string; description: string }[] }[] }
+
+function parseBmadMarkdown(md: string): ParsedEpic[] {
   const lines = md.split("\n");
 
-  // 1. Collect all FRs from the "Functional Requirements" section
+  // Collect all FRs
   const frMap: Record<string, string> = {};
   const frRegex = /^(FR\d+):\s+(.+)$/;
   for (const line of lines) {
@@ -65,17 +68,9 @@ function parseBmadMarkdown(md: string): Initiative[] {
     if (m) frMap[m[1]] = m[2].trim();
   }
 
-  // 2. Parse epics and stories
-  // Epics start with "## Epic N:" or "### Epic N:"
-  const initiatives: Initiative[] = [];
-  let frCounter = 1;
-
-  // Find epic sections (lines like "## Epic 1: Title" or "### Epic 1: Title")
   const epicHeaderRegex = /^#{2,3} Epic (\d+):\s+(.+)$/;
   const storyHeaderRegex = /^#{3,4} Story ([\d.]+[a-zA-Z-]*):\s+(.+)$/;
 
-  // Group lines by epic — keep only the LAST occurrence of each epic number
-  // (epics.md lists each epic twice: once in the summary list, once in the detail section)
   const epicByNum = new Map<string, { num: string; title: string; startLine: number }>();
   for (let i = 0; i < lines.length; i++) {
     const m = lines[i].match(epicHeaderRegex);
@@ -83,159 +78,56 @@ function parseBmadMarkdown(md: string): Initiative[] {
   }
   const epicSections = Array.from(epicByNum.values()).sort((a, b) => a.startLine - b.startLine);
 
+  const epics: ParsedEpic[] = [];
+
   for (let ei = 0; ei < epicSections.length; ei++) {
     const epic = epicSections[ei];
     const endLine = ei + 1 < epicSections.length ? epicSections[ei + 1].startLine : lines.length;
     const epicLines = lines.slice(epic.startLine + 1, endLine);
 
-    // Find stories within this epic section
     const storyStarts: { idx: number; num: string; title: string }[] = [];
     for (let i = 0; i < epicLines.length; i++) {
       const m = epicLines[i].match(storyHeaderRegex);
       if (m) storyStarts.push({ idx: i, num: m[1], title: m[2].trim() });
     }
 
-    const stories: Story[] = [];
+    const stories: ParsedEpic["stories"] = [];
     for (let si = 0; si < storyStarts.length; si++) {
       const story = storyStarts[si];
       const storyEnd = si + 1 < storyStarts.length ? storyStarts[si + 1].idx : epicLines.length;
       const storyLines = epicLines.slice(story.idx + 1, storyEnd);
 
-      // Extract FR references from Acceptance Criteria — look for "FR\d+" mentions
       const frRefs = new Set<string>();
       for (const l of storyLines) {
-        const matches = l.matchAll(/\b(FR\d+)\b/g);
-        for (const match of matches) frRefs.add(match[1]);
+        for (const m of l.matchAll(/\b(FR\d+)\b/g)) frRefs.add(m[1]);
       }
 
-      // Also check the "FRs covered" line on the epic header
-      const epicFrLine = epicLines.find(l => l.startsWith("**FRs covered:**"));
-      if (epicFrLine && storyStarts.length === 0) {
-        const matches = epicFrLine.matchAll(/\b(FR\d+)\b/g);
-        for (const m of matches) frRefs.add(m[1]);
-      }
+      if (story.title.toLowerCase().includes("resolved")) continue;
 
-      const frs: FR[] = Array.from(frRefs)
+      const frs = Array.from(frRefs)
         .sort((a, b) => parseInt(a.slice(2)) - parseInt(b.slice(2)))
         .filter(ref => frMap[ref])
-        .map(ref => ({
-          id: `bmad-fr-${frCounter++}`,
-          code: ref,
-          area: "—",
-          description: frMap[ref],
-          classification: "build" as Classification,
-        }));
+        .map(ref => ({ code: ref, description: frMap[ref] }));
 
-      // Skip stories with no FRs and skip "RESOLVED" / already-existing stories
-      const titleLower = story.title.toLowerCase();
-      if (titleLower.includes("resolved")) continue;
-
-      stories.push({
-        id: `bmad-story-${epic.num}-${story.num}`,
-        name: story.title,
-        frs,
-      });
+      stories.push({ title: story.title, frs });
     }
 
-    // If epic has no stories but has FRs in the "FRs covered" line, create one story
     if (stories.length === 0) {
       const frsLine = epicLines.find(l => l.startsWith("**FRs covered:**"));
       const refs = frsLine ? Array.from(frsLine.matchAll(/\b(FR\d+)\b/g)).map(m => m[1]) : [];
       if (refs.length > 0) {
-        const frs: FR[] = refs.filter(r => frMap[r]).map(r => ({
-          id: `bmad-fr-${frCounter++}`,
-          code: r,
-          area: "—",
-          description: frMap[r],
-          classification: "build" as Classification,
-        }));
-        stories.push({ id: `bmad-story-${epic.num}-0`, name: "General requirements", frs });
+        const frs = refs.filter(r => frMap[r]).map(r => ({ code: r, description: frMap[r] }));
+        stories.push({ title: "General requirements", frs });
       }
     }
 
-    if (stories.length === 0 && Object.keys(frMap).length === 0) continue;
-
-    // Find which initiative this epic belongs to — for now group all under one initiative
-    // (epics.md typically covers one PRD / initiative)
-    const epicObj: Epic = {
-      id: `bmad-epic-${epic.num}`,
-      name: `Epic ${epic.num}: ${epic.title}`,
-      stories,
-    };
-
-    // All epics go into the single initiative derived from the document title
-    if (initiatives.length === 0) {
-      initiatives.push({ id: "init-imported-1", name: "Imported from BMAD", epics: [] });
+    if (stories.length > 0) {
+      epics.push({ title: `Epic ${epic.num}: ${epic.title}`, stories });
     }
-    initiatives[0].epics.push(epicObj);
   }
 
-  // Fallback: if no epics parsed but FRs exist, create a flat list
-  if (initiatives.length === 0 && Object.keys(frMap).length > 0) {
-    const frs: FR[] = Object.entries(frMap).map(([code, desc]) => ({
-      id: `bmad-fr-${frCounter++}`,
-      code,
-      area: "—",
-      description: desc,
-      classification: "build" as Classification,
-    }));
-    initiatives.push({
-      id: "init-imported-1",
-      name: "Imported from BMAD",
-      epics: [{ id: "bmad-epic-imported-1", name: "Functional Requirements", stories: [{ id: "bmad-story-imported-1", name: "All requirements", frs }] }],
-    });
-  }
-
-  return initiatives;
+  return epics;
 }
-
-// ── Seed / default data ───────────────────────────────────────────────────────
-const DEFAULT_DATA: Initiative[] = [
-  {
-    id: "def-init-1", name: "Riftbound Ticketing Portal",
-    epics: [
-      {
-        id: "def-epic-1", name: "User Authentication & Access",
-        stories: [
-          { id: "def-story-1", name: "As a user, I can log in via SSO", frs: [
-            { id: "def-fr-1", code: "FR-ORG-01", area: "ORG", classification: "native", description: "The system must validate the user's organizational identity via the SSO provider before granting portal access." },
-            { id: "def-fr-2", code: "FR-ACC-01", area: "ACC", classification: "native", description: "Session tokens must be issued by sv-access-db after successful SSO validation and expire after 8 hours of inactivity." },
-          ]},
-          { id: "def-story-2", name: "As an admin, I can manage user roles", frs: [
-            { id: "def-fr-3", code: "FR-ORG-02", area: "ORG", classification: "build",  description: "Role and permission assignments must reference the organizational identity of each user." },
-            { id: "def-fr-4", code: "FR-EVT-01", area: "EVT", classification: "native", description: "Seat inventory changes triggered by admin role actions must be reflected in sv-event-db without race conditions." },
-          ]},
-        ],
-      },
-      {
-        id: "def-epic-2", name: "Ticket Purchase Flow",
-        stories: [
-          { id: "def-story-3", name: "As a user, I can create and complete an order", frs: [
-            { id: "def-fr-5", code: "FR-SAL-01", area: "SAL", classification: "build",  description: "Users must be able to initiate a ticket purchase flow with cart, order placement and confirmation." },
-            { id: "def-fr-6", code: "FR-ENT-01", area: "ENT", classification: "build",  description: "Each confirmed purchase must generate an entitlement record linked to the buyer's profile." },
-            { id: "def-fr-7", code: "FR-PAY-01", area: "PAY", classification: "native", description: "Payment processing must route through the payments domain; no payment data may be stored outside sv-payments-db." },
-            { id: "def-fr-8", code: "FR-PAS-01", area: "PAS", classification: "build",  description: "On successful purchase the system must issue a digital pass (Apple Wallet / Google Wallet) and send it by email." },
-          ]},
-        ],
-      },
-    ],
-  },
-  {
-    id: "def-init-2", name: "GateFlow – Access Control",
-    epics: [
-      {
-        id: "def-epic-3", name: "Gate Entry Validation",
-        stories: [
-          { id: "def-story-5", name: "As a security officer, I can scan entry badges", frs: [
-            { id: "def-fr-9",  code: "FR-VEN-01", area: "VEN", classification: "native", description: "The venue gate configuration must be read from sv-venue-db to validate scan targets." },
-            { id: "def-fr-10", code: "FR-ACC-02", area: "ACC", classification: "build",  description: "QR/badge scans must be validated in real time against access tokens stored in sv-access-db." },
-            { id: "def-fr-11", code: "FR-ENT-02", area: "ENT", classification: "native", description: "The scan result must cross-reference the entitlement status before granting entry." },
-          ]},
-        ],
-      },
-    ],
-  },
-];
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const ROW_H = 36;
@@ -339,92 +231,174 @@ function TypeFilterDropdown({ active, onChange, data }: { active: Set<RowKind>; 
   );
 }
 
+// ── Import modal ──────────────────────────────────────────────────────────────
+interface ImportModalProps {
+  initiatives: ApiInitiative[];
+  onClose: () => void;
+  onImported: () => void;
+}
+
+function ImportModal({ initiatives, onClose, onImported }: ImportModalProps) {
+  const [file, setFile]               = useState<File | null>(null);
+  const [initiativeId, setInitiativeId] = useState<string>(initiatives[0]?.id ?? "");
+  const [mode, setMode]               = useState<"replace" | "merge">("replace");
+  const [saving, setSaving]           = useState(false);
+  const [error, setError]             = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  async function handleSave() {
+    if (!file || !initiativeId) { setError("Select a file and an initiative."); return; }
+    setSaving(true);
+    setError(null);
+    try {
+      const text = await file.text();
+      const epics = parseBmadMarkdown(text);
+      if (epics.length === 0) { setError("No epics or FRs found. Is this a BMAD epics.md file?"); setSaving(false); return; }
+
+      const res = await fetch(`/api/initiatives/${initiativeId}/import`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ epics, mode }),
+      });
+      if (!res.ok) { setError("Import failed. Try again."); setSaving(false); return; }
+      onImported();
+    } catch {
+      setError("Could not parse the file. Make sure it's a valid BMAD epics.md.");
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 100, backgroundColor: "rgba(0,0,0,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ backgroundColor: "#fff", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.18)", width: 460, padding: "24px 28px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+          <h2 style={{ fontSize: 15, fontWeight: 600, color: "#0f0f0f", margin: 0 }}>Import BMAD epics.md</h2>
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "#9b9b9b", fontSize: 20, lineHeight: 1 }}>×</button>
+        </div>
+
+        {/* File picker */}
+        <div style={{ marginBottom: 16 }}>
+          <label style={{ fontSize: 12, fontWeight: 500, color: "#3b3b3b", display: "block", marginBottom: 6 }}>File</label>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <input ref={fileRef} type="file" accept=".md" style={{ display: "none" }} onChange={e => { setFile(e.target.files?.[0] ?? null); e.target.value = ""; }} />
+            <button onClick={() => fileRef.current?.click()}
+              style={{ fontSize: 12, border: "1px solid #e5e5e5", borderRadius: 6, padding: "6px 12px", backgroundColor: "#fafafa", cursor: "pointer", color: "#3b3b3b" }}>
+              Choose file
+            </button>
+            <span style={{ fontSize: 12, color: file ? "#0f0f0f" : "#9b9b9b" }}>{file ? file.name : "No file selected"}</span>
+          </div>
+        </div>
+
+        {/* Initiative selector */}
+        <div style={{ marginBottom: 16 }}>
+          <label style={{ fontSize: 12, fontWeight: 500, color: "#3b3b3b", display: "block", marginBottom: 6 }}>Assign to initiative</label>
+          {initiatives.length === 0 ? (
+            <p style={{ fontSize: 12, color: "#9b9b9b" }}>No initiatives in DB yet. Create one first.</p>
+          ) : (
+            <select value={initiativeId} onChange={e => setInitiativeId(e.target.value)}
+              style={{ width: "100%", fontSize: 12, padding: "6px 10px", border: "1px solid #e5e5e5", borderRadius: 6, backgroundColor: "#fafafa", color: "#0f0f0f" }}>
+              {initiatives.map(i => <option key={i.id} value={i.id}>{i.name}</option>)}
+            </select>
+          )}
+        </div>
+
+        {/* Replace / merge */}
+        <div style={{ marginBottom: 20 }}>
+          <label style={{ fontSize: 12, fontWeight: 500, color: "#3b3b3b", display: "block", marginBottom: 8 }}>Import mode</label>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {(["replace", "merge"] as const).map(m => (
+              <label key={m} style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
+                <input type="radio" name="mode" value={m} checked={mode === m} onChange={() => setMode(m)} style={{ marginTop: 2 }} />
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: "#0f0f0f" }}>{m === "replace" ? "Replace" : "Merge"}</div>
+                  <div style={{ fontSize: 11, color: "#9b9b9b" }}>
+                    {m === "replace" ? "Deletes existing epics/stories/FRs for this initiative, then imports." : "Adds new items without removing existing ones. Skips duplicate FR codes."}
+                  </div>
+                </div>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {error && <p style={{ fontSize: 12, color: "#eb5757", marginBottom: 12 }}>{error}</p>}
+
+        <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+          <button onClick={onClose}
+            style={{ fontSize: 12, border: "1px solid #e5e5e5", borderRadius: 6, padding: "6px 14px", backgroundColor: "#fff", cursor: "pointer", color: "#3b3b3b" }}>
+            Cancel
+          </button>
+          <button onClick={handleSave} disabled={saving || !file || !initiativeId}
+            style={{ fontSize: 12, border: "none", borderRadius: 6, padding: "6px 16px", backgroundColor: saving ? "#9b9b9b" : "#0f0f0f", color: "#fff", cursor: saving ? "not-allowed" : "pointer", fontWeight: 500 }}>
+            {saving ? "Importing…" : "Import & Save"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Tree adapter: API tree → local Initiative[] ───────────────────────────────
+function adaptTree(apiTree: any[]): Initiative[] {
+  return apiTree.map((init: any) => ({
+    id: init.id,
+    name: init.name,
+    app: init.app ?? null,
+    epics: (init.epics ?? []).map((epic: any) => ({
+      id: epic.id,
+      name: epic.name,
+      stories: (epic.stories ?? []).map((story: any) => ({
+        id: story.id,
+        name: story.name,
+        frs: (story.requirements ?? []).map((req: any) => ({
+          id: req.id,
+          code: req.code,
+          area: req.area ?? "—",
+          description: req.description,
+          classification: (req.classification ?? "build") as Classification,
+        })),
+      })),
+    })),
+  }));
+}
+
 // ── Main page ─────────────────────────────────────────────────────────────────
 export default function FunctionalRequirementsPage() {
-  const STORAGE_KEY = "fr-page-imported-v2";
-  // Clean up stale key from previous versions
-  useEffect(() => { try { localStorage.removeItem("fr-page-imported"); } catch {} }, []);
+  const [data, setData]               = useState<Initiative[]>([]);
+  const [allInits, setAllInits]       = useState<ApiInitiative[]>([]);
+  const [loading, setLoading]         = useState(true);
+  const [showModal, setShowModal]     = useState(false);
+  const [activeKinds, setActiveKinds] = useState<Set<RowKind>>(new Set(["initiative", "epic", "story", "fr"]));
+  const [expanded, setExpanded]       = useState<Set<string>>(new Set());
 
   const defaultExpanded = (d: Initiative[]) =>
     new Set<string>(d.flatMap(init => [init.id, ...init.epics.slice(0, 1).map(e => e.id)]));
 
-  // Always start with defaults — localStorage is read client-side only in useEffect
-  const [data, setData]           = useState<Initiative[]>(DEFAULT_DATA);
-  const [savedName, setSavedName] = useState<string | null>(null);
-  const [pending, setPending]     = useState<{ data: Initiative[]; fileName: string } | null>(null);
-  const [activeKinds, setActiveKinds] = useState<Set<RowKind>>(new Set(["initiative", "epic", "story", "fr"]));
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Hydrate from localStorage after mount (client only)
-  useEffect(() => {
+  const fetchTree = useCallback(async () => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const { initiatives, fileName } = JSON.parse(saved);
-        if (Array.isArray(initiatives) && initiatives.length > 0) {
-          setData(initiatives);
-          setSavedName(fileName ?? null);
-          setExpanded(defaultExpanded(initiatives));
-        }
-      }
+      const res = await fetch("/api/initiatives/tree");
+      const tree = await res.json();
+      const adapted = adaptTree(Array.isArray(tree) ? tree : []);
+      setData(adapted);
+      setExpanded(defaultExpanded(adapted));
     } catch {}
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setLoading(false);
   }, []);
 
-  // Display data: pending takes priority over saved
-  const displayData = pending?.data ?? data;
+  const fetchInitiatives = useCallback(async () => {
+    try {
+      const res = await fetch("/api/initiatives");
+      const list = await res.json();
+      setAllInits(Array.isArray(list) ? list : []);
+    } catch {}
+  }, []);
 
-  const [expanded, setExpanded] = useState<Set<string>>(() => defaultExpanded(DEFAULT_DATA));
+  useEffect(() => {
+    fetchTree();
+    fetchInitiatives();
+  }, [fetchTree, fetchInitiatives]);
 
   const toggle = (id: string) =>
     setExpanded(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-
-  // ── Import handler — loads into preview, does NOT persist yet ──────────────
-  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const text = ev.target?.result as string;
-      try {
-        const parsed = parseBmadMarkdown(text);
-        if (parsed.length === 0) {
-          alert("No epics or functional requirements found in this file. Make sure it's a BMAD epics.md file.");
-          return;
-        }
-        setPending({ data: parsed, fileName: file.name });
-        setExpanded(defaultExpanded(parsed));
-      } catch {
-        alert("Could not parse the file. Make sure it's a valid BMAD epics.md.");
-      }
-    };
-    reader.readAsText(file);
-    e.target.value = "";
-  }
-
-  // ── Save — persists pending data to localStorage ───────────────────────────
-  function handleSave() {
-    if (!pending) return;
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ fileName: pending.fileName, initiatives: pending.data })); } catch {}
-    setData(pending.data);
-    setSavedName(pending.fileName);
-    setPending(null);
-  }
-
-  // ── Discard pending import ─────────────────────────────────────────────────
-  function handleDiscard() {
-    setPending(null);
-    setExpanded(defaultExpanded(data));
-  }
-
-  // ── Clear saved data ───────────────────────────────────────────────────────
-  function clearSaved() {
-    try { localStorage.removeItem(STORAGE_KEY); } catch {}
-    setData(DEFAULT_DATA);
-    setSavedName(null);
-    setPending(null);
-    setExpanded(defaultExpanded(DEFAULT_DATA));
-  }
 
   // ── Flatten rows ────────────────────────────────────────────────────────────
   type Row =
@@ -439,7 +413,7 @@ export default function FunctionalRequirementsPage() {
   const showFr    = activeKinds.has("fr");
 
   const rows: Row[] = [];
-  for (const init of displayData) {
+  for (const init of data) {
     if (showInit) rows.push({ kind: "initiative", item: init });
     const initOpen = expanded.has(init.id) || !showInit;
     if (!initOpen) continue;
@@ -461,27 +435,24 @@ export default function FunctionalRequirementsPage() {
   return (
     <div style={{ padding: "28px 32px", display: "flex", flexDirection: "column", height: "100%" }}>
 
+      {showModal && (
+        <ImportModal
+          initiatives={allInits}
+          onClose={() => setShowModal(false)}
+          onImported={() => { setShowModal(false); setLoading(true); fetchTree(); }}
+        />
+      )}
+
       {/* Header */}
-      <div style={{ marginBottom: pending ? 12 : 20, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{ marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div>
           <div style={{ fontSize: 11, fontWeight: 500, color: "#9b9b9b", textTransform: "uppercase", letterSpacing: "0.4px", marginBottom: 4 }}>Product</div>
           <h1 style={{ fontSize: 18, fontWeight: 600, color: "#0f0f0f", letterSpacing: "-0.3px" }}>Functional Requirements</h1>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          {/* Saved file badge */}
-          {savedName && !pending && (
-            <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 10px", borderRadius: 6, backgroundColor: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)" }}>
-              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#059669" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 6l3 3 5-5"/></svg>
-              <span style={{ fontSize: 11, color: "#059669", fontWeight: 500, maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{savedName}</span>
-              <button onClick={clearSaved} style={{ background: "none", border: "none", cursor: "pointer", color: "#059669", padding: 0, fontSize: 14, lineHeight: 1 }}>×</button>
-            </div>
-          )}
-
-          {/* Import button */}
-          <input ref={fileInputRef} type="file" accept=".md" style={{ display: "none" }} onChange={handleFile} />
           <button
-            onClick={() => fileInputRef.current?.click()}
+            onClick={() => setShowModal(true)}
             style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", fontSize: 12, fontWeight: 500, border: "1px solid #e5e5e5", borderRadius: 6, backgroundColor: "#ffffff", color: "#3b3b3b", cursor: "pointer" }}
             onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#f5f5f5")}
             onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#ffffff")}>
@@ -492,28 +463,6 @@ export default function FunctionalRequirementsPage() {
           <a href="/product/initiatives" style={{ fontSize: 12, color: "#6b6b6b", textDecoration: "none" }}>← Initiatives</a>
         </div>
       </div>
-
-      {/* Unsaved changes banner */}
-      {pending && (
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, padding: "10px 14px", borderRadius: 8, backgroundColor: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.25)" }}>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#b45309" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="7" cy="7" r="6"/><path d="M7 4v3.5M7 10h.01"/></svg>
-          <span style={{ fontSize: 12, color: "#92400e", flex: 1 }}>
-            <strong style={{ fontWeight: 600 }}>{pending.fileName}</strong> imported — unsaved changes. Save to persist across page reloads.
-          </span>
-          <button onClick={handleDiscard}
-            style={{ fontSize: 12, color: "#92400e", background: "none", border: "1px solid rgba(180,83,9,0.3)", borderRadius: 6, padding: "4px 10px", cursor: "pointer", fontWeight: 500 }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = "rgba(180,83,9,0.06)")}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = "")}>
-            Discard
-          </button>
-          <button onClick={handleSave}
-            style={{ fontSize: 12, color: "#ffffff", background: "#0f0f0f", border: "none", borderRadius: 6, padding: "4px 12px", cursor: "pointer", fontWeight: 500 }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3b3b3b")}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#0f0f0f")}>
-            Save
-          </button>
-        </div>
-      )}
 
       {/* Legend */}
       <div style={{ display: "flex", gap: 16, marginBottom: 16, flexWrap: "wrap" }}>
@@ -540,7 +489,7 @@ export default function FunctionalRequirementsPage() {
           <thead>
             <tr style={{ backgroundColor: "#fafafa" }}>
               <th style={{ ...COL_HEADER, position: "relative" }}>
-                <TypeFilterDropdown active={activeKinds} onChange={setActiveKinds} data={displayData} />
+                <TypeFilterDropdown active={activeKinds} onChange={setActiveKinds} data={data} />
               </th>
               {["Name / Description", "Code", "Business area", "Microservice", "Database", "Classification"].map(h => (
                 <th key={h} style={COL_HEADER}>{h}</th>
@@ -548,7 +497,21 @@ export default function FunctionalRequirementsPage() {
             </tr>
           </thead>
           <tbody>
-            {rows.length === 0 && (
+            {loading && (
+              <tr>
+                <td colSpan={7} style={{ padding: "32px 12px", textAlign: "center", fontSize: 13, color: "#9b9b9b" }}>
+                  Loading…
+                </td>
+              </tr>
+            )}
+            {!loading && data.length === 0 && (
+              <tr>
+                <td colSpan={7} style={{ padding: "32px 12px", textAlign: "center", fontSize: 13, color: "#9b9b9b" }}>
+                  No data yet. Create an initiative and import an epics.md file.
+                </td>
+              </tr>
+            )}
+            {!loading && rows.length === 0 && data.length > 0 && (
               <tr>
                 <td colSpan={7} style={{ padding: "32px 12px", textAlign: "center", fontSize: 13, color: "#9b9b9b" }}>
                   Select at least one type to show rows.
@@ -565,7 +528,7 @@ export default function FunctionalRequirementsPage() {
               if (row.kind === "fr") {
                 const fr   = row.item as FR;
                 const area = AREAS[fr.area];
-                const cls  = CLASS_STYLE[fr.classification];
+                const cls  = CLASS_STYLE[fr.classification] ?? CLASS_STYLE.build;
                 return (
                   <tr key={fr.id} style={{ borderBottom: "1px solid #f4f4f4" }}
                     onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#fafafa")}
@@ -621,6 +584,9 @@ export default function FunctionalRequirementsPage() {
               const hasChildren = children.length > 0;
               const isOpen      = expanded.has(id);
 
+              // Show app name for initiatives
+              const appName = row.kind === "initiative" ? (row.item as Initiative).app?.name : null;
+
               return (
                 <tr key={id} style={{ borderBottom: "1px solid #f4f4f4" }}
                   onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#fafafa")}
@@ -637,6 +603,9 @@ export default function FunctionalRequirementsPage() {
                       <span style={{ fontSize: meta.fontSize, fontWeight: meta.bold ? 600 : 400, color: "#0f0f0f", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {name}
                       </span>
+                      {appName && (
+                        <span style={{ marginLeft: 8, fontSize: 10, color: "#6b6b6b", backgroundColor: "#f0f0f0", padding: "1px 6px", borderRadius: 4, flexShrink: 0 }}>{appName}</span>
+                      )}
                       <span style={{ marginLeft: 8, fontSize: 11, color: "#9b9b9b", flexShrink: 0 }}>{childLabel}</span>
                     </div>
                   </td>

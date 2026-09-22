@@ -130,5 +130,16 @@ export function runMigrations() {
       task_id TEXT NOT NULL REFERENCES tasks(id)        ON DELETE CASCADE,
       PRIMARY KEY (req_id, task_id)
     );
+
+    -- ── APPLICATION ↔ INITIATIVE (many-to-many) ───────────────────────────
+    CREATE TABLE IF NOT EXISTS app_initiative_links (
+      app_id        TEXT NOT NULL REFERENCES applications(id)  ON DELETE CASCADE,
+      initiative_id TEXT NOT NULL REFERENCES initiatives(id)   ON DELETE CASCADE,
+      PRIMARY KEY (app_id, initiative_id)
+    );
   `);
+
+  // Additive migrations — safe to run on existing DB (errors are expected if columns already exist)
+  try { db.exec(`ALTER TABLE requirements ADD COLUMN story_id TEXT REFERENCES stories(id) ON DELETE SET NULL`); } catch {}
+  try { db.exec(`ALTER TABLE requirements ADD COLUMN epic_id  TEXT REFERENCES epics(id)   ON DELETE SET NULL`); } catch {}
 }
