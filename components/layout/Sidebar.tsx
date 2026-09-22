@@ -242,7 +242,6 @@ export function Sidebar() {
         <div className="pb-1">
           <NavItem href="/applications/riftbound-ticketing-portal" icon={I.proto} label="Riftbound Portal" />
           <NavItem icon={I.proto} label="OneVenue Backoffice" disabled />
-          <NavItem href="/design-systems" icon={I.design} label="Design Systems" />
         </div>
       )}
 

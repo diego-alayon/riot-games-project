@@ -1,4 +1,5 @@
-import { Sidebar } from "@/components/Sidebar";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { BreadcrumbBar } from "@/components/ui/BreadcrumbBar";
 
 export function Shell({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             border: "1px solid #e8e8e8",
           }}
         >
+          <BreadcrumbBar />
           {children}
         </main>
       </div>

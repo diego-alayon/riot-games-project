@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db/client";
 import { epicRepo, storyRepo, requirementRepo } from "@/lib/db/repos";
+import { randomUUID } from "crypto";
 
 interface FRInput   { code: string; description: string; area: string; classification: string; }
 interface StoryInput{ name: string; frs: FRInput[]; }
 interface EpicInput { name: string; stories: StoryInput[]; }
-interface ImportBody{ mode: "replace" | "merge"; epics: EpicInput[]; }
+interface ImportBody{ mode: "replace" | "merge"; epics: EpicInput[]; fileName?: string; fileContent?: string; }
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
-  const initiativeId = params.id;
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id: initiativeId } = await params;
   const body: ImportBody = await req.json();
 
   if (!body.mode || !Array.isArray(body.epics)) {
@@ -57,6 +58,13 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
   try {
     const result = run();
+
+    // Persist import history record with full file content
+    if (body.fileName && body.fileContent) {
+      db.prepare(`INSERT INTO import_history (id, file_name, file_content, initiative_id, mode) VALUES (?,?,?,?,?)`)
+        .run(randomUUID(), body.fileName, body.fileContent, initiativeId, body.mode);
+    }
+
     return NextResponse.json({ ok: true, inserted: result }, { status: 201 });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

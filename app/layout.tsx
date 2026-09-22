@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Shell } from "@/components/Shell";
+import { Shell } from "@/components/layout/Shell";
 import { TraceabilityProvider } from "@/lib/context/traceability-context";
 import "./globals.css";
 

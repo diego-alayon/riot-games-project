@@ -142,4 +142,14 @@ export function runMigrations() {
   // Additive migrations — safe to run on existing DB (errors are expected if columns already exist)
   try { db.exec(`ALTER TABLE requirements ADD COLUMN story_id TEXT REFERENCES stories(id) ON DELETE SET NULL`); } catch {}
   try { db.exec(`ALTER TABLE requirements ADD COLUMN epic_id  TEXT REFERENCES epics(id)   ON DELETE SET NULL`); } catch {}
+  try {
+    db.exec(`CREATE TABLE IF NOT EXISTS import_history (
+      id            TEXT PRIMARY KEY,
+      file_name     TEXT NOT NULL,
+      file_content  TEXT NOT NULL,
+      initiative_id TEXT REFERENCES initiatives(id) ON DELETE SET NULL,
+      mode          TEXT NOT NULL DEFAULT 'replace',
+      imported_at   TEXT NOT NULL DEFAULT (datetime('now'))
+    )`);
+  } catch {}
 }
