@@ -126,10 +126,10 @@ body {
 
 /* ── Functional requirements table (Linear-style list) ─────────────────── */
 .req-row:hover { background-color: #f7f7f8; }
-.req-check { opacity: 0; transition: opacity 0.1s; }
-.req-row:hover .req-check,
-.req-head:hover .req-check,
-.req-check[data-visible="true"] { opacity: 1; }
 .req-editable:hover { background-color: #efeff1 !important; }
 .req-date-empty, .req-date-clear { visibility: hidden; }
-.req-row:hover .req-date-empty, .req-row:hover .req-date-clear { visibility: visible; }
+.req-row:hover .req-date-empty, .req-row:hover .req-date-clear,
+.req-drawer .req-date-empty, .req-drawer .req-date-clear { visibility: visible; }
+.req-title:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #c4c7cc; }
+.req-drawer { animation: req-drawer-in 160ms ease-out; }
+@keyframes req-drawer-in { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }

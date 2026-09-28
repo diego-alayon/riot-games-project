@@ -8,6 +8,7 @@ import { parsePlatforms, type PlatformKey } from "@/lib/requirements/platforms";
 import {
   DueDateCell, IdCell, KindCell, KindIcon, OwnerCell, PlatformCell, PriorityCell, StatusCell, TextCell, TXT, TXT_2, TXT_3,
 } from "@/components/product/RequirementCells";
+import { RequirementDrawer, type DrawerContext, type TraceScreen } from "@/components/product/RequirementDrawer";
 
 type RowKind = "initiative" | "epic" | "story" | "fr";
 
@@ -576,6 +577,9 @@ export default function FunctionalRequirementsPage() {
   const [deleting, setDeleting]   = useState(false);
   // Deep link from other apps (e.g. Riftbound trace markers): ?code=PAS-06
   const [highlight, setHighlight] = useState<string | null>(null);
+  // Requirement shown in the right-hand drawer, and the app screens that implement each code.
+  const [openFrId, setOpenFrId] = useState<string | null>(null);
+  const [traceScreens, setTraceScreens] = useState<Array<TraceScreen & { requirements: string[] }>>([]);
 
   // Pending import state — an epics import previews into the tree, a PRD import
   // only reports what it will change, since it adds no epics or stories.
@@ -590,17 +594,35 @@ export default function FunctionalRequirementsPage() {
       const res = await fetch("/api/initiatives/tree");
       const raw: DBInitiative[] = await res.json();
       setDbData(raw);
-      setExpanded(defaultExpanded(raw));
+      // Only the first load picks the default expansion; refetches keep what the user opened.
+      setExpanded(prev => (prev.size ? prev : defaultExpanded(raw)));
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => { fetchData(); }, [fetchData]);
-
-  // Expand the ancestors of ?code=… and scroll its row into view.
   useEffect(() => {
-    if (loading) return;
+    fetch("/api/traceability").then(r => r.json()).then(d => setTraceScreens(d.screens ?? [])).catch(() => {});
+  }, []);
+
+  // The drawer keeps ?code= in the URL so a requirement can be shared or deep-linked.
+  const openDrawer = useCallback((fr: DBFr) => {
+    setOpenFrId(fr.id);
+    setHighlight(fr.id);
+    window.history.replaceState(null, "", `?code=${encodeURIComponent(fr.code)}`);
+  }, []);
+  const closeDrawer = useCallback(() => {
+    setOpenFrId(null);
+    window.history.replaceState(null, "", window.location.pathname);
+  }, []);
+
+  // Expand the ancestors of ?code=…, open its drawer and scroll its row into view.
+  // Runs once, on the first load — inline edits also update dbData.
+  const deepLinked = useRef(false);
+  useEffect(() => {
+    if (loading || deepLinked.current) return;
+    deepLinked.current = true;
     const code = new URLSearchParams(window.location.search).get("code");
     if (!code) return;
     for (const init of dbData) for (const epic of init.epics ?? []) {
@@ -610,6 +632,7 @@ export default function FunctionalRequirementsPage() {
       if (!fr) continue;
       setExpanded(prev => new Set([...prev, init.id, epic.id, ...(story ? [story.id] : [])]));
       setHighlight(fr.id);
+      setOpenFrId(fr.id);
       setTimeout(() => document.getElementById(`row-${fr.id}`)?.scrollIntoView({ block: "center", behavior: "smooth" }), 120);
       return;
     }
@@ -884,7 +907,6 @@ export default function FunctionalRequirementsPage() {
       {/* Header */}
       <div style={{ marginBottom: pending ? 12 : 20, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div>
-          <div style={{ fontSize: 11, fontWeight: 500, color: "#9b9b9b", textTransform: "uppercase", letterSpacing: "0.4px", marginBottom: 4 }}>Product</div>
           <h1 style={{ fontSize: 18, fontWeight: 600, color: "#0f0f0f", letterSpacing: "-0.3px" }}>Functional Requirements</h1>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -946,16 +968,6 @@ export default function FunctionalRequirementsPage() {
         </div>
       )}
 
-      {/* Legend */}
-      <div style={{ display: "flex", gap: 16, marginBottom: 16, flexWrap: "wrap" }}>
-        {(["initiative", "epic", "story", "fr"] as RowKind[]).map(k => (
-          <div key={k} style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <div style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: KIND_META[k].dot }} />
-            <span style={{ fontSize: 11, color: "#9b9b9b" }}>{KIND_META[k].label}</span>
-          </div>
-        ))}
-      </div>
-
       {/* Table */}
       {loading ? (
         <div style={{ fontSize: 13, color: TXT_3, padding: 24 }}>Loading…</div>
@@ -972,7 +984,7 @@ export default function FunctionalRequirementsPage() {
             <thead>
               <tr className="req-head">
                 <th style={{ ...COL_HEADER, padding: "0 0 0 10px" }}>
-                  <button onClick={toggleSelectAll} className="req-check" data-visible={someSelected}
+                  <button onClick={toggleSelectAll}
                     style={{ width: 15, height: 15, borderRadius: 3, border: `1.5px solid ${allSelected || someSelected ? "#5e6ad2" : "#d0d3d8"}`, backgroundColor: allSelected ? "#5e6ad2" : "#fff", display: "flex", alignItems: "center", justifyContent: "center", cursor: visibleSelectableIds.length > 0 ? "pointer" : "default", padding: 0, outline: "none" }}>
                     {allSelected && <svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5l2.5 2.5L8 1" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                     {!allSelected && someSelected && <div style={{ width: 7, height: 2, backgroundColor: "#5e6ad2", borderRadius: 1 }} />}
@@ -1005,7 +1017,7 @@ export default function FunctionalRequirementsPage() {
                 const bg = isHighlighted ? "rgba(94,106,210,0.10)" : isChecked ? "rgba(94,106,210,0.06)" : isPreview ? "rgba(245,158,11,0.04)" : undefined;
                 const checkCell = (
                   <td style={{ ...CELL, padding: "0 0 0 10px" }} onClick={() => toggleSelectRow(row)}>
-                    {!isPreview && <span className="req-check" data-visible={chk !== "unchecked" || someSelected}><Checkbox state={chk} /></span>}
+                    {!isPreview && <Checkbox state={chk} />}
                   </td>
                 );
 
@@ -1021,7 +1033,10 @@ export default function FunctionalRequirementsPage() {
                       <td style={CELL} title={fr.description}>
                         <div style={{ display: "flex", alignItems: "center", gap: 10, paddingLeft: indent + 22, minWidth: 0, fontSize: 14 }}>
                           <KindIcon kind="fr" />
-                          <span style={{ color: TXT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flexShrink: 0, maxWidth: fr.feature ? "55%" : "100%" }}>{title}</span>
+                          <button onClick={() => !isPreview && openDrawer(fr)} className="req-title"
+                            style={{ background: "none", border: "none", padding: 0, font: "inherit", color: TXT, cursor: isPreview ? "default" : "pointer", textAlign: "left", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flexShrink: 0, maxWidth: fr.feature ? "55%" : "100%" }}>
+                            {title}
+                          </button>
                           {fr.feature && <span style={{ color: TXT_3, fontSize: 13, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", minWidth: 0 }}>{fr.description}</span>}
                         </div>
                       </td>
@@ -1079,6 +1094,21 @@ export default function FunctionalRequirementsPage() {
           </table>
         </div>
       )}
+
+      {/* Requirement drawer */}
+      {(() => {
+        if (!openFrId) return null;
+        for (const init of dbData) for (const epic of init.epics ?? []) {
+          const direct = epic.requirements?.find(r => r.id === openFrId);
+          const story = epic.stories?.find(st => st.requirements?.some(r => r.id === openFrId));
+          const fr = direct ?? story?.requirements?.find(r => r.id === openFrId);
+          if (!fr) continue;
+          const context: DrawerContext = { initiative: init.name, epic: { code: epic.code, name: epic.name }, story: story?.name };
+          const screens = traceScreens.filter(sc => sc.requirements.includes(fr.code));
+          return <RequirementDrawer fr={fr} context={context} screens={screens} onClose={closeDrawer} onPatch={fields => patchFr(fr.id, fields)} />;
+        }
+        return null;
+      })()}
     </div>
   );
 }

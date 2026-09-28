@@ -1,7 +1,7 @@
 {
   "app": "riftbound-ticketing",
   "version": 1,
-  "prd": "Riftbound Ticketing PRD v0.4 (2026-09-28)",
+  "prd": "Riftbound Ticketing PRD v0.5 (2026-09-28)",
   "catalogUrl": "http://localhost:3000/product/initiatives/catalog?code={id}",
   "screens": [
     {
