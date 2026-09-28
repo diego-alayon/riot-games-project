@@ -6,6 +6,8 @@ const config = {
     "^@/(.*)$": "<rootDir>/$1",
   },
   testMatch: ["**/__tests__/**/*.test.ts", "**/__tests__/**/*.test.tsx"],
+  testPathIgnorePatterns: ["/node_modules/", "<rootDir>/riftbound-ticketing/"],
+  modulePathIgnorePatterns: ["<rootDir>/riftbound-ticketing/"],
 };
 
 module.exports = config;

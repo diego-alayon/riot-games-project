@@ -1,69 +1,14 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { DisplayMedium, Eyebrow, Body } from "@/components/ui/Typography";
 import { Card } from "@/components/ui/Surface";
-import { prototypeStore } from "@/lib/store/prototype-store";
-import { pageStore } from "@/lib/store/page-store";
-import { uiFunctionalityStore } from "@/lib/store/ui-functionality-store";
-import { PrototypePageList } from "@/components/prototype/PrototypePageList";
-import type { Page, Prototype } from "@/lib/types/graph";
 
-const PROTOTYPE_NAME = "Riftbound Ticketing Portal";
-const INITIAL_PAGES = ["Login", "Dashboard", "Ticket List", "Ticket Detail", "New Ticket"];
+/**
+ * Riftbound Ticketing is a standalone app (./riftbound-ticketing) with its own
+ * design system. This page only links out to it; nothing of the portal is
+ * rendered or styled here.
+ */
+const RIFTBOUND_URL = process.env.NEXT_PUBLIC_RIFTBOUND_URL ?? "http://localhost:3001";
 
-const LOGIN_FUNCS = [
-  { label: "Login Form", requirementCode: "FR-LAY-01", description: "SSO entry form with branding" },
-  { label: "SSO Button", requirementCode: "FR-AUTH-01", description: "Triggers SSO authentication flow" },
-];
-
-export default function RiftboundPrototypePage() {
-  const [prototype, setPrototype] = useState<Prototype | null>(null);
-  const [pages, setPages] = useState<Page[]>([]);
-
-  useEffect(() => {
-    let proto = prototypeStore.getByName(PROTOTYPE_NAME);
-    if (!proto) {
-      proto = prototypeStore.create(
-        PROTOTYPE_NAME,
-        "Main ticketing portal with frontend pages and behavior.",
-        { isReserved: false }
-      );
-      for (const pageName of INITIAL_PAGES) {
-        const page = pageStore.create(proto.id, pageName);
-        if (pageName === "Login") {
-          for (const func of LOGIN_FUNCS) {
-            try {
-              const existing = uiFunctionalityStore.getUIFunctionalitiesForPage(page.id);
-              if (!existing.some((f) => f.requirementCode === func.requirementCode)) {
-                uiFunctionalityStore.create(page.id, func.label, func.requirementCode, func.description);
-              }
-            } catch {}
-          }
-        }
-      }
-    } else {
-      // Seed login page functionalities if not yet seeded
-      const protoPages = pageStore.getForPrototype(proto.id);
-      const loginPage = protoPages.find((p) => p.name === "Login");
-      if (loginPage) {
-        const existing = uiFunctionalityStore.getUIFunctionalitiesForPage(loginPage.id);
-        for (const func of LOGIN_FUNCS) {
-          if (!existing.some((f) => f.requirementCode === func.requirementCode)) {
-            try {
-              uiFunctionalityStore.create(loginPage.id, func.label, func.requirementCode, func.description);
-            } catch {}
-          }
-        }
-      }
-    }
-
-    setPrototype(proto);
-    setPages(pageStore.getForPrototype(proto.id));
-  }, []);
-
-  if (!prototype) return null;
-
+export default function RiftboundPortalPage() {
   return (
     <div className="px-8 py-8">
       <div className="max-w-6xl mx-auto space-y-10">
@@ -71,41 +16,30 @@ export default function RiftboundPrototypePage() {
           <Eyebrow className="text-fog mb-2">
             Applications / Riftbound Ticketing Portal
           </Eyebrow>
-          <div className="flex items-center gap-3 mb-4">
-            <DisplayMedium className="text-paper">
-              Riftbound Ticketing Portal
-            </DisplayMedium>
-            <span className="text-xs font-medium text-pulse-green bg-graphite border border-smoke px-2 py-1 rounded">
-              Has Frontend
-            </span>
-          </div>
+          <DisplayMedium className="text-paper mb-4">
+            Riftbound Ticketing Portal
+          </DisplayMedium>
           <Body className="text-mist">
-            Main ticketing portal prototype with frontend pages and behavior.
+            Standalone web application with its own design system. It runs separately from this platform.
           </Body>
         </div>
 
-        <PrototypePageList prototypeId={prototype.id} initialPages={pages} />
-
-        <div>
-          <Eyebrow className="text-fog mb-3">Integrations</Eyebrow>
-          <Card level={1}>
-            <div className="flex items-start gap-4">
-              <div className="flex-1">
-                <p className="text-body-sm text-paper mb-1">
-                  GateFlow — Access Control
-                </p>
-                <p className="text-body-sm text-mist">
-                  Integrated access control layer embedded inside Riftbound. GateFlow has no frontend
-                  of its own — it operates as a backend integration handling authentication and
-                  authorization for this portal.
-                </p>
-              </div>
-              <span className="text-xs text-ash bg-obsidian border border-graphite px-2 py-1 rounded whitespace-nowrap">
-                No Frontend
-              </span>
+        <Card level={1}>
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-body-sm text-paper mb-1">Open application</p>
+              <p className="text-body-sm text-mist">{RIFTBOUND_URL}</p>
             </div>
-          </Card>
-        </div>
+            <a
+              href={RIFTBOUND_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-body-sm text-acid-lime border border-smoke px-3 py-2 rounded hover:bg-graphite whitespace-nowrap"
+            >
+              Open Riftbound ↗
+            </a>
+          </div>
+        </Card>
       </div>
     </div>
   );

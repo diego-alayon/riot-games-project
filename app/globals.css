@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Riftbound Ticketing is a separate app with its own design system. */
+@source not "../riftbound-ticketing";
 
 @theme {
   /* Linear Light Theme Colors */

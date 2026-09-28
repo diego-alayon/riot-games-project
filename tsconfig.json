@@ -37,6 +37,7 @@
   ],
   "exclude": [
     "node_modules",
+    "riftbound-ticketing",
     "**/*.test.ts",
     "**/*.test.tsx"
   ]
