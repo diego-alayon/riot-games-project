@@ -194,6 +194,22 @@ export function runMigrations() {
   // drawer shows one block per platform. Bullets written before this default to Riftbound.
   try { db.exec(`ALTER TABLE requirement_items ADD COLUMN platform TEXT NOT NULL DEFAULT 'riftbound'`); } catch {}
 
+  // Roles table in the requirement drawer: which role the requirement supports,
+  // what it lets that role do, and any special precondition.
+  try {
+    db.exec(`CREATE TABLE IF NOT EXISTS requirement_roles (
+      id             TEXT PRIMARY KEY,
+      requirement_id TEXT NOT NULL REFERENCES requirements(id) ON DELETE CASCADE,
+      role           TEXT NOT NULL,
+      capability     TEXT NOT NULL,
+      precondition   TEXT,
+      sort_order     INTEGER NOT NULL DEFAULT 0,
+      created_at     TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at     TEXT NOT NULL DEFAULT (datetime('now'))
+    )`);
+    db.exec(`CREATE INDEX IF NOT EXISTS idx_requirement_roles_req ON requirement_roles (requirement_id, sort_order)`);
+  } catch {}
+
   try {
     db.exec(`CREATE TABLE IF NOT EXISTS import_history (
       id            TEXT PRIMARY KEY,

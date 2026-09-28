@@ -2,6 +2,7 @@ import { db } from "./client";
 import { runMigrations } from "./schema";
 import { randomUUID } from "crypto";
 import type { PlatformKey } from "../requirements/platforms";
+import type { RoleFields } from "../requirements/roles";
 
 // Ensure schema exists on first import (server-side only)
 runMigrations();
@@ -178,6 +179,26 @@ export const requirementItemRepo = {
   update: (id: string, text: string) =>
     db.prepare("UPDATE requirement_items SET text=?, updated_at=datetime('now') WHERE id=?").run(text, id),
   delete: (id: string) => db.prepare("DELETE FROM requirement_items WHERE id=?").run(id),
+};
+
+// ── Requirement roles (roles table in the requirement drawer) ────────────────
+export type RequirementRoleFields = RoleFields;
+
+export const requirementRoleRepo = {
+  list: (requirementId: string) =>
+    db.prepare("SELECT * FROM requirement_roles WHERE requirement_id=? ORDER BY sort_order, created_at").all(requirementId),
+  get: (id: string) => db.prepare("SELECT * FROM requirement_roles WHERE id=?").get(id),
+  create: (requirementId: string, f: RequirementRoleFields) => {
+    const id = uuid();
+    const next = (db.prepare("SELECT COALESCE(MAX(sort_order) + 1, 0) AS n FROM requirement_roles WHERE requirement_id=?").get(requirementId) as { n: number }).n;
+    db.prepare("INSERT INTO requirement_roles (id, requirement_id, role, capability, precondition, sort_order) VALUES (?,?,?,?,?,?)")
+      .run(id, requirementId, f.role, f.capability, f.precondition || null, next);
+    return id;
+  },
+  update: (id: string, f: RequirementRoleFields) =>
+    db.prepare("UPDATE requirement_roles SET role=?, capability=?, precondition=?, updated_at=datetime('now') WHERE id=?")
+      .run(f.role, f.capability, f.precondition || null, id),
+  delete: (id: string) => db.prepare("DELETE FROM requirement_roles WHERE id=?").run(id),
 };
 
 // ── Documents ─────────────────────────────────────────────────────────────────

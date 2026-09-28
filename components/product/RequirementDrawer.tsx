@@ -14,6 +14,7 @@ import {
   DueDateCell, PlatformCell, PlatformIcon, PriorityCell, StatusCell, TXT, TXT_2, TXT_3,
 } from "./RequirementCells";
 import { RequirementBullets } from "./RequirementBullets";
+import { RequirementRoles } from "./RequirementRoles";
 
 export interface DrawerRequirement {
   id: string;
@@ -111,6 +112,11 @@ const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => 
     ),
   },
   {
+    id: "roles",
+    title: "Roles",
+    render: ({ fr }) => <RequirementRoles requirementId={fr.id} />,
+  },
+  {
     id: "properties",
     title: "Propiedades",
     render: ({ fr, onPatch }) => (
@@ -187,7 +193,7 @@ export function RequirementDrawer({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       // Escape inside a field (e.g. editing a bullet) belongs to that field.
-      if (e.key !== "Escape" || (e.target as HTMLElement | null)?.closest("textarea, input")) return;
+      if (e.key !== "Escape" || (e.target as HTMLElement | null)?.closest("textarea, input, select")) return;
       onClose();
     };
     window.addEventListener("keydown", onKey);
@@ -212,7 +218,7 @@ export function RequirementDrawer({
       aria-label={`${fr.code} ${fr.feature ?? ""}`}
       className="req-drawer"
       style={{
-        position: "fixed", top: 0, right: 0, bottom: 0, width: 520, maxWidth: "100vw", zIndex: 60,
+        position: "fixed", top: 0, right: 0, bottom: 0, width: 560, maxWidth: "100vw", zIndex: 60,
         background: "#fff", borderLeft: "1px solid #ececee", boxShadow: "-12px 0 32px rgba(0,0,0,0.06)",
         display: "flex", flexDirection: "column",
       }}
