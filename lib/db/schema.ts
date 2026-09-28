@@ -144,7 +144,8 @@ export function runMigrations() {
   try { db.exec(`ALTER TABLE requirements ADD COLUMN epic_id  TEXT REFERENCES epics(id)   ON DELETE SET NULL`); } catch {}
   // PRD table columns (ID · Página · Funcionalidad · Descripción · Prioridad · Estado ·
   // Fuente · Ref. WO · Owner · Comentarios). `code`, `description` and `source` already exist.
-  for (const col of ["page", "feature", "priority", "status", "wo_ref", "owner", "comments"]) {
+  // `platforms` (JSON array of platform keys) and `due_date` (ISO date) are edited in the catalog.
+  for (const col of ["page", "feature", "priority", "status", "wo_ref", "owner", "comments", "platforms", "due_date"]) {
     try { db.exec(`ALTER TABLE requirements ADD COLUMN ${col} TEXT`); } catch {}
   }
   // PRD epics carry their own code (EP-ACC, EP-FND…).

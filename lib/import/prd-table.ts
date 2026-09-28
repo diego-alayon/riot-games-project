@@ -5,10 +5,13 @@
  *
  * Idempotent: epics are matched by code, requirements by (initiative, code), so
  * importing a newer PRD version updates rows in place instead of duplicating.
+ * Catalog-only fields (platforms, due_date) are never overwritten; platforms is
+ * only pre-filled from the page column when still empty.
  */
 
 import { randomUUID } from "crypto";
 import { db } from "../db/client";
+import { derivePlatforms, serializePlatforms } from "../requirements/platforms";
 
 export interface PrdTableRequirement {
   code: string;
@@ -64,16 +67,21 @@ export function importPrdTable(initiativeId: string, doc: PrdTableDocument, file
           status: r.status, source: r.source, wo_ref: r.woRef, owner: r.owner, comments: r.comments,
         };
         const existing = db.prepare("SELECT id FROM requirements WHERE initiative_id=? AND code=?").get(initiativeId, r.code) as { id: string } | undefined;
+        let id: string;
         if (existing) {
+          id = existing.id;
           const keys = Object.keys(fields);
-          db.prepare(`UPDATE requirements SET ${keys.map(k => `${k}=?`).join(",")} WHERE id=?`).run(...Object.values(fields), existing.id);
+          db.prepare(`UPDATE requirements SET ${keys.map(k => `${k}=?`).join(",")} WHERE id=?`).run(...Object.values(fields), id);
           updated++;
         } else {
+          id = randomUUID();
           const cols = ["id", "initiative_id", "code", ...Object.keys(fields)];
           db.prepare(`INSERT INTO requirements (${cols.join(",")}) VALUES (${cols.map(() => "?").join(",")})`)
-            .run(randomUUID(), initiativeId, r.code, ...Object.values(fields));
+            .run(id, initiativeId, r.code, ...Object.values(fields));
           created++;
         }
+        db.prepare("UPDATE requirements SET platforms=? WHERE id=? AND platforms IS NULL")
+          .run(serializePlatforms(derivePlatforms(r.page)), id);
       }
     });
 

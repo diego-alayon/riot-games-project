@@ -4,6 +4,10 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { FR_CODE_RE, FR_DEF_RE, compareFrCodes } from "@/lib/import/fr-codes";
 import type { ParsedPrd } from "@/lib/import/prd-parser";
 import type { ArtifactKind, InitiativeFolder } from "@/lib/import/source-repo";
+import { parsePlatforms, type PlatformKey } from "@/lib/requirements/platforms";
+import {
+  DueDateCell, IdCell, KindCell, KindIcon, OwnerCell, PlatformCell, PriorityCell, StatusCell, TextCell, TXT, TXT_2, TXT_3,
+} from "@/components/product/RequirementCells";
 
 type RowKind = "initiative" | "epic" | "story" | "fr";
 
@@ -26,25 +30,12 @@ interface DBFr {
   // PRD table columns
   page?: string | null; feature?: string | null; priority?: string | null; status?: string | null;
   source?: string | null; wo_ref?: string | null; owner?: string | null; comments?: string | null;
+  platforms?: string | null; due_date?: string | null;
 }
 interface DBStory     { id: string; name: string; epic_id: string; requirements?: DBFr[]; }
 /** `requirements` are FRs attached to the epic itself (PRD tables have no stories). */
 interface DBEpic      { id: string; name: string; code?: string | null; initiative_id: string; stories?: DBStory[]; requirements?: DBFr[]; }
 interface DBInitiative{ id: string; name: string; app?: { id: string; name: string } | null; epics?: DBEpic[]; }
-
-// PRD table value styles
-const PRIORITY_STYLE: Record<string, { bg: string; color: string; border: string }> = {
-  "Crítica":    { bg: "rgba(235,87,87,0.07)",   color: "#c93a3a", border: "rgba(235,87,87,0.25)" },
-  "No crítica": { bg: "rgba(155,155,155,0.08)", color: "#6b6b6b", border: "rgba(155,155,155,0.25)" },
-};
-const STATUS_STYLE: Record<string, { bg: string; color: string; border: string }> = {
-  "Confirmado":           { bg: "rgba(16,185,129,0.08)",  color: "#059669", border: "rgba(16,185,129,0.25)" },
-  "Pendiente de definir": { bg: "rgba(245,158,11,0.08)",  color: "#b45309", border: "rgba(245,158,11,0.25)" },
-  "Descartado v1":        { bg: "rgba(155,155,155,0.08)", color: "#9b9b9b", border: "rgba(155,155,155,0.25)" },
-};
-const PILL: React.CSSProperties = { fontSize: 11, fontWeight: 500, padding: "2px 7px", borderRadius: 4, whiteSpace: "nowrap" };
-const CELL_TEXT: React.CSSProperties = { fontSize: 11, color: "#6b6b6b", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", display: "block" };
-const Dash = () => <span style={{ fontSize: 11, color: "#c0c0c0" }}>—</span>;
 
 // BMAD parser types
 interface ParsedFr    { code: string; description: string; area: string; classification: "build" | "native" | "out"; }
@@ -122,12 +113,26 @@ function parseBmadMarkdown(md: string): ParsedEpic[] {
   return epics;
 }
 
-const ROW_H = 36;
+const ROW_H = 40;
 const COL_HEADER: React.CSSProperties = {
-  fontSize: 11, fontWeight: 500, color: "#9b9b9b",
-  textAlign: "left", padding: "0 12px", height: 36,
-  borderBottom: "1px solid #ebebeb", whiteSpace: "nowrap", userSelect: "none",
+  fontSize: 13, fontWeight: 400, color: TXT_2,
+  textAlign: "left", padding: "0 12px", height: 44,
+  whiteSpace: "nowrap", userSelect: "none",
 };
+const CELL: React.CSSProperties = { padding: "0 12px", height: ROW_H };
+
+/** Table columns after checkbox · Type · ID · Funcionalidad. Order follows the Linear list. */
+const DETAIL_COLS: Array<{ label: string; width: number }> = [
+  { label: "Estado", width: 190 },
+  { label: "Plataforma", width: 380 },
+  { label: "Prioridad", width: 120 },
+  { label: "Owner", width: 140 },
+  { label: "Fecha de entrega", width: 150 },
+  { label: "Página", width: 130 },
+  { label: "Fuente", width: 170 },
+  { label: "Ref. WO", width: 170 },
+  { label: "Comentarios", width: 320 },
+];
 
 function Checkbox({ state }: { state: "checked" | "indeterminate" | "unchecked" }) {
   const checked = state === "checked";
@@ -143,7 +148,7 @@ function Checkbox({ state }: { state: "checked" | "indeterminate" | "unchecked" 
 function ToggleBtn({ id, hasChildren, isOpen, onToggle }: { id: string; hasChildren: boolean; isOpen: boolean; onToggle: (id: string) => void }) {
   return (
     <button onClick={() => hasChildren && onToggle(id)}
-      style={{ width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginRight: 6, color: "#b0b0b0", background: "none", border: "none", cursor: hasChildren ? "pointer" : "default", opacity: hasChildren ? 1 : 0 }}>
+      style={{ width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#a0a4ab", padding: 0, background: "none", border: "none", cursor: hasChildren ? "pointer" : "default", opacity: hasChildren ? 1 : 0 }}>
       <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
         {isOpen ? <path d="M2 3.5l3 3 3-3" /> : <path d="M3.5 2l3 3-3 3" />}
       </svg>
@@ -169,7 +174,7 @@ function TypeFilterDropdown({ active, onChange, counts }: { active: Set<RowKind>
   return (
     <div ref={ref} style={{ position: "relative", display: "inline-block" }}>
       <button onClick={() => setOpen(o => !o)}
-        style={{ display: "flex", alignItems: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 11, fontWeight: 500, color: open ? "#0f0f0f" : "#9b9b9b" }}>
+        style={{ display: "flex", alignItems: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 13, fontWeight: 400, color: open ? TXT : TXT_2 }}>
         Type
         <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M2 3.5l3 3 3-3" /></svg>
         {!allSelected && <span style={{ background: "#6366f1", color: "#fff", fontSize: 10, fontWeight: 600, lineHeight: "15px", padding: "0 4px", borderRadius: 9999 }}>{active.size}</span>}
@@ -613,6 +618,24 @@ export default function FunctionalRequirementsPage() {
   const toggle = (id: string) =>
     setExpanded(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
 
+  // Inline edits (Plataforma, Fecha de entrega): optimistic update, then persist.
+  async function patchFr(id: string, fields: { platforms?: PlatformKey[]; due_date?: string | null }) {
+    const local: Partial<DBFr> = {};
+    if (fields.platforms) local.platforms = JSON.stringify(fields.platforms);
+    if ("due_date" in fields) local.due_date = fields.due_date ?? null;
+    const apply = (fr: DBFr) => (fr.id === id ? { ...fr, ...local } : fr);
+    setDbData(prev => prev.map(init => ({
+      ...init,
+      epics: init.epics?.map(ep => ({
+        ...ep,
+        requirements: ep.requirements?.map(apply),
+        stories: ep.stories?.map(st => ({ ...st, requirements: st.requirements?.map(apply) })),
+      })),
+    })));
+    const res = await fetch(`/api/requirements/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(fields) });
+    if (!res.ok) { alert("Could not save the change."); await fetchData(); }
+  }
+
   // ── Save pending import to DB ──────────────────────────────────────────────
   async function handleSave() {
     if (!pending) return;
@@ -935,95 +958,86 @@ export default function FunctionalRequirementsPage() {
 
       {/* Table */}
       {loading ? (
-        <div style={{ fontSize: 13, color: "#9b9b9b", padding: 24 }}>Loading…</div>
+        <div style={{ fontSize: 13, color: TXT_3, padding: 24 }}>Loading…</div>
       ) : (
-        <div style={{ border: "1px solid #ebebeb", borderRadius: 8, overflowX: "auto" }}>
-          <table style={{ width: "100%", minWidth: 1640, borderCollapse: "collapse", tableLayout: "fixed" }}>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", minWidth: 2400, borderCollapse: "collapse", tableLayout: "fixed" }}>
             <colgroup>
-              <col style={{ width: 40 }} />
-              <col style={{ width: 88 }} />
-              <col style={{ width: 84 }} />
-              <col />
+              <col style={{ width: 36 }} />
               <col style={{ width: 110 }} />
               <col style={{ width: 90 }} />
-              <col style={{ width: 140 }} />
-              <col style={{ width: 150 }} />
-              <col style={{ width: 150 }} />
-              <col style={{ width: 96 }} />
-              <col style={{ width: 280 }} />
+              <col style={{ width: 460 }} />
+              {DETAIL_COLS.map(c => <col key={c.label} style={{ width: c.width }} />)}
             </colgroup>
             <thead>
-              <tr style={{ backgroundColor: "#fafafa" }}>
-                <th style={{ ...COL_HEADER, padding: "0 0 0 14px" }}>
-                  <button onClick={toggleSelectAll}
-                    style={{ width: 15, height: 15, borderRadius: 3, border: `1.5px solid ${allSelected ? "#6366f1" : someSelected ? "#6366f1" : "#d0d0d0"}`, backgroundColor: allSelected ? "#6366f1" : "#fff", display: "flex", alignItems: "center", justifyContent: "center", cursor: visibleSelectableIds.length > 0 ? "pointer" : "default", flexShrink: 0, opacity: visibleSelectableIds.length > 0 ? 1 : 0.3, outline: "none" }}>
+              <tr className="req-head">
+                <th style={{ ...COL_HEADER, padding: "0 0 0 10px" }}>
+                  <button onClick={toggleSelectAll} className="req-check" data-visible={someSelected}
+                    style={{ width: 15, height: 15, borderRadius: 3, border: `1.5px solid ${allSelected || someSelected ? "#5e6ad2" : "#d0d3d8"}`, backgroundColor: allSelected ? "#5e6ad2" : "#fff", display: "flex", alignItems: "center", justifyContent: "center", cursor: visibleSelectableIds.length > 0 ? "pointer" : "default", padding: 0, outline: "none" }}>
                     {allSelected && <svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5l2.5 2.5L8 1" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                    {!allSelected && someSelected && <div style={{ width: 7, height: 2, backgroundColor: "#6366f1", borderRadius: 1 }} />}
+                    {!allSelected && someSelected && <div style={{ width: 7, height: 2, backgroundColor: "#5e6ad2", borderRadius: 1 }} />}
                   </button>
                 </th>
                 <th style={{ ...COL_HEADER, position: "relative" }}>
                   <TypeFilterDropdown active={activeKinds} onChange={setActiveKinds} counts={counts} />
                 </th>
-                {["ID", "Funcionalidad / Descripción", "Página", "Prioridad", "Estado", "Fuente", "Ref. WO", "Owner", "Comentarios"].map(h => (
-                  <th key={h} style={COL_HEADER}>{h}</th>
-                ))}
+                <th style={COL_HEADER}>ID</th>
+                <th style={COL_HEADER}>Funcionalidad</th>
+                {DETAIL_COLS.map(c => <th key={c.label} style={COL_HEADER}>{c.label}</th>)}
               </tr>
             </thead>
             <tbody>
               {rows.length === 0 && (
-                <tr><td colSpan={11} style={{ padding: "32px 12px", textAlign: "center", fontSize: 13, color: "#9b9b9b" }}>
+                <tr><td colSpan={4 + DETAIL_COLS.length} style={{ padding: "32px 12px", textAlign: "center", fontSize: 13, color: TXT_3 }}>
                   No data. Import a BMAD epics.md to get started.
                 </td></tr>
               )}
               {rows.map(row => {
                 const isPreview = row.item.id.startsWith("preview-");
                 const meta  = KIND_META[row.kind];
-                const badge = KIND_BADGE[row.kind];
                 const levelIndex = ["initiative", "epic", "story", "fr"].indexOf(row.kind);
                 let indent = 0;
-                for (let i = 0; i < levelIndex; i++) if (visibleParents[i]) indent += 16;
+                for (let i = 0; i < levelIndex; i++) if (visibleParents[i]) indent += 20;
 
-                const rowStyle: React.CSSProperties = {
-                  borderBottom: "1px solid #f4f4f4",
-                  backgroundColor: isPreview ? "rgba(245,158,11,0.03)" : undefined,
-                };
+                const chk = rowCheckState(row);
+                const isChecked = chk === "checked";
+                const isHighlighted = row.kind === "fr" && highlight === row.item.id;
+                const bg = isHighlighted ? "rgba(94,106,210,0.10)" : isChecked ? "rgba(94,106,210,0.06)" : isPreview ? "rgba(245,158,11,0.04)" : undefined;
+                const checkCell = (
+                  <td style={{ ...CELL, padding: "0 0 0 10px" }} onClick={() => toggleSelectRow(row)}>
+                    {!isPreview && <span className="req-check" data-visible={chk !== "unchecked" || someSelected}><Checkbox state={chk} /></span>}
+                  </td>
+                );
 
                 if (row.kind === "fr") {
-                  const fr   = row.item as DBFr;
-                  const chk  = rowCheckState(row);
-                  const isChecked = chk === "checked";
-                  const isHighlighted = highlight === fr.id;
-                  const rowBg = isHighlighted ? "rgba(99,102,241,0.10)" : isChecked ? "rgba(99,102,241,0.04)" : isPreview ? "rgba(245,158,11,0.03)" : undefined;
+                  const fr = row.item as DBFr;
+                  const title = fr.feature ?? fr.description;
                   return (
-                    <tr key={fr.id} id={`row-${fr.id}`} style={{ ...rowStyle, backgroundColor: rowBg, boxShadow: isHighlighted ? "inset 3px 0 0 #6366f1" : undefined }}
-                      onMouseEnter={e => (e.currentTarget.style.backgroundColor = isChecked ? "rgba(99,102,241,0.07)" : "#fafafa")}
-                      onMouseLeave={e => (e.currentTarget.style.backgroundColor = rowBg ?? "")}>
-                      <td style={{ padding: "0 0 0 14px", height: ROW_H }} onClick={() => toggleSelectRow(row)}>
-                        {!isPreview && <Checkbox state={chk} />}
-                      </td>
-                      <td style={{ padding: "0 12px", height: ROW_H }}>
-                        <span style={{ fontSize: 10, fontWeight: 500, padding: "2px 6px", borderRadius: 4, backgroundColor: badge.bg, color: badge.color, border: `1px solid ${badge.border}` }}>FR</span>
-                      </td>
-                      <td style={{ padding: "0 12px" }}>
-                        <span style={{ fontFamily: "monospace", fontSize: 11, fontWeight: 600, color: "#4338ca", backgroundColor: "rgba(99,102,241,0.08)", padding: "2px 6px", borderRadius: 4, whiteSpace: "nowrap" }}>{fr.code}</span>
-                      </td>
-                      <td style={{ padding: "4px 12px" }}>
-                        <div style={{ paddingLeft: indent + 22, minWidth: 0 }} title={fr.description}>
-                          {fr.feature && <span style={{ fontSize: 12, fontWeight: 500, color: "#0f0f0f", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", display: "block" }}>{fr.feature}</span>}
-                          <span style={CELL_TEXT}>{fr.description}</span>
+                    <tr key={fr.id} id={`row-${fr.id}`} className="req-row"
+                      style={{ backgroundColor: bg, boxShadow: isHighlighted ? "inset 2px 0 0 #5e6ad2" : undefined }}>
+                      {checkCell}
+                      <td style={CELL}><KindCell kind="fr" /></td>
+                      <td style={CELL}><IdCell code={fr.code} /></td>
+                      <td style={CELL} title={fr.description}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, paddingLeft: indent + 22, minWidth: 0, fontSize: 14 }}>
+                          <KindIcon kind="fr" />
+                          <span style={{ color: TXT, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flexShrink: 0, maxWidth: fr.feature ? "55%" : "100%" }}>{title}</span>
+                          {fr.feature && <span style={{ color: TXT_3, fontSize: 13, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", minWidth: 0 }}>{fr.description}</span>}
                         </div>
                       </td>
-                      <td style={{ padding: "0 12px" }}>{fr.page ? <span style={CELL_TEXT} title={fr.page}>{fr.page}</span> : <Dash />}</td>
-                      <td style={{ padding: "0 12px" }}>
-                        {fr.priority ? <span style={{ ...PILL, ...toPill(PRIORITY_STYLE[fr.priority]) }}>{fr.priority}</span> : <Dash />}
+                      <td style={CELL}><StatusCell status={fr.status} /></td>
+                      <td style={CELL}>
+                        {isPreview ? null : <PlatformCell value={parsePlatforms(fr.platforms)} onChange={v => patchFr(fr.id, { platforms: v })} />}
                       </td>
-                      <td style={{ padding: "0 12px" }}>
-                        {fr.status ? <span style={{ ...PILL, ...toPill(STATUS_STYLE[fr.status]) }}>{fr.status}</span> : <Dash />}
+                      <td style={CELL}><PriorityCell priority={fr.priority} /></td>
+                      <td style={CELL}><OwnerCell owner={fr.owner} /></td>
+                      <td style={CELL}>
+                        {isPreview ? null : <DueDateCell value={fr.due_date} onChange={v => patchFr(fr.id, { due_date: v })} />}
                       </td>
-                      <td style={{ padding: "0 12px" }}>{fr.source ? <span style={CELL_TEXT} title={fr.source}>{fr.source}</span> : <Dash />}</td>
-                      <td style={{ padding: "0 12px" }}>{fr.wo_ref && fr.wo_ref !== "—" ? <span style={CELL_TEXT} title={fr.wo_ref}>{fr.wo_ref}</span> : <Dash />}</td>
-                      <td style={{ padding: "0 12px" }}>{fr.owner ? <span style={CELL_TEXT}>{fr.owner}</span> : <Dash />}</td>
-                      <td style={{ padding: "0 12px" }}>{fr.comments && fr.comments !== "—" ? <span style={CELL_TEXT} title={fr.comments}>{fr.comments}</span> : <Dash />}</td>
+                      <td style={CELL}><TextCell value={fr.page} /></td>
+                      <td style={CELL}><TextCell value={fr.source} /></td>
+                      <td style={CELL}><TextCell value={fr.wo_ref} /></td>
+                      <td style={CELL}><TextCell value={fr.comments} /></td>
                     </tr>
                   );
                 }
@@ -1039,35 +1053,25 @@ export default function FunctionalRequirementsPage() {
                   row.kind === "initiative" ? `${children.length} epic${children.length !== 1 ? "s" : ""}`
                   : row.kind === "epic"     ? epicChildLabel(row.item as DBEpic)
                   : `${children.length} FR${children.length !== 1 ? "s" : ""}`;
-
                 const appName = row.kind === "initiative" ? ((row.item as DBInitiative).app?.name ?? null) : null;
 
-                const chk = rowCheckState(row);
-                const isChecked = chk === "checked";
-                const rowBg2 = isChecked ? "rgba(99,102,241,0.04)" : isPreview ? "rgba(245,158,11,0.03)" : undefined;
                 return (
-                  <tr key={id} style={{ ...rowStyle, backgroundColor: rowBg2 }}
-                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = isChecked ? "rgba(99,102,241,0.07)" : "#fafafa")}
-                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = rowBg2 ?? "")}>
-                    <td style={{ padding: "0 0 0 14px", height: ROW_H }} onClick={() => toggleSelectRow(row)}>
-                      {!isPreview && <Checkbox state={chk} />}
-                    </td>
-                    <td style={{ padding: "0 12px", height: ROW_H }}>
-                      <span style={{ fontSize: 10, fontWeight: 500, padding: "2px 6px", borderRadius: 4, backgroundColor: badge.bg, color: badge.color, border: `1px solid ${badge.border}`, textTransform: "capitalize" }}>{row.kind}</span>
-                    </td>
-                    <td style={{ padding: "0 12px", height: ROW_H }} colSpan={9}>
-                      <div style={{ display: "flex", alignItems: "center", paddingLeft: indent }}>
+                  <tr key={id} className="req-row" style={{ backgroundColor: bg }}>
+                    {checkCell}
+                    <td style={CELL}><KindCell kind={row.kind} /></td>
+                    {/* ID column: only epics carry a code; initiatives and stories leave it empty. */}
+                    <td style={CELL}><IdCell code={row.kind === "epic" ? (row.item as DBEpic).code : null} /></td>
+                    <td style={CELL}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, paddingLeft: indent, minWidth: 0, fontSize: 14 }}>
                         <ToggleBtn id={id} hasChildren={children.length > 0} isOpen={expanded.has(id)} onToggle={toggle} />
-                        <div style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: meta.dot, flexShrink: 0, marginRight: 8 }} />
-                        {row.kind === "epic" && (row.item as DBEpic).code && (
-                          <span style={{ fontFamily: "monospace", fontSize: 11, fontWeight: 600, color: "#b45309", marginRight: 8, flexShrink: 0 }}>{(row.item as DBEpic).code}</span>
-                        )}
-                        <span style={{ fontSize: meta.fontSize, fontWeight: meta.bold ? 600 : 400, color: "#0f0f0f", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{name}</span>
-                        <span style={{ marginLeft: 8, fontSize: 11, color: "#9b9b9b", flexShrink: 0 }}>{childLabel}</span>
-                        {appName && <span style={{ marginLeft: 8, fontSize: 11, color: "#6b6b6b", backgroundColor: "#f5f5f5", padding: "1px 6px", borderRadius: 4, flexShrink: 0 }}>{appName}</span>}
-                        {isPreview && <span style={{ marginLeft: 8, fontSize: 10, fontWeight: 600, color: "#b45309", backgroundColor: "rgba(245,158,11,0.1)", padding: "1px 5px", borderRadius: 4, flexShrink: 0 }}>preview</span>}
+                        <KindIcon kind={row.kind} />
+                        <span style={{ fontWeight: meta.bold ? 500 : 400, color: TXT, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{name}</span>
+                        <span style={{ fontSize: 13, color: TXT_3, flexShrink: 0 }}>{childLabel}</span>
+                        {appName && <span style={{ fontSize: 12, color: TXT_2, backgroundColor: "#f4f4f5", padding: "1px 6px", borderRadius: 4, flexShrink: 0 }}>{appName}</span>}
+                        {isPreview && <span style={{ fontSize: 11, fontWeight: 500, color: "#b45309", backgroundColor: "rgba(245,158,11,0.1)", padding: "1px 5px", borderRadius: 4, flexShrink: 0 }}>preview</span>}
                       </div>
                     </td>
+                    <td colSpan={DETAIL_COLS.length} />
                   </tr>
                 );
               })}
