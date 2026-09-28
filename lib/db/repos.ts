@@ -151,6 +151,33 @@ export const requirementRepo = {
   delete: (id: string) => db.prepare("DELETE FROM requirements WHERE id=?").run(id),
 };
 
+// ── Requirement items (bullets in the requirement drawer) ────────────────────
+export const REQUIREMENT_ITEM_KINDS = ["functional"] as const;
+export type RequirementItemKind = (typeof REQUIREMENT_ITEM_KINDS)[number];
+
+export const requirementItemRepo = {
+  list: (requirementId: string, kind: RequirementItemKind) =>
+    db.prepare("SELECT * FROM requirement_items WHERE requirement_id=? AND kind=? ORDER BY sort_order, created_at").all(requirementId, kind),
+  get: (id: string) => db.prepare("SELECT * FROM requirement_items WHERE id=?").get(id),
+  /** Inserts at `index` (0-based) or at the end, shifting the items after it. */
+  create: (requirementId: string, kind: RequirementItemKind, text: string, index?: number) => {
+    const id = uuid();
+    db.transaction(() => {
+      const count = (db.prepare("SELECT COUNT(*) AS n FROM requirement_items WHERE requirement_id=? AND kind=?").get(requirementId, kind) as { n: number }).n;
+      const at = index === undefined ? count : Math.max(0, Math.min(index, count));
+      const ids = (requirementItemRepo.list(requirementId, kind) as Array<{ id: string }>).map(r => r.id);
+      ids.splice(at, 0, id);
+      db.prepare("INSERT INTO requirement_items (id, requirement_id, kind, text, sort_order) VALUES (?,?,?,?,?)").run(id, requirementId, kind, text, at);
+      const setOrder = db.prepare("UPDATE requirement_items SET sort_order=? WHERE id=?");
+      ids.forEach((itemId, i) => setOrder.run(i, itemId));
+    })();
+    return id;
+  },
+  update: (id: string, text: string) =>
+    db.prepare("UPDATE requirement_items SET text=?, updated_at=datetime('now') WHERE id=?").run(text, id),
+  delete: (id: string) => db.prepare("DELETE FROM requirement_items WHERE id=?").run(id),
+};
+
 // ── Documents ─────────────────────────────────────────────────────────────────
 export const documentRepo = {
   forSection: (section: string) =>

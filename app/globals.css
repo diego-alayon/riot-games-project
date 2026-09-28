@@ -133,3 +133,6 @@ body {
 .req-title:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #c4c7cc; }
 .req-drawer { animation: req-drawer-in 160ms ease-out; }
 @keyframes req-drawer-in { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.req-bullet:hover { background-color: #f7f7f8; }
+.req-bullet-delete { visibility: hidden; }
+.req-bullet:hover .req-bullet-delete { visibility: visible; }

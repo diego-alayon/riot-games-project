@@ -11,8 +11,9 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { parsePlatforms, type PlatformKey } from "@/lib/requirements/platforms";
 import {
-  DueDateCell, OwnerCell, PlatformCell, PriorityCell, StatusCell, TXT, TXT_2, TXT_3,
+  DueDateCell, PlatformCell, PriorityCell, StatusCell, TXT, TXT_2, TXT_3,
 } from "./RequirementCells";
+import { RequirementBullets } from "./RequirementBullets";
 
 export interface DrawerRequirement {
   id: string;
@@ -87,6 +88,18 @@ function Plain({ value }: { value?: string | null }) {
 
 const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => ReactNode }> = [
   {
+    id: "functional",
+    title: "Requerimientos funcionales",
+    render: ({ fr }) => (
+      <RequirementBullets
+        requirementId={fr.id}
+        kind="functional"
+        addLabel="Añadir requerimiento funcional"
+        emptyLabel="Todavía no hay requerimientos funcionales. Descríbelos en bullet points."
+      />
+    ),
+  },
+  {
     id: "properties",
     title: "Propiedades",
     render: ({ fr, onPatch }) => (
@@ -99,10 +112,7 @@ const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => 
         <Property label="Fecha de entrega">
           <DueDateCell value={fr.due_date} onChange={v => onPatch({ due_date: v })} />
         </Property>
-        <Property label="Owner"><OwnerCell owner={fr.owner} /></Property>
         <Property label="Página"><Plain value={fr.page} /></Property>
-        <Property label="Fuente"><Plain value={fr.source} /></Property>
-        <Property label="Ref. WO"><Plain value={fr.wo_ref} /></Property>
       </div>
     ),
   },
@@ -164,7 +174,11 @@ export function RequirementDrawer({
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const onKey = (e: KeyboardEvent) => {
+      // Escape inside a field (e.g. editing a bullet) belongs to that field.
+      if (e.key !== "Escape" || (e.target as HTMLElement | null)?.closest("textarea, input")) return;
+      onClose();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);

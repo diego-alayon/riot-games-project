@@ -176,6 +176,21 @@ export function runMigrations() {
     )`);
   } catch {}
 
+  // Ordered detail lines of a requirement, shown as bullets in its drawer.
+  // `kind` keeps room for other lists (e.g. acceptance criteria) in the same table.
+  try {
+    db.exec(`CREATE TABLE IF NOT EXISTS requirement_items (
+      id             TEXT PRIMARY KEY,
+      requirement_id TEXT NOT NULL REFERENCES requirements(id) ON DELETE CASCADE,
+      kind           TEXT NOT NULL DEFAULT 'functional',
+      text           TEXT NOT NULL,
+      sort_order     INTEGER NOT NULL DEFAULT 0,
+      created_at     TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at     TEXT NOT NULL DEFAULT (datetime('now'))
+    )`);
+    db.exec(`CREATE INDEX IF NOT EXISTS idx_requirement_items_req ON requirement_items (requirement_id, kind, sort_order)`);
+  } catch {}
+
   try {
     db.exec(`CREATE TABLE IF NOT EXISTS import_history (
       id            TEXT PRIMARY KEY,
