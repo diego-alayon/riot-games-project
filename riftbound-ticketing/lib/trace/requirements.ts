@@ -101,7 +101,7 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["PAS-12", "Tickets no transferibles", C, OK],
   ["I18N-01", "Traducción a 9 idiomas", C, TBD],
   ["I18N-02", "Formatos regionales", C, TBD],
-  ["I18N-03", "Multimoneda por evento", C, TBD],
+  ["I18N-03", "Multimoneda por evento", C, OK],
   ["NFR-01", "Data residency en la UE", C, OK],
   ["NFR-02", "Límite de Access Rights", C, OK],
   ["GFW-01", "Control de acceso con Gateflow", C, TBD],

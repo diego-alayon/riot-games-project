@@ -1036,13 +1036,13 @@
           "code": "I18N-01",
           "page": "Global",
           "feature": "Traducción a 9 idiomas",
-          "description": "El portal está disponible en 9 idiomas, con selector de idioma.",
+          "description": "El portal está disponible en los idiomas soportados, con selector de idioma: English (NA), German, Spanish (EUW), French, Italian, Korean, Japanese y Portuguese (Brazil).",
           "priority": "Crítica",
           "status": "Pendiente de definir",
           "source": "WO",
           "woRef": "3.5",
           "owner": "Globant",
-          "comments": "No se trató en la reunión. Falta la lista de idiomas (PQ-25). Relacionado con RNF-08.",
+          "comments": "La WO habla de 9 idiomas y la lista recibida tiene 8: falta confirmar el noveno. Idioma por defecto English (NA) si no hay configuración regional (WO 3.5). RNF-08. PQ-25.",
           "platforms": [
             "riftbound"
           ]
@@ -1057,7 +1057,7 @@
           "source": "WO",
           "woRef": "3.5",
           "owner": "Globant",
-          "comments": "No se trató en la reunión.",
+          "comments": "No se trató en la reunión. Por defecto se aplica English (NA) si no hay configuración regional (WO 3.5).",
           "platforms": [
             "riftbound"
           ]
@@ -1066,13 +1066,13 @@
           "code": "I18N-03",
           "page": "P-02, P-03, P-06, P-12",
           "feature": "Multimoneda por evento",
-          "description": "Cada evento se configura y se vende en la moneda local de su país. El portal muestra y cobra en esa moneda.",
+          "description": "Los precios de cada evento se configuran en el backoffice de OneVenue en la moneda local del lugar del evento, y el portal los muestra en esa moneda. Si no hay configuración regional, se usa USD por defecto.",
           "priority": "Crítica",
-          "status": "Pendiente de definir",
-          "source": "WO",
-          "woRef": "3.5",
+          "status": "Confirmado",
+          "source": "WO; PRD",
+          "woRef": "3.3; 3.5; 6.7",
           "owner": "Compartido",
-          "comments": "Monedas de los países de los 9 idiomas; lista pendiente junto a PQ-25. Amplía CHK-07 y RN-19.",
+          "comments": "Un único PSP, Stripe, para todos los países (WO 3.3 y 3.5). Los costes de cambio de divisa del PSP quedan excluidos (WO 6.7). Amplía CHK-07 y RN-19.",
           "platforms": [
             "riftbound",
             "smartvenues"
