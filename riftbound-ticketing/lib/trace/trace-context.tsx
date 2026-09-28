@@ -6,30 +6,23 @@ import { createContext, useCallback, useContext, useEffect, useState, type React
  * Presenter preferences, per browser.
  *  - trace: shows requirement markers. Off by default so demos to stakeholders
  *    show a clean UI. Toggle with ⌥T / Alt+T, or ?trace=on|off.
- *  - passLayout: EVT-06 is undecided (PQ-19); presenters can switch variants.
  */
-export type PassLayout = "cards" | "rows";
-
 interface TraceState {
   trace: boolean;
   setTrace: (v: boolean) => void;
-  passLayout: PassLayout;
-  setPassLayout: (v: PassLayout) => void;
 }
 
-const Ctx = createContext<TraceState>({ trace: false, setTrace: () => {}, passLayout: "cards", setPassLayout: () => {} });
+const Ctx = createContext<TraceState>({ trace: false, setTrace: () => {} });
 const KEY = "riftbound-presenter-v1";
 
 export function TraceProvider({ children }: { children: ReactNode }) {
   const [trace, setTraceState] = useState(false);
-  const [passLayout, setLayoutState] = useState<PassLayout>("cards");
 
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(KEY) ?? "{}") as Partial<{ trace: boolean; passLayout: PassLayout }>;
+      const saved = JSON.parse(localStorage.getItem(KEY) ?? "{}") as Partial<{ trace: boolean }>;
       const param = new URLSearchParams(window.location.search).get("trace");
       setTraceState(param ? param === "on" || param === "1" : !!saved.trace);
-      if (saved.passLayout) setLayoutState(saved.passLayout);
     } catch {}
   }, []);
 
@@ -45,10 +38,6 @@ export function TraceProvider({ children }: { children: ReactNode }) {
     persist({ trace: v });
   }, []);
 
-  const setPassLayout = useCallback((v: PassLayout) => {
-    setLayoutState(v);
-    persist({ passLayout: v });
-  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -64,7 +53,7 @@ export function TraceProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  return <Ctx.Provider value={{ trace, setTrace, passLayout, setPassLayout }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ trace, setTrace }}>{children}</Ctx.Provider>;
 }
 
 export const useTrace = () => useContext(Ctx);

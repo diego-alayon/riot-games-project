@@ -3,9 +3,10 @@ import type { ReactNode } from "react";
 import { cx } from "@/lib/cx";
 import { IconArrowLeft } from "@/components/icons";
 
-type Level = "display-xl" | "display-lg" | "display-md" | "heading-lg" | "heading-md" | "heading-sm";
+type Level = "display-hero" | "display-xl" | "display-lg" | "display-md" | "heading-lg" | "heading-md" | "heading-sm";
 
 const LEVEL: Record<Level, string> = {
+  "display-hero": "text-display-hero",
   "display-xl": "text-display-xl",
   "display-lg": "text-display-lg",
   "display-md": "text-display-md",
@@ -16,6 +17,7 @@ const LEVEL: Record<Level, string> = {
 
 /** Same scale applied from the md breakpoint up (full strings so Tailwind generates them). */
 const LEVEL_MD: Record<Level, string> = {
+  "display-hero": "md:text-display-hero",
   "display-xl": "md:text-display-xl",
   "display-lg": "md:text-display-lg",
   "display-md": "md:text-display-md",
@@ -25,12 +27,14 @@ const LEVEL_MD: Record<Level, string> = {
 };
 
 /**
- * All headings are uppercase, extra-bold, ink by default.
+ * Headings are uppercase, extra-bold, ink by default. `titleCase` keeps the
+ * authored casing (hero titles over key art, pass and side event names).
  * `mobile` sets a smaller step of the scale below md; `level` applies from md up.
  */
 export function Heading({
   level,
   mobile,
+  titleCase,
   as: Tag = "h2",
   tone = "ink",
   children,
@@ -38,6 +42,7 @@ export function Heading({
 }: {
   level: Level;
   mobile?: Level;
+  titleCase?: boolean;
   as?: "h1" | "h2" | "h3" | "h4" | "p" | "span";
   tone?: "ink" | "on-dark" | "muted";
   children: ReactNode;
@@ -45,7 +50,7 @@ export function Heading({
 }) {
   const color = tone === "ink" ? "text-ink" : tone === "on-dark" ? "text-on-dark" : "text-disabled";
   const size = mobile ? cx(LEVEL[mobile], LEVEL_MD[level]) : LEVEL[level];
-  return <Tag className={cx(size, "uppercase", color, className)}>{children}</Tag>;
+  return <Tag className={cx(size, !titleCase && "uppercase", color, className)}>{children}</Tag>;
 }
 
 /** Uppercase tracked label above a group ("COMPETITOR", "YOUR ORDER", "UPCOMING"). */
@@ -77,7 +82,7 @@ export function BackLink({ href, children, tone = "ink" }: { href: string; child
       href={href}
       className={cx(
         "inline-flex items-center gap-1.5 text-overline uppercase hover:underline underline-offset-4",
-        tone === "on-dark" ? "text-on-dark-muted hover:text-on-dark" : "text-subtle hover:text-ink",
+        tone === "on-dark" ? "text-on-dark hover:text-on-dark-muted" : "text-subtle hover:text-ink",
       )}
     >
       <IconArrowLeft size={12} />

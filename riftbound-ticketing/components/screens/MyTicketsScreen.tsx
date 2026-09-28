@@ -7,7 +7,7 @@ import { StatPill } from "@/components/ui/Data";
 import { Modal, useToast } from "@/components/ui/Overlay";
 import { Callout } from "@/components/ui/Surface";
 import { Heading, InlineLink, SectionLabel } from "@/components/ui/Typography";
-import { IconTarget, IconTicket } from "@/components/icons";
+import { IconTicket } from "@/components/icons";
 import { ReqMarker } from "@/components/trace/ReqMarker";
 import { Container } from "@/components/patterns/Layout";
 import { PastEventRow, TicketCard, type EventHolding, type HeldItem } from "@/components/patterns/TicketCard";
@@ -15,7 +15,6 @@ import { getEvent } from "@/lib/data/catalog";
 import { isUpcoming, useStore } from "@/lib/state/store";
 import { money } from "@/lib/format";
 
-type RefundTarget = { kind: "item"; item: HeldItem } | { kind: "order"; orderId: string };
 
 /** P-08 My Tickets. */
 export function MyTicketsScreen() {
@@ -24,7 +23,7 @@ export function MyTicketsScreen() {
   const toast = useToast();
   const store = useStore();
   const [welcome, setWelcome] = useState(params.get("welcome") === "1");
-  const [refund, setRefund] = useState<RefundTarget | null>(null);
+  const [refund, setRefund] = useState<{ ev: EventHolding["ev"]; items: HeldItem[] } | null>(null);
 
   useEffect(() => {
     if (store.ready && !store.session) router.replace("/login?next=/my-tickets"); // ACC-03
@@ -56,21 +55,11 @@ export function MyTicketsScreen() {
   const vouchers = store.vouchers.filter((v) => !v.usedOn).length;
   const pending = (what: string) => toast(`${what} — pending definition in the PRD.`);
 
-  const refundAmount = (() => {
-    if (!refund) return null;
-    if (refund.kind === "item") {
-      const ev = holdings.find((h) => h.orders.some((o) => o.id === refund.item.orderId))?.ev;
-      return ev ? money(refund.item.price - refund.item.voucherDiscount, ev.currency) : null;
-    }
-    const h = holdings.find((x) => x.orders.some((o) => o.id === refund.orderId));
-    const o = h?.orders.find((x) => x.id === refund.orderId);
-    return h && o ? money(o.items.filter((i) => !i.refunded).reduce((a, i) => a + i.price - i.voucherDiscount, 0), h.ev.currency) : null;
-  })();
+  const refundTotal = refund ? refund.items.reduce((sum, i) => sum + i.price - i.voucherDiscount, 0) : 0;
 
   const confirmRefund = () => {
     if (!refund) return;
-    if (refund.kind === "item") store.refundItem(refund.item.orderId, refund.item.refId);
-    else store.refundOrder(refund.orderId);
+    for (const i of refund.items) store.refundItem(i.orderId, i.refId);
     setRefund(null);
     toast("Refund requested. You'll see it on your original payment method.");
   };
@@ -80,7 +69,6 @@ export function MyTicketsScreen() {
       <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
         <Heading level="display-lg" mobile="display-md" as="h1">My tickets</Heading>
         <div className="relative flex flex-wrap gap-3">
-          <StatPill icon={<IconTarget size={15} />} value={store.prizeTickets} label="Prize tickets" />
           <StatPill icon={<IconTicket size={15} />} value={vouchers} label="Side vouchers" />
           <ReqMarker ids={["MYT-10"]} />
         </div>
@@ -88,7 +76,7 @@ export function MyTicketsScreen() {
 
       {welcome && (
         <div className="relative mt-6">
-          <Callout tone="success" title="You're in — see you there!" onDismiss={() => setWelcome(false)} className="px-5! py-4!">
+          <Callout tone="brand" title="You're in — see you there!" onDismiss={() => setWelcome(false)} className="px-5! py-4!">
             <span className="text-body">
               You have been added to the events on <InlineLink href="https://playriftbound.com" external>playriftbound.com</InlineLink> — show
               your code at the door to check in!
@@ -108,8 +96,7 @@ export function MyTicketsScreen() {
               h={h}
               next={i === 0}
               onPending={pending}
-              onRefundItem={(item) => setRefund({ kind: "item", item })}
-              onRefundOrder={(orderId) => setRefund({ kind: "order", orderId })}
+              onRefund={(items) => setRefund({ ev: h.ev, items })}
             />
           ))}
         </div>
@@ -130,17 +117,33 @@ export function MyTicketsScreen() {
       <Modal
         open={!!refund}
         onClose={() => setRefund(null)}
-        title={refund?.kind === "order" ? "Refund entire order?" : `Refund ${refund?.kind === "item" ? refund.item.name : ""}?`}
+        title={<span className="normal-case">Confirm refund</span>}
         footer={
           <>
-            <Button variant="secondary" size="sm" onClick={() => setRefund(null)}>Keep it</Button>
-            <Button variant="primary" size="sm" onClick={confirmRefund}>Refund {refundAmount}</Button>
+            <Button variant="secondary" size="md" onClick={() => setRefund(null)}>Go back</Button>
+            <Button variant="primary" size="md" onClick={confirmRefund}>Confirm refund</Button>
           </>
         }
       >
-        {refund?.kind === "order"
-          ? "Every item in this order will be refunded to your original payment method and you'll lose access to this event."
-          : "Only this item is refunded; the rest of your order stays active. You'll be removed from this event on playriftbound.com."}
+        {refund && (
+          <>
+            <p>You are about to refund the following items. This action cannot be undone.</p>
+            <ul className="mt-4 flex flex-col gap-1.5 px-3 py-3 rounded-md bg-canvas text-body-sm text-ink">
+              {refund.items.map((i) => (
+                <li key={`${i.orderId}:${i.refId}`}>
+                  {i.name} — {money(i.price - i.voucherDiscount, refund.ev.currency)}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 flex items-center justify-between text-body">
+              <span>Refund total</span>
+              <span className="font-bold text-ink tabular-nums">{money(refundTotal, refund.ev.currency)}</span>
+            </div>
+            {refund.items.some((i) => i.kind === "pass") && (
+              <p className="mt-3 text-caption text-muted">Refunding your event pass also cancels your side event registrations for this event.</p>
+            )}
+          </>
+        )}
       </Modal>
     </Container>
   );

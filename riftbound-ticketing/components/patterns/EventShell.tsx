@@ -31,6 +31,12 @@ export function EventShell({
   const panelRef = useRef<HTMLDivElement>(null);
   const summary = orderSummary(ev, store.cart);
   const checkout = () => router.push(store.session ? "/checkout" : `/login?next=/checkout`);
+  // RN-06 at tab level (v2 comps): a signed-in fan with no pass of this event, held
+  // or in the cart, cannot open Side Events. A pass in the cart unlocks it so a pass
+  // and side events can be bought together (SDE-07; PQ-37 still open). Visitors
+  // without a session keep read access (ACC-01).
+  const passInCart = store.cart.eventSlug === ev.slug && !!store.cart.passId;
+  const sideLocked = store.ready && !!store.session && !owned && !passInCart;
 
   return (
     <>
@@ -43,11 +49,11 @@ export function EventShell({
                 <Tabs
                   items={[
                     { label: "Event Passes", shortLabel: "Passes", href: base, active: tab === "passes" },
-                    { label: "Side Events", href: `${base}/side-events`, active: tab === "side" },
+                    { label: "Side Events", href: `${base}/side-events`, active: tab === "side", disabled: sideLocked && tab !== "side", hint: "Get a pass for this event to add side events" },
                     { label: "On Demand Events", shortLabel: "On Demand", disabled: true, hint: "Not available in the first release" },
                   ]}
                 />
-                <ReqMarker ids={["EVT-01", "EVT-02"]} corner="tr" />
+                <ReqMarker ids={["EVT-01", "EVT-02", "SDE-06"]} corner="tr" />
               </div>
               <div className="mt-6">{children}</div>
             </>
@@ -63,7 +69,6 @@ export function EventShell({
                 onRemovePass={store.removePass}
                 onRemoveSide={(id) => store.toggleSide(ev.slug, id)}
                 onCheckout={checkout}
-                sideEventsHref={`${base}/side-events`}
               />
             </div>
           }

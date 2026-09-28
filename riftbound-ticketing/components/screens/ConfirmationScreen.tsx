@@ -32,8 +32,8 @@ export function ConfirmationScreen({ orderId }: { orderId: string }) {
 
   return (
     <Container className="py-8 md:py-16">
-      <Card className="relative mx-auto max-w-140 p-5! md:p-8! text-center">
-        <span className="mx-auto inline-flex items-center justify-center size-14 rounded-pill bg-success-soft text-success">
+      <Card className="relative mx-auto max-w-140 p-5! md:p-8! rounded-xl text-center">
+        <span className="mx-auto inline-flex items-center justify-center size-14 rounded-pill bg-accent-soft text-accent">
           <IconCheck size={26} />
         </span>
         <Heading level="heading-lg" as="h1" className="mt-5">Order confirmed</Heading>
@@ -77,7 +77,7 @@ export function ConfirmationScreen({ orderId }: { orderId: string }) {
           <LinkButton href="/" variant="secondary" size="lg" block>Browse more events</LinkButton>
         </div>
         <p className="relative mt-4 text-caption text-muted">
-          A receipt is on its way to your email — show your scan code at the door to check in.
+          A receipt is on its way to your email — show your QR code at the door to check in.
           <ReqMarker ids={["CHK-09"]} />
         </p>
         <ReqMarker ids={["CHK-08", "SDE-08"]} inset />

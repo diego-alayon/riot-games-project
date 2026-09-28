@@ -2,15 +2,18 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { Chip } from "@/components/ui/Chip";
-import { DetailGrid, DisclosureToggle, Price } from "@/components/ui/Data";
+import { DetailGrid, DisclosureToggle } from "@/components/ui/Data";
 import { Card, Divider } from "@/components/ui/Surface";
 import { IconCheck } from "@/components/icons";
 import { ReqMarker } from "@/components/trace/ReqMarker";
 import type { Currency, SideEvent } from "@/lib/data/types";
 import { clock, duration, money } from "@/lib/format";
+import { PricePanel } from "./PassCard";
 
 export type SideEventCta = "add" | "added" | "registered" | "full" | "locked";
+
+/** "Swiss, 60m time limit, no top cut, best of three" — attributes read as part of the summary (SDE-03). */
+const attributes = (tags: string[]) => tags.map((t, i) => (i === 0 ? t : t.toLowerCase())).join(", ");
 
 export function SideEventCard({
   se,
@@ -26,62 +29,24 @@ export function SideEventCard({
   const [open, setOpen] = useState(false);
   const soldOut = se.seatsLeft === 0;
   const seats = `${se.seatsLeft.toLocaleString("en-US")} of ${se.seatsTotal.toLocaleString("en-US")} seats`;
+  const cls = "w-32 sm:w-full";
 
   return (
-    <Card padded={false} state={cta === "added" ? "selected" : "default"} className="flex">
-      {/* < md the time column collapses into an inline line above the title. */}
-      <div className="hidden md:flex w-time-col shrink-0 flex-col items-center justify-center border-r border-line text-center">
-        <span className="text-body-sm font-bold text-ink">{clock(se.start)}</span>
-        <span className="mt-0.5 text-micro uppercase text-subtle">{duration(se.durationMin)}</span>
-      </div>
-
-      <div className="flex-1 min-w-0 p-4">
-        <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between md:gap-4">
-          <div className="min-w-0">
-            <p className="md:hidden mb-1 inline-flex items-baseline gap-2">
-              <span className="text-body-sm font-bold text-ink">{clock(se.start)}</span>
-              <span className="text-micro uppercase text-subtle">{duration(se.durationMin)}</span>
-            </p>
-            <h3 className="text-heading-sm uppercase text-ink">{se.name}</h3>
-            <p className="mt-1 text-body text-muted">{se.summary}</p>
-          </div>
-          <div className="flex items-center justify-between gap-2 shrink-0 md:flex-col md:items-end">
-            <Price>{money(se.price, currency)}</Price>
-            <div className="relative inline-flex">
-              {cta === "add" && (
-                <Button variant="secondary" size="sm" onClick={onToggle}>Add</Button>
-              )}
-              {cta === "added" && (
-                <Button variant="primary" size="sm" onClick={onToggle} title="Remove from order">Added</Button>
-              )}
-              {cta === "registered" && (
-                <Button variant="success" size="sm" iconLeft={<IconCheck size={13} />} disabled className="disabled:cursor-default">
-                  Registered
-                </Button>
-              )}
-              {cta === "full" && (
-                <Button variant="primary" size="sm" disabled>Full</Button>
-              )}
-              {cta === "locked" && (
-                <Button variant="secondary" size="sm" disabled title="You need a pass for this event">Pass required</Button>
-              )}
-              <ReqMarker ids={cta === "full" ? ["SDE-04"] : cta === "locked" ? ["SDE-06"] : ["SDE-05", "ACC-02"]} corner="l" />
-            </div>
-          </div>
-        </div>
-
-        <div className="relative mt-3 flex flex-wrap items-center gap-2">
-          {se.tags.map((t) => (
-            <Chip key={t}>{t}</Chip>
-          ))}
-          <span className={soldOut ? "text-micro uppercase text-danger" : "text-micro uppercase text-subtle"}>
-            {soldOut ? "Sold out" : seats}
-          </span>
-          <ReqMarker ids={["SDE-03"]} corner="br" />
-        </div>
-
+    <Card padded={false} className="flex flex-col sm:flex-row overflow-visible">
+      <div className="relative flex-1 min-w-0 px-5 pt-5 pb-4">
+        <p className="text-caption font-bold text-ink">
+          {clock(se.start)} · {duration(se.durationMin)}
+        </p>
+        <h3 className="mt-1 text-title text-ink">{se.name}</h3>
+        <p className={open ? "mt-1 text-body text-muted" : "mt-1 text-body text-muted truncate"}>
+          {open ? se.summary : `${se.summary} ${attributes(se.tags)}`}
+        </p>
         {open && (
           <>
+            <p className="relative mt-2 text-caption font-bold text-subtle">
+              {attributes(se.tags)}
+              <ReqMarker ids={["SDE-03"]} corner="r" />
+            </p>
             <Divider className="my-4" />
             <p className="text-body-sm text-muted">{se.description}</p>
             <div className="mt-4">
@@ -104,12 +69,32 @@ export function SideEventCard({
             </div>
           </>
         )}
-
-        <div className="relative mt-3 inline-flex">
-          <DisclosureToggle open={open} onToggle={() => setOpen((o) => !o)} />
-          <ReqMarker ids={["SDE-02"]} corner="tr" />
+        <div className="relative mt-2 inline-flex">
+          <DisclosureToggle open={open} onToggle={() => setOpen((o) => !o)} casing="sentence" />
+          <ReqMarker ids={["SDE-02"]} corner="r" />
         </div>
       </div>
+
+      <PricePanel price={money(se.price, currency)}>
+        {cta === "add" && (
+          <Button variant="primary" size="sm" className={cls} onClick={onToggle}>Add</Button>
+        )}
+        {cta === "added" && (
+          <Button variant="inert" size="sm" className={cls} onClick={onToggle} title="Remove from order">Added</Button>
+        )}
+        {cta === "registered" && (
+          <Button variant="registered" size="sm" className={cls} iconLeft={<IconCheck size={14} />} disabled>
+            Registered
+          </Button>
+        )}
+        {cta === "full" && (
+          <Button variant="inert" size="sm" className={cls} disabled>Full</Button>
+        )}
+        {cta === "locked" && (
+          <Button variant="inert" size="sm" className={cls} disabled title="You need a pass for this event">Add</Button>
+        )}
+        <ReqMarker ids={cta === "full" ? ["SDE-04"] : cta === "locked" ? ["SDE-06"] : ["SDE-05", "ACC-02"]} corner="bl" />
+      </PricePanel>
     </Card>
   );
 }

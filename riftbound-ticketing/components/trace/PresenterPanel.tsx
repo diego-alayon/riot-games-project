@@ -14,7 +14,7 @@ import { cx } from "@/lib/cx";
  * so it never covers the screen; tap to expand.
  */
 export function PresenterPanel() {
-  const { trace, setTrace, passLayout, setPassLayout } = useTrace();
+  const { trace, setTrace } = useTrace();
   const { session, signIn, signOut, resetDemo } = useStore();
   const [expanded, setExpanded] = useState(false);
   if (!trace) return null;
@@ -56,13 +56,6 @@ export function PresenterPanel() {
       <p className="mt-1 leading-snug">Tags link to the requirement in the catalog.</p>
 
       <div className="mt-3 flex items-center justify-between">
-        <span>Pass layout</span>
-        <span className="inline-flex rounded-sm border border-line p-0.5">
-          <button className={seg(passLayout === "cards")} onClick={() => setPassLayout("cards")}>cards</button>
-          <button className={seg(passLayout === "rows")} onClick={() => setPassLayout("rows")}>rows</button>
-        </span>
-      </div>
-      <div className="mt-2 flex items-center justify-between">
         <span>Session</span>
         <span className="inline-flex rounded-sm border border-line p-0.5">
           <button className={seg(!!session)} onClick={signIn}>signed in</button>

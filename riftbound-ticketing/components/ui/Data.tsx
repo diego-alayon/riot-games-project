@@ -50,18 +50,24 @@ export function DisclosureToggle({
   onToggle,
   moreLabel = "See more",
   lessLabel = "See less",
+  casing = "upper",
 }: {
   open: boolean;
   onToggle: () => void;
   moreLabel?: string;
   lessLabel?: string;
+  /** "upper": MORE ⌄ (passes). "sentence": See more ⌄ (side events). */
+  casing?: "upper" | "sentence";
 }) {
   return (
     <button
       type="button"
       onClick={onToggle}
       aria-expanded={open}
-      className="inline-flex items-center gap-1.5 text-label uppercase text-accent hover:text-accent-hover"
+      className={cx(
+        "inline-flex items-center gap-1.5 text-accent hover:text-accent-hover",
+        casing === "upper" ? "text-label uppercase" : "text-caption font-bold",
+      )}
     >
       {open ? lessLabel : moreLabel}
       {open ? <IconChevronUp size={13} /> : <IconChevronDown size={13} />}

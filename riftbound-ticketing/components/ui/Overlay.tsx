@@ -38,7 +38,7 @@ export function Modal({
           </button>
         </div>
         <div className="px-6 pt-3 pb-6 text-body text-muted">{children}</div>
-        {footer && <div className="flex justify-end gap-3 px-6 py-4 border-t border-line">{footer}</div>}
+        {footer && <div className="flex justify-end gap-3 px-6 pb-6">{footer}</div>}
       </div>
     </div>
   );
@@ -78,14 +78,14 @@ export function ActionMenu({
         onClick={() => setOpen((o) => !o)}
         className={
           trigger
-            ? "inline-flex items-center justify-center size-8 rounded-pill"
+            ? "inline-flex items-center gap-2 h-8 rounded-md"
             : "inline-flex items-center justify-center size-8 rounded-md text-muted hover:bg-surface-muted hover:text-ink"
         }
       >
         {trigger ?? <IconDots size={16} />}
       </button>
       {open && (
-        <div className="absolute right-0 top-9 z-30 min-w-48 py-1.5 bg-surface border border-line rounded-md shadow-raised">
+        <div className="absolute right-0 top-full mt-1 z-30 min-w-48 py-1.5 bg-surface border border-line rounded-md shadow-raised">
           {items.map((i) => (
             <button
               key={i.label}

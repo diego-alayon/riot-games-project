@@ -42,10 +42,12 @@ export function Divider({ className, tone = "line" }: { className?: string; tone
   return <hr className={cx("border-0 border-t", tone === "line" ? "border-line" : "border-line-dark", className)} />;
 }
 
-export type CalloutTone = "success" | "fan" | "note" | "neutral";
+export type CalloutTone = "success" | "brand" | "warning" | "fan" | "note" | "neutral";
 
 const CALLOUT: Record<CalloutTone, { box: string; icon: ReactNode; title: string }> = {
   success: { box: "bg-success-soft border-success-line", icon: <IconCheck size={16} className="text-success" />, title: "text-ink" },
+  brand: { box: "bg-accent-soft border-accent", icon: <IconCheck size={16} className="text-accent" />, title: "text-ink" },
+  warning: { box: "bg-warning-soft border-warning-line", icon: <span className="block w-1 h-4 rounded-pill bg-warning" />, title: "text-ink" },
   fan: { box: "bg-fan-soft border-fan-line", icon: <IconStar size={13} className="text-fan" />, title: "text-fan" },
   note: { box: "bg-accent-soft border-accent-line", icon: <IconTicket size={14} className="text-accent" />, title: "text-ink" },
   neutral: { box: "bg-surface border-line", icon: null, title: "text-ink" },

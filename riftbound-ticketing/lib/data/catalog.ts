@@ -153,7 +153,7 @@ const FULL_PASSES: Array<Omit<Pass, "id" | "eventSlug" | "price">> = [
   {
     role: "competitor", tier: "premium", name: "Premium Competitor",
     summary: "Players who want the full Riftbound experience. This badge is valid for one",
-    description: "Players who want the full Riftbound experience. This badge is valid for one (1) attendee from Friday, August 21, 2026 through Sunday, August 23, 2026.",
+    description: "Players who want the full Riftbound experience. This badge is valid for one (1) attendee {{RANGE}}.",
     benefits: ["Main Event Access", "1x Side Event Voucher", "2x Vendetta Booster Boxes", "Jayce promo card", "10% off a Merch Store item", "Coat/bag check concierge", "2x Booster Box purchase vouchers", "Exclusive Sett, Brawler playmat", "30-min early hall access daily", "Dedicated Premium badge lines"],
     benefitsLong: [
       "Main Event Access — Compete for glory in the Regional Qualifier tournament, spanning Saturday and Sunday!",
@@ -163,7 +163,7 @@ const FULL_PASSES: Array<Omit<Pass, "id" | "eventSlug" | "price">> = [
       "10% off a single item at the Merch Store — Valid for any item!",
       "Coat/bag check for Premium Badge holders only — Safely leave your swag with our dedicated concierge!",
       "2x Booster Box vouchers that will each guarantee you the ability to purchase a Vendetta Riftbound booster box from the official onsite Merch Store — Use your vouchers at any time during the weekend!",
-      "An exclusive playmat of Vendetta Showcase Sett, Brawler — Only available at RQ Barcelona!",
+      "An exclusive playmat of Vendetta Showcase Sett, Brawler — Only available at RQ {{CITY}}!",
       "30 minute early access to event hall each day",
       "Prize Wall, Badge Pickup, and onsite Event Signups will have dedicated lines just for Premium badge holders!",
     ],
@@ -172,7 +172,7 @@ const FULL_PASSES: Array<Omit<Pass, "id" | "eventSlug" | "price">> = [
   {
     role: "competitor", tier: "standard", name: "Standard Competitor",
     summary: "With this badge, you're guaranteed entry into the Regional Qualifier tournament to",
-    description: "With this badge, you're guaranteed entry into the Regional Qualifier tournament to prove your skill on the big stage. Your Competitor Badge covers one (1) attendee from Friday, August 21, 2026 through Sunday, August 23, 2026.",
+    description: "With this badge, you're guaranteed entry into the Regional Qualifier tournament to prove your skill on the big stage. Your Competitor Badge covers one (1) attendee {{RANGE}}.",
     benefits: ["Main Event Access", "1x Side Event Voucher", "Jayce promo card", "10% off a Merch Store item", "1x Booster Box purchase voucher"],
     benefitsLong: [
       "Main Event Access — Compete for glory in the Regional Qualifier tournament, spanning Saturday and Sunday.",
@@ -185,8 +185,8 @@ const FULL_PASSES: Array<Omit<Pass, "id" | "eventSlug" | "price">> = [
   },
   {
     role: "attendee", tier: "premium", name: "Premium Attendee",
-    summary: "This badge is valid for one (1) attendee from Friday, August 21, 2026 through",
-    description: "This badge is valid for one (1) attendee from Friday, August 21, 2026 through Sunday, August 23, 2026. The Premium Attendee Badge grants full access to the venue across the weekend, with a wide range of gameplay, side events, and activities to explore in addition to exclusives and extras. Please note: the Premium Attendee Badge does not include access to the Regional Qualifier main event.",
+    summary: "This badge is valid for one (1) attendee {{FROM}} through",
+    description: "This badge is valid for one (1) attendee {{RANGE}}. The Premium Attendee Badge grants full access to the venue across the weekend, with a wide range of gameplay, side events, and activities to explore in addition to exclusives and extras. Please note: the Premium Attendee Badge does not include access to the Regional Qualifier main event.",
     benefits: ["6x Side Event Vouchers", "2x Vendetta Booster Boxes", "Jayce promo card", "10% off a Merch Store item", "Coat/bag check concierge", "2x Booster Box purchase vouchers", "Exclusive Sett, Brawler playmat", "30-min early hall access daily", "Dedicated Premium badge lines"],
     benefitsLong: [
       "6x Side Event Voucher — Vouchers can be used to enroll in side events throughout the weekend!",
@@ -195,7 +195,7 @@ const FULL_PASSES: Array<Omit<Pass, "id" | "eventSlug" | "price">> = [
       "10% off a single item at the Merch Store — Valid for any item!",
       "Coat/bag check for Premium Badge holders only — Safely leave your swag with our dedicated concierge!",
       "2x Booster Box vouchers that will each guarantee you the ability to purchase a Vendetta Riftbound booster box from the official onsite Merch Store — Use your vouchers at any time during the weekend!",
-      "An exclusive playmat of Vendetta Showcase Sett, Brawler — Only available at RQ Barcelona!",
+      "An exclusive playmat of Vendetta Showcase Sett, Brawler — Only available at RQ {{CITY}}!",
       "30 minute early access to event hall each day",
       "Prize Wall, Badge Pickup, and onsite Event Signups will have dedicated lines just for Premium badge holders!",
     ],
@@ -203,8 +203,8 @@ const FULL_PASSES: Array<Omit<Pass, "id" | "eventSlug" | "price">> = [
   },
   {
     role: "attendee", tier: "standard", name: "Standard Attendee",
-    summary: "Your gateway into the Riftbound Regional Qualifier: Barcelona. The Standard",
-    description: "Your gateway into the Riftbound Regional Qualifier: Barcelona. The Standard Attendee Badge grants full access for one (1) attendee to the venue from Friday, August 21, 2026 through Sunday, August 23, 2026, with a wide range of gameplay, side events, and activities to explore. Whether you're here to test new decks, connect with the community, or just soak in the atmosphere, this badge is your starting point. Please note: the Standard Attendee Badge does not include access to the Regional Qualifier main event.",
+    summary: "Your gateway into the Riftbound Regional Qualifier: {{CITY}}. The Standard",
+    description: "Your gateway into the Riftbound Regional Qualifier: {{CITY}}. The Standard Attendee Badge grants full access for one (1) attendee to the venue {{RANGE}}, with a wide range of gameplay, side events, and activities to explore. Whether you're here to test new decks, connect with the community, or just soak in the atmosphere, this badge is your starting point. Please note: the Standard Attendee Badge does not include access to the Regional Qualifier main event.",
     benefits: ["1x Side Event Voucher", "Jayce promo card", "10% off a Merch Store item", "1x Booster Box purchase voucher"],
     benefitsLong: [
       "1x Side Event Voucher — Vouchers can be used to enroll in side events throughout the weekend!",
@@ -263,10 +263,33 @@ const PASS_PRICES: Record<"full" | Currency, number[]> = {
   BRL: [990, 420, 630, 210],
 };
 
+/** Long-form weekday date: "Friday, September 4, 2026". */
+function longDate(iso: string) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+}
+
+/** Fills the event's own city and dates into the authored pass copy. */
+function fill(text: string, ev: RiftEvent) {
+  return text
+    .replaceAll("{{RANGE}}", `from ${longDate(ev.startDate)} through ${longDate(ev.endDate)}`)
+    .replaceAll("{{FROM}}", `from ${longDate(ev.startDate)}`)
+    .replaceAll("{{CITY}}", ev.city);
+}
+
 export function passesFor(ev: RiftEvent): Pass[] {
   const src = ev.passTemplate === "full" ? FULL_PASSES : COMPACT_PASSES;
   const prices = ev.passTemplate === "full" ? PASS_PRICES.full : PASS_PRICES[ev.currency];
-  return src.map((p, i) => ({ ...p, id: `${ev.slug}:${p.role}-${p.tier}`, eventSlug: ev.slug, price: prices[i] }));
+  return src.map((p, i) => ({
+    ...p,
+    id: `${ev.slug}:${p.role}-${p.tier}`,
+    eventSlug: ev.slug,
+    price: prices[i],
+    summary: fill(p.summary, ev),
+    description: fill(p.description, ev),
+    benefits: p.benefits.map((t) => fill(t, ev)),
+    benefitsLong: p.benefitsLong.map((t) => fill(t, ev)),
+  }));
 }
 
 export function getPass(id: string): Pass | undefined {

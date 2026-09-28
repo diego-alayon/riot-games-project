@@ -30,6 +30,9 @@ const COLOR_GROUPS: Array<{ group: string; items: Array<{ token: string; cls: st
       { token: "surface-muted", cls: "bg-surface-muted", note: "Chips, neutral tags" },
       { token: "surface-dark", cls: "bg-surface-dark", note: "Heroes, dark pills" },
       { token: "surface-darker", cls: "bg-surface-darker", note: "Overlays, scrims" },
+      { token: "surface-sunken", cls: "bg-surface-sunken", note: "Price panel in cards" },
+      { token: "surface-inert", cls: "bg-surface-inert", note: "Selected / Added / Full CTAs" },
+      { token: "header", cls: "bg-header", note: "Site header, active chip" },
     ],
   },
   {
@@ -67,17 +70,21 @@ const COLOR_GROUPS: Array<{ group: string; items: Array<{ token: string; cls: st
       { token: "fan", cls: "bg-fan", note: "Fan First Access" },
       { token: "fan-soft", cls: "bg-fan-soft", note: "Fan First fill" },
       { token: "danger", cls: "bg-danger", note: "Sold out, destructive" },
+      { token: "warning", cls: "bg-warning", note: "Refund selection notice" },
+      { token: "warning-soft", cls: "bg-warning-soft", note: "Warning fill" },
     ],
   },
 ];
 
 const TYPE: Array<{ token: string; cls: string; sample: string; spec: string; upper?: boolean }> = [
-  { token: "display-xl", cls: "text-display-xl", sample: "Riot Live Events", spec: "40 / 1.05 · 800 · -1%", upper: true },
+  { token: "display-hero", cls: "text-display-hero", sample: "Riot Live Events", spec: "44 / 1.1 · 700 · -1.5% · title case" },
+  { token: "display-xl", cls: "text-display-xl", sample: "Regional Qualifier - Singapore", spec: "40 / 1.05 · 800 · -1%", upper: true },
   { token: "display-lg", cls: "text-display-lg", sample: "Regional Qualifier - Singapore", spec: "32 / 1.1 · 800 · -1%", upper: true },
   { token: "display-md", cls: "text-display-md", sample: "Regional Qualifier - Bologna", spec: "26 / 1.1 · 800", upper: true },
   { token: "heading-lg", cls: "text-heading-lg", sample: "Weekend schedule", spec: "24 / 1.2 · 800", upper: true },
   { token: "heading-md", cls: "text-heading-md", sample: "Friday, Sep 4", spec: "20 / 1.25 · 800", upper: true },
   { token: "heading-sm", cls: "text-heading-sm", sample: "Premium Competitor", spec: "16 / 1.3 · 800", upper: true },
+  { token: "title", cls: "text-title", sample: "Premium Competitor Pass", spec: "16 / 1.35 · 700 · title case" },
   { token: "price", cls: "text-price", sample: "€500", spec: "22 / 1.1 · 800" },
   { token: "body-lg", cls: "text-body-lg", sample: "Compete, spectate, and celebrate.", spec: "16 / 1.5 · 400" },
   { token: "body", cls: "text-body", sample: "Players who want the full Riftbound experience.", spec: "14 / 1.5 · 400" },
@@ -97,7 +104,8 @@ const RADII = [
   { token: "xs", cls: "rounded-xs", px: "3px" },
   { token: "sm", cls: "rounded-sm", px: "4px" },
   { token: "md", cls: "rounded-md", px: "6px · buttons, inputs" },
-  { token: "lg", cls: "rounded-lg", px: "8px · cards, panels" },
+  { token: "lg", cls: "rounded-lg", px: "10px · cards" },
+  { token: "xl", cls: "rounded-xl", px: "12px · order panel, confirmations" },
   { token: "pill", cls: "rounded-pill", px: "9999px · badges, chips" },
 ];
 
@@ -117,7 +125,8 @@ const LAYOUT = [
   ["gutter", "32px", "Column gap"],
   ["time-col", "96px", "Side event time column"],
   ["pass-rail", "112px", "Pass row tier rail"],
-  ["accent-bar", "4px", "Orange rule under heroes and art cards"],
+  ["accent-bar", "4px", "Red rule under event art cards"],
+  ["price-panel", "152px", "Price + CTA panel on pass and side event cards"],
   ["list-thumb-sm", "112px", "Mobile · More events thumbnail"],
   ["pass-rail-sm", "88px", "Mobile · pass row tier rail"],
   ["qr-mobile", "176px", "Mobile · badge QR (≥160 to scan)"],
@@ -284,13 +293,15 @@ export function DesignSystemGallery() {
           </Section>
 
           {/* ── Components ──────────────────────────────────────────────── */}
-          <Section id="buttons" title="Buttons" intro="Uppercase 700 with tracking. lg 48px (panel CTAs), md 40px, sm 36px (card CTAs), xs 28px pill (wallet).">
+          <Section id="buttons" title="Buttons" intro="Uppercase 700 with tracking. lg 48px (panel CTAs), md 40px, sm 36px (card CTAs), xs 28px pill (wallet). Settled states (Selected, Added, Full) use the grey inert variant; held items use green Registered; Remove / Refund / Cancel are red ghost links.">
             <div className="flex flex-col gap-5">
               <Specimen label="variants · sm">
                 <div className="flex flex-wrap gap-3">
                   <Button size="sm">Select</Button>
                   <Button size="sm" variant="secondary">Add</Button>
-                  <Button size="sm" variant="selected">Selected</Button>
+                  <Button size="sm" variant="inert">Selected</Button>
+                  <Button size="sm" variant="registered" iconLeft={<Icons.IconCheck size={14} />}>Registered</Button>
+                  <Button size="sm" variant="ghost">Remove</Button>
                   <Button size="sm" variant="success" iconLeft={<Icons.IconCheck size={13} />}>Registered</Button>
                   <Button size="sm" variant="fan">Pre-register for access</Button>
                   <Button size="xs" variant="dark" iconLeft={<Icons.IconWallet size={12} />}>Add to Apple Wallet</Button>
@@ -448,8 +459,8 @@ export function DesignSystemGallery() {
               </Specimen>
               <Specimen label="PassCard · rows">
                 <div className="flex flex-col gap-3">
-                  <PassCard pass={passesFor(sg)[0]} currency="SGD" sale="on-sale" layout="rows" selected />
-                  <PassCard pass={passesFor(sg)[1]} currency="SGD" sale="on-sale" layout="rows" />
+                  <PassCard pass={passesFor(sg)[0]} currency="SGD" sale="on-sale" selected />
+                  <PassCard pass={passesFor(sg)[1]} currency="SGD" sale="on-sale" />
                 </div>
               </Specimen>
               <Specimen label="SideEventCard · add / added / registered / full / locked">
@@ -463,10 +474,10 @@ export function DesignSystemGallery() {
               </Specimen>
               <Specimen label="OrderPanel · empty / cart / owned / fan first">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                  <OrderPanel ev={sg} cart={{ eventSlug: null, passId: null, sideIds: [] }} owned={null} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} sideEventsHref="#" />
-                  <OrderPanel ev={sg} cart={{ eventSlug: sg.slug, passId: passesFor(sg)[0].id, sideIds: [sides[0].id] }} owned={null} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} sideEventsHref="#" />
-                  <OrderPanel ev={bcn} cart={{ eventSlug: null, passId: null, sideIds: [] }} owned={p1} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} sideEventsHref="#" />
-                  <OrderPanel ev={bcn} cart={{ eventSlug: null, passId: null, sideIds: [] }} owned={null} preregs={[]} mode="fan-first" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} sideEventsHref="#" />
+                  <OrderPanel ev={sg} cart={{ eventSlug: null, passId: null, sideIds: [] }} owned={null} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
+                  <OrderPanel ev={sg} cart={{ eventSlug: sg.slug, passId: passesFor(sg)[0].id, sideIds: [sides[0].id] }} owned={null} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
+                  <OrderPanel ev={bcn} cart={{ eventSlug: null, passId: null, sideIds: [] }} owned={p1} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
+                  <OrderPanel ev={bcn} cart={{ eventSlug: null, passId: null, sideIds: [] }} owned={null} preregs={[]} mode="fan-first" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
                 </div>
               </Specimen>
             </div>
@@ -483,7 +494,7 @@ export function DesignSystemGallery() {
               </>
             }
           >
-            <Button size="sm" variant={trace ? "selected" : "fan"} onClick={() => setTrace(!trace)}>{trace ? "Trace mode on — turn off" : "Turn trace mode on"}</Button>
+            <Button size="sm" variant={trace ? "inert" : "fan"} onClick={() => setTrace(!trace)}>{trace ? "Trace mode on — turn off" : "Turn trace mode on"}</Button>
           </Section>
         </div>
       </div>

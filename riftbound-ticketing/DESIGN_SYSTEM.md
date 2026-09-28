@@ -15,13 +15,13 @@ Live gallery: `http://localhost:3001/design-system`
 | Area | Decision |
 |---|---|
 | Font | Inter (next/font). Headings uppercase 800; labels uppercase 700 with +6–8% tracking; copy 400. |
-| Color | Navy ink `#1b2536`, orange accent `#ef7d00`, canvas `#f8f8f9`, green success, violet Fan First, red danger. |
-| Type scale | display-xl 40 · display-lg 32 · display-md 26 · heading-lg 24 · heading-md 20 · heading-sm 16 · price 22 · body-lg 16 · body 14 · body-sm 13 · caption 12 · fine 11 · tab 14 · label 12 · overline 11 · micro 10 · button 14 · button-sm 12 · code 14. |
-| Layout | Header 64 · event hero 216 · container 1136 · main 744 + aside 360 · gutter 32 · 4px base unit. |
+| Color | v2: Riot red accent `#e4002b`, near-black header `#111214`, navy ink `#1b2536`, canvas `#f8f8f9`, grey inert CTAs, green success / Registered, violet Fan First, amber warning. |
+| Type scale | display-hero 44 (title case) · display-xl 40 · display-lg 32 · display-md 26 · heading-lg 24 · heading-md 20 · heading-sm 16 · title 16 (title case) · price 22 · body-lg 16 · body 14 · body-sm 13 · caption 12 · fine 11 · tab 14 · label 12 · overline 11 · micro 10 · button 14 · button-sm 12 · code 14. |
+| Layout | Header 80 · key-art hero 220 · price panel 152 · container 1136 · main 744 + aside 360 · gutter 32 · 4px base unit. |
 | Responsive (RNF-14) | Desktop comp is exact at `xl` (≥1280). `lg` (≥1024): fluid main + 360 panel. Below `lg` the order panel stacks under the content and `MobileOrderBar` (total + checkout) sticks to the bottom while the cart has items. Below `md` (768): 16px gutters, headings step down via `<Heading mobile="…">`, grids collapse to one column, the badge QR grows to `qr-mobile`. Mobile-only tokens: `list-thumb-sm`, `pass-rail-sm`, `qr-mobile`, `mobile-bar`. |
-| Radius | xs 3 · sm 4 · md 6 (buttons, inputs) · lg 8 (cards) · pill. |
-| Elevation | card · raised · overlay · focus ring (orange, 3px). |
-| Signature | 4px orange rule under dark heroes and art cards. |
+| Radius | xs 3 · sm 4 · md 6 (buttons, inputs) · lg 10 (cards) · xl 12 (order panel, confirmations) · pill. |
+| Elevation | card · raised · overlay · focus ring (red, 3px). |
+| Signature | Key-art heroes with title-case display type; 4px red rule under event art cards; price + CTA panel (sunken grey) on every pass and side event card. |
 
 ## Components
 

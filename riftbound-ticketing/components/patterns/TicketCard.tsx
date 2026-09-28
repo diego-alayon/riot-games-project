@@ -1,11 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { EventArt, QRCode } from "@/components/ui/Media";
-import { ActionMenu } from "@/components/ui/Overlay";
-import { Card, Divider } from "@/components/ui/Surface";
-import { Heading, Overline } from "@/components/ui/Typography";
+import { Callout, Card } from "@/components/ui/Surface";
+import { Heading } from "@/components/ui/Typography";
 import { IconCheck, IconDownload, IconPin, IconTicket, IconWallet } from "@/components/icons";
 import { ReqMarker } from "@/components/trace/ReqMarker";
 import { getPass, getSideEvent } from "@/lib/data/catalog";
@@ -27,22 +27,79 @@ export interface EventHolding {
   sides: HeldItem[];
 }
 
+/** Checkbox row used while choosing what to refund. */
+function RefundRow({ checked, locked, onToggle, title, sub }: { checked: boolean; locked?: boolean; onToggle: () => void; title: string; sub?: string }) {
+  return (
+    <label className={cx("flex items-center gap-4 py-4 border-b border-line", locked ? "cursor-not-allowed" : "cursor-pointer")}>
+      <input
+        type="checkbox"
+        checked={checked}
+        disabled={locked}
+        onChange={onToggle}
+        className="size-5 shrink-0 accent-(--color-accent) cursor-[inherit]"
+      />
+      <span className="min-w-0">
+        <span className="block text-heading-sm uppercase text-ink">{title}</span>
+        {sub && <span className="block mt-0.5 text-body text-muted uppercase">{sub}</span>}
+      </span>
+    </label>
+  );
+}
+
+const sideWhen = (refId: string) => {
+  const se = getSideEvent(refId);
+  return se ? `${dayHeading(se.date)} · ${clock(se.start)}` : undefined;
+};
+
 export function TicketCard({
   h,
   next,
-  onRefundItem,
-  onRefundOrder,
+  onRefund,
   onPending,
 }: {
   h: EventHolding;
   next?: boolean;
-  onRefundItem: (item: HeldItem) => void;
-  onRefundOrder: (orderId: string) => void;
+  /** Asks the screen to confirm refunding these items (it shows the modal). */
+  onRefund: (items: HeldItem[]) => void;
   onPending: (what: string) => void;
 }) {
   const { ev, pass } = h;
   const passInfo = pass ? getPass(pass.refId) : undefined;
-  const passActive = pass && !pass.refunded;
+  const passActive = !!pass && !pass.refunded;
+  const activeSides = h.sides.filter((s) => !s.refunded);
+  const [selecting, setSelecting] = useState(false);
+  const [picked, setPicked] = useState<Set<string>>(new Set());
+  const key = (i: HeldItem) => `${i.orderId}:${i.refId}`;
+
+  // v2 rule: refunding the event pass also cancels every side event of the event.
+  const passPicked = !!pass && picked.has(key(pass));
+  const toggle = (item: HeldItem) =>
+    setPicked((prev) => {
+      const next = new Set(prev);
+      if (next.has(key(item))) next.delete(key(item));
+      else next.add(key(item));
+      if (item.kind === "pass") activeSides.forEach((s) => (next.has(key(item)) ? next.add(key(s)) : next.delete(key(s))));
+      return next;
+    });
+  const selectedItems = [...(passActive ? [pass!] : []), ...activeSides].filter((i) => picked.has(key(i)));
+  const sidesPicked = selectedItems.filter((i) => i.kind === "side").length;
+  const summary = !selectedItems.length
+    ? "Select items to refund"
+    : passPicked
+      ? `Event pass${sidesPicked ? ` and ${sidesPicked} side event${sidesPicked > 1 ? "s" : ""}` : ""} selected`
+      : `${sidesPicked} side event${sidesPicked > 1 ? "s" : ""} selected`;
+  const exitSelect = () => {
+    setSelecting(false);
+    setPicked(new Set());
+  };
+  const nothingToRefund = !passActive && activeSides.length === 0;
+  // Leave selection mode once the selected items are refunded (or nothing is left).
+  const refundable = [...(passActive ? [pass!] : []), ...activeSides].map(key).join("|");
+  const [lastRefundable, setLastRefundable] = useState(refundable);
+  if (refundable !== lastRefundable) {
+    setLastRefundable(refundable);
+    if (selecting) exitSelect();
+  }
 
   return (
     <Card padded={false} state={next ? "selected" : "default"} className="overflow-hidden">
@@ -63,8 +120,8 @@ export function TicketCard({
           <p className="mt-1 text-body text-on-dark-muted">
             {dateRange(ev.startDate, ev.endDate)} · {ev.venue}, {ev.city}
           </p>
-          {passInfo && (
-            <Badge tone="premium" className={cx("mt-3 self-start", passInfo.tier === "standard" && "bg-surface text-ink")}>
+          {passInfo && passActive && (
+            <Badge tone="premium" className="mt-3 self-start">
               {passInfo.name} badge
             </Badge>
           )}
@@ -72,102 +129,106 @@ export function TicketCard({
         <ReqMarker ids={["MYT-02"]} inset />
       </div>
 
-      <div className="p-5">
-        {/* < md the badge QR stacks above the details, enlarged so it scans at the door (RNF-14). */}
-        <div className="flex flex-col gap-5 md:flex-row md:gap-6">
-          {passActive && h.badgeCode && (
-            <div className="relative w-full md:w-42 shrink-0 flex flex-col items-center">
-              <div className="p-4 rounded-lg border border-line bg-surface">
-                <QRCode value={h.badgeCode} className="max-md:size-qr-mobile" />
-              </div>
-              <span className="mt-2 text-micro uppercase text-ink tracking-[0.1em]">{h.badgeCode}</span>
-              <div className="mt-3 md:mt-2 flex flex-col items-center gap-2 md:gap-1.5">
-                <Button variant="dark" size="xs" className="max-md:h-10 max-md:px-4" iconLeft={<IconWallet size={12} />} onClick={() => onPending("Apple Wallet")}>
-                  Add to Apple Wallet
-                </Button>
-                <Button variant="dark" size="xs" className="max-md:h-10 max-md:px-4" iconLeft={<IconWallet size={12} />} onClick={() => onPending("Google Wallet")}>
-                  Add to Google Wallet
-                </Button>
-                <button type="button" onClick={() => onPending("PDF ticket")} className="mt-1 inline-flex items-center gap-1 max-md:py-2 text-micro uppercase text-accent">
-                  <IconDownload size={12} /> Download PDF
-                </button>
-              </div>
-              <ReqMarker ids={["MYT-03", "MYT-04", "MYT-05"]} />
+      <div className="px-5 pb-5">
+        {selecting ? (
+          <div className="relative pt-5">
+            <Callout tone="warning">
+              <span className="text-body text-ink">
+                Select the items you want to refund. Refunding your event pass will also cancel all side event registrations.
+              </span>
+            </Callout>
+            <div className="mt-1">
+              {passActive && passInfo && (
+                <RefundRow checked={passPicked} onToggle={() => toggle(pass!)} title={passInfo.name} />
+              )}
+              {activeSides.map((s) => (
+                <RefundRow key={key(s)} checked={picked.has(key(s))} locked={passPicked} onToggle={() => toggle(s)} title={s.name} sub={sideWhen(s.refId)} />
+              ))}
             </div>
-          )}
-
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between gap-3">
-              <p className={cx("text-heading-sm uppercase", passActive ? "text-ink" : "text-disabled")}>
-                {passInfo?.name ?? "Side events"}
-                {pass?.refunded && <span className="ml-2 text-micro text-subtle">Refunded</span>}
-              </p>
-              {pass && (
-                <div className="relative">
-                  <ActionMenu
-                    label="Pass actions"
-                    items={[
-                      { label: "Refund pass", onSelect: () => onRefundItem(pass), tone: "danger", disabled: pass.refunded },
-                      ...h.orders.map((o) => ({
-                        label: `Refund entire order ${o.confirmation}`,
-                        onSelect: () => onRefundOrder(o.id),
-                        tone: "danger" as const,
-                        disabled: o.items.every((i) => i.refunded),
-                      })),
-                    ]}
-                  />
-                  <ReqMarker ids={["REF-01", "REF-02"]} corner="bl" />
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <span className="text-body-sm text-muted">{summary}</span>
+              <div className="flex items-center gap-5">
+                <Button variant="ghost" size="sm" onClick={exitSelect}>Cancel</Button>
+                <Button
+                  variant={selectedItems.length ? "primary" : "secondary"}
+                  size="sm"
+                  disabled={!selectedItems.length}
+                  onClick={() => onRefund(selectedItems)}
+                >
+                  Confirm refund
+                </Button>
+              </div>
+            </div>
+            <ReqMarker ids={["REF-01", "REF-02", "REF-03"]} />
+          </div>
+        ) : (
+          <>
+            <div className="flex flex-col gap-5 pt-5 md:flex-row md:gap-6">
+              {passActive && h.badgeCode && (
+                <div className="relative w-full md:w-42 shrink-0 flex flex-col items-center">
+                  <div className="p-4 rounded-lg border border-line bg-surface">
+                    <QRCode value={h.badgeCode} className="max-md:size-qr-mobile" />
+                  </div>
+                  <span className="mt-2 text-micro uppercase text-ink tracking-[0.1em]">{h.badgeCode}</span>
+                  <div className="mt-3 md:mt-2 flex flex-col items-center gap-2 md:gap-1.5">
+                    <Button variant="dark" size="xs" className="max-md:h-10 max-md:px-4" iconLeft={<IconWallet size={12} />} onClick={() => onPending("Apple Wallet")}>
+                      Add to Apple Wallet
+                    </Button>
+                    <Button variant="dark" size="xs" className="max-md:h-10 max-md:px-4" iconLeft={<IconWallet size={12} />} onClick={() => onPending("Google Wallet")}>
+                      Add to Google Wallet
+                    </Button>
+                    <button type="button" onClick={() => onPending("PDF ticket")} className="mt-1 inline-flex items-center gap-1 max-md:py-2 text-micro uppercase text-accent">
+                      <IconDownload size={12} /> Download PDF
+                    </button>
+                  </div>
+                  <ReqMarker ids={["MYT-03", "MYT-04", "MYT-05"]} />
                 </div>
               )}
+              <div className="flex-1 min-w-0">
+                <p className={cx("text-heading-sm uppercase", passActive ? "text-ink" : "text-disabled")}>
+                  {passInfo?.name ?? "Side events"}
+                  {pass?.refunded && <span className="ml-2 text-micro text-subtle">Refunded</span>}
+                </p>
+              </div>
             </div>
-            <Divider className="my-3" />
 
-            {h.sides.length > 0 ? (
-              <div className="relative">
-                <Overline>Side events</Overline>
-                <ul className="mt-2 flex flex-col">
-                  {h.sides.map((s) => {
-                    const se = getSideEvent(s.refId);
-                    return (
-                      <li key={s.orderId + s.refId} className="group flex items-center justify-between gap-3 py-1 -mx-2 px-2 rounded-md hover:bg-canvas">
-                        <span className={cx("min-w-0 text-body", s.refunded ? "text-disabled line-through" : "text-ink")}>
-                          {s.name}
-                          {se && (
-                            <span className={s.refunded ? "" : "text-muted"}>
-                              {" "}· {dayHeading(se.date).split(",")[0]}, {dayHeading(se.date).split(", ")[1]} · {clock(se.start)}
-                            </span>
-                          )}
-                        </span>
-                        {s.refunded ? (
-                          <span className="text-micro uppercase text-subtle">Refunded</span>
-                        ) : (
-                          <span className="shrink-0 opacity-40 group-hover:opacity-100 max-lg:opacity-100 transition-opacity">
-                            <ActionMenu label={`Actions for ${s.name}`} items={[{ label: "Request refund", onSelect: () => onRefundItem(s), tone: "danger" }]} />
-                          </span>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
+            {h.sides.length > 0 && (
+              <div className="relative mt-5 border-t border-line">
+                {h.sides.map((s) => (
+                  <div key={key(s)} className="flex items-center justify-between gap-4 py-5 border-b border-line">
+                    <div className={cx("min-w-0", s.refunded && "opacity-50")}>
+                      <p className={cx("text-heading-sm uppercase text-ink", s.refunded && "line-through")}>{s.name}</p>
+                      <p className="mt-0.5 text-body text-muted uppercase">{sideWhen(s.refId)}</p>
+                    </div>
+                    {s.refunded ? (
+                      <span className="text-micro uppercase text-subtle">Refunded</span>
+                    ) : (
+                      <Button variant="secondary" size="sm" className="shrink-0" onClick={() => onRefund([s])}>Refund</Button>
+                    )}
+                  </div>
+                ))}
                 <ReqMarker ids={["MYT-06", "REF-04", "REF-03"]} />
               </div>
-            ) : (
-              <p className="text-body text-muted">No side events yet.</p>
             )}
-          </div>
-        </div>
 
-        <Divider className="my-4" />
-        <div className="flex flex-wrap justify-end gap-3">
-          <div className="relative">
-            <Button variant="secondary" size="sm" onClick={() => onPending("Invoice")}>View invoice</Button>
-            <ReqMarker ids={["MYT-07"]} />
-          </div>
-          <div className="relative">
-            <LinkButton href={`/events/${ev.slug}`} variant="primary" size="sm">Explore event</LinkButton>
-            <ReqMarker ids={["MYT-08"]} />
-          </div>
-        </div>
+            <div className={cx("flex flex-wrap justify-end gap-3", h.sides.length ? "mt-5" : "mt-5 pt-5 border-t border-line")}>
+              {!nothingToRefund && (
+                <div className="relative">
+                  <Button variant="secondary" size="sm" onClick={() => setSelecting(true)}>Refund order</Button>
+                  <ReqMarker ids={["REF-02"]} />
+                </div>
+              )}
+              <div className="relative">
+                <Button variant="secondary" size="sm" onClick={() => onPending("Invoice")}>View invoice</Button>
+                <ReqMarker ids={["MYT-07"]} />
+              </div>
+              <div className="relative">
+                <LinkButton href={`/events/${ev.slug}`} variant="primary" size="sm">Explore event</LinkButton>
+                <ReqMarker ids={["MYT-08"]} />
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </Card>
   );

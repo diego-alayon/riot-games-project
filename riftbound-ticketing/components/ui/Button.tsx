@@ -3,25 +3,29 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cx } from "@/lib/cx";
 
 export type ButtonVariant =
-  | "primary"    // orange fill — main CTA (Select, Add, Continue to checkout, Pay)
-  | "secondary"  // white outline — alternate CTA (View invoice, Browse more events, Add)
-  | "selected"   // white outline, ink text — "Selected" state of a pass
-  | "success"    // green outline — "Registered"
+  | "primary"    // red fill — main CTA (Add, Continue to checkout, Check out)
+  | "secondary"  // white outline — alternate CTA (View invoice, Browse more events, Refund)
+  | "inert"      // grey fill — settled states: Selected, Added, Full
+  | "registered" // green fill + check — the user already holds it
+  | "success"    // green outline — soft confirmation (Pre-registered)
   | "fan"        // violet fill — Fan First pre-registration
-  | "dark";      // navy pill — wallet actions
-
-export type ButtonSize = "lg" | "md" | "sm" | "xs";
+  | "dark"       // near-black pill — wallet actions
+  | "ghost";     // red text link — Remove, Refund, Cancel
 
 const VARIANT: Record<ButtonVariant, string> = {
   primary:
     "bg-accent text-on-accent hover:bg-accent-hover disabled:bg-accent-disabled disabled:hover:bg-accent-disabled",
   secondary:
-    "bg-surface text-ink border border-line-strong hover:bg-canvas disabled:text-disabled",
-  selected: "bg-surface text-ink border border-line-strong",
+    "bg-surface text-ink border border-line-strong hover:bg-canvas disabled:text-disabled disabled:hover:bg-surface",
+  inert: "bg-surface-inert text-inert",
+  registered: "bg-success text-on-dark",
   success: "bg-success-soft text-success border border-success",
   fan: "bg-fan text-on-accent hover:bg-fan-hover",
-  dark: "bg-surface-dark text-on-dark hover:bg-surface-darker",
+  dark: "bg-header text-on-dark hover:bg-surface-darker",
+  ghost: "text-accent hover:text-accent-hover h-auto! px-0! font-normal! tracking-normal!",
 };
+
+export type ButtonSize = "lg" | "md" | "sm" | "xs";
 
 const SIZE: Record<ButtonSize, string> = {
   lg: "h-12 px-6 text-button rounded-md",
@@ -42,7 +46,8 @@ interface CommonProps {
 
 function classes({ variant = "primary", size = "md", block, className }: CommonProps) {
   return cx(
-    "inline-flex items-center justify-center gap-2 uppercase whitespace-nowrap select-none transition-colors",
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap select-none transition-colors",
+    variant !== "ghost" && "uppercase",
     VARIANT[variant],
     SIZE[size],
     block && "w-full",

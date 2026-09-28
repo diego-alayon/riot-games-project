@@ -1,7 +1,7 @@
 "use client";
 
 import { Callout } from "@/components/ui/Surface";
-import { Heading, InlineLink } from "@/components/ui/Typography";
+import { InlineLink } from "@/components/ui/Typography";
 import { ReqMarker } from "@/components/trace/ReqMarker";
 import { EventShell, useRequireSession } from "@/components/patterns/EventShell";
 import { SideEventCard, type SideEventCta } from "@/components/patterns/SideEventCard";
@@ -39,22 +39,19 @@ export function SideEventsScreen({ ev }: { ev: RiftEvent }) {
         </Callout>
       ) : (
         <>
-          <div className="relative">
-            <Heading level="heading-lg">Weekend schedule</Heading>
-            <ReqMarker ids={["SDE-01"]} corner="tr" />
-          </div>
           {!unlocked && (
-            <div className="relative mt-4">
+            <div className="relative mb-6">
               <Callout tone="note" title="A pass is required for side events">
                 Pick a pass in <InlineLink href={`/events/${ev.slug}`}>Event Passes</InlineLink> — you can buy it together with side events in one order.
               </Callout>
               <ReqMarker ids={["SDE-06", "SDE-07"]} />
             </div>
           )}
-          {days.map((day) => (
-            <section key={day} className="mt-6">
-              <h3 className="pb-3 border-b border-line text-heading-md uppercase text-ink">{dayHeading(day)}</h3>
-              <div className="mt-3 flex flex-col gap-3">
+          {days.map((day, i) => (
+            <section key={day} className={i ? "relative mt-6" : "relative"}>
+              <h3 className="text-label uppercase tracking-normal text-ink">{dayHeading(day)}</h3>
+              {i === 0 && <ReqMarker ids={["SDE-01"]} corner="tr" />}
+              <div className="mt-3 flex flex-col gap-2.5">
                 {events
                   .filter((e) => e.date === day)
                   .map((se) => (

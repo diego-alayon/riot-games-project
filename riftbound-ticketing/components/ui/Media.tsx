@@ -113,3 +113,47 @@ export function QRCode({ value, size = 104, className }: { value: string; size?:
     </svg>
   );
 }
+
+/**
+ * Riftbound key art behind heroes (Find Events, event detail). The comps use
+ * Riot's card-collage artwork; until Riot supplies it (FND-04), a generated
+ * collage stands in. Pass `image` to use the real asset. Colors are art data.
+ */
+export function KeyArt({ image, className }: { image?: string; className?: string }) {
+  const cards: Array<[number, number, number, string]> = [
+    // left %, top %, rotation deg, tint
+    [-2, 8, -8, "rgb(120 90 60 / 0.55)"],
+    [14, -18, 6, "rgb(60 110 150 / 0.55)"],
+    [31, 22, -4, "rgb(150 70 140 / 0.5)"],
+    [58, -24, 9, "rgb(70 120 200 / 0.5)"],
+    [74, 18, -7, "rgb(160 60 110 / 0.55)"],
+    [90, -10, 5, "rgb(90 70 150 / 0.55)"],
+  ];
+  return (
+    <div className={cx("absolute inset-0 overflow-hidden", className)} aria-hidden>
+      {image ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={image} alt="" className="absolute inset-0 size-full object-cover" />
+      ) : (
+        <>
+          <div className="absolute inset-0" style={{ background: "linear-gradient(120deg, #2a1a3e 0%, #1b2a4a 45%, #3a1f45 100%)" }} />
+          {cards.map(([l, t, r, tint], i) => (
+            <div
+              key={i}
+              className="absolute w-[22%] min-w-40 aspect-[5/7] rounded-xl"
+              style={{
+                left: `${l}%`,
+                top: `${t}%`,
+                transform: `rotate(${r}deg)`,
+                background: `linear-gradient(160deg, ${tint}, rgb(20 20 35 / 0.6))`,
+                border: "2px solid rgb(255 255 255 / 0.12)",
+              }}
+            />
+          ))}
+          <div className="absolute inset-0" style={{ background: "radial-gradient(22% 45% at 55% 55%, rgb(210 235 255 / 0.55), transparent 70%)" }} />
+        </>
+      )}
+      <div className="absolute inset-0 bg-linear-to-r from-surface-darker/80 via-surface-darker/45 to-surface-darker/20" />
+    </div>
+  );
+}

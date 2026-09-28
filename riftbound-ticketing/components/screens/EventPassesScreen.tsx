@@ -1,27 +1,36 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Callout } from "@/components/ui/Surface";
-import { SectionLabel } from "@/components/ui/Typography";
 import { ReqMarker } from "@/components/trace/ReqMarker";
 import { EventShell, useRequireSession } from "@/components/patterns/EventShell";
 import { PassCard, PassGroupStatus } from "@/components/patterns/PassCard";
 import { passesFor } from "@/lib/data/catalog";
-import type { RiftEvent, Role } from "@/lib/data/types";
+import type { Pass, RiftEvent, Role } from "@/lib/data/types";
 import { ownedPassFor, useStore } from "@/lib/state/store";
-import { useTrace } from "@/lib/trace/trace-context";
-import { cx } from "@/lib/cx";
 
 const ROLES: Role[] = ["competitor", "attendee"];
+/** Group headings from the v2 comps. The pass tags keep the PRD role names (PAS-04). */
+const GROUP_LABEL: Record<Role, string> = { competitor: "Compete", attendee: "Spectate" };
+/** Standard before Premium, as in the comps. */
+const byTier = (a: Pass, b: Pass) => (a.tier === b.tier ? 0 : a.tier === "standard" ? -1 : 1);
 
 /** P-02 Event Passes, and P-05 Fan First when no group is on sale. */
 export function EventPassesScreen({ ev }: { ev: RiftEvent }) {
+  const router = useRouter();
   const store = useStore();
-  const { passLayout } = useTrace();
   const requireSession = useRequireSession();
   const passes = passesFor(ev);
   const owned = store.ready ? ownedPassFor(store.orders, ev.slug) : null;
   const allFanFirst = ROLES.every((r) => ev.passSale[r] === "fan-first");
-  const anyOnSale = ROLES.some((r) => ev.passSale[r] === "on-sale");
+
+  /** Pre-registering goes to its confirmation (P-05); tapping again cancels it in place. */
+  const prereg = (p: Pass) =>
+    requireSession(() => {
+      const wasRegistered = store.preregs.includes(p.id);
+      store.togglePrereg(p.id);
+      if (!wasRegistered) router.push(`/events/${ev.slug}/pre-registered?pass=${encodeURIComponent(p.id)}`);
+    });
 
   return (
     <EventShell ev={ev} tab="passes" mode={allFanFirst ? "fan-first" : "sale"}>
@@ -37,17 +46,18 @@ export function EventPassesScreen({ ev }: { ev: RiftEvent }) {
         </div>
       )}
 
-      <div className="flex flex-col gap-8">
-        {ROLES.map((role) => {
+      <div className="flex flex-col gap-6">
+        {ROLES.map((role, i) => {
           const sale = ev.passSale[role];
-          const group = passes.filter((p) => p.role === role); // premium first, as authored
+          const group = passes.filter((p) => p.role === role).sort(byTier);
           return (
             <section key={role}>
-              <div className="relative">
-                <SectionLabel right={<PassGroupStatus sale={sale} />}>{role === "competitor" ? "Competitor" : "Attendee"}</SectionLabel>
-                <ReqMarker ids={["PAS-05", "PAS-08"]} corner="tl" />
+              <div className="relative flex items-end justify-between gap-4">
+                <h2 className="text-label text-ink uppercase tracking-normal">{GROUP_LABEL[role]}</h2>
+                {i === 0 || sale !== ev.passSale.competitor ? <PassGroupStatus sale={sale} /> : null}
+                <ReqMarker ids={["PAS-05", "PAS-08", "EVT-06"]} corner="tl" />
               </div>
-              {sale === "fan-first" && anyOnSale && (
+              {sale === "fan-first" && !allFanFirst && (
                 <Callout tone="fan" className="mt-3">
                   <span className="text-body">
                     {role === "attendee" ? "Attendee" : "Competitor"} passes aren&apos;t on sale yet. Pre-register for{" "}
@@ -55,21 +65,20 @@ export function EventPassesScreen({ ev }: { ev: RiftEvent }) {
                   </span>
                 </Callout>
               )}
-              <div className={cx("mt-3 gap-3", passLayout === "cards" ? "grid grid-cols-1 md:grid-cols-2" : "flex flex-col")}>
+              <div className="mt-3 flex flex-col gap-2.5">
                 {group.map((p) => (
                   <PassCard
                     key={p.id}
                     pass={p}
                     currency={ev.currency}
                     sale={sale}
-                    layout={passLayout}
                     owned={owned?.pass.id === p.id}
                     dimmed={!!owned && owned.pass.id !== p.id}
                     selected={store.cart.passId === p.id}
                     preregistered={store.preregs.includes(p.id)}
                     onSelect={() => requireSession(() => store.selectPass(ev.slug, p.id))}
                     onRemove={store.removePass}
-                    onPrereg={() => requireSession(() => store.togglePrereg(p.id))}
+                    onPrereg={() => prereg(p)}
                   />
                 ))}
               </div>

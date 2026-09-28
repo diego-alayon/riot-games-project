@@ -2,66 +2,86 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Tabs } from "@/components/ui/Tabs";
-import { Avatar } from "@/components/ui/Data";
 import { ActionMenu } from "@/components/ui/Overlay";
+import { IconCaretDown } from "@/components/icons";
 import { ReqMarker } from "@/components/trace/ReqMarker";
+import { cx } from "@/lib/cx";
 import { useStore } from "@/lib/state/store";
 
+/** Riot Games wordmark. The glyph is a neutral placeholder until Riot supplies the logo asset. */
 export function Wordmark() {
   return (
-    <Link href="/" className="inline-flex shrink-0 flex-col sm:flex-row sm:items-baseline sm:gap-1">
-      <span className="text-heading-sm text-ink tracking-tight">RIOT GAMES</span>
-      <span className="text-micro text-accent">TICKETS</span>
+    <Link href="/" className="inline-flex shrink-0 items-center gap-2 text-on-dark" aria-label="Riot Games Tickets — Find Events">
+      <svg width="30" height="26" viewBox="0 0 30 26" fill="currentColor" aria-hidden>
+        <path d="M3 6.5 17 2l10 4.2-1.4 13.3L22 22l-.8-4.2-2.4.6.5 4.2-4.3-1-.9-4.2-2.3.2.2 4.3-4-1.2-.5-4.1-2.2-.1.4 3.8L2.2 18z" />
+      </svg>
+      <span className="flex flex-col text-label leading-[0.95] tracking-tight">
+        <span>RIOT</span>
+        <span>GAMES</span>
+      </span>
+      <IconCaretDown className="text-on-dark-muted" />
+    </Link>
+  );
+}
+
+function NavLink({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      aria-current={active ? "page" : undefined}
+      className={cx(
+        "text-button uppercase tracking-normal whitespace-nowrap transition-colors",
+        active ? "text-on-dark" : "text-on-dark hover:text-on-dark-muted",
+      )}
+    >
+      {children}
     </Link>
   );
 }
 
 /**
- * 64px white bar: wordmark, primary nav (FND-01), identity (ACC-04).
- * < sm: wordmark stacks, "Find Events" shortens to "Events", the Riot ID text
- * hides and the avatar itself opens the account menu.
+ * 80px near-black bar: Riot wordmark, Riftbound mark, primary nav (FND-01),
+ * identity menu (ACC-04). The v2 comps show the game name only (no tag line).
  */
 export function SiteHeader() {
   const path = usePathname();
   const { session, ready, signOut } = useStore();
-  const onTickets = path.startsWith("/my-tickets");
-  const onEvents = path === "/";
 
   return (
-    <header className="sticky top-0 z-30 h-header bg-surface border-b border-line">
-      <div className="h-full px-4 md:px-8 flex items-center gap-3 sm:gap-6 md:gap-8">
+    <header className="sticky top-0 z-30 h-header bg-header">
+      <div className="h-full px-4 md:px-8 flex items-center gap-4 md:gap-8">
         <Wordmark />
-        <div className="relative h-full">
-          <Tabs
-            size="nav"
-            items={[
-              { label: "Find Events", shortLabel: "Events", href: "/", active: onEvents },
-              { label: "My Tickets", href: "/my-tickets", active: onTickets },
-            ]}
-          />
+        <span className="hidden sm:block h-8 w-px bg-line-dark" aria-hidden />
+        <span className="hidden sm:inline-flex size-7 items-center justify-center rounded-pill bg-surface text-header" aria-label="Riftbound">
+          <svg width="16" height="14" viewBox="0 0 30 26" fill="currentColor" aria-hidden>
+            <path d="M3 6.5 17 2l10 4.2-1.4 13.3L22 22l-.8-4.2-2.4.6.5 4.2-4.3-1-.9-4.2-2.3.2.2 4.3-4-1.2-.5-4.1-2.2-.1.4 3.8L2.2 18z" />
+          </svg>
+        </span>
+        <nav className="relative flex items-center gap-4 sm:gap-8">
+          <NavLink href="/" active={path === "/"}>
+            <span className="sm:hidden">Events</span>
+            <span className="max-sm:hidden">Find Events</span>
+          </NavLink>
+          <NavLink href="/my-tickets" active={path.startsWith("/my-tickets")}>My Tickets</NavLink>
           <ReqMarker ids={["FND-01", "ACC-03"]} corner="br" />
-        </div>
-        <div className="relative ml-auto flex items-center gap-3">
+        </nav>
+        <div className="relative ml-auto flex items-center">
           {ready && session ? (
-            <>
-              <span className="hidden md:inline text-body text-subtle">{session.riotId}</span>
-              <span className="hidden sm:inline-flex">
-                <Avatar name={session.gameName} />
-              </span>
-              <span className="hidden sm:inline-flex">
-                <ActionMenu label="Account" items={[{ label: "Sign out", onSelect: signOut }]} />
-              </span>
-              <span className="sm:hidden inline-flex">
-                <ActionMenu
-                  label="Account"
-                  trigger={<Avatar name={session.gameName} />}
-                  items={[{ label: session.riotId, onSelect: () => {}, disabled: true }, { label: "Sign out", onSelect: signOut }]}
-                />
-              </span>
-            </>
+            <ActionMenu
+              label="Account"
+              trigger={
+                <span className="inline-flex items-center gap-2 text-heading-sm font-bold text-on-dark">
+                  <span className="max-sm:hidden">{session.gameName}</span>
+                  <span className="sm:hidden inline-flex size-7 items-center justify-center rounded-pill bg-surface text-header text-micro">
+                    {session.gameName.slice(0, 1)}
+                  </span>
+                  <IconCaretDown className="text-on-dark-muted" />
+                </span>
+              }
+              items={[{ label: session.riotId, onSelect: () => {}, disabled: true }, { label: "Sign out", onSelect: signOut }]}
+            />
           ) : ready ? (
-            <Link href={`/login?next=${encodeURIComponent(path)}`} className="text-label uppercase text-ink hover:text-accent">
+            <Link href={`/login?next=${encodeURIComponent(path)}`} className="text-button uppercase text-on-dark hover:text-on-dark-muted">
               Sign in
             </Link>
           ) : null}

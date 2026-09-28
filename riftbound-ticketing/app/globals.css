@@ -30,13 +30,24 @@
   --rb-slate-50: #f8f8f9;
   --rb-white: #ffffff;
 
-  /* Orange — brand accent */
-  --rb-orange-700: #b85e00;
-  --rb-orange-600: #d86f00;
-  --rb-orange-500: #ef7d00;
-  --rb-orange-300: #f8c894;
-  --rb-orange-200: #f7d6b0;
-  --rb-orange-50: #fff6ec;
+  /* Riot red — brand accent (definitive comps, v2) */
+  --rb-riot-700: #9e001e;
+  --rb-riot-600: #c50026;
+  --rb-riot-500: #e4002b;
+  --rb-riot-300: #f3a3b3;
+  --rb-riot-200: #f5c6d0;
+  --rb-riot-50: #fdf1f3;
+
+  /* Neutral — site header and sunken panels */
+  --rb-black: #111214;
+  --rb-gray-100: #f3f3f5;
+  --rb-gray-200: #e9e9ec;
+  --rb-gray-500: #8b8e96;
+
+  /* Amber — cautionary notices (refund selection) */
+  --rb-amber-500: #d9a400;
+  --rb-amber-200: #f0dfa3;
+  --rb-amber-50: #fdf7e4;
 
   /* Green — confirmed / on sale / registered */
   --rb-green-700: #0b643a;
@@ -74,6 +85,9 @@
   --color-surface-muted: var(--rb-slate-100);  /* chips, neutral tags */
   --color-surface-dark: var(--rb-navy-800);    /* heroes, dark pills */
   --color-surface-darker: var(--rb-navy-950);
+  --color-surface-sunken: var(--rb-gray-100);  /* price panel inside cards */
+  --color-surface-inert: var(--rb-gray-200);   /* inert CTAs: Selected, Added, Full */
+  --color-header: var(--rb-black);             /* site header bar */
 
   /* ── Color: text ──────────────────────────────────────────────────────── */
   --color-ink: var(--rb-navy-900);             /* headings, prices, values */
@@ -81,6 +95,7 @@
   --color-muted: var(--rb-slate-500);          /* descriptions, captions */
   --color-subtle: var(--rb-slate-600);         /* labels, nav, overlines */
   --color-disabled: var(--rb-slate-400);
+  --color-inert: var(--rb-gray-500);           /* text on inert CTAs */
   --color-on-dark: var(--rb-white);
   --color-on-dark-muted: rgb(255 255 255 / 0.8);
   --color-on-accent: var(--rb-white);
@@ -90,13 +105,13 @@
   --color-line-strong: var(--rb-slate-300);
   --color-line-dark: rgb(255 255 255 / 0.28);
 
-  /* ── Color: accent (brand orange) ─────────────────────────────────────── */
-  --color-accent: var(--rb-orange-500);
-  --color-accent-hover: var(--rb-orange-600);
-  --color-accent-strong: var(--rb-orange-700);
-  --color-accent-disabled: var(--rb-orange-300);
-  --color-accent-soft: var(--rb-orange-50);
-  --color-accent-line: var(--rb-orange-200);
+  /* ── Color: accent (Riot red) ─────────────────────────────────────────── */
+  --color-accent: var(--rb-riot-500);
+  --color-accent-hover: var(--rb-riot-600);
+  --color-accent-strong: var(--rb-riot-700);
+  --color-accent-disabled: var(--rb-riot-300);
+  --color-accent-soft: var(--rb-riot-50);
+  --color-accent-line: var(--rb-riot-200);
 
   /* ── Color: feedback ──────────────────────────────────────────────────── */
   --color-success: var(--rb-green-600);
@@ -109,8 +124,20 @@
   --color-fan-line: var(--rb-violet-200);
   --color-danger: var(--rb-red-600);
   --color-danger-soft: var(--rb-red-50);
+  --color-warning: var(--rb-amber-500);
+  --color-warning-soft: var(--rb-amber-50);
+  --color-warning-line: var(--rb-amber-200);
 
   /* ── Type scale (size / line-height / tracking / weight) ─────────────── */
+  --text-display-hero: 44px;          /* hero titles over key art — title case */
+  --text-display-hero--line-height: 1.1;
+  --text-display-hero--letter-spacing: -0.015em;
+  --text-display-hero--font-weight: 700;
+
+  --text-title: 16px;                 /* pass / side event names — title case */
+  --text-title--line-height: 1.35;
+  --text-title--font-weight: 700;
+
   --text-display-xl: 40px;            /* page hero, featured event title */
   --text-display-xl--line-height: 1.05;
   --text-display-xl--letter-spacing: -0.01em;
@@ -195,18 +222,19 @@
   --radius-xs: 3px;
   --radius-sm: 4px;
   --radius-md: 6px;                   /* buttons, inputs, notes */
-  --radius-lg: 8px;                   /* cards, panels */
+  --radius-lg: 10px;                  /* cards, panels */
+  --radius-xl: 12px;                  /* order panel, confirmation card */
   --radius-pill: 9999px;
 
   /* ── Elevation ────────────────────────────────────────────────────────── */
   --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04);
   --shadow-raised: 0 6px 18px rgb(16 24 40 / 0.10);
   --shadow-overlay: 0 18px 48px rgb(16 24 40 / 0.22);
-  --shadow-focus: 0 0 0 3px rgb(239 125 0 / 0.28);
+  --shadow-focus: 0 0 0 3px rgb(228 0 43 / 0.24);
 
   /* ── Layout (spacing namespace → w-*, h-*, max-w-* utilities) ────────── */
-  --spacing-header: 64px;             /* site header height */
-  --spacing-hero: 216px;              /* event hero height */
+  --spacing-header: 80px;             /* site header height */
+  --spacing-hero: 220px;              /* key-art hero height */
   --spacing-page: 1136px;             /* content container */
   --spacing-main: 744px;              /* main column */
   --spacing-aside: 360px;             /* order panel */
@@ -216,7 +244,8 @@
   --spacing-list-thumb: 176px;        /* "More events" thumbnail */
   --spacing-past-thumb: 192px;
   --spacing-qr: 136px;
-  --spacing-accent-bar: 4px;          /* orange rule under heroes/cards */
+  --spacing-accent-bar: 4px;          /* red rule under event art cards */
+  --spacing-price-panel: 152px;       /* price + CTA panel on pass / side event cards */
 
   /* Mobile variants (RNF-14, < md). Desktop values above stay untouched. */
   --spacing-list-thumb-sm: 112px;     /* "More events" thumbnail on phones */

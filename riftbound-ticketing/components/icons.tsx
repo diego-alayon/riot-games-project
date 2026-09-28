@@ -33,6 +33,12 @@ export const IconMinus = (p: IconProps) => <Svg {...p}><path d="M3.5 8h9" /></Sv
 export const IconPin = (p: IconProps) => (
   <Svg {...p}><path d="M8 14s4.5-4.1 4.5-7.5a4.5 4.5 0 10-9 0C3.5 9.9 8 14 8 14z" /><circle cx="8" cy="6.5" r="1.6" /></Svg>
 );
+export const IconCalendar = (p: IconProps) => (
+  <Svg {...p}><rect x="2" y="3" width="12" height="11" rx="1.5" /><path d="M2 6.5h12M5.5 1.8v2.4M10.5 1.8v2.4" /></Svg>
+);
+export const IconCaretDown = ({ size = 10, ...p }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 10 10" fill="currentColor" aria-hidden {...p}><path d="M1.5 3.5h7L5 7.5z" /></svg>
+);
 export const IconTicket = (p: IconProps) => (
   <Svg {...p}><path d="M2 5.5V4h12v1.5a1.5 1.5 0 000 3V12H2V8.5a1.5 1.5 0 000-3z" /><path d="M9.5 4v8" strokeDasharray="1.4 1.4" /></Svg>
 );
