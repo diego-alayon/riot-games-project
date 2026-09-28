@@ -41,22 +41,30 @@ export function ReqMarker({
       <span className={cx("absolute flex gap-0.5 w-max whitespace-nowrap pointer-events-auto", pos)}>
         {ids.map((id) => {
           const r = REQUIREMENTS[id];
+          // Not an <a>: markers often sit inside cards that are links themselves,
+          // and <a> inside <a> is invalid HTML (hydration error). The tag opens
+          // the catalog itself and stops the host link from navigating.
+          const open = (e: React.SyntheticEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.open(requirementHref(id), "_blank", "noopener,noreferrer");
+          };
           return (
-            <a
+            <span
               key={id}
-              href={requirementHref(id)}
-              target="_blank"
-              rel="noopener noreferrer"
+              role="link"
+              tabIndex={0}
               title={r ? `${id} · ${r.name} — ${r.priority} · ${r.status}` : id}
-              onClick={(e) => e.stopPropagation()}
+              onClick={open}
+              onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && open(e)}
               className={cx(
-                "font-mono text-[9px] leading-none px-1 py-0.5 rounded-xs bg-surface/90 border",
-                "opacity-40 hover:opacity-100 transition-opacity",
+                "font-mono text-[9px] leading-none px-1 py-0.5 rounded-xs bg-surface/90 border cursor-pointer",
+                "opacity-40 hover:opacity-100 focus-visible:opacity-100 transition-opacity",
                 r?.status === "Confirmado" ? "text-fan border-fan-line" : "text-subtle border-line-strong border-dashed",
               )}
             >
               {id}
-            </a>
+            </span>
           );
         })}
       </span>
