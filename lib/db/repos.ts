@@ -65,7 +65,7 @@ export const initiativeRepo = {
 // ── Epics ─────────────────────────────────────────────────────────────────────
 export const epicRepo = {
   forInitiative: (initiativeId: string) =>
-    db.prepare("SELECT * FROM epics WHERE initiative_id=? ORDER BY start_date").all(initiativeId),
+    db.prepare("SELECT * FROM epics WHERE initiative_id=? ORDER BY sort_order IS NULL, sort_order, start_date").all(initiativeId),
   get: (id: string) => db.prepare("SELECT * FROM epics WHERE id=?").get(id),
   create: (initiativeId: string, name: string, fields: Record<string, unknown> = {}) => {
     const id = uuid();
@@ -123,6 +123,9 @@ export const requirementRepo = {
     db.prepare("SELECT * FROM requirements WHERE initiative_id=? ORDER BY code").all(initiativeId),
   byStory: (storyId: string) =>
     db.prepare("SELECT * FROM requirements WHERE story_id=? ORDER BY code").all(storyId),
+  /** Requirements attached to the epic itself (PRD tables have no stories). */
+  byEpicDirect: (epicId: string) =>
+    db.prepare("SELECT * FROM requirements WHERE epic_id=? AND story_id IS NULL ORDER BY code").all(epicId),
   forInitiative: (initiativeId: string) =>
     db.prepare("SELECT * FROM requirements WHERE initiative_id=? ORDER BY code").all(initiativeId),
   get: (id: string) => db.prepare("SELECT * FROM requirements WHERE id=?").get(id),
@@ -176,7 +179,8 @@ export function getInitiativeTree() {
         const requirements = requirementRepo.byStory(story.id) as any[];
         return { ...story, tasks, requirements };
       });
-      return { ...epic, stories };
+      const requirements = requirementRepo.byEpicDirect(epic.id) as any[];
+      return { ...epic, stories, requirements };
     });
     return { ...init, app: app ?? null, epics };
   });

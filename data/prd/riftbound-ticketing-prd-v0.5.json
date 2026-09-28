@@ -1,0 +1,1016 @@
+{
+  "document": "Riftbound Ticketing Portal — Definición de Requisitos de Producto",
+  "version": "v0.5",
+  "date": "2026-09-28",
+  "initiative": "Riftbound Ticketing Portal",
+  "epics": [
+    {
+      "code": "EP-ACC",
+      "name": "Acceso y autenticación",
+      "requirements": [
+        {
+          "code": "ACC-01",
+          "page": "P-01, P-02, P-03",
+          "feature": "Navegación pública",
+          "description": "Find Events y Event Detail son accesibles sin sesión.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "3.2 stage 1",
+          "owner": "Globant",
+          "comments": "RN-02"
+        },
+        {
+          "code": "ACC-02",
+          "page": "P-02, P-03",
+          "feature": "Login al intentar comprar",
+          "description": "Al añadir al carrito o pagar sin sesión, se redirige a login RSO (P-11).",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "3.2 stage 2; B2",
+          "owner": "Globant",
+          "comments": "RN-01. La WO también exige autenticación \"at intent-to-purchase\"."
+        },
+        {
+          "code": "ACC-03",
+          "page": "P-08",
+          "feature": "Login para My Tickets",
+          "description": "Al acceder a My Tickets sin sesión, se redirige a login RSO.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "ACC-04",
+          "page": "Global",
+          "feature": "Identidad en cabecera",
+          "description": "Se muestran el Riot ID (ej. Slazareth#NA1) y el avatar del usuario autenticado.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "No tratado en la reunión."
+        }
+      ]
+    },
+    {
+      "code": "EP-FND",
+      "name": "Find Events (entry point)",
+      "requirements": [
+        {
+          "code": "FND-01",
+          "page": "Global",
+          "feature": "Navegación principal",
+          "description": "Dos tabs: \"Find Events\" (landing) y \"My Tickets\".",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK Riot_Games_Tickets-7",
+          "woRef": "3.2 stage 1",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "FND-02",
+          "page": "P-01",
+          "feature": "Barra de juegos",
+          "description": "Filtro por juego. En la v1 solo Riftbound; el resto deshabilitado u oculto.",
+          "priority": "No crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Riot propone incluso eliminar la barra en la v1."
+        },
+        {
+          "code": "FND-03",
+          "page": "P-01",
+          "feature": "Evento destacado (hero)",
+          "description": "Tarjeta grande de los eventos más próximos, en venta o a punto de abrir.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "B1",
+          "owner": "Globant",
+          "comments": "Riot indica que lo habitual es un solo evento destacado."
+        },
+        {
+          "code": "FND-04",
+          "page": "P-01, P-02",
+          "feature": "Imagen por evento",
+          "description": "Cada evento tiene una imagen propia en su tarjeta y en la cabecera del detalle.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Compartido",
+          "comments": "Riot aporta las imágenes. Se acepta hardcodearlas en frontend (DEC-05)."
+        },
+        {
+          "code": "FND-05",
+          "page": "P-01",
+          "feature": "Datos de la tarjeta",
+          "description": "Nombre, fechas, venue, ciudad/país y etiqueta de región (APAC, AMERICAS, EMEA).",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "B1",
+          "owner": "Globant",
+          "comments": "Riot: \"lo importante es dónde son y si están en venta\". La etiqueta de región solo aparece en el mockup."
+        },
+        {
+          "code": "FND-06",
+          "page": "P-01",
+          "feature": "Estado de venta",
+          "description": "Estados visibles: \"On sale now\", \"On sale in X days\", \"On sale [fecha]\".",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Relacionado con RN-08."
+        },
+        {
+          "code": "FND-07",
+          "page": "P-01",
+          "feature": "Listado \"More events\"",
+          "description": "Resto de eventos con fecha de apertura de venta y botón \"Show N more\".",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "B1",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "FND-08",
+          "page": "P-01",
+          "feature": "Regla de destacado",
+          "description": "Lógica que decide qué evento va al hero y cuál al listado.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Riot",
+          "comments": "PQ-01"
+        }
+      ]
+    },
+    {
+      "code": "EP-EVT",
+      "name": "Detalle del evento",
+      "requirements": [
+        {
+          "code": "EVT-01",
+          "page": "P-02, P-03, P-04",
+          "feature": "Sub-tabs del evento",
+          "description": "\"Event Passes\", \"Side Events\" y \"On Demand Events\".",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "B1",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "EVT-02",
+          "page": "P-04",
+          "feature": "On Demand Events",
+          "description": "Storefront de tickets on-demand.",
+          "priority": "No crítica",
+          "status": "Descartado v1",
+          "source": "RP",
+          "woRef": "3.2 stage 8; B5; cl. 5; 7.1 Phase 3",
+          "owner": "Globant",
+          "comments": "Contradice la WO, que lo incluye en el alcance y en el cronograma. GAP-05."
+        },
+        {
+          "code": "EVT-03",
+          "page": "P-02, P-03",
+          "feature": "Cabecera del evento",
+          "description": "Fechas, nombre, venue, ciudad e imagen, con enlace \"All events\".",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "B1",
+          "owner": "Globant",
+          "comments": "Puede reutilizar la imagen de FND-04."
+        },
+        {
+          "code": "EVT-04",
+          "page": "P-02, P-03",
+          "feature": "Aviso de pase ya adquirido",
+          "description": "Si el usuario ya tiene un pase del evento: banner \"You already hold a pass for this event\", tipo de pase y enlace a My Tickets.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK Riot_Games_Tickets",
+          "woRef": "B1 (conditional content)",
+          "owner": "Globant",
+          "comments": "RN-03"
+        },
+        {
+          "code": "EVT-05",
+          "page": "P-02",
+          "feature": "Estado de los pases con pase adquirido",
+          "description": "El pase propio se marca como \"Your badge\" y los demás se muestran atenuados.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK Riot_Games_Tickets",
+          "woRef": "B1",
+          "owner": "Globant",
+          "comments": "La reunión confirma el marcado (\"registered or purchased\"). El atenuado de los demás solo aparece en el mockup."
+        },
+        {
+          "code": "EVT-06",
+          "page": "P-02",
+          "feature": "Layout de pases",
+          "description": "Variante en filas colapsables o en tarjetas.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Riot",
+          "comments": "PQ-19"
+        }
+      ]
+    },
+    {
+      "code": "EP-PAS",
+      "name": "Venta de Event Passes",
+      "requirements": [
+        {
+          "code": "PAS-01",
+          "page": "P-02",
+          "feature": "Tarjeta de pase",
+          "description": "Nombre, tag, precio, descripción, lista de beneficios y CTA (Select/Add).",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "B1",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "PAS-02",
+          "page": "P-02, P-12",
+          "feature": "Descripción extensa con bullets",
+          "description": "Soporte para el volumen real de texto de cada pase, con beneficios en bullet points.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "B1; 6.6",
+          "owner": "Compartido",
+          "comments": "El campo actual tiene límite de caracteres y hay que ampliarlo (Globant). Solo se necesitan bullets (DEC-06). Riot aporta los textos."
+        },
+        {
+          "code": "PAS-03",
+          "page": "P-02",
+          "feature": "See more / See less",
+          "description": "Expandir y colapsar el detalle de cada pase, con varios abiertos a la vez.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "PAS-04",
+          "page": "P-02",
+          "feature": "Tags de pase",
+          "description": "Cuatro tags fijas: Standard, Premium, Competitor, Attendee.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "3.1 (Product catalogue)",
+          "owner": "Globant",
+          "comments": "En el mockup \"Attendee\" aparece como \"Admission\"."
+        },
+        {
+          "code": "PAS-05",
+          "page": "P-02",
+          "feature": "Agrupación por rol",
+          "description": "Pases agrupados en secciones Competitor y Attendee.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "PAS-06",
+          "page": "P-02",
+          "feature": "Selección sin cantidad",
+          "description": "Seleccionar un pase lo añade al carrito (\"Selected\") y se puede quitar. No hay selector de cantidad.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "RN-03. El mockup Passes_Row_treatment sí muestra un selector de cantidad en el carrito, en contradicción con la reunión. PQ-21."
+        },
+        {
+          "code": "PAS-07",
+          "page": "P-02",
+          "feature": "Disponibilidad y resumen del pase",
+          "description": "Unidades restantes (ej. \"42 of 128 left\"), vouchers incluidos y tipo de badge.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK Event_Detail_Passes",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "No tratado en la reunión."
+        },
+        {
+          "code": "PAS-08",
+          "page": "P-02",
+          "feature": "Estado de venta por grupo de pases",
+          "description": "Cada sección de pases muestra su propio estado (ej. Competitor en venta y Attendee en Fan First).",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK Riot_Games_Tickets-5",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Implica ventanas de venta por producto (BO-03). Relacionado con EP-FFA."
+        },
+        {
+          "code": "PAS-09",
+          "page": "P-02",
+          "feature": "Aviso de no transferibilidad",
+          "description": "Texto \"One pass per Riot account · non-transferable and tied to your account\".",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "MK; WO",
+          "woRef": "3.1 (After-sales); 3.2 stage 6",
+          "owner": "Globant",
+          "comments": "RN-04"
+        },
+        {
+          "code": "PAS-10",
+          "page": "P-02, P-03",
+          "feature": "Carrito lateral",
+          "description": "Panel \"Your Order\" con ítems, total y CTA \"Continue to checkout\".",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "PAS-11",
+          "page": "P-02",
+          "feature": "Aviso de registro en PlayRiftbound",
+          "description": "Texto \"Once you check out, you'll be added to these events on playriftbound.com\".",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Texto a validar. INT-03"
+        }
+      ]
+    },
+    {
+      "code": "EP-CHK",
+      "name": "Carrito y Checkout",
+      "requirements": [
+        {
+          "code": "CHK-01",
+          "page": "P-06",
+          "feature": "Pago con Stripe",
+          "description": "Stripe es el único proveedor y método de pago. Las opciones del mockup (Google Pay/Apple Pay, PayPal, Credit Card) no se implementan como métodos independientes; los medios de pago disponibles los resuelve Stripe.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "3.3; B4; 3.5",
+          "owner": "Compartido",
+          "comments": "Riot aporta la cuenta y las credenciales de Stripe (CP6). Sin PayPal (DEC-04). RN-20"
+        },
+        {
+          "code": "CHK-02",
+          "page": "P-06",
+          "feature": "Pago embebido",
+          "description": "Pago mediante iframe de Stripe en lugar de redirección completa.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "B4",
+          "owner": "Globant",
+          "comments": "Preferencia de Riot. Stripe soporta ambos enfoques."
+        },
+        {
+          "code": "CHK-03",
+          "page": "P-06",
+          "feature": "Resumen de la orden",
+          "description": "Evento, fechas, ítems con precio, vouchers aplicados y total.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "B4",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "CHK-04",
+          "page": "P-06",
+          "feature": "Aplicación de voucher",
+          "description": "El usuario aplica sus vouchers en el checkout antes de pagar.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Detalle en VOU-05. DEC-02"
+        },
+        {
+          "code": "CHK-05",
+          "page": "P-06",
+          "feature": "Aceptación de términos",
+          "description": "Checkbox de Terms of Service y Refund Policy que habilita el pago.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "6.6",
+          "owner": "Compartido",
+          "comments": "No tratado en la reunión. Los textos legales los aporta Riot."
+        },
+        {
+          "code": "CHK-06",
+          "page": "P-06",
+          "feature": "Checkout multipaso",
+          "description": "Indicador \"Step 3 of 4\".",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Riot",
+          "comments": "PQ-03"
+        },
+        {
+          "code": "CHK-07",
+          "page": "P-06",
+          "feature": "Moneda del evento",
+          "description": "Los precios se muestran en la moneda local del evento, configurada en el backoffice.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "WO",
+          "woRef": "3.5",
+          "owner": "Globant",
+          "comments": "No tratado en la reunión. Los mockups mezclan € y $. PQ-20. RN-19"
+        },
+        {
+          "code": "CHK-08",
+          "page": "P-07",
+          "feature": "Confirmación de orden",
+          "description": "Pantalla \"Order Confirmed\" con número de confirmación, resumen y CTAs \"View My Tickets\" y \"Browse More Events\".",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "3.2 stage 5; B4",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "CHK-09",
+          "page": "P-07",
+          "feature": "Email de confirmación",
+          "description": "Recibo o confirmación por email tras la compra.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "6.5; 8.1",
+          "owner": "Por definir",
+          "comments": "Contradicción: Riot espera el email, pero la WO asigna los emails al CRM de Riot. PQ-16. GAP-14"
+        }
+      ]
+    },
+    {
+      "code": "EP-MYT",
+      "name": "My Tickets",
+      "requirements": [
+        {
+          "code": "MYT-01",
+          "page": "P-08",
+          "feature": "Upcoming / Past",
+          "description": "Eventos del usuario separados en próximos y pasados.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "3.2 stage 6; B5",
+          "owner": "Globant",
+          "comments": "RN-09"
+        },
+        {
+          "code": "MYT-02",
+          "page": "P-08",
+          "feature": "Tarjeta de evento",
+          "description": "Evento, fechas, venue, pase poseído, código del badge (ej. RB-XXXX-XXXX) y cuenta atrás (\"1 day to go\").",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "B5",
+          "owner": "Globant",
+          "comments": "El mockup muestra \"Premium Attendee ×2\", en contradicción con RN-03. PQ-21."
+        },
+        {
+          "code": "MYT-03",
+          "page": "P-08",
+          "feature": "QR del pase",
+          "description": "Un QR por token del pase principal, para el check-in físico en el venue.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "RP; WO",
+          "woRef": "B5; 3.4",
+          "owner": "Globant",
+          "comments": "Riot dijo que se podía prescindir del QR, pero la WO lo contrata en B5 y el control de acceso por token depende de él. PQ-29. GAP-13"
+        },
+        {
+          "code": "MYT-04",
+          "page": "P-08",
+          "feature": "Wallet",
+          "description": "Exportación del pase a Apple Wallet y Google Wallet.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "RP; MK; WO",
+          "woRef": "B5; 3.3",
+          "owner": "Compartido",
+          "comments": "Riot dijo que se podía prescindir del wallet, pero está contratado. El mockup solo muestra Apple Wallet. Riot aporta los certificados NFC (CP5). GAP-13"
+        },
+        {
+          "code": "MYT-05",
+          "page": "P-08",
+          "feature": "PDF de respaldo",
+          "description": "Ticket en PDF como alternativa al wallet.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "WO",
+          "woRef": "B5; 3.2 stage 6",
+          "owner": "Globant",
+          "comments": "No tratado en la reunión. GAP-13"
+        },
+        {
+          "code": "MYT-06",
+          "page": "P-08",
+          "feature": "Side events del evento",
+          "description": "Lista de side events registrados (nombre, día y hora) dentro de la tarjeta del evento.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Se presentan como filas independientes con acción de refund (REF-04)."
+        },
+        {
+          "code": "MYT-07",
+          "page": "P-08",
+          "feature": "View Invoice",
+          "description": "Acceso a la factura de la orden.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Por definir",
+          "comments": "PQ-17"
+        },
+        {
+          "code": "MYT-08",
+          "page": "P-08",
+          "feature": "Explore Event",
+          "description": "Enlace al detalle del evento.",
+          "priority": "No crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "MYT-09",
+          "page": "P-08",
+          "feature": "View Recap",
+          "description": "Resumen de un evento pasado.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Por definir",
+          "comments": "PQ-18"
+        },
+        {
+          "code": "MYT-10",
+          "page": "P-08",
+          "feature": "Contadores de cabecera",
+          "description": "\"Prize Tickets\" y \"Side Vouchers\".",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Por definir",
+          "comments": "PQ-26. Ver DEC-07."
+        },
+        {
+          "code": "MYT-11",
+          "page": "P-08",
+          "feature": "Banner post-compra",
+          "description": "Texto \"You're in — you have been added to the events on playriftbound.com\".",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "INT-03"
+        }
+      ]
+    },
+    {
+      "code": "EP-SDE",
+      "name": "Side Events",
+      "requirements": [
+        {
+          "code": "SDE-01",
+          "page": "P-03",
+          "feature": "Weekend Schedule",
+          "description": "Side events agrupados por día y ordenados por hora.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "B3",
+          "owner": "Globant",
+          "comments": "La WO describe los side events como paso de cross-sell previo al checkout, no como tab independiente. GAP-09"
+        },
+        {
+          "code": "SDE-02",
+          "page": "P-03",
+          "feature": "Tarjeta de side event",
+          "description": "Nombre, hora, duración, precio, descripción corta y See more con detalle.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "B3",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "SDE-03",
+          "page": "P-03, P-12",
+          "feature": "Atributos del side event",
+          "description": "Tags de formato (Swiss, Best of three, Top cut, Draft), límite de tiempo, vouchers por jugador (\"Pass vouchers\"), disponibilidad (plazas) y premios.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Compartido",
+          "comments": "Define el modelo de datos del side event. No tratado en la reunión."
+        },
+        {
+          "code": "SDE-04",
+          "page": "P-03",
+          "feature": "Estado agotado",
+          "description": "\"Full\" / \"Sold out\" cuando no quedan plazas.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "SDE-05",
+          "page": "P-03",
+          "feature": "Añadir al carrito",
+          "description": "Estados del CTA: \"Add\", \"Added\", \"Registered\".",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "B3",
+          "owner": "Globant",
+          "comments": "—"
+        },
+        {
+          "code": "SDE-06",
+          "page": "P-03",
+          "feature": "Gateo por pase",
+          "description": "Solo pueden comprar side events los usuarios con un pase del mismo evento.",
+          "priority": "No crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "RN-06"
+        },
+        {
+          "code": "SDE-07",
+          "page": "P-02, P-03",
+          "feature": "Compra conjunta",
+          "description": "Si pases y side events están en venta a la vez, se pueden comprar en la misma orden.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "RN-07"
+        },
+        {
+          "code": "SDE-08",
+          "page": "—",
+          "feature": "Registro en PlayRiftbound",
+          "description": "Cada compra registra al usuario en PlayRiftbound.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Compartido",
+          "comments": "Detalle en INT-03."
+        }
+      ]
+    },
+    {
+      "code": "EP-VOU",
+      "name": "Vouchers y descuentos",
+      "requirements": [
+        {
+          "code": "VOU-01",
+          "page": "P-02, P-12",
+          "feature": "Vouchers incluidos en pases",
+          "description": "Algunos pases incluyen vouchers para side events (1, 2 o 6 según el pase en el mockup).",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP; MK",
+          "woRef": "—",
+          "owner": "Compartido",
+          "comments": "Referencia actual: unos 25 € o $25 por voucher, como en Eventbrite. GAP-02"
+        },
+        {
+          "code": "VOU-02",
+          "page": "P-12",
+          "feature": "Emisión independiente",
+          "description": "Riot puede emitir vouchers por otros motivos; usarlos no exige tener un pase Premium.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Riot",
+          "comments": "RN-13"
+        },
+        {
+          "code": "VOU-03",
+          "page": "P-06",
+          "feature": "Ámbito del voucher",
+          "description": "Solo side events del mismo evento de origen; nunca pases.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "RN-11, RN-12"
+        },
+        {
+          "code": "VOU-04",
+          "page": "P-06",
+          "feature": "Descuento por código",
+          "description": "Aplicación de un código de descuento general.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Ya existe en la plataforma."
+        },
+        {
+          "code": "VOU-05",
+          "page": "P-06",
+          "feature": "Aplicación manual en checkout",
+          "description": "El usuario aplica el voucher en el checkout (no en el carrito) y no se aplica de forma automática.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "B4",
+          "owner": "Globant",
+          "comments": "DEC-02. El mockup muestra \"Redeem a voucher\" por línea de pedido. PQ-04"
+        },
+        {
+          "code": "VOU-06",
+          "page": "P-12",
+          "feature": "Voucher como descuento condicional",
+          "description": "Implementar el voucher como descuento condicional por entitlement, limitado a los productos aplicables.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Propuesta del equipo aceptada por Riot como enfoque probable, pendiente de análisis. La restricción por producto ya existe."
+        },
+        {
+          "code": "VOU-07",
+          "page": "P-06",
+          "feature": "Varios vouchers en una compra",
+          "description": "Usar más de un voucher en una misma orden.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Riot lo quiere, pero la experiencia se diseñará según lo que permita la plataforma. PQ-06"
+        },
+        {
+          "code": "VOU-08",
+          "page": "P-06",
+          "feature": "Uso parcial y saldo",
+          "description": "Aplicar parte del valor de un voucher y conservar el saldo.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "El equipo cree que no se soporta hoy. PQ-05"
+        },
+        {
+          "code": "VOU-09",
+          "page": "P-12",
+          "feature": "Caducidad",
+          "description": "El voucher caduca al terminar el evento.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Riot",
+          "comments": "RN-15. PQ-07"
+        }
+      ]
+    },
+    {
+      "code": "EP-AUD",
+      "name": "Ventas limitadas por audiencia",
+      "requirements": [
+        {
+          "code": "AUD-01",
+          "page": "P-02, P-12",
+          "feature": "Venta restringida por audiencia",
+          "description": "Limitar la compra de productos a cuentas Riot concretas, configurable por evento o producto. Mecanismo por decidir: código de acceso o visibilidad por entitlement.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "B2 (parcial)",
+          "owner": "Compartido",
+          "comments": "Riot la califica como \"pretty critical\". Globant debe confirmar si existe hoy (Enrique). PQ-08, PQ-09. GAP-06"
+        },
+        {
+          "code": "AUD-02",
+          "page": "P-02",
+          "feature": "Restricción por variables de perfil",
+          "description": "Restringir la compra según variables del perfil RSO (ej. Riot Points, interacción social).",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "WO",
+          "woRef": "B2; 3.2 stage 3",
+          "owner": "Compartido",
+          "comments": "Contratada, pero no tratada en la reunión. PQ-24"
+        }
+      ]
+    },
+    {
+      "code": "EP-COM",
+      "name": "Tickets de cortesía",
+      "requirements": [
+        {
+          "code": "COM-01",
+          "page": "P-12",
+          "feature": "Emisión de cortesía",
+          "description": "Asignar un ticket gratuito a una cuenta Riot concreta (ej. content creators).",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Compartido",
+          "comments": "No existe hoy. Mecanismo por decidir. PQ-10. GAP-03"
+        },
+        {
+          "code": "COM-02",
+          "page": "P-08, P-09",
+          "feature": "Visualización de la cortesía",
+          "description": "Se muestra como una compra normal en My Tickets, con orden de $0 y factura marcada como gratuita.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "RN-18"
+        }
+      ]
+    },
+    {
+      "code": "EP-REF",
+      "name": "Reembolsos",
+      "requirements": [
+        {
+          "code": "REF-01",
+          "page": "P-08",
+          "feature": "Refund por ítem autogestionado",
+          "description": "El usuario reembolsa un ítem concreto de su orden (ej. un side event) desde My Tickets. Es lo que SGA denomina \"partial refund\".",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "3.1 (After-sales, solo backoffice)",
+          "owner": "Globant",
+          "comments": "Riot: \"we cannot launch without partial refunds\". Depende de la iniciativa SGA \"Partial Refunds\", cuyo desarrollo no había empezado a 16 sep (AI). Hay que verificar la fecha de release. PQ-11. GAP-07"
+        },
+        {
+          "code": "REF-02",
+          "page": "P-08",
+          "feature": "Refund de orden completa",
+          "description": "Reembolso de todos los ítems de la orden.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "3.1",
+          "owner": "Globant",
+          "comments": "Ya existe. El equipo planteó salir con esto como alternativa, pero no hay acuerdo explícito. PQ-11"
+        },
+        {
+          "code": "REF-03",
+          "page": "—",
+          "feature": "Desregistro en PlayRiftbound",
+          "description": "El refund de un ítem da de baja al usuario en PlayRiftbound.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Compartido",
+          "comments": "RN-17. INT-03"
+        },
+        {
+          "code": "REF-04",
+          "page": "P-08",
+          "feature": "Refund por fila",
+          "description": "Cada side event aparece como fila o caja independiente con su acción de refund, posiblemente en un menú de tres puntos para evitar refunds accidentales.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "RP",
+          "woRef": "B5 (sin componente de refund)",
+          "owner": "Compartido",
+          "comments": "DEC-03. El diseño final lo entrega Riot. PQ-13"
+        },
+        {
+          "code": "REF-05",
+          "page": "P-12",
+          "feature": "Incident ticket en refund",
+          "description": "Generar un incident ticket de soporte al reembolsar.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Existe para el evento principal; falta confirmar si aplica a side events. No es el \"Incident protocol\" de la WO 3.4. PQ-12. GAP-08"
+        },
+        {
+          "code": "REF-06",
+          "page": "P-06",
+          "feature": "Política de cancelación",
+          "description": "Texto \"Free cancellation up to 14 days out\".",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Riot",
+          "comments": "RN-21. PQ-15"
+        }
+      ]
+    },
+    {
+      "code": "EP-FFA",
+      "name": "Fan First Access (pre-registro)",
+      "requirements": [
+        {
+          "code": "FFA-01",
+          "page": "P-05",
+          "feature": "Pre-registro por pase",
+          "description": "Antes de abrir la venta, el usuario se pre-registra en los pases que le interesan (\"Pre-register for access\"), con precio indicativo \"when passes drop\".",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK Riot_Games_Tickets-6, -5",
+          "woRef": "—",
+          "owner": "Por definir",
+          "comments": "No tratado en la reunión ni en la WO. GAP-11. PQ-02"
+        },
+        {
+          "code": "FFA-02",
+          "page": "P-05",
+          "feature": "Aviso de apertura",
+          "description": "Email a la cuenta Riot cuando abre la venta. El pre-registro no garantiza el pase.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "6.5",
+          "owner": "Por definir",
+          "comments": "Afectado también por la asignación de emails al CRM de Riot. PQ-16"
+        }
+      ]
+    }
+  ]
+}

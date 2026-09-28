@@ -142,6 +142,39 @@ export function runMigrations() {
   // Additive migrations — safe to run on existing DB (errors are expected if columns already exist)
   try { db.exec(`ALTER TABLE requirements ADD COLUMN story_id TEXT REFERENCES stories(id) ON DELETE SET NULL`); } catch {}
   try { db.exec(`ALTER TABLE requirements ADD COLUMN epic_id  TEXT REFERENCES epics(id)   ON DELETE SET NULL`); } catch {}
+  // PRD table columns (ID · Página · Funcionalidad · Descripción · Prioridad · Estado ·
+  // Fuente · Ref. WO · Owner · Comentarios). `code`, `description` and `source` already exist.
+  for (const col of ["page", "feature", "priority", "status", "wo_ref", "owner", "comments"]) {
+    try { db.exec(`ALTER TABLE requirements ADD COLUMN ${col} TEXT`); } catch {}
+  }
+  // PRD epics carry their own code (EP-ACC, EP-FND…).
+  try { db.exec(`ALTER TABLE epics ADD COLUMN code TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE epics ADD COLUMN sort_order INTEGER`); } catch {}
+  // The original schema declared `code TEXT NOT NULL UNIQUE`, making a requirement
+  // code globally unique. Codes are only unique *within* an initiative — every
+  // BMAD initiative numbers its requirements from FR1 — so that constraint let
+  // only one initiative own "FR1" and made every later import silently drop the
+  // colliding rows. SQLite cannot alter a constraint, so rebuild the table once.
+  rebuildRequirementsUniqueConstraint();
+
+  // Tracks, per FR code, which planning artifact it appeared in. The same FR is
+  // defined in the PRD, designed in architecture.md and implemented in epics.md;
+  // one row per (initiative, code, phase) records that coverage plus whatever the
+  // artifact contributed, so a later import cannot silently drop an earlier phase.
+  try {
+    db.exec(`CREATE TABLE IF NOT EXISTS requirement_sources (
+      id            TEXT PRIMARY KEY,
+      initiative_id TEXT NOT NULL REFERENCES initiatives(id) ON DELETE CASCADE,
+      code          TEXT NOT NULL,
+      phase         TEXT NOT NULL,           -- prd | architecture | epics
+      artifact_path TEXT NOT NULL,
+      description   TEXT,
+      area          TEXT,
+      imported_at   TEXT NOT NULL DEFAULT (datetime('now')),
+      UNIQUE (initiative_id, code, phase)
+    )`);
+  } catch {}
+
   try {
     db.exec(`CREATE TABLE IF NOT EXISTS import_history (
       id            TEXT PRIMARY KEY,
@@ -152,4 +185,64 @@ export function runMigrations() {
       imported_at   TEXT NOT NULL DEFAULT (datetime('now'))
     )`);
   } catch {}
+}
+
+/**
+ * Replaces the global UNIQUE on requirements.code with UNIQUE (initiative_id, code).
+ *
+ * No-op once the table already carries the composite constraint. Deliberately
+ * not wrapped in a silent catch: this rewrites a table, so a failure must
+ * surface rather than leave the schema half-migrated.
+ */
+function rebuildRequirementsUniqueConstraint() {
+  interface IndexRow { name: string; unique: number; origin: string }
+  interface IndexCol { name: string }
+
+  const indexes = db.prepare("PRAGMA index_list(requirements)").all() as IndexRow[];
+  const hasGlobalCodeUnique = indexes.some(idx => {
+    if (!idx.unique || idx.origin !== "u") return false;
+    const cols = (db.prepare(`PRAGMA index_info("${idx.name}")`).all() as IndexCol[]).map(c => c.name);
+    return cols.length === 1 && cols[0] === "code";
+  });
+
+  if (!hasGlobalCodeUnique) return;
+
+  // PRAGMA foreign_keys is a no-op inside a transaction, so it is toggled around it.
+  db.pragma("foreign_keys = OFF");
+  try {
+    db.transaction(() => {
+      db.exec(`
+        DROP TABLE IF EXISTS requirements_rebuild;
+
+        CREATE TABLE requirements_rebuild (
+          id                  TEXT PRIMARY KEY,
+          initiative_id       TEXT REFERENCES initiatives(id) ON DELETE SET NULL,
+          code                TEXT NOT NULL,
+          area                TEXT NOT NULL,
+          description         TEXT NOT NULL,
+          source              TEXT,
+          classification      TEXT NOT NULL DEFAULT 'build',
+          implementation_note TEXT,
+          prototype_view      TEXT,
+          created_at          TEXT NOT NULL DEFAULT (datetime('now')),
+          story_id            TEXT REFERENCES stories(id) ON DELETE SET NULL,
+          epic_id             TEXT REFERENCES epics(id)   ON DELETE SET NULL,
+          UNIQUE (initiative_id, code)
+        );
+
+        INSERT INTO requirements_rebuild
+          (id, initiative_id, code, area, description, source, classification,
+           implementation_note, prototype_view, created_at, story_id, epic_id)
+        SELECT
+           id, initiative_id, code, area, description, source, classification,
+           implementation_note, prototype_view, created_at, story_id, epic_id
+        FROM requirements;
+
+        DROP TABLE requirements;
+        ALTER TABLE requirements_rebuild RENAME TO requirements;
+      `);
+    })();
+  } finally {
+    db.pragma("foreign_keys = ON");
+  }
 }
