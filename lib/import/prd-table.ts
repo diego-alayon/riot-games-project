@@ -11,7 +11,7 @@
 
 import { randomUUID } from "crypto";
 import { db } from "../db/client";
-import { derivePlatforms, serializePlatforms } from "../requirements/platforms";
+import { derivePlatforms, serializePlatforms, type PlatformKey } from "../requirements/platforms";
 
 export interface PrdTableRequirement {
   code: string;
@@ -24,6 +24,8 @@ export interface PrdTableRequirement {
   woRef: string;
   owner: string;
   comments: string;
+  /** Initial platforms; when absent they are derived from `page`. Never overwrites catalog edits. */
+  platforms?: PlatformKey[];
 }
 
 export interface PrdTableEpic {
@@ -81,7 +83,7 @@ export function importPrdTable(initiativeId: string, doc: PrdTableDocument, file
           created++;
         }
         db.prepare("UPDATE requirements SET platforms=? WHERE id=? AND platforms IS NULL")
-          .run(serializePlatforms(derivePlatforms(r.page)), id);
+          .run(serializePlatforms(r.platforms ?? derivePlatforms(r.page)), id);
       }
     });
 

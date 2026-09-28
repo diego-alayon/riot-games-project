@@ -373,6 +373,22 @@
           "woRef": "—",
           "owner": "Globant",
           "comments": "Texto a validar. INT-03"
+        },
+        {
+          "code": "PAS-12",
+          "page": "P-02, P-03, P-08, P-12",
+          "feature": "Tickets no transferibles",
+          "description": "Pases y side events quedan ligados a la cuenta Riot que los compra. No hay transferencia ni cambio de titular.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "WO; MK",
+          "woRef": "3.1 (After-sales); 3.2 stage 6",
+          "owner": "Compartido",
+          "comments": "Regla de negocio RN-04. PAS-09 solo cubre el aviso en pantalla. Añadido tras la revisión de gaps.",
+          "platforms": [
+            "riftbound",
+            "smartvenues"
+          ]
         }
       ]
     },
@@ -870,7 +886,7 @@
           "source": "WO",
           "woRef": "B2; 3.2 stage 3",
           "owner": "Compartido",
-          "comments": "Contratada, pero no tratada en la reunión. PQ-24"
+          "comments": "Contratada, pero no tratada en la reunión. PQ-24. Se implementaría junto a los access codes (AUD-01)."
         }
       ]
     },
@@ -1009,6 +1025,130 @@
           "woRef": "6.5",
           "owner": "Por definir",
           "comments": "Afectado también por la asignación de emails al CRM de Riot. PQ-16"
+        }
+      ]
+    },
+    {
+      "code": "EP-I18N",
+      "name": "Internacionalización y multimoneda",
+      "requirements": [
+        {
+          "code": "I18N-01",
+          "page": "Global",
+          "feature": "Traducción a 9 idiomas",
+          "description": "El portal está disponible en 9 idiomas, con selector de idioma.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "WO",
+          "woRef": "3.5",
+          "owner": "Globant",
+          "comments": "No se trató en la reunión. Falta la lista de idiomas (PQ-25). Relacionado con RNF-08.",
+          "platforms": [
+            "riftbound"
+          ]
+        },
+        {
+          "code": "I18N-02",
+          "page": "Global",
+          "feature": "Formatos regionales",
+          "description": "Fechas, horas, números y precios se muestran con el formato regional del idioma y país del usuario.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "WO",
+          "woRef": "3.5",
+          "owner": "Globant",
+          "comments": "No se trató en la reunión.",
+          "platforms": [
+            "riftbound"
+          ]
+        },
+        {
+          "code": "I18N-03",
+          "page": "P-02, P-03, P-06, P-12",
+          "feature": "Multimoneda por evento",
+          "description": "Cada evento se configura y se vende en la moneda local de su país. El portal muestra y cobra en esa moneda.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "WO",
+          "woRef": "3.5",
+          "owner": "Compartido",
+          "comments": "Monedas de los países de los 9 idiomas; lista pendiente junto a PQ-25. Amplía CHK-07 y RN-19.",
+          "platforms": [
+            "riftbound",
+            "smartvenues"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "EP-NFR",
+      "name": "Requisitos no funcionales contratados",
+      "requirements": [
+        {
+          "code": "NFR-01",
+          "page": "—",
+          "feature": "Data residency en la UE",
+          "description": "Los datos de la plataforma se alojan y procesan dentro de la Unión Europea.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "WO",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Contratado. Cláusula de la WO por confirmar.",
+          "platforms": [
+            "smartvenues"
+          ]
+        },
+        {
+          "code": "NFR-02",
+          "page": "—",
+          "feature": "Límite de Access Rights",
+          "description": "Capacidad pico de 6.000 Access Rights, con margen hasta 6.500. Por encima, hace falta una nueva cotización.",
+          "priority": "Crítica",
+          "status": "Confirmado",
+          "source": "WO",
+          "woRef": "5; 10.4",
+          "owner": "Globant",
+          "comments": "Corresponde a RNF-04 del PRD. EC-18.",
+          "platforms": [
+            "smartvenues"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "EP-GFW",
+      "name": "Control de acceso (Gateflow)",
+      "requirements": [
+        {
+          "code": "GFW-01",
+          "page": "Venue",
+          "feature": "Control de acceso con Gateflow",
+          "description": "El acceso al venue se valida con Gateflow, la app Android del Supplier, leyendo el token del pase.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "WO",
+          "woRef": "3.2 stage 7; 3.3; A5",
+          "owner": "Globant",
+          "comments": "Gateflow no forma parte de Riftbound Portal en la v1; se integrará en el futuro. PQ-30 (herramienta de escaneo).",
+          "platforms": [
+            "smartvenues"
+          ]
+        },
+        {
+          "code": "GFW-02",
+          "page": "Venue",
+          "feature": "Puntos de acceso separados Main / Side Events",
+          "description": "Los puntos de acceso del Main Event y de los side events se configuran por separado; cada token solo da acceso a su punto.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "WO",
+          "woRef": "3.2 stage 7; A5",
+          "owner": "Globant",
+          "comments": "Futuro, junto a GFW-01. Hoy el check-in de side events se hace en PlayRiftbound (RN-23).",
+          "platforms": [
+            "smartvenues"
+          ]
         }
       ]
     }

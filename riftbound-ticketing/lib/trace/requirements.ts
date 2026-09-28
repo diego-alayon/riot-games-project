@@ -1,5 +1,6 @@
 /**
- * Functional requirements from the Riftbound Ticketing PRD v0.4 (28 sep 2026).
+ * Functional requirements from the Riftbound Ticketing PRD v0.5 (28 sep 2026),
+ * plus the gap-review additions (PAS-12, EP-I18N, EP-NFR, EP-GFW).
  * Only id, name, priority and status live here, to label markers. The source of
  * truth is the Riot Games Project catalog; markers link there.
  */
@@ -97,6 +98,14 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["REF-04", "Refund por fila", C, OK],
   ["REF-05", "Incident ticket en refund", N, TBD],
   ["REF-06", "Política de cancelación", N, TBD],
+  ["PAS-12", "Tickets no transferibles", C, OK],
+  ["I18N-01", "Traducción a 9 idiomas", C, TBD],
+  ["I18N-02", "Formatos regionales", C, TBD],
+  ["I18N-03", "Multimoneda por evento", C, TBD],
+  ["NFR-01", "Data residency en la UE", C, OK],
+  ["NFR-02", "Límite de Access Rights", C, OK],
+  ["GFW-01", "Control de acceso con Gateflow", C, TBD],
+  ["GFW-02", "Puntos de acceso separados Main / Side Events", C, TBD],
   ["FFA-01", "Pre-registro por pase", N, TBD],
   ["FFA-02", "Aviso de apertura", N, TBD],
 ];
