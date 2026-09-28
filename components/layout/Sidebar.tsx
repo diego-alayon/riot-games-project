@@ -191,11 +191,6 @@ const I = {
       <line x1="4.7" y1="7.8" x2="9.3" y2="10.2" />
     </svg>
   ),
-  core: (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="8" height="8" rx="1.5" />
-    </svg>
-  ),
   search: (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
       <circle cx="6" cy="6" r="4" />
@@ -241,7 +236,6 @@ export function Sidebar() {
       {appsOpen && (
         <div className="pb-1">
           <NavItem href="/applications/riftbound-ticketing-portal" icon={I.proto} label="Riftbound Portal" />
-          <NavItem icon={I.proto} label="OneVenue Backoffice" disabled />
         </div>
       )}
 
@@ -258,7 +252,6 @@ export function Sidebar() {
           <NavItem href="/product/initiatives" icon={I.init} label="Initiatives" />
           <NavItem href="/product/initiatives/catalog" icon={I.catalog} label="Functional Req." />
           <NavItem href="/product/graph" icon={I.graph} label="Knowledge Graph" />
-          <NavItem icon={I.core} label="Core" disabled />
         </div>
       )}
 

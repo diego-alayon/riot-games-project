@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 const SEGMENT_LABELS: Record<string, string> = {
   applications:  "Applications",
   "riftbound-ticketing-portal": "Riftbound Portal",
-  "onevenue-backoffice": "OneVenue Backoffice",
   product:       "Product",
   architecture:  "Architecture",
   infrastructure: "Infrastructure",
@@ -14,7 +13,6 @@ const SEGMENT_LABELS: Record<string, string> = {
   catalog:       "Functional Req.",
   history:       "Import History",
   graph:         "Knowledge Graph",
-  "design-systems": "Design Systems",
 };
 
 interface Segment { label: string; href: string }

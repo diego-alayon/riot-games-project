@@ -8,12 +8,6 @@ const prototypes = [
     description: "Main ticketing portal with frontend pages and behavior",
     status: "active",
   },
-  {
-    id: "onevenue-backoffice",
-    name: "OneVenue Backoffice",
-    description: "Reserved for future implementation",
-    status: "reserved",
-  },
 ];
 
 const ProtoIcon = () => (

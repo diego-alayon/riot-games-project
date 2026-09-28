@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 const LABELS: Record<string, string> = {
   applications:                  "Applications",
   "riftbound-ticketing-portal":  "Riftbound Portal",
-  "onevenue-backoffice":         "OneVenue Backoffice",
   product:                       "Product",
   architecture:                  "Architecture",
   infrastructure:                "Infrastructure",
@@ -15,7 +14,6 @@ const LABELS: Record<string, string> = {
   catalog:                       "Functional Req.",
   history:                       "Import History",
   graph:                         "Knowledge Graph",
-  "design-systems":              "Design Systems",
 };
 
 interface Crumb { label: string; href: string }

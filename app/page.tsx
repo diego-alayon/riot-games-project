@@ -1,12 +1,5 @@
 import Link from "next/link";
 
-const STATS = [
-  { label: "Applications", value: "2" },
-  { label: "Design Systems", value: "1" },
-  { label: "Initiatives", value: "3" },
-  { label: "Requirements", value: "12+" },
-];
-
 const CARDS = [
   {
     eyebrow: "APPLICATIONS",
@@ -43,16 +36,6 @@ export default function Home() {
         <p className="mb-6" style={{ fontSize: 14, color: "#6b6b6b", lineHeight: 1.5 }}>
           Unified platform for building prototypes and managing product knowledge.
         </p>
-
-        {/* Stats row */}
-        <div className="flex gap-8 mb-6 pb-6" style={{ borderBottom: "1px solid #ebebeb" }}>
-          {STATS.map((s) => (
-            <div key={s.label}>
-              <div style={{ fontSize: 20, fontWeight: 510, color: "#0f0f0f", lineHeight: 1 }}>{s.value}</div>
-              <div style={{ fontSize: 12, color: "#9b9b9b", marginTop: 4 }}>{s.label}</div>
-            </div>
-          ))}
-        </div>
 
         {/* Module cards */}
         <div className="grid grid-cols-2 gap-3">

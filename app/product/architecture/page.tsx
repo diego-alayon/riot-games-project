@@ -9,40 +9,6 @@ import type { Document } from "@/lib/types/graph";
 
 const SECTION = "Architecture" as const;
 
-function seedArchitecture() {
-  const existing = documentStore.getDocumentsForSection(SECTION);
-  if (existing.length === 0) {
-    documentStore.createDocument(
-      SECTION,
-      "System Overview",
-      `# Riftbound Platform — System Overview
-
-## Architecture Summary
-
-The Riftbound Ticketing Portal is a web-based application built on a modern frontend stack (Next.js 16, React 19, TypeScript). It provides ticket lifecycle management for Riot Games internal teams.
-
-## Core Modules
-
-- **Shell**: Navigation, routing, and global design system (Linear)
-- **Applications**: Prototype studio — Riftbound Ticketing Portal is the only active frontend prototype
-- **Product Knowledge Base**: Architecture, Infrastructure, Initiatives, and Requirements catalog
-
-## Key Design Decisions
-
-- All UI components follow the Linear design system (light mode, canvas #ffffff, accent #e4f222)
-- Graph-based in-memory data model with typed links for full traceability
-- GateFlow Access Control integrates within Riftbound as a backend service — no separate frontend
-
-## External Integrations
-
-| System | Role |
-|--------|------|
-| GateFlow | Access control layer (backend integration) |
-`
-    );
-  }
-}
-
 export default function ArchitecturePage() {
   const [docs, setDocs] = useState<Document[]>([]);
   const [showEditor, setShowEditor] = useState(false);
@@ -50,7 +16,6 @@ export default function ArchitecturePage() {
   const load = () => setDocs(documentStore.getDocumentsForSection(SECTION));
 
   useEffect(() => {
-    seedArchitecture();
     load();
   }, []);
 

@@ -9,40 +9,6 @@ import type { Document } from "@/lib/types/graph";
 
 const SECTION = "Infrastructure" as const;
 
-function seedInfrastructure() {
-  const existing = documentStore.getDocumentsForSection(SECTION);
-  if (existing.length === 0) {
-    documentStore.createDocument(
-      SECTION,
-      "Deployment Architecture",
-      `# Deployment Architecture
-
-## Overview
-
-The Riftbound Ticketing Portal is deployed as a Next.js application on Vercel, leveraging edge-optimized delivery and serverless compute.
-
-## Environments
-
-| Environment | Purpose |
-|-------------|---------|
-| Development | Local dev with \`next dev --turbopack\` |
-| Preview | Auto-deployed per PR via Vercel |
-| Production | Main branch deploys to production |
-
-## Runtime
-
-- **Node.js 20.19+** (via nvm)
-- **Next.js 16** with App Router and Turbopack
-- **TypeScript 7** strict mode
-
-## Data Storage
-
-Currently using in-memory graph store (client-side singleton). No persistent backend is required for the prototyping phase.
-`
-    );
-  }
-}
-
 export default function InfrastructurePage() {
   const [docs, setDocs] = useState<Document[]>([]);
   const [showEditor, setShowEditor] = useState(false);
@@ -50,7 +16,6 @@ export default function InfrastructurePage() {
   const load = () => setDocs(documentStore.getDocumentsForSection(SECTION));
 
   useEffect(() => {
-    seedInfrastructure();
     load();
   }, []);
 
