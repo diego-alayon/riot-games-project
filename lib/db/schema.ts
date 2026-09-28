@@ -190,6 +190,9 @@ export function runMigrations() {
     )`);
     db.exec(`CREATE INDEX IF NOT EXISTS idx_requirement_items_req ON requirement_items (requirement_id, kind, sort_order)`);
   } catch {}
+  // Each bullet belongs to one delivery platform (riftbound | smartvenues); the
+  // drawer shows one block per platform. Bullets written before this default to Riftbound.
+  try { db.exec(`ALTER TABLE requirement_items ADD COLUMN platform TEXT NOT NULL DEFAULT 'riftbound'`); } catch {}
 
   try {
     db.exec(`CREATE TABLE IF NOT EXISTS import_history (

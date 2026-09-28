@@ -9,9 +9,9 @@
  */
 
 import { useEffect, useState, type ReactNode } from "react";
-import { parsePlatforms, type PlatformKey } from "@/lib/requirements/platforms";
+import { PLATFORMS, PLATFORM_KEYS, parsePlatforms, type PlatformKey } from "@/lib/requirements/platforms";
 import {
-  DueDateCell, PlatformCell, PriorityCell, StatusCell, TXT, TXT_2, TXT_3,
+  DueDateCell, PlatformCell, PlatformIcon, PriorityCell, StatusCell, TXT, TXT_2, TXT_3,
 } from "./RequirementCells";
 import { RequirementBullets } from "./RequirementBullets";
 
@@ -91,12 +91,23 @@ const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => 
     id: "functional",
     title: "Requerimientos funcionales",
     render: ({ fr }) => (
-      <RequirementBullets
-        requirementId={fr.id}
-        kind="functional"
-        addLabel="Añadir requerimiento funcional"
-        emptyLabel="Todavía no hay requerimientos funcionales. Descríbelos en bullet points."
-      />
+      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        {PLATFORM_KEYS.map(k => (
+          <div key={k}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <PlatformIcon k={k} />
+              <span style={{ fontSize: 13, fontWeight: 500, color: TXT }}>{PLATFORMS[k]}</span>
+            </div>
+            <RequirementBullets
+              requirementId={fr.id}
+              platform={k}
+              kind="functional"
+              addLabel="Añadir requerimiento funcional"
+              emptyLabel={`Sin requerimientos funcionales para ${PLATFORMS[k]}.`}
+            />
+          </div>
+        ))}
+      </div>
     ),
   },
   {

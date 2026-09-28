@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest",
+    "fr": "node scripts/fr-items.mjs"
   },
   "keywords": [],
   "author": "",

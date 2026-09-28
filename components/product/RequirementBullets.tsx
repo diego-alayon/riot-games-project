@@ -9,6 +9,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { PlatformKey } from "@/lib/requirements/platforms";
 import { TXT, TXT_2, TXT_3 } from "./RequirementCells";
 
 interface Item {
@@ -22,8 +23,9 @@ interface ServerItem { id: string; text: string }
 let seq = 0;
 const newKey = () => `draft-${++seq}`;
 
-export function RequirementBullets({ requirementId, kind = "functional", addLabel, emptyLabel }: {
+export function RequirementBullets({ requirementId, platform, kind = "functional", addLabel, emptyLabel }: {
   requirementId: string;
+  platform: PlatformKey;
   kind?: string;
   addLabel: string;
   emptyLabel: string;
@@ -49,7 +51,7 @@ export function RequirementBullets({ requirementId, kind = "functional", addLabe
     let alive = true;
     setLoaded(false);
     edit(null);
-    fetch(`/api/requirements/${requirementId}/items?kind=${kind}`)
+    fetch(`/api/requirements/${requirementId}/items?kind=${kind}&platform=${platform}`)
       .then(r => r.json())
       .then((rows: ServerItem[]) => {
         if (!alive) return;
@@ -62,7 +64,7 @@ export function RequirementBullets({ requirementId, kind = "functional", addLabe
         setLoaded(true);
       });
     return () => { alive = false; };
-  }, [requirementId, kind]);
+  }, [requirementId, kind, platform]);
 
   /** Persists `text` for the item `key`: create, update or delete. */
   const persist = useCallback((key: string, text: string) => {
@@ -83,12 +85,12 @@ export function RequirementBullets({ requirementId, kind = "functional", addLabe
       const res = await fetch(`/api/requirements/${requirementId}/items`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, kind, index }),
+        body: JSON.stringify({ text, kind, platform, index }),
       });
       const row = (await res.json()) as ServerItem;
       ids.current[key] = row.id;
     });
-  }, [requirementId, kind]);
+  }, [requirementId, kind, platform]);
 
   const startEdit = (item: Item) => {
     edit(item.key);

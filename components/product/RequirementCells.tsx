@@ -129,7 +129,7 @@ export function OwnerCell({ owner }: { owner?: string | null }) {
 
 /* ── Plataforma (multi-select) ──────────────────────────────────────────── */
 
-function PlatformIcon({ k }: { k: PlatformKey }) {
+export function PlatformIcon({ k }: { k: PlatformKey }) {
   return k === "riftbound" ? (
     <Svg color="#ef7d00"><path d="M8 2l6 6-6 6-6-6 6-6z" /><path d="M8 5.5L10.5 8 8 10.5 5.5 8 8 5.5z" /></Svg>
   ) : (

@@ -1,6 +1,7 @@
 import { db } from "./client";
 import { runMigrations } from "./schema";
 import { randomUUID } from "crypto";
+import type { PlatformKey } from "../requirements/platforms";
 
 // Ensure schema exists on first import (server-side only)
 runMigrations();
@@ -156,18 +157,19 @@ export const REQUIREMENT_ITEM_KINDS = ["functional"] as const;
 export type RequirementItemKind = (typeof REQUIREMENT_ITEM_KINDS)[number];
 
 export const requirementItemRepo = {
-  list: (requirementId: string, kind: RequirementItemKind) =>
-    db.prepare("SELECT * FROM requirement_items WHERE requirement_id=? AND kind=? ORDER BY sort_order, created_at").all(requirementId, kind),
+  list: (requirementId: string, kind: RequirementItemKind, platform: PlatformKey) =>
+    db.prepare("SELECT * FROM requirement_items WHERE requirement_id=? AND kind=? AND platform=? ORDER BY sort_order, created_at")
+      .all(requirementId, kind, platform),
   get: (id: string) => db.prepare("SELECT * FROM requirement_items WHERE id=?").get(id),
-  /** Inserts at `index` (0-based) or at the end, shifting the items after it. */
-  create: (requirementId: string, kind: RequirementItemKind, text: string, index?: number) => {
+  /** Inserts at `index` (0-based) or at the end of that platform's list, shifting the items after it. */
+  create: (requirementId: string, kind: RequirementItemKind, platform: PlatformKey, text: string, index?: number) => {
     const id = uuid();
     db.transaction(() => {
-      const count = (db.prepare("SELECT COUNT(*) AS n FROM requirement_items WHERE requirement_id=? AND kind=?").get(requirementId, kind) as { n: number }).n;
-      const at = index === undefined ? count : Math.max(0, Math.min(index, count));
-      const ids = (requirementItemRepo.list(requirementId, kind) as Array<{ id: string }>).map(r => r.id);
+      const ids = (requirementItemRepo.list(requirementId, kind, platform) as Array<{ id: string }>).map(r => r.id);
+      const at = index === undefined ? ids.length : Math.max(0, Math.min(index, ids.length));
       ids.splice(at, 0, id);
-      db.prepare("INSERT INTO requirement_items (id, requirement_id, kind, text, sort_order) VALUES (?,?,?,?,?)").run(id, requirementId, kind, text, at);
+      db.prepare("INSERT INTO requirement_items (id, requirement_id, kind, platform, text, sort_order) VALUES (?,?,?,?,?,?)")
+        .run(id, requirementId, kind, platform, text, at);
       const setOrder = db.prepare("UPDATE requirement_items SET sort_order=? WHERE id=?");
       ids.forEach((itemId, i) => setOrder.run(i, itemId));
     })();
