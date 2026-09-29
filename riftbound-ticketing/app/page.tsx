@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FilterChip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/Button";
 import { Heading } from "@/components/ui/Typography";
-import { IconChevronDown, IconCrown, IconDiamond, IconFang, IconGrid, IconHexagon } from "@/components/icons";
+import { IconChevronDown, IconDiamond, IconGrid } from "@/components/icons";
 import { ReqMarker } from "@/components/trace/ReqMarker";
 import { PageHero } from "@/components/patterns/Heroes";
 import { Container } from "@/components/patterns/Layout";
@@ -29,12 +29,9 @@ export default function FindEventsPage() {
         <div className="relative">
           <span className="text-micro uppercase text-subtle">Browse by event category</span>
           <div className="mt-3 flex flex-wrap gap-2">
-            {/* FND-02: only Riftbound is active in v1. */}
+            {/* FND-02: v1 shows Riftbound only; other Riot games are out of scope. */}
             <FilterChip icon={<IconGrid size={14} />} disabled>All</FilterChip>
             <FilterChip icon={<IconDiamond className="text-accent" />} active>Riftbound</FilterChip>
-            <FilterChip icon={<IconHexagon />} disabled>League of Legends</FilterChip>
-            <FilterChip icon={<IconFang />} disabled>VALORANT</FilterChip>
-            <FilterChip icon={<IconCrown />} disabled>Teamfight Tactics</FilterChip>
           </div>
           <ReqMarker ids={["FND-02"]} corner="tr" />
         </div>

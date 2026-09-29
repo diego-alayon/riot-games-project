@@ -69,20 +69,7 @@ export const IconDot = ({ size = 6, ...p }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 6 6" fill="currentColor" aria-hidden {...p}><circle cx="3" cy="3" r="3" /></svg>
 );
 
-/** Game marks for the category filter (placeholders, not official logos). */
+/** Game mark for the category filter (placeholder, not the official logo). */
 export const IconDiamond = ({ size = 14, ...p }: IconProps) => (
   <Svg size={size} {...p}><path d="M8 2l6 6-6 6-6-6 6-6z" /><path d="M8 5.5L10.5 8 8 10.5 5.5 8 8 5.5z" /></Svg>
-);
-export const IconHexagon = ({ size = 14, ...p }: IconProps) => (
-  <Svg size={size} {...p}><path d="M8 1.8l5.4 3.1v6.2L8 14.2l-5.4-3.1V4.9L8 1.8z" /></Svg>
-);
-export const IconFang = ({ size = 14, ...p }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor" aria-hidden {...p}>
-    <path d="M2 3l4.5 10H8L3.5 3H2zm7 0l2 5 3-5h-1.5L11 5.5 10 3H9z" />
-  </svg>
-);
-export const IconCrown = ({ size = 14, ...p }: IconProps) => (
-  <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor" aria-hidden {...p}>
-    <path d="M2 5l3 2.5L8 3l3 4.5L14 5l-1.2 7H3.2L2 5z" />
-  </svg>
 );

@@ -78,13 +78,13 @@
           "code": "FND-02",
           "page": "P-01",
           "feature": "Barra de juegos",
-          "description": "Filtro por juego. En la v1 solo Riftbound; el resto deshabilitado u oculto.",
+          "description": "Filtro por juego. En la v1 solo se muestra Riftbound.",
           "priority": "No crítica",
           "status": "Confirmado",
           "source": "RP",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "Riot propone incluso eliminar la barra en la v1."
+          "comments": "Riot propone incluso eliminar la barra en la v1. League of Legends, VALORANT y Teamfight Tactics se retiran de la v1 (ver Out of scope)."
         },
         {
           "code": "FND-03",

@@ -366,7 +366,6 @@ export function DesignSystemGallery() {
                 <div className="flex flex-wrap gap-2">
                   <FilterChip icon={<Icons.IconGrid size={14} />}>All</FilterChip>
                   <FilterChip icon={<Icons.IconDiamond className="text-accent" />} active>Riftbound</FilterChip>
-                  <FilterChip icon={<Icons.IconHexagon />} disabled>League of Legends</FilterChip>
                 </div>
               </Specimen>
               <Specimen label="section tabs">
