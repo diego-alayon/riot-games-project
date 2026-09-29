@@ -82,7 +82,7 @@ export function MyTicketsScreen() {
               your code at the door to check in!
             </span>
           </Callout>
-          <ReqMarker ids={["MYT-11"]} />
+          <ReqMarker ids={["SDE-08"]} />
         </div>
       )}
 

@@ -167,7 +167,7 @@ export default function CheckoutPage() {
                       );
                     })}
                 </div>
-                <ReqMarker ids={["VOU-05", "VOU-03", "CHK-04", "VOU-07", "VOU-08"]} />
+                <ReqMarker ids={["VOU-05", "VOU-03", "VOU-07", "VOU-08"]} />
               </div>
             )}
 
@@ -192,9 +192,9 @@ export default function CheckoutPage() {
                 Once you check out, you&apos;ll be added to these events on{" "}
                 <InlineLink href="https://playriftbound.com" external>playriftbound.com</InlineLink>.
               </Callout>
-              <ReqMarker ids={["PAS-11", "SDE-08"]} />
+              <ReqMarker ids={["SDE-08"]} />
             </div>
-            <ReqMarker ids={["CHK-03", "CHK-07"]} corner="tl" />
+            <ReqMarker ids={["CHK-03", "I18N-03"]} corner="tl" />
           </Card>
         }
       />

@@ -1,6 +1,7 @@
 /**
  * Functional requirements from the Riftbound Ticketing PRD v0.5 (28 sep 2026),
- * plus the gap-review additions (PAS-12, EP-I18N, EP-NFR, EP-GFW).
+ * plus the gap-review additions, organised by capability (see data/prd/*.json).
+ * Retired IDs (CHK-04, CHK-07, PAS-09, PAS-11, MYT-11, REF-06, NFR-02) were merged.
  * Only id, name, priority and status live here, to label markers. The source of
  * truth is the Riot Games Project catalog; markers link there.
  */
@@ -48,16 +49,12 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["PAS-06", "Selección sin cantidad", C, OK],
   ["PAS-07", "Disponibilidad y resumen del pase", N, TBD],
   ["PAS-08", "Estado de venta por grupo de pases", N, TBD],
-  ["PAS-09", "Aviso de no transferibilidad", C, OK],
   ["PAS-10", "Carrito lateral", C, OK],
-  ["PAS-11", "Aviso de registro en PlayRiftbound", N, TBD],
   ["CHK-01", "Pago con Stripe", C, OK],
   ["CHK-02", "Pago embebido", N, TBD],
   ["CHK-03", "Resumen de la orden", C, OK],
-  ["CHK-04", "Aplicación de voucher", C, OK],
   ["CHK-05", "Aceptación de términos", N, TBD],
-  ["CHK-06", "Checkout multipaso", N, TBD],
-  ["CHK-07", "Moneda del evento", C, OK],
+  ["CHK-06", "Checkout multipaso", N, OUT],
   ["CHK-08", "Confirmación de orden", C, OK],
   ["CHK-09", "Email de confirmación", C, TBD],
   ["MYT-01", "Upcoming / Past", C, OK],
@@ -70,7 +67,6 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["MYT-08", "Explore Event", N, OK],
   ["MYT-09", "View Recap", N, TBD],
   ["MYT-10", "Contadores de cabecera", N, TBD],
-  ["MYT-11", "Banner post-compra", N, TBD],
   ["SDE-01", "Weekend Schedule", C, OK],
   ["SDE-02", "Tarjeta de side event", C, OK],
   ["SDE-03", "Atributos del side event", N, TBD],
@@ -97,13 +93,12 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["REF-03", "Desregistro en PlayRiftbound", C, OK],
   ["REF-04", "Refund por fila", C, OK],
   ["REF-05", "Incident ticket en refund", N, TBD],
-  ["REF-06", "Política de cancelación", N, TBD],
   ["PAS-12", "Tickets no transferibles", C, OK],
   ["I18N-01", "Traducción a 9 idiomas", C, TBD],
   ["I18N-02", "Formatos regionales", C, TBD],
   ["I18N-03", "Multimoneda por evento", C, OK],
   ["NFR-01", "Data residency en la UE", C, OK],
-  ["NFR-02", "Límite de Access Rights", C, OK],
+  ["RNF-04", "Límite de Access Rights", C, OK],
   ["GFW-01", "Control de acceso con Gateflow", C, TBD],
   ["GFW-02", "Puntos de acceso separados Main / Side Events", C, TBD],
   ["FFA-01", "Pre-registro por pase", N, TBD],

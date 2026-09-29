@@ -115,7 +115,7 @@ export function PassCard(props: PassCardProps) {
             </div>
             <p className="relative mt-4 text-fine text-muted">
               {NON_TRANSFERABLE}
-              <ReqMarker ids={["PAS-09"]} />
+              <ReqMarker ids={["PAS-12"]} />
             </p>
           </>
         )}
@@ -127,7 +127,7 @@ export function PassCard(props: PassCardProps) {
       <PricePanel price={money(pass.price, currency)} note={sale === "fan-first" ? "When passes drop" : undefined}>
         <Cta {...props} />
       </PricePanel>
-      <ReqMarker ids={owned || dimmed ? ["PAS-01", "EVT-05", "CHK-07"] : ["PAS-01", "CHK-07"]} />
+      <ReqMarker ids={owned || dimmed ? ["PAS-01", "EVT-05", "I18N-03"] : ["PAS-01", "I18N-03"]} />
     </Card>
   );
 }

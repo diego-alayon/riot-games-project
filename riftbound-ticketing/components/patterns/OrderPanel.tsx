@@ -130,11 +130,11 @@ export function OrderPanel({
                   Once you check out, you&apos;ll be added to these events on{" "}
                   <InlineLink href="https://playriftbound.com" external>playriftbound.com</InlineLink>.
                 </Callout>
-                <ReqMarker ids={["PAS-11", "SDE-08"]} />
+                <ReqMarker ids={["SDE-08"]} />
               </div>
             </>
           )}
-          <ReqMarker ids={["PAS-10", "SDE-07", "CHK-07"]} corner="tl" />
+          <ReqMarker ids={["PAS-10", "SDE-07", "I18N-03"]} corner="tl" />
         </div>
 
         {(mode === "fan-first" || myPreregs.length > 0) && (
