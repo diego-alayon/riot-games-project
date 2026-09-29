@@ -1,7 +1,7 @@
 import { db } from "./client";
 import { runMigrations } from "./schema";
 import { randomUUID } from "crypto";
-import type { PlatformKey } from "../requirements/platforms";
+import type { ItemScope } from "../requirements/platforms";
 import type { RoleFields } from "../requirements/roles";
 
 // Ensure schema exists on first import (server-side only)
@@ -154,16 +154,18 @@ export const requirementRepo = {
 };
 
 // ── Requirement items (bullets in the requirement drawer) ────────────────────
-export const REQUIREMENT_ITEM_KINDS = ["functional"] as const;
+export const REQUIREMENT_ITEM_KINDS = ["functional", "out_of_scope"] as const;
 export type RequirementItemKind = (typeof REQUIREMENT_ITEM_KINDS)[number];
+/** Kinds split into one list per platform; the others use the single "all" scope. */
+export const PER_PLATFORM_KINDS: readonly RequirementItemKind[] = ["functional"];
 
 export const requirementItemRepo = {
-  list: (requirementId: string, kind: RequirementItemKind, platform: PlatformKey) =>
+  list: (requirementId: string, kind: RequirementItemKind, platform: ItemScope) =>
     db.prepare("SELECT * FROM requirement_items WHERE requirement_id=? AND kind=? AND platform=? ORDER BY sort_order, created_at")
       .all(requirementId, kind, platform),
   get: (id: string) => db.prepare("SELECT * FROM requirement_items WHERE id=?").get(id),
   /** Inserts at `index` (0-based) or at the end of that platform's list, shifting the items after it. */
-  create: (requirementId: string, kind: RequirementItemKind, platform: PlatformKey, text: string, index?: number) => {
+  create: (requirementId: string, kind: RequirementItemKind, platform: ItemScope, text: string, index?: number) => {
     const id = uuid();
     db.transaction(() => {
       const ids = (requirementItemRepo.list(requirementId, kind, platform) as Array<{ id: string }>).map(r => r.id);

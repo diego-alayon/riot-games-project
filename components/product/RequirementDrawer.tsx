@@ -117,6 +117,19 @@ const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => 
     render: ({ fr }) => <RequirementRoles requirementId={fr.id} />,
   },
   {
+    id: "out-of-scope",
+    title: "Out of scope",
+    render: ({ fr }) => (
+      <RequirementBullets
+        requirementId={fr.id}
+        kind="out_of_scope"
+        marker="excluded"
+        addLabel="Añadir elemento fuera de scope"
+        emptyLabel="No hay nada marcado como fuera de scope para este requerimiento."
+      />
+    ),
+  },
+  {
     id: "properties",
     title: "Propiedades",
     render: ({ fr, onPatch }) => (

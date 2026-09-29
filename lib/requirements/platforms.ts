@@ -10,6 +10,12 @@ export const PLATFORMS = {
 } as const;
 
 export type PlatformKey = keyof typeof PLATFORMS;
+
+/**
+ * Where a requirement bullet list applies: one platform (functional requirements
+ * have a block per platform) or "all" for lists not split by platform (out of scope).
+ */
+export type ItemScope = PlatformKey | "all";
 export const PLATFORM_KEYS = Object.keys(PLATFORMS) as PlatformKey[];
 
 export function parsePlatforms(raw: string | null | undefined): PlatformKey[] {

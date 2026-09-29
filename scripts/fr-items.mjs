@@ -5,7 +5,7 @@
  * the dev server does not need to be running; reopen the drawer to see changes.
  *
  *   npm run fr -- list [CODE]
- *   npm run fr -- add CODE <riftbound|smartvenues> "text" ["text" ...]
+ *   npm run fr -- add CODE <riftbound|smartvenues|out-of-scope> "text" ["text" ...]
  *   npm run fr -- edit ITEM_ID "new text"
  *   npm run fr -- rm ITEM_ID [ITEM_ID ...]
  *
@@ -23,7 +23,13 @@ import { randomUUID } from "crypto";
 import path from "path";
 
 const PLATFORMS = { riftbound: "Riftbound Ticketing Portal", smartvenues: "SmartVenues" };
-const KIND = "functional";
+/** CLI target → (kind, scope) in requirement_items. */
+const TARGETS = {
+  riftbound: { kind: "functional", scope: "riftbound", label: PLATFORMS.riftbound },
+  smartvenues: { kind: "functional", scope: "smartvenues", label: PLATFORMS.smartvenues },
+  "out-of-scope": { kind: "out_of_scope", scope: "all", label: "Out of scope" },
+};
+const labelOf = (kind, scope) => (kind === "out_of_scope" ? "Out of scope" : PLATFORMS[scope] ?? scope);
 
 const db = new Database(path.join(process.cwd(), "data", "app.db"));
 db.pragma("journal_mode = WAL");
@@ -59,35 +65,36 @@ function list(code) {
   if (code) requirement(code);
   const rows = db
     .prepare(
-      `SELECT r.code, r.feature, i.id, i.platform, i.text FROM requirement_items i
+      `SELECT r.code, r.feature, i.id, i.kind, i.platform, i.text FROM requirement_items i
        JOIN requirements r ON r.id = i.requirement_id
-       WHERE i.kind = ? AND (? IS NULL OR upper(r.code) = upper(?))
-       ORDER BY r.code, i.platform, i.sort_order, i.created_at`,
+       WHERE (? IS NULL OR upper(r.code) = upper(?))
+       ORDER BY r.code, i.kind, i.platform, i.sort_order, i.created_at`,
     )
-    .all(KIND, code ?? null, code ?? null);
-  if (rows.length === 0) return console.log(code ? `${code.toUpperCase()}: no functional requirements yet.` : "No functional requirements yet.");
+    .all(code ?? null, code ?? null);
+  if (rows.length === 0) return console.log(code ? `${code.toUpperCase()}: no bullets yet.` : "No bullets yet.");
   let last = "";
   for (const r of rows) {
-    const head = `${r.code} · ${r.feature ?? ""}  —  ${PLATFORMS[r.platform] ?? r.platform}`;
+    const head = `${r.code} · ${r.feature ?? ""}  —  ${labelOf(r.kind, r.platform)}`;
     if (head !== last) console.log(`\n${head}`);
     last = head;
-    console.log(`  ${r.id.slice(0, 8)}  • ${r.text}`);
+    console.log(`  ${r.id.slice(0, 8)}  ${r.kind === "out_of_scope" ? "⊘" : "•"} ${r.text}`);
   }
 }
 
-function add(code, platform, texts) {
-  if (!PLATFORMS[platform]) fail(`Platform must be one of: ${Object.keys(PLATFORMS).join(", ")}.`);
-  const clean = texts.map((t) => t.trim()).filter(Boolean);
+function add(code, target, texts) {
+  const t = TARGETS[target];
+  if (!t) fail(`Target must be one of: ${Object.keys(TARGETS).join(", ")}.`);
+  const clean = texts.map((x) => x.trim()).filter(Boolean);
   if (clean.length === 0) fail("Nothing to add.");
   const req = requirement(code);
   db.transaction(() => {
     let order = db
       .prepare("SELECT COALESCE(MAX(sort_order) + 1, 0) AS n FROM requirement_items WHERE requirement_id=? AND kind=? AND platform=?")
-      .get(req.id, KIND, platform).n;
+      .get(req.id, t.kind, t.scope).n;
     const ins = db.prepare("INSERT INTO requirement_items (id, requirement_id, kind, platform, text, sort_order) VALUES (?,?,?,?,?,?)");
-    for (const text of clean) ins.run(randomUUID(), req.id, KIND, platform, text, order++);
+    for (const text of clean) ins.run(randomUUID(), req.id, t.kind, t.scope, text, order++);
   })();
-  console.log(`✓ ${clean.length} added to ${req.code} · ${req.feature ?? ""} (${PLATFORMS[platform]})`);
+  console.log(`✓ ${clean.length} added to ${req.code} · ${req.feature ?? ""} (${t.label})`);
   list(req.code);
 }
 
@@ -144,7 +151,7 @@ switch (cmd) {
     list(args[0]);
     break;
   case "add":
-    if (args.length < 3) fail('Usage: add CODE <riftbound|smartvenues> "text" ["text" ...]');
+    if (args.length < 3) fail('Usage: add CODE <riftbound|smartvenues|out-of-scope> "text" ["text" ...]');
     add(args[0], args[1].toLowerCase(), args.slice(2));
     break;
   case "edit": {
@@ -195,5 +202,5 @@ switch (cmd) {
     }
     break;
   default:
-    console.log('Usage:\n  npm run fr -- list [CODE]\n  npm run fr -- add CODE <riftbound|smartvenues> "text" ["text" ...]\n  npm run fr -- edit ITEM_ID "new text"\n  npm run fr -- rm ITEM_ID [ITEM_ID ...]\n  npm run fr -- roles [CODE]\n  npm run fr -- role-add CODE "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-rm ROLE_ID [ROLE_ID ...]');
+    console.log('Usage:\n  npm run fr -- list [CODE]\n  npm run fr -- add CODE <riftbound|smartvenues|out-of-scope> "text" ["text" ...]\n  npm run fr -- edit ITEM_ID "new text"\n  npm run fr -- rm ITEM_ID [ITEM_ID ...]\n  npm run fr -- roles [CODE]\n  npm run fr -- role-add CODE "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-rm ROLE_ID [ROLE_ID ...]');
 }

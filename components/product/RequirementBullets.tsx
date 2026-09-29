@@ -9,7 +9,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { PlatformKey } from "@/lib/requirements/platforms";
+import type { ItemScope } from "@/lib/requirements/platforms";
 import { TXT, TXT_2, TXT_3 } from "./RequirementCells";
 
 interface Item {
@@ -23,9 +23,11 @@ interface ServerItem { id: string; text: string }
 let seq = 0;
 const newKey = () => `draft-${++seq}`;
 
-export function RequirementBullets({ requirementId, platform, kind = "functional", addLabel, emptyLabel }: {
+export function RequirementBullets({ requirementId, platform = "all", kind = "functional", marker = "dot", addLabel, emptyLabel }: {
   requirementId: string;
-  platform: PlatformKey;
+  platform?: ItemScope;
+  /** "excluded" draws a struck-through sign, for out-of-scope lists. */
+  marker?: "dot" | "excluded";
   kind?: string;
   addLabel: string;
   emptyLabel: string;
@@ -142,7 +144,13 @@ export function RequirementBullets({ requirementId, platform, kind = "functional
       <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 2 }}>
         {items.map((item, idx) => (
           <li key={item.key} className="req-bullet" style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "5px 6px", margin: "0 -6px", borderRadius: 6 }}>
-            <span style={{ width: 5, height: 5, borderRadius: "50%", background: TXT_2, marginTop: 9, flexShrink: 0 }} />
+            {marker === "excluded" ? (
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="#c4543f" strokeWidth="1.6" strokeLinecap="round" style={{ marginTop: 5, flexShrink: 0, marginLeft: -3, marginRight: -2 }} aria-label="Fuera de scope">
+                <circle cx="8" cy="8" r="6" /><path d="M3.8 12.2l8.4-8.4" />
+              </svg>
+            ) : (
+              <span style={{ width: 5, height: 5, borderRadius: "50%", background: TXT_2, marginTop: 9, flexShrink: 0 }} />
+            )}
             {editing === item.key ? (
               <textarea
                 autoFocus

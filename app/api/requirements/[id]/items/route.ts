@@ -1,34 +1,36 @@
 import { NextResponse } from "next/server";
-import { REQUIREMENT_ITEM_KINDS, requirementItemRepo, requirementRepo, type RequirementItemKind } from "@/lib/db/repos";
-import { PLATFORM_KEYS, type PlatformKey } from "@/lib/requirements/platforms";
+import { PER_PLATFORM_KINDS, REQUIREMENT_ITEM_KINDS, requirementItemRepo, requirementRepo, type RequirementItemKind } from "@/lib/db/repos";
+import { PLATFORM_KEYS, type ItemScope } from "@/lib/requirements/platforms";
 
 function kindOf(value: string | null | undefined): RequirementItemKind | null {
   const k = value ?? "functional";
   return (REQUIREMENT_ITEM_KINDS as readonly string[]).includes(k) ? (k as RequirementItemKind) : null;
 }
 
-function platformOf(value: string | null | undefined): PlatformKey | null {
-  return value && (PLATFORM_KEYS as readonly string[]).includes(value) ? (value as PlatformKey) : null;
+/** Per-platform kinds need riftbound | smartvenues; the others always use "all". */
+function scopeOf(kind: RequirementItemKind, value: string | null | undefined): ItemScope | null {
+  if (!PER_PLATFORM_KINDS.includes(kind)) return "all";
+  return value && (PLATFORM_KEYS as readonly string[]).includes(value) ? (value as ItemScope) : null;
 }
 
-/** GET ?platform=riftbound|smartvenues&kind=functional — ordered bullets of one platform block. */
+/** GET ?kind=functional&platform=riftbound|smartvenues, or ?kind=out_of_scope — ordered bullets of one list. */
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const q = new URL(req.url).searchParams;
   const kind = kindOf(q.get("kind"));
-  const platform = platformOf(q.get("platform"));
   if (!kind) return NextResponse.json({ error: "unknown kind" }, { status: 400 });
+  const platform = scopeOf(kind, q.get("platform"));
   if (!platform) return NextResponse.json({ error: `platform must be one of ${PLATFORM_KEYS.join(", ")}` }, { status: 400 });
   return NextResponse.json(requirementItemRepo.list(id, kind, platform));
 }
 
-/** POST { text, platform, kind?, index? } — adds a bullet (at `index`, or at the end). */
+/** POST { text, kind?, platform?, index? } — adds a bullet (at `index`, or at the end). `platform` is required for functional bullets. */
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body = await req.json().catch(() => null);
   const kind = kindOf(body?.kind);
-  const platform = platformOf(body?.platform);
   if (!kind) return NextResponse.json({ error: "unknown kind" }, { status: 400 });
+  const platform = scopeOf(kind, body?.platform);
   if (!platform) return NextResponse.json({ error: `platform must be one of ${PLATFORM_KEYS.join(", ")}` }, { status: 400 });
   if (typeof body?.text !== "string") return NextResponse.json({ error: "text is required" }, { status: 400 });
   if (!requirementRepo.get(id)) return NextResponse.json({ error: "requirement not found" }, { status: 404 });
