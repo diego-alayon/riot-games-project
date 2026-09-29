@@ -2,6 +2,7 @@ import { db } from "./client";
 import { runMigrations } from "./schema";
 import { randomUUID } from "crypto";
 import type { ItemScope } from "../requirements/platforms";
+import { ITEM_KINDS, ITEM_KIND_KEYS, type ItemKind } from "../requirements/items";
 import type { RoleFields } from "../requirements/roles";
 
 // Ensure schema exists on first import (server-side only)
@@ -154,10 +155,20 @@ export const requirementRepo = {
 };
 
 // ── Requirement items (bullets in the requirement drawer) ────────────────────
-export const REQUIREMENT_ITEM_KINDS = ["functional", "out_of_scope"] as const;
-export type RequirementItemKind = (typeof REQUIREMENT_ITEM_KINDS)[number];
+export const REQUIREMENT_ITEM_KINDS = ITEM_KIND_KEYS;
+export type RequirementItemKind = ItemKind;
 /** Kinds split into one list per platform; the others use the single "all" scope. */
-export const PER_PLATFORM_KINDS: readonly RequirementItemKind[] = ["functional"];
+export const PER_PLATFORM_KINDS: readonly RequirementItemKind[] = ITEM_KIND_KEYS.filter(k => ITEM_KINDS[k].perPlatform);
+
+/** Next stable sequence number for (requirement, kind); never reuses a deleted one. */
+function nextItemSeq(requirementId: string, kind: RequirementItemKind): number {
+  const row = db.prepare(`
+    INSERT INTO requirement_item_counters (requirement_id, kind, last_seq)
+    VALUES (?, ?, COALESCE((SELECT MAX(seq) FROM requirement_items WHERE requirement_id = ? AND kind = ?), 0) + 1)
+    ON CONFLICT (requirement_id, kind) DO UPDATE SET last_seq = last_seq + 1
+    RETURNING last_seq`).get(requirementId, kind, requirementId, kind) as { last_seq: number };
+  return row.last_seq;
+}
 
 export const requirementItemRepo = {
   list: (requirementId: string, kind: RequirementItemKind, platform: ItemScope) =>
@@ -171,8 +182,8 @@ export const requirementItemRepo = {
       const ids = (requirementItemRepo.list(requirementId, kind, platform) as Array<{ id: string }>).map(r => r.id);
       const at = index === undefined ? ids.length : Math.max(0, Math.min(index, ids.length));
       ids.splice(at, 0, id);
-      db.prepare("INSERT INTO requirement_items (id, requirement_id, kind, platform, text, sort_order) VALUES (?,?,?,?,?,?)")
-        .run(id, requirementId, kind, platform, text, at);
+      db.prepare("INSERT INTO requirement_items (id, requirement_id, kind, platform, text, sort_order, seq) VALUES (?,?,?,?,?,?,?)")
+        .run(id, requirementId, kind, platform, text, at, nextItemSeq(requirementId, kind));
       const setOrder = db.prepare("UPDATE requirement_items SET sort_order=? WHERE id=?");
       ids.forEach((itemId, i) => setOrder.run(i, itemId));
     })();

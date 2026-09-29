@@ -18,7 +18,10 @@
           "source": "RP",
           "woRef": "3.2 stage 1",
           "owner": "Globant",
-          "comments": "RN-02"
+          "comments": "RN-02",
+          "acceptance": [
+            "Dado un visitante sin sesión, cuando accede a Find Events o al detalle de un evento, entonces ve el contenido sin que se le pida login."
+          ]
         },
         {
           "code": "ACC-02",
@@ -30,7 +33,11 @@
           "source": "RP",
           "woRef": "3.2 stage 2; B2",
           "owner": "Globant",
-          "comments": "RN-01. La WO también exige autenticación \"at intent-to-purchase\"."
+          "comments": "RN-01. La WO también exige autenticación \"at intent-to-purchase\".",
+          "acceptance": [
+            "Dado un visitante sin sesión, cuando pulsa Select o Add en un pase o side event, entonces se le redirige al login RSO.",
+            "No existe ningún camino que permita completar una compra sin sesión RSO."
+          ]
         },
         {
           "code": "ACC-03",
@@ -42,7 +49,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "Dado un visitante sin sesión, cuando pulsa My Tickets, entonces se le redirige al login RSO."
+          ]
         },
         {
           "code": "ACC-04",
@@ -72,7 +82,10 @@
           "source": "RP; MK Riot_Games_Tickets-7",
           "woRef": "3.2 stage 1",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "La navegación principal muestra los tabs \"Find Events\" y \"My Tickets\"."
+          ]
         },
         {
           "code": "FND-02",
@@ -84,7 +97,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "Riot propone incluso eliminar la barra en la v1. League of Legends, VALORANT y Teamfight Tactics se retiran de la v1 (ver Out of scope)."
+          "comments": "Riot propone incluso eliminar la barra en la v1. League of Legends, VALORANT y Teamfight Tactics se retiran de la v1 (ver Out of scope).",
+          "acceptance": [
+            "Solo Riftbound aparece en la barra de juegos; el resto de juegos no se muestra."
+          ]
         },
         {
           "code": "FND-03",
@@ -96,7 +112,10 @@
           "source": "RP",
           "woRef": "B1",
           "owner": "Globant",
-          "comments": "Riot indica que lo habitual es un solo evento destacado."
+          "comments": "Riot indica que lo habitual es un solo evento destacado.",
+          "acceptance": [
+            "Dado al menos un evento en venta o próximo a abrir, cuando se carga Find Events, entonces se muestra al menos una tarjeta destacada con imagen de fondo."
+          ]
         },
         {
           "code": "FND-04",
@@ -108,7 +127,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Compartido",
-          "comments": "Riot aporta las imágenes. Se acepta hardcodearlas en frontend (DEC-05)."
+          "comments": "Riot aporta las imágenes. Se acepta hardcodearlas en frontend (DEC-05).",
+          "acceptance": [
+            "Cada evento muestra su propia imagen en su tarjeta de Find Events y en la cabecera de su detalle."
+          ]
         },
         {
           "code": "FND-05",
@@ -120,7 +142,10 @@
           "source": "RP; MK",
           "woRef": "B1",
           "owner": "Globant",
-          "comments": "Riot: \"lo importante es dónde son y si están en venta\". La etiqueta de región solo aparece en el mockup."
+          "comments": "Riot: \"lo importante es dónde son y si están en venta\". La etiqueta de región solo aparece en el mockup.",
+          "acceptance": [
+            "Cada tarjeta de evento muestra nombre, fechas, venue y ciudad/país."
+          ]
         },
         {
           "code": "FND-06",
@@ -132,7 +157,10 @@
           "source": "RP; MK",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "Relacionado con RN-08."
+          "comments": "Relacionado con RN-08.",
+          "acceptance": [
+            "Dado un evento en venta, su tarjeta muestra \"On sale now\". Dado un evento cuya venta no ha abierto, su tarjeta indica cuándo abre."
+          ]
         },
         {
           "code": "FND-07",
@@ -144,7 +172,10 @@
           "source": "RP; MK",
           "woRef": "B1",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "Los eventos no destacados aparecen en \"More events\" con su fecha de apertura de venta."
+          ]
         },
         {
           "code": "FND-08",
@@ -174,7 +205,10 @@
           "source": "RP; MK",
           "woRef": "B1",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "El detalle del evento muestra los sub-tabs Event Passes y Side Events operativos. El tratamiento del tab On Demand en la v1 (oculto o deshabilitado) está por definir."
+          ]
         },
         {
           "code": "EVT-02",
@@ -198,7 +232,10 @@
           "source": "RP; MK",
           "woRef": "B1",
           "owner": "Globant",
-          "comments": "Puede reutilizar la imagen de FND-04."
+          "comments": "Puede reutilizar la imagen de FND-04.",
+          "acceptance": [
+            "La cabecera del detalle muestra fechas, nombre, venue, ciudad, imagen y el enlace \"All events\"."
+          ]
         },
         {
           "code": "EVT-04",
@@ -210,7 +247,10 @@
           "source": "RP; MK Riot_Games_Tickets",
           "woRef": "B1 (conditional content)",
           "owner": "Globant",
-          "comments": "RN-03"
+          "comments": "RN-03",
+          "acceptance": [
+            "Dado un usuario con pase del evento, cuando abre el detalle, entonces ve el aviso de pase adquirido con el tipo de pase y un enlace a My Tickets."
+          ]
         },
         {
           "code": "EVT-05",
@@ -222,7 +262,10 @@
           "source": "RP; MK Riot_Games_Tickets",
           "woRef": "B1",
           "owner": "Globant",
-          "comments": "La reunión confirma el marcado (\"registered or purchased\"). El atenuado de los demás solo aparece en el mockup."
+          "comments": "La reunión confirma el marcado (\"registered or purchased\"). El atenuado de los demás solo aparece en el mockup.",
+          "acceptance": [
+            "Dado un usuario con pase del evento, su pase aparece marcado como propio y no puede seleccionar otro pase del mismo evento."
+          ]
         },
         {
           "code": "EVT-06",
@@ -252,7 +295,10 @@
           "source": "RP; MK",
           "woRef": "B1",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "Cada pase muestra nombre, tag, precio, descripción, lista de beneficios y CTA."
+          ]
         },
         {
           "code": "PAS-02",
@@ -264,7 +310,10 @@
           "source": "RP",
           "woRef": "B1; 6.6",
           "owner": "Compartido",
-          "comments": "El campo actual tiene límite de caracteres y hay que ampliarlo (Globant). Solo se necesitan bullets (DEC-06). Riot aporta los textos."
+          "comments": "El campo actual tiene límite de caracteres y hay que ampliarlo (Globant). Solo se necesitan bullets (DEC-06). Riot aporta los textos.",
+          "acceptance": [
+            "La vista expandida de un pase muestra su texto completo sin truncar, con los beneficios en bullet points."
+          ]
         },
         {
           "code": "PAS-03",
@@ -276,7 +325,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "Se pueden expandir varios pases a la vez, y \"See less\" colapsa cada uno."
+          ]
         },
         {
           "code": "PAS-04",
@@ -288,7 +340,10 @@
           "source": "RP",
           "woRef": "3.1 (Product catalogue)",
           "owner": "Globant",
-          "comments": "En el mockup \"Attendee\" aparece como \"Admission\"."
+          "comments": "En el mockup \"Attendee\" aparece como \"Admission\".",
+          "acceptance": [
+            "Cada pase tiene exactamente un nivel (Standard o Premium) y un rol (Competitor o Attendee)."
+          ]
         },
         {
           "code": "PAS-05",
@@ -300,7 +355,10 @@
           "source": "RP; MK",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "Los pases se muestran agrupados en las secciones Competitor y Attendee."
+          ]
         },
         {
           "code": "PAS-06",
@@ -312,7 +370,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "RN-03. El mockup Passes_Row_treatment sí muestra un selector de cantidad en el carrito, en contradicción con la reunión. PQ-21."
+          "comments": "RN-03. El mockup Passes_Row_treatment sí muestra un selector de cantidad en el carrito, en contradicción con la reunión. PQ-21.",
+          "acceptance": [
+            "Cuando el usuario selecciona un pase, este pasa a \"Selected\" y aparece en el carrito; el usuario puede quitarlo. No existe selector de cantidad."
+          ]
         },
         {
           "code": "PAS-07",
@@ -348,7 +409,10 @@
           "source": "MK; WO",
           "woRef": "3.1 (After-sales); 3.2 stage 6",
           "owner": "Globant",
-          "comments": "RN-04"
+          "comments": "RN-04",
+          "acceptance": [
+            "Cada pase muestra el aviso de un pase por cuenta Riot y no transferible."
+          ]
         },
         {
           "code": "PAS-10",
@@ -360,7 +424,10 @@
           "source": "RP; MK",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "El carrito lateral muestra los ítems seleccionados, el total y el CTA \"Continue to checkout\"."
+          ]
         },
         {
           "code": "PAS-11",
@@ -406,7 +473,11 @@
           "source": "RP",
           "woRef": "3.3; B4; 3.5",
           "owner": "Compartido",
-          "comments": "Riot aporta la cuenta y las credenciales de Stripe (CP6). Sin PayPal (DEC-04). RN-20"
+          "comments": "Riot aporta la cuenta y las credenciales de Stripe (CP6). Sin PayPal (DEC-04). RN-20",
+          "acceptance": [
+            "El checkout ofrece un único proveedor de pago, Stripe. No aparecen PayPal ni otros métodos como opciones independientes.",
+            "La orden solo se confirma cuando Stripe confirma el pago."
+          ]
         },
         {
           "code": "CHK-02",
@@ -430,7 +501,10 @@
           "source": "RP; MK",
           "woRef": "B4",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "El resumen del checkout muestra evento, fechas, ítems con su precio, vouchers aplicados y total."
+          ]
         },
         {
           "code": "CHK-04",
@@ -478,7 +552,10 @@
           "source": "WO",
           "woRef": "3.5",
           "owner": "Globant",
-          "comments": "No tratado en la reunión. Los mockups mezclan € y $. PQ-20. RN-19"
+          "comments": "No tratado en la reunión. Los mockups mezclan € y $. PQ-20. RN-19",
+          "acceptance": [
+            "Los precios de un evento se muestran en la moneda local configurada para ese evento."
+          ]
         },
         {
           "code": "CHK-08",
@@ -490,7 +567,10 @@
           "source": "RP; MK",
           "woRef": "3.2 stage 5; B4",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "Dada una compra completada, la pantalla de confirmación muestra el número de confirmación, los ítems, el total pagado y los CTAs \"View My Tickets\" y \"Browse More Events\"."
+          ]
         },
         {
           "code": "CHK-09",
@@ -520,7 +600,10 @@
           "source": "RP; MK",
           "woRef": "3.2 stage 6; B5",
           "owner": "Globant",
-          "comments": "RN-09"
+          "comments": "RN-09",
+          "acceptance": [
+            "Dado un evento cuyo último día es D, el evento aparece en \"Upcoming\" hasta D inclusive y en \"Past\" a partir de D+1."
+          ]
         },
         {
           "code": "MYT-02",
@@ -532,7 +615,10 @@
           "source": "RP; MK",
           "woRef": "B5",
           "owner": "Globant",
-          "comments": "El mockup muestra \"Premium Attendee ×2\", en contradicción con RN-03. PQ-21."
+          "comments": "El mockup muestra \"Premium Attendee ×2\", en contradicción con RN-03. PQ-21.",
+          "acceptance": [
+            "La tarjeta de cada evento muestra evento, fechas, venue, pase adquirido y código del badge."
+          ]
         },
         {
           "code": "MYT-03",
@@ -580,7 +666,10 @@
           "source": "RP; MK",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "Se presentan como filas independientes con acción de refund (REF-04)."
+          "comments": "Se presentan como filas independientes con acción de refund (REF-04).",
+          "acceptance": [
+            "Cada side event registrado aparece como fila propia, con nombre, día y hora, dentro de la tarjeta de su evento."
+          ]
         },
         {
           "code": "MYT-07",
@@ -604,7 +693,10 @@
           "source": "RP; MK",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "\"Explore Event\" lleva al detalle del evento."
+          ]
         },
         {
           "code": "MYT-09",
@@ -658,7 +750,10 @@
           "source": "RP; MK",
           "woRef": "B3",
           "owner": "Globant",
-          "comments": "La WO describe los side events como paso de cross-sell previo al checkout, no como tab independiente. GAP-09"
+          "comments": "La WO describe los side events como paso de cross-sell previo al checkout, no como tab independiente. GAP-09",
+          "acceptance": [
+            "Los side events se muestran agrupados por día y ordenados por hora de inicio."
+          ]
         },
         {
           "code": "SDE-02",
@@ -670,7 +765,10 @@
           "source": "RP; MK",
           "woRef": "B3",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "Cada side event muestra nombre, hora, duración, precio y descripción corta; \"See more\" muestra su detalle."
+          ]
         },
         {
           "code": "SDE-03",
@@ -706,7 +804,10 @@
           "source": "RP; MK",
           "woRef": "B3",
           "owner": "Globant",
-          "comments": "—"
+          "comments": "—",
+          "acceptance": [
+            "El CTA de un side event muestra \"Add\"; tras añadirlo, \"Added\"; tras comprarlo, \"Registered\"."
+          ]
         },
         {
           "code": "SDE-06",
@@ -718,7 +819,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "RN-06"
+          "comments": "RN-06",
+          "acceptance": [
+            "Dado un usuario sin pase del evento, no puede comprar side events de ese evento."
+          ]
         },
         {
           "code": "SDE-07",
@@ -730,7 +834,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "RN-07"
+          "comments": "RN-07",
+          "acceptance": [
+            "Dadas la venta de pases y la de side events abiertas a la vez, el usuario puede comprar un pase y side events en una única orden. Sujeto a PQ-37."
+          ]
         },
         {
           "code": "SDE-08",
@@ -742,7 +849,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Compartido",
-          "comments": "Detalle en INT-03."
+          "comments": "Detalle en INT-03.",
+          "acceptance": [
+            "Cada compra confirmada queda disponible como evento para el servicio de Riot (mecanismo según PQ-36)."
+          ]
         }
       ]
     },
@@ -760,7 +870,10 @@
           "source": "RP; MK",
           "woRef": "—",
           "owner": "Compartido",
-          "comments": "Referencia actual: unos 25 € o $25 por voucher, como en Eventbrite. GAP-02"
+          "comments": "Referencia actual: unos 25 € o $25 por voucher, como en Eventbrite. GAP-02",
+          "acceptance": [
+            "Dado un pase que incluye vouchers, cuando el usuario lo compra, entonces recibe el número de vouchers asociado a ese pase."
+          ]
         },
         {
           "code": "VOU-02",
@@ -772,7 +885,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Riot",
-          "comments": "RN-13"
+          "comments": "RN-13",
+          "acceptance": [
+            "Dado un usuario con un voucher emitido por Riot, puede usarlo aunque no tenga un pase Premium."
+          ]
         },
         {
           "code": "VOU-03",
@@ -784,7 +900,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "RN-11, RN-12"
+          "comments": "RN-11, RN-12",
+          "acceptance": [
+            "Un voucher no se puede aplicar a pases ni a side events de un evento distinto al de su origen."
+          ]
         },
         {
           "code": "VOU-04",
@@ -796,7 +915,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "Ya existe en la plataforma."
+          "comments": "Ya existe en la plataforma.",
+          "acceptance": [
+            "Un código de descuento general se puede aplicar en el checkout sobre los productos para los que está configurado."
+          ]
         },
         {
           "code": "VOU-05",
@@ -808,7 +930,10 @@
           "source": "RP",
           "woRef": "B4",
           "owner": "Globant",
-          "comments": "DEC-02. El mockup muestra \"Redeem a voucher\" por línea de pedido. PQ-04"
+          "comments": "DEC-02. El mockup muestra \"Redeem a voucher\" por línea de pedido. PQ-04",
+          "acceptance": [
+            "El voucher solo se aplica cuando el usuario lo elige en el checkout; nunca desde el carrito ni de forma automática."
+          ]
         },
         {
           "code": "VOU-06",
@@ -934,7 +1059,11 @@
           "source": "RP",
           "woRef": "3.1 (After-sales, solo backoffice)",
           "owner": "Globant",
-          "comments": "Riot: \"we cannot launch without partial refunds\". Depende de la iniciativa SGA \"Partial Refunds\", cuyo desarrollo no había empezado a 16 sep (AI). Hay que verificar la fecha de release. PQ-11. GAP-07"
+          "comments": "Riot: \"we cannot launch without partial refunds\". Depende de la iniciativa SGA \"Partial Refunds\", cuyo desarrollo no había empezado a 16 sep (AI). Hay que verificar la fecha de release. PQ-11. GAP-07",
+          "acceptance": [
+            "Dada una orden con varios ítems, cuando el usuario reembolsa uno, entonces solo se reembolsa ese ítem y el resto sigue activo.",
+            "El usuario inicia el refund desde My Tickets sin intervención del soporte."
+          ]
         },
         {
           "code": "REF-02",
@@ -946,7 +1075,10 @@
           "source": "RP",
           "woRef": "3.1",
           "owner": "Globant",
-          "comments": "Ya existe. El equipo planteó salir con esto como alternativa, pero no hay acuerdo explícito. PQ-11"
+          "comments": "Ya existe. El equipo planteó salir con esto como alternativa, pero no hay acuerdo explícito. PQ-11",
+          "acceptance": [
+            "El refund de una orden completa reembolsa todos sus ítems."
+          ]
         },
         {
           "code": "REF-03",
@@ -958,7 +1090,10 @@
           "source": "RP",
           "woRef": "—",
           "owner": "Compartido",
-          "comments": "RN-17. INT-03"
+          "comments": "RN-17. INT-03",
+          "acceptance": [
+            "Cada refund confirmado de un ítem queda disponible como evento para el servicio de Riot (mecanismo según PQ-36)."
+          ]
         },
         {
           "code": "REF-04",
@@ -970,7 +1105,10 @@
           "source": "RP",
           "woRef": "B5 (sin componente de refund)",
           "owner": "Compartido",
-          "comments": "DEC-03. El diseño final lo entrega Riot. PQ-13"
+          "comments": "DEC-03. El diseño final lo entrega Riot. PQ-13",
+          "acceptance": [
+            "Cada side event registrado tiene su propia acción de refund en My Tickets."
+          ]
         },
         {
           "code": "REF-05",

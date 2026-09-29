@@ -101,6 +101,7 @@ const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => 
             </div>
             <RequirementBullets
               requirementId={fr.id}
+              code={fr.code}
               platform={k}
               kind="functional"
               addLabel="Añadir requerimiento funcional"
@@ -122,10 +123,24 @@ const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => 
     render: ({ fr }) => (
       <RequirementBullets
         requirementId={fr.id}
+        code={fr.code}
         kind="out_of_scope"
         marker="excluded"
         addLabel="Añadir elemento fuera de scope"
         emptyLabel="No hay nada marcado como fuera de scope para este requerimiento."
+      />
+    ),
+  },
+  {
+    id: "acceptance",
+    title: "Criterios de aceptación",
+    render: ({ fr }) => (
+      <RequirementBullets
+        requirementId={fr.id}
+        code={fr.code}
+        kind="acceptance"
+        addLabel="Añadir criterio de aceptación"
+        emptyLabel="Sin criterios de aceptación. Formato: Dado… / Cuando… / Entonces…"
       />
     ),
   },

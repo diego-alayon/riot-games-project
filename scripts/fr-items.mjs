@@ -5,17 +5,17 @@
  * the dev server does not need to be running; reopen the drawer to see changes.
  *
  *   npm run fr -- list [CODE]
- *   npm run fr -- add CODE <riftbound|smartvenues|out-of-scope> "text" ["text" ...]
- *   npm run fr -- edit ITEM_ID "new text"
- *   npm run fr -- rm ITEM_ID [ITEM_ID ...]
+ *   npm run fr -- add CODE <riftbound|smartvenues|acceptance|out-of-scope> "text" ["text" ...]
+ *   npm run fr -- edit ID "new text"
+ *   npm run fr -- rm ID [ID ...]
  *
  *   npm run fr -- roles [CODE]
  *   npm run fr -- role-add CODE "Rol" "Funcionalidad soportada" ["Precondición"]
  *   npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]
  *   npm run fr -- role-rm ROLE_ID [ROLE_ID ...]
  *
- * CODE is the PRD requirement ID (e.g. ACC-01). ITEM_ID prefixes (first 8
- * characters, as printed by `list`) are accepted.
+ * CODE is the PRD requirement ID (e.g. ACC-01). ID is an entry's stable ID as
+ * printed by `list` (FND-06.2, FND-06.AC1, FND-06.OOS1) or a UUID prefix.
  */
 
 import Database from "better-sqlite3";
@@ -27,9 +27,25 @@ const PLATFORMS = { riftbound: "Riftbound Ticketing Portal", smartvenues: "Smart
 const TARGETS = {
   riftbound: { kind: "functional", scope: "riftbound", label: PLATFORMS.riftbound },
   smartvenues: { kind: "functional", scope: "smartvenues", label: PLATFORMS.smartvenues },
+  acceptance: { kind: "acceptance", scope: "all", label: "Criterios de aceptación" },
   "out-of-scope": { kind: "out_of_scope", scope: "all", label: "Out of scope" },
 };
-const labelOf = (kind, scope) => (kind === "out_of_scope" ? "Out of scope" : PLATFORMS[scope] ?? scope);
+const PREFIX = { functional: "", acceptance: "AC", out_of_scope: "OOS" }; // keep in sync with lib/requirements/items.ts
+const labelOf = (kind, scope) =>
+  kind === "out_of_scope" ? "Out of scope" : kind === "acceptance" ? "Criterios de aceptación" : PLATFORMS[scope] ?? scope;
+const stableId = (code, kind, seq) => (seq ? `${code}.${PREFIX[kind] ?? ""}${seq}` : "(sin ID)");
+
+/** Next stable sequence number for (requirement, kind); never reuses a deleted one. */
+function nextSeq(requirementId, kind) {
+  return db
+    .prepare(
+      `INSERT INTO requirement_item_counters (requirement_id, kind, last_seq)
+       VALUES (?, ?, COALESCE((SELECT MAX(seq) FROM requirement_items WHERE requirement_id = ? AND kind = ?), 0) + 1)
+       ON CONFLICT (requirement_id, kind) DO UPDATE SET last_seq = last_seq + 1
+       RETURNING last_seq`,
+    )
+    .get(requirementId, kind, requirementId, kind).last_seq;
+}
 
 const db = new Database(path.join(process.cwd(), "data", "app.db"));
 db.pragma("journal_mode = WAL");
@@ -43,7 +59,9 @@ const fail = (msg) => {
 const hasTable = db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='requirement_items'").get();
 if (!hasTable) fail("requirement_items does not exist yet — start the manager once (npm run dev) so it runs its migrations.");
 const cols = db.prepare("PRAGMA table_info(requirement_items)").all().map((c) => c.name);
-if (!cols.includes("platform")) db.exec("ALTER TABLE requirement_items ADD COLUMN platform TEXT NOT NULL DEFAULT 'riftbound'");
+if (!cols.includes("platform") || !cols.includes("seq") ||
+    !db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='requirement_item_counters'").get())
+  fail("The database schema is out of date — start the manager once (npm run dev) so it runs its migrations.");
 
 function requirement(code) {
   const rows = db
@@ -54,10 +72,19 @@ function requirement(code) {
   return rows[0];
 }
 
-function item(idOrPrefix) {
-  const rows = db.prepare("SELECT * FROM requirement_items WHERE id LIKE ?").all(`${idOrPrefix}%`);
-  if (rows.length === 0) fail(`No item ${idOrPrefix}.`);
-  if (rows.length > 1) fail(`${idOrPrefix} matches ${rows.length} items — use more characters.`);
+/** Finds an entry by stable ID (FND-06.2, FND-06.AC1, FND-06.OOS1) or by UUID prefix. */
+function item(ref) {
+  const m = ref.match(/^([A-Z0-9]+-[A-Z0-9]+)\.(AC|OOS)?(\d+)$/i);
+  if (m) {
+    const req = requirement(m[1]);
+    const kind = { AC: "acceptance", OOS: "out_of_scope" }[(m[2] ?? "").toUpperCase()] ?? "functional";
+    const row = db.prepare("SELECT * FROM requirement_items WHERE requirement_id=? AND kind=? AND seq=?").get(req.id, kind, Number(m[3]));
+    if (!row) fail(`No entry ${ref.toUpperCase()}.`);
+    return row;
+  }
+  const rows = db.prepare("SELECT * FROM requirement_items WHERE id LIKE ?").all(`${ref}%`);
+  if (rows.length === 0) fail(`No entry ${ref}.`);
+  if (rows.length > 1) fail(`${ref} matches ${rows.length} entries — use more characters or the stable ID.`);
   return rows[0];
 }
 
@@ -65,10 +92,10 @@ function list(code) {
   if (code) requirement(code);
   const rows = db
     .prepare(
-      `SELECT r.code, r.feature, i.id, i.kind, i.platform, i.text FROM requirement_items i
+      `SELECT r.code, r.feature, i.id, i.kind, i.platform, i.seq, i.text FROM requirement_items i
        JOIN requirements r ON r.id = i.requirement_id
        WHERE (? IS NULL OR upper(r.code) = upper(?))
-       ORDER BY r.code, i.kind, i.platform, i.sort_order, i.created_at`,
+       ORDER BY r.code, CASE i.kind WHEN 'functional' THEN 0 WHEN 'acceptance' THEN 1 ELSE 2 END, i.platform, i.sort_order, i.created_at`,
     )
     .all(code ?? null, code ?? null);
   if (rows.length === 0) return console.log(code ? `${code.toUpperCase()}: no bullets yet.` : "No bullets yet.");
@@ -77,7 +104,7 @@ function list(code) {
     const head = `${r.code} · ${r.feature ?? ""}  —  ${labelOf(r.kind, r.platform)}`;
     if (head !== last) console.log(`\n${head}`);
     last = head;
-    console.log(`  ${r.id.slice(0, 8)}  ${r.kind === "out_of_scope" ? "⊘" : "•"} ${r.text}`);
+    console.log(`  ${stableId(r.code, r.kind, r.seq).padEnd(14)} ${r.kind === "out_of_scope" ? "⊘" : "•"} ${r.text}`);
   }
 }
 
@@ -91,8 +118,8 @@ function add(code, target, texts) {
     let order = db
       .prepare("SELECT COALESCE(MAX(sort_order) + 1, 0) AS n FROM requirement_items WHERE requirement_id=? AND kind=? AND platform=?")
       .get(req.id, t.kind, t.scope).n;
-    const ins = db.prepare("INSERT INTO requirement_items (id, requirement_id, kind, platform, text, sort_order) VALUES (?,?,?,?,?,?)");
-    for (const text of clean) ins.run(randomUUID(), req.id, t.kind, t.scope, text, order++);
+    const ins = db.prepare("INSERT INTO requirement_items (id, requirement_id, kind, platform, text, sort_order, seq) VALUES (?,?,?,?,?,?,?)");
+    for (const text of clean) ins.run(randomUUID(), req.id, t.kind, t.scope, text, order++, nextSeq(req.id, t.kind));
   })();
   console.log(`✓ ${clean.length} added to ${req.code} · ${req.feature ?? ""} (${t.label})`);
   list(req.code);
@@ -151,22 +178,22 @@ switch (cmd) {
     list(args[0]);
     break;
   case "add":
-    if (args.length < 3) fail('Usage: add CODE <riftbound|smartvenues|out-of-scope> "text" ["text" ...]');
+    if (args.length < 3) fail('Usage: add CODE <riftbound|smartvenues|acceptance|out-of-scope> "text" ["text" ...]');
     add(args[0], args[1].toLowerCase(), args.slice(2));
     break;
   case "edit": {
-    if (args.length < 2 || !args[1].trim()) fail('Usage: edit ITEM_ID "new text"');
+    if (args.length < 2 || !args[1].trim()) fail('Usage: edit ID "new text"');
     const it = item(args[0]);
     db.prepare("UPDATE requirement_items SET text=?, updated_at=datetime('now') WHERE id=?").run(args[1].trim(), it.id);
-    console.log(`✓ Updated ${it.id.slice(0, 8)}`);
+    console.log(`✓ Updated ${args[0].toUpperCase()}`);
     break;
   }
   case "rm":
-    if (args.length === 0) fail("Usage: rm ITEM_ID [ITEM_ID ...]");
+    if (args.length === 0) fail("Usage: rm ID [ID ...]");
     for (const a of args) {
       const it = item(a);
       db.prepare("DELETE FROM requirement_items WHERE id=?").run(it.id);
-      console.log(`✓ Removed ${it.id.slice(0, 8)} — ${it.text}`);
+      console.log(`✓ Removed ${a.toUpperCase()} — ${it.text}`);
     }
     break;
   case "roles":
@@ -202,5 +229,5 @@ switch (cmd) {
     }
     break;
   default:
-    console.log('Usage:\n  npm run fr -- list [CODE]\n  npm run fr -- add CODE <riftbound|smartvenues|out-of-scope> "text" ["text" ...]\n  npm run fr -- edit ITEM_ID "new text"\n  npm run fr -- rm ITEM_ID [ITEM_ID ...]\n  npm run fr -- roles [CODE]\n  npm run fr -- role-add CODE "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-rm ROLE_ID [ROLE_ID ...]');
+    console.log('Usage:\n  npm run fr -- list [CODE]\n  npm run fr -- add CODE <riftbound|smartvenues|acceptance|out-of-scope> "text" ["text" ...]\n  npm run fr -- edit ID "new text"\n  npm run fr -- rm ID [ID ...]\n  npm run fr -- roles [CODE]\n  npm run fr -- role-add CODE "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-rm ROLE_ID [ROLE_ID ...]');
 }

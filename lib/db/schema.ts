@@ -194,6 +194,19 @@ export function runMigrations() {
   // drawer shows one block per platform. Bullets written before this default to Riftbound.
   try { db.exec(`ALTER TABLE requirement_items ADD COLUMN platform TEXT NOT NULL DEFAULT 'riftbound'`); } catch {}
 
+  // Stable per-entry IDs (FND-06.1, FND-06.AC1…): `seq` is assigned on insert
+  // from a per-(requirement, kind) counter and never reused. See lib/requirements/items.ts.
+  try { db.exec(`ALTER TABLE requirement_items ADD COLUMN seq INTEGER`); } catch {}
+  try {
+    db.exec(`CREATE TABLE IF NOT EXISTS requirement_item_counters (
+      requirement_id TEXT NOT NULL REFERENCES requirements(id) ON DELETE CASCADE,
+      kind           TEXT NOT NULL,
+      last_seq       INTEGER NOT NULL DEFAULT 0,
+      PRIMARY KEY (requirement_id, kind)
+    )`);
+  } catch {}
+  backfillItemSeq();
+
   // Roles table in the requirement drawer: which role the requirement supports,
   // what it lets that role do, and any special precondition.
   try {
@@ -220,6 +233,29 @@ export function runMigrations() {
       imported_at   TEXT NOT NULL DEFAULT (datetime('now'))
     )`);
   } catch {}
+}
+
+/**
+ * Numbers entries written before stable IDs existed, in display order
+ * (platform, then position), continuing after any number already used.
+ */
+function backfillItemSeq() {
+  const pending = db.prepare(
+    "SELECT id, requirement_id, kind FROM requirement_items WHERE seq IS NULL ORDER BY requirement_id, kind, platform, sort_order, created_at",
+  ).all() as Array<{ id: string; requirement_id: string; kind: string }>;
+  if (!pending.length) return;
+  const next = db.prepare(`
+    INSERT INTO requirement_item_counters (requirement_id, kind, last_seq)
+    VALUES (?, ?, COALESCE((SELECT MAX(seq) FROM requirement_items WHERE requirement_id = ? AND kind = ?), 0) + 1)
+    ON CONFLICT (requirement_id, kind) DO UPDATE SET last_seq = last_seq + 1
+    RETURNING last_seq`);
+  const set = db.prepare("UPDATE requirement_items SET seq = ? WHERE id = ?");
+  db.transaction(() => {
+    for (const p of pending) {
+      const { last_seq } = next.get(p.requirement_id, p.kind, p.requirement_id, p.kind) as { last_seq: number };
+      set.run(last_seq, p.id);
+    }
+  })();
 }
 
 /**

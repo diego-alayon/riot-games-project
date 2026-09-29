@@ -11,6 +11,7 @@
 
 import { randomUUID } from "crypto";
 import { db } from "../db/client";
+import { requirementItemRepo } from "../db/repos";
 import { derivePlatforms, serializePlatforms, type PlatformKey } from "../requirements/platforms";
 
 export interface PrdTableRequirement {
@@ -26,6 +27,8 @@ export interface PrdTableRequirement {
   comments: string;
   /** Initial platforms; when absent they are derived from `page`. Never overwrites catalog edits. */
   platforms?: PlatformKey[];
+  /** Acceptance criteria (PRD 7.13). Loaded only while the requirement has none, so edits are never overwritten. */
+  acceptance?: string[];
 }
 
 export interface PrdTableEpic {
@@ -84,6 +87,8 @@ export function importPrdTable(initiativeId: string, doc: PrdTableDocument, file
         }
         db.prepare("UPDATE requirements SET platforms=? WHERE id=? AND platforms IS NULL")
           .run(serializePlatforms(r.platforms ?? derivePlatforms(r.page)), id);
+        const hasCriteria = db.prepare("SELECT 1 FROM requirement_items WHERE requirement_id=? AND kind='acceptance' LIMIT 1").get(id);
+        if (!hasCriteria) for (const text of r.acceptance ?? []) requirementItemRepo.create(id, "acceptance", "all", text);
       }
     });
 
