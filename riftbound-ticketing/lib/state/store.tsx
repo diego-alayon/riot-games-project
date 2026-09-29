@@ -33,46 +33,20 @@ interface State {
 
 const DEMO_USER: Session = { riotId: "Slazareth#NA1", gameName: "Slazareth", puid: "a1f3-demo-puid" };
 const EMPTY_CART: Cart = { eventSlug: null, passId: null, sideIds: [] };
-const BCN = "regional-qualifier-barcelona";
 
+/** Clean slate: signed in, no purchases, no vouchers — every on-sale product is available. */
 function seed(): State {
-  const item = (kind: OrderItem["kind"], refId: string): OrderItem => {
-    const ref = kind === "pass" ? getPass(refId) : getSideEvent(refId);
-    return { kind, refId, name: ref?.name ?? refId, price: ref?.price ?? 0, voucherDiscount: 0 };
-  };
   return {
     session: DEMO_USER,
     cart: EMPTY_CART,
-    orders: [
-      {
-        id: "ord-bcn", confirmation: "RB-CPK1-GOYP", badgeCode: "RB-7QF2-9KLM", eventSlug: BCN, createdAt: "2026-07-02",
-        items: [
-          item("pass", `${BCN}:competitor-premium`),
-          item("side", `${BCN}:2v2-team`),
-          item("side", `${BCN}:draft`),
-          item("side", `${BCN}:super-nexus`),
-        ],
-        codeDiscount: 0,
-      },
-      {
-        id: "ord-la-may", confirmation: "RB-LA05-2026", badgeCode: "RB-LA55-0517", eventSlug: "regional-qualifier-los-angeles-2026-05",
-        createdAt: "2026-03-01", items: [item("pass", "regional-qualifier-los-angeles-2026-05:competitor-premium")], codeDiscount: 0,
-      },
-      {
-        id: "ord-bo-mar", confirmation: "RB-BO03-2026", badgeCode: "RB-BO36-0308", eventSlug: "regional-qualifier-bologna-2026-03",
-        createdAt: "2026-01-12", items: [item("pass", "regional-qualifier-bologna-2026-03:attendee-standard")], codeDiscount: 0,
-      },
-    ],
-    vouchers: [
-      { id: "v-bcn-1", eventSlug: BCN, source: "pass" },
-      { id: "v-bcn-2", eventSlug: BCN, source: "pass" },
-    ],
+    orders: [],
+    vouchers: [],
     preregs: [],
-    prizeTickets: 340,
+    prizeTickets: 0,
   };
 }
 
-const KEY = "riftbound-demo-v1";
+const KEY = "riftbound-demo-v2";
 
 function code(prefix = "RB") {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
