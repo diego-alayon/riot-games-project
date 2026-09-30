@@ -1299,6 +1299,54 @@
       "wo_ref": "3.2 stage 1",
       "items": [
         {
+          "id": "249bebd9-819d-415b-9a6c-dced58290ac4",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "text": "El portal debe mostrar en todas las páginas una cabecera con el logotipo de Riot Games, la marca de Riftbound, la navegación principal («Find Events» y «My Tickets») y la identidad del fan (ACC-04)."
+        },
+        {
+          "id": "f0ee0054-ac56-440a-b2a2-682cf02c5dba",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "text": "Mientras el fan desplaza la página, el portal debe mantener la cabecera visible en la parte superior."
+        },
+        {
+          "id": "3d356ffe-cabe-4822-b3bd-4fbe2b06422a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "text": "El portal debe resaltar en la cabecera la opción de la página en la que está el fan: «Find Events» en Find Events y «My Tickets» en My Tickets."
+        },
+        {
+          "id": "d3ee344a-59e6-49e9-ab19-72fe202d00d6",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "text": "Cuando el fan pulse el logotipo de Riot Games o «Find Events», el portal debe mostrar Find Events (P-01)."
+        },
+        {
+          "id": "c2bb0661-3251-4cbc-8bf9-3dd0f243b7bb",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 5,
+          "sort_order": 4,
+          "text": "Cuando el fan pulse «My Tickets», el portal debe mostrar My Tickets (P-08). Sin sesión RSO aplica ACC-03."
+        },
+        {
+          "id": "3d0e967f-2321-431d-98f0-ac81684bfa13",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 6,
+          "sort_order": 5,
+          "text": "En dispositivos móviles, el portal debe mostrar la cabecera con [TBD: contenido y comportamiento; pendiente del diseño móvil]."
+        },
+        {
           "id": "99d5132c-2bdb-4e4c-9e4d-3cd05f341975",
           "kind": "acceptance",
           "platform": "all",
@@ -1307,9 +1355,18 @@
           "text": "La navegación principal muestra los tabs \"Find Events\" y \"My Tickets\"."
         }
       ],
-      "roles": [],
+      "roles": [
+        {
+          "id": "b0df7e8f-7f16-40f7-ae2b-1f1f7e9edec4",
+          "role": "Fan",
+          "capability": "Navega entre Find Events y My Tickets desde la cabecera",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        }
+      ],
       "counters": {
-        "acceptance": 1
+        "acceptance": 1,
+        "functional": 6
       }
     },
     {
