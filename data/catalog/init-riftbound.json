@@ -304,7 +304,7 @@
           "platform": "smartvenues",
           "seq": 4,
           "sort_order": 0,
-          "text": "SmartVenues debe rechazar la creación de una orden sin una sesión RSO válida."
+          "text": "SmartVenues debe rechazar toda petición de creación de orden que no incluya un token de sesión RSO válido."
         },
         {
           "id": "f323e0b4-f69d-465d-832a-df1795c32aac",
@@ -312,7 +312,7 @@
           "platform": "smartvenues",
           "seq": 5,
           "sort_order": 1,
-          "text": "SmartVenues debe guardar en cada orden el PUID (identificador permanente de la cuenta Riot) del fan que la crea."
+          "text": "SmartVenues debe guardar en cada orden el identificador de la cuenta Riot del fan que la crea [TBD: confirmar con Riot si es el PUID que usa PlayRiftbound]."
         },
         {
           "id": "a0666126-50c3-4df5-8561-3144ca88bab7",
@@ -361,6 +361,14 @@
           "seq": 2,
           "sort_order": 1,
           "text": "Registro de la cuenta Riot y recuperación de credenciales; los gestiona RSO."
+        },
+        {
+          "id": "a4263797-87ca-4740-a7b9-cbe1f9ce9823",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 3,
+          "sort_order": 2,
+          "text": "Acciones de SmartVenues en el login del fan. El login ocurre entre el portal y RSO; SmartVenues recibe la identidad del fan en cada petición a sus endpoints."
         }
       ],
       "roles": [
@@ -382,7 +390,7 @@
       "counters": {
         "acceptance": 4,
         "functional": 5,
-        "out_of_scope": 2
+        "out_of_scope": 3
       }
     },
     {
