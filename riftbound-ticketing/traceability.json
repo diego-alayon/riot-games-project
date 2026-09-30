@@ -135,7 +135,8 @@
       "requirements": [
         "CHK-08",
         "CHK-09",
-        "SDE-08"
+        "SDE-08",
+        "ACC-03"
       ]
     },
     {

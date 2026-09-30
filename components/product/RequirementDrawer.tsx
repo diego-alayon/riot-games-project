@@ -47,7 +47,6 @@ export interface TraceScreen {
 
 interface SectionProps {
   fr: DrawerRequirement;
-  screens: TraceScreen[];
   onPatch: (fields: { platforms?: PlatformKey[]; due_date?: string | null }) => void;
 }
 
@@ -171,35 +170,53 @@ const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => 
         <p style={{ fontSize: 13, color: TXT_3, margin: 0 }}>Sin comentarios.</p>
       ),
   },
-  {
-    id: "implementation",
-    title: "Implementado en",
-    render: ({ screens }) =>
-      screens.length === 0 ? (
-        <p style={{ fontSize: 13, color: TXT_3, margin: 0 }}>Todavía no hay pantallas enlazadas a este requerimiento.</p>
+];
+
+/* ── Implementado en ────────────────────────────────────────────────────── */
+
+const chip: React.CSSProperties = {
+  display: "inline-flex", alignItems: "center", gap: 6, height: 28, padding: "0 9px", flexShrink: 0,
+  border: "1px solid #ececee", borderRadius: 6, fontSize: 12, color: TXT, whiteSpace: "nowrap", textDecoration: "none",
+};
+
+/** "Event Detail — Side Events" → "Side Events", "Login RSO (simulated)" → "Login RSO". */
+const shortName = (name: string) => name.replace(/^Event Detail — /, "").replace(/\s*\(simulated\)$/, "");
+
+/**
+ * One line under the header, as tall as the header: the prototype screens that
+ * implement the requirement. Each one opens that screen in Riftbound with trace mode on.
+ * Past three screens only the IDs are shown (name in the tooltip), so the line never overflows.
+ */
+function ImplementedIn({ screens }: { screens: TraceScreen[] }) {
+  const withNames = screens.length <= 3;
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 12, height: 48, padding: "0 24px", borderBottom: "1px solid #f0f0f2", flexShrink: 0 }}>
+      <span style={{ fontSize: 12, fontWeight: 500, color: TXT_2, flexShrink: 0 }}>Implementado en</span>
+      {screens.length === 0 ? (
+        <span style={{ fontSize: 13, color: TXT_3 }}>Sin pantallas enlazadas</span>
       ) : (
-        <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 2 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, minWidth: 0, overflowX: "auto", scrollbarWidth: "none" }}>
           {screens.map(s => {
             const href = screenHref(s);
-            return (
-              <li key={`${s.app}-${s.id}`} style={{ display: "flex", alignItems: "center", gap: 10, minHeight: 34 }}>
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#ef7d00" strokeWidth="1.4" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                  <path d="M8 2l6 6-6 6-6-6 6-6z" />
-                </svg>
-                <span style={{ fontSize: 13, color: TXT_2, width: 40, flexShrink: 0 }}>{s.id}</span>
-                <span style={{ fontSize: 13, color: TXT, flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.name}</span>
-                {href && (
-                  <a href={href} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#5e6ad2", textDecoration: "none", flexShrink: 0 }}>
-                    Abrir ↗
-                  </a>
-                )}
-              </li>
+            const content = (
+              <>
+                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#ef7d00" strokeWidth="1.6" strokeLinejoin="round"><path d="M8 2l6 6-6 6-6-6 6-6z" /></svg>
+                <span style={{ color: withNames ? TXT_2 : TXT }}>{s.id}</span>
+                {withNames && shortName(s.name)}
+                {href && <span style={{ color: TXT_3 }}>↗</span>}
+              </>
+            );
+            return href ? (
+              <a key={`${s.app}-${s.id}`} href={href} target="_blank" rel="noopener noreferrer" title={`Abrir ${s.id} ${s.name} en el prototipo`} className="req-editable" style={chip}>{content}</a>
+            ) : (
+              <span key={`${s.app}-${s.id}`} title={`${s.id} ${s.name}: se abre desde un pedido del prototipo`} style={chip}>{content}</span>
             );
           })}
-        </ul>
-      ),
-  },
-];
+        </div>
+      )}
+    </div>
+  );
+}
 
 /* ── Drawer ─────────────────────────────────────────────────────────────── */
 
@@ -266,6 +283,7 @@ export function RequirementDrawer({
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M4 4l8 8M12 4l-8 8" /></svg>
         </button>
       </header>
+      <ImplementedIn screens={screens} />
 
       <div style={{ flex: 1, overflowY: "auto" }}>
         <div style={{ padding: "24px 24px 20px" }}>
@@ -276,7 +294,7 @@ export function RequirementDrawer({
           {fr.feature && <p style={{ margin: "12px 0 0", fontSize: 14, lineHeight: 1.6, color: TXT }}>{fr.description}</p>}
         </div>
         {SECTIONS.map(s => (
-          <Section key={s.id} title={s.title}>{s.render({ fr, screens, onPatch })}</Section>
+          <Section key={s.id} title={s.title}>{s.render({ fr, onPatch })}</Section>
         ))}
       </div>
     </aside>
