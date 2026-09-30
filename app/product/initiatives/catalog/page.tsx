@@ -1036,12 +1036,12 @@ export default function FunctionalRequirementsPage() {
         <div style={{ fontSize: 13, color: TXT_3, padding: 24 }}>Loading…</div>
       ) : (
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", minWidth: 3050, borderCollapse: "collapse", tableLayout: "fixed" }}>
+          <table style={{ width: "100%", minWidth: 3170, borderCollapse: "collapse", tableLayout: "fixed" }}>
             <colgroup>
               <col style={{ width: 36 }} />
               <col style={{ width: 110 }} />
               <col style={{ width: 90 }} />
-              <col style={{ width: 600 }} />
+              <col style={{ width: 720 }} />
               {DETAIL_COLS.map(c => <col key={c.label} style={{ width: c.width }} />)}
             </colgroup>
             <thead>
