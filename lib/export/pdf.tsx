@@ -1,7 +1,7 @@
 /**
  * PDF export of the catalog: a cover with the epic index, then one section per
  * epic and, inside it, every functional requirement laid out like its drawer
- * (Requerimientos funcionales, Roles, Out of scope, Criterios de aceptación, Propiedades).
+ * (Roles, Requerimientos funcionales, Criterios de aceptación, Out of scope, Propiedades).
  */
 
 import { Document, Page, StyleSheet, Text, View, renderToBuffer } from "@react-pdf/renderer";
@@ -73,15 +73,6 @@ function Requirement({ r }: { r: ExportRequirement }) {
         {r.description ? <Text style={s.description}>{r.description}</Text> : null}
       </View>
 
-      <Text style={s.sectionLabel}>Requerimientos funcionales</Text>
-      {platforms.length === 0 && <Text style={s.empty}>Sin requerimientos funcionales todavía.</Text>}
-      {platforms.map(p => (
-        <View key={p}>
-          <Text style={s.platform}>{PLATFORMS[p]}</Text>
-          <Entries list={r.functional[p]} />
-        </View>
-      ))}
-
       {r.roles.length > 0 && (
         <>
           <Text style={s.sectionLabel}>Roles</Text>
@@ -100,15 +91,24 @@ function Requirement({ r }: { r: ExportRequirement }) {
         </>
       )}
 
+      <Text style={s.sectionLabel}>Requerimientos funcionales</Text>
+      {platforms.length === 0 && <Text style={s.empty}>Sin requerimientos funcionales todavía.</Text>}
+      {platforms.map(p => (
+        <View key={p}>
+          <Text style={s.platform}>{PLATFORMS[p]}</Text>
+          <Entries list={r.functional[p]} />
+        </View>
+      ))}
+
+      <Text style={s.sectionLabel}>Criterios de aceptación</Text>
+      {r.acceptance.length === 0 ? <Text style={s.empty}>Sin criterios de aceptación todavía.</Text> : <Entries list={r.acceptance} />}
+
       {r.outOfScope.length > 0 && (
         <>
           <Text style={s.sectionLabel}>Out of scope</Text>
           <Entries list={r.outOfScope} />
         </>
       )}
-
-      <Text style={s.sectionLabel}>Criterios de aceptación</Text>
-      {r.acceptance.length === 0 ? <Text style={s.empty}>Sin criterios de aceptación todavía.</Text> : <Entries list={r.acceptance} />}
 
       <Text style={s.sectionLabel}>Propiedades</Text>
       <View style={s.props}>

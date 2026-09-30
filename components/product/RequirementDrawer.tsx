@@ -89,6 +89,11 @@ function Plain({ value }: { value?: string | null }) {
 
 const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => ReactNode }> = [
   {
+    id: "roles",
+    title: "Roles",
+    render: ({ fr }) => <RequirementRoles requirementId={fr.id} />,
+  },
+  {
     id: "functional",
     title: "Requerimientos funcionales",
     render: ({ fr }) => (
@@ -113,9 +118,17 @@ const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => 
     ),
   },
   {
-    id: "roles",
-    title: "Roles",
-    render: ({ fr }) => <RequirementRoles requirementId={fr.id} />,
+    id: "acceptance",
+    title: "Criterios de aceptación",
+    render: ({ fr }) => (
+      <RequirementBullets
+        requirementId={fr.id}
+        code={fr.code}
+        kind="acceptance"
+        addLabel="Añadir criterio de aceptación"
+        emptyLabel="Sin criterios de aceptación. Formato: Dado… / Cuando… / Entonces…"
+      />
+    ),
   },
   {
     id: "out-of-scope",
@@ -128,19 +141,6 @@ const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => 
         marker="excluded"
         addLabel="Añadir elemento fuera de scope"
         emptyLabel="No hay nada marcado como fuera de scope para este requerimiento."
-      />
-    ),
-  },
-  {
-    id: "acceptance",
-    title: "Criterios de aceptación",
-    render: ({ fr }) => (
-      <RequirementBullets
-        requirementId={fr.id}
-        code={fr.code}
-        kind="acceptance"
-        addLabel="Añadir criterio de aceptación"
-        emptyLabel="Sin criterios de aceptación. Formato: Dado… / Cuando… / Entonces…"
       />
     ),
   },
@@ -246,7 +246,7 @@ export function RequirementDrawer({
       aria-label={`${fr.code} ${fr.feature ?? ""}`}
       className="req-drawer"
       style={{
-        position: "fixed", top: 0, right: 0, bottom: 0, width: 560, maxWidth: "100vw", zIndex: 60,
+        position: "fixed", top: 0, right: 0, bottom: 0, width: 660, maxWidth: "100vw", zIndex: 60,
         background: "#fff", borderLeft: "1px solid #ececee", boxShadow: "-12px 0 32px rgba(0,0,0,0.06)",
         display: "flex", flexDirection: "column",
       }}
