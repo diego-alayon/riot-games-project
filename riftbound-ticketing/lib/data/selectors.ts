@@ -32,20 +32,15 @@ const byStart = (a: RiftEvent, b: RiftEvent) => a.startDate.localeCompare(b.star
 export const isOnSale = (ev: RiftEvent, today = DEMO_TODAY) => saleLabel(ev, today).live;
 
 /**
- * FND-03: the featured events are computed, not configured. 1st and 2nd: the events on
- * sale with the nearest start date. 3rd: the event not yet on sale whose sale opens first.
- * Still pending, so provisional here: whether the 3rd goes by sale opening or start date
- * (FND-03.11), and how empty slots are filled — with the next events by start date (FND-03.12).
- * The other visible events go to "More events", by start date (FND-07).
+ * FND-03: the featured events are computed, not configured. 1st: the event on sale with
+ * the nearest start date. 2nd and 3rd: the next two events by start date, on sale or not
+ * yet on sale. Still pending, so provisional here: which event leads when none is on sale
+ * (FND-03.12) — the nearest one by start date — and whether sold-out or closed events can
+ * be featured (FND-03.11). The other visible events go to "More events", by start date (FND-07).
  */
 export function featuredEvents(visible: RiftEvent[], today = DEMO_TODAY) {
   const events = [...visible].sort(byStart);
-  const onSale = events.filter((e) => isOnSale(e, today));
-  const upcoming = events
-    .filter((e) => !isOnSale(e, today) && e.saleOpensAt)
-    .sort((a, b) => a.saleOpensAt!.localeCompare(b.saleOpensAt!) || byStart(a, b));
-  const slots = [onSale[0], onSale[1], upcoming[0]];
-  const rest = events.filter((e) => !slots.includes(e));
-  const featured = slots.map((e) => e ?? rest.shift()).filter((e): e is RiftEvent => !!e);
+  const first = events.find((e) => isOnSale(e, today)) ?? events[0];
+  const featured = first ? [first, ...events.filter((e) => e !== first).slice(0, 2)] : [];
   return { featured, more: events.filter((e) => !featured.includes(e)) };
 }

@@ -1530,7 +1530,7 @@
       "id": "2af79add-fe67-41ba-bbc0-61c97d730662",
       "code": "FND-03",
       "feature": "Eventos destacados en Find Events",
-      "description": "Como fan, quiero ver al principio de Find Events los próximos eventos en venta y el próximo que abre la venta, en tarjetas grandes con la imagen de cada evento, para identificarlos de un vistazo y comprar a tiempo.",
+      "description": "Como fan, quiero ver al principio de Find Events los tres próximos eventos, de los que al menos uno está en venta, en tarjetas grandes con la imagen de cada evento, para identificarlos de un vistazo.",
       "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
       "story_id": null,
       "area": "FND",
@@ -1554,7 +1554,7 @@
           "seq": 1,
           "sort_order": 0,
           "tag": null,
-          "text": "El portal debe mostrar en Find Events, debajo del título (FND-10), un máximo de tres eventos destacados."
+          "text": "El portal debe mostrar en Find Events, debajo del título (FND-10), entre uno y tres eventos destacados, y siempre al menos uno mientras haya eventos visibles (FND-11)."
         },
         {
           "id": "4a7e0479-36d9-4dea-aca3-a78e6cf58bbf",
@@ -1581,23 +1581,41 @@
           "seq": 5,
           "sort_order": 3,
           "tag": null,
-          "text": "Si hay menos de tres eventos destacados, el portal debe ocupar las posiciones en orden (principal, izquierda, derecha) y no mostrar las tarjetas que queden sin evento."
+          "text": "Si solo hay un evento destacado, el portal debe mostrar únicamente la tarjeta principal."
+        },
+        {
+          "id": "28760135-70d7-4987-8c99-5284542d7ab8",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 17,
+          "sort_order": 4,
+          "tag": "pending-riot",
+          "text": "Si solo hay dos eventos destacados, el portal debe mostrarlos en [TBD: disposición de las dos tarjetas]."
         },
         {
           "id": "a69f535c-1971-4bc0-810f-b0f05e1dce9f",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 4,
-          "sort_order": 4,
+          "sort_order": 5,
           "tag": null,
-          "text": "El portal debe mostrar en cada tarjeta destacada la etiqueta de estado de venta (FND-06), la fecha, el nombre y la ubicación del evento (FND-05.1)."
+          "text": "El portal debe mostrar en cada tarjeta destacada la etiqueta de estado de venta (FND-06; ej. «On sale now» u «On sale in 3 days»), la fecha del evento (día de la semana y rango de fechas), el nombre y la ubicación (venue, ciudad y país)."
+        },
+        {
+          "id": "7b721dab-1f7c-422c-a2a4-673b3a8cbbaa",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 18,
+          "sort_order": 6,
+          "tag": "pending-product",
+          "text": "El portal debe mostrar en cada tarjeta destacada la región del evento [TBD: catálogo de regiones; se define a partir de los países en los que se vende]."
         },
         {
           "id": "8794e1c1-d692-40ca-96ad-fee765cb7698",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 7,
-          "sort_order": 5,
+          "sort_order": 7,
           "tag": null,
           "text": "El portal debe mostrar como fondo de cada tarjeta destacada la imagen propia del evento."
         },
@@ -1606,16 +1624,25 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 8,
-          "sort_order": 6,
+          "sort_order": 8,
           "tag": null,
           "text": "Si un evento no tiene imagen, el portal debe mostrar como fondo de su tarjeta una imagen genérica de Riftbound [TBD: Riot aporta la imagen genérica]."
+        },
+        {
+          "id": "fb881fa6-fbde-4704-b1f3-b6d8c998b6ea",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 19,
+          "sort_order": 9,
+          "tag": null,
+          "text": "Cuando el fan pulse una tarjeta destacada, el portal debe abrir la página del evento (Event Passes, P-02)."
         },
         {
           "id": "451eb159-2182-467b-9244-840c924ce970",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 9,
-          "sort_order": 7,
+          "sort_order": 10,
           "tag": null,
           "text": "El portal debe elegir como primer evento destacado el evento en venta (FND-06.1) con la fecha de inicio más próxima."
         },
@@ -1624,34 +1651,34 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 10,
-          "sort_order": 8,
+          "sort_order": 11,
           "tag": null,
-          "text": "El portal debe elegir como segundo evento destacado el siguiente evento en venta por fecha de inicio."
+          "text": "El portal debe elegir como segundo y tercer evento destacado los dos eventos visibles con la fecha de inicio más próxima, sin contar el primero, estén en venta o todavía no hayan abierto la venta."
         },
         {
           "id": "c692e895-de23-4707-a740-6e83bd8d9bd4",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 11,
-          "sort_order": 9,
+          "sort_order": 12,
           "tag": null,
-          "text": "El portal debe elegir como tercer evento destacado el evento que todavía no está en venta y cuya venta abre antes [TBD: criterio: fecha de apertura de la venta o fecha de inicio del evento]."
+          "text": "Si un evento está agotado o tiene la venta cerrada, el portal debe [TBD: incluirlo o no entre los eventos destacados]."
         },
         {
           "id": "83c5c65f-b27f-4d4a-9d0e-5312f6f06c6e",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 12,
-          "sort_order": 10,
+          "sort_order": 13,
           "tag": null,
-          "text": "Si no hay dos eventos en venta, o no hay ninguno próximo a abrir la venta, el portal debe [TBD: cómo se ocupan las posiciones libres]."
+          "text": "Si no hay ningún evento en venta, el portal debe mostrar en la tarjeta principal [TBD: qué evento]."
         },
         {
           "id": "85351f3a-7fb1-48f7-924f-986b44e54225",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 13,
-          "sort_order": 11,
+          "sort_order": 14,
           "tag": null,
           "text": "Si dos eventos tienen la misma fecha de inicio, el portal debe ordenarlos por [TBD: criterio de ordenación secundario]."
         },
@@ -1660,8 +1687,8 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 14,
-          "sort_order": 12,
-          "tag": null,
+          "sort_order": 15,
+          "tag": "pending-engineering",
           "text": "El frontend del portal debe calcular la selección y el orden de los eventos destacados cada vez que muestra Find Events, a partir de los eventos que envía SmartVenues. El resto de eventos visibles va a «More events» (FND-07.1)."
         },
         {
@@ -1669,16 +1696,25 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 6,
-          "sort_order": 13,
+          "sort_order": 16,
           "tag": null,
           "text": "En dispositivos móviles, el portal debe mostrar los eventos destacados con [TBD: disposición de las tarjetas y recorte de la imagen; pendiente del diseño móvil]."
+        },
+        {
+          "id": "11db5eaa-4391-4716-a4c8-d2495b2819d9",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 20,
+          "sort_order": 0,
+          "tag": null,
+          "text": "SmartVenues debe permitir al Chief Sales Operator configurar y publicar los eventos que se venden en el portal."
         },
         {
           "id": "b432b3ed-7738-405b-9ad1-2902eeacef64",
           "kind": "functional",
           "platform": "smartvenues",
           "seq": 15,
-          "sort_order": 0,
+          "sort_order": 1,
           "tag": "pending-product",
           "text": "SmartVenues debe enviar al portal los eventos que el Chief Sales Operator configura y publica, con los datos que usa la selección de destacados: fechas de inicio y fin, estado de la venta y fecha y hora de apertura de la venta [TBD: API de SmartVenues: contrato y forma de comunicación con el portal]."
         },
@@ -1687,7 +1723,7 @@
           "kind": "functional",
           "platform": "smartvenues",
           "seq": 16,
-          "sort_order": 1,
+          "sort_order": 2,
           "tag": "pending-product",
           "text": "Cuando el Chief Sales Operator cree, modifique o retire un evento en SmartVenues, SmartVenues debe comunicar el cambio al portal [TBD: mecanismo (el portal escucha los cambios o los consulta) y plazo máximo en que se refleja en Find Events]."
         },
@@ -1725,14 +1761,23 @@
           "seq": 2,
           "sort_order": 1,
           "tag": null,
-          "text": "Gestión de las imágenes de los eventos desde SmartVenues: las imágenes van fijas en el frontend (DEC-05), así que cada cambio exige un despliegue."
+          "text": "Página de administración de las imágenes de los eventos. Riot aporta las imágenes, que van fijas en el frontend (DEC-05), así que cada cambio exige un despliegue."
+        },
+        {
+          "id": "7fc59f99-faa2-49ff-b4de-7e6836239ec0",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "Confirmar con Riot el número de eventos destacados: en la reunión dijo que lo habitual es uno solo, y el diseño v2 muestra tres."
         }
       ],
       "roles": [
         {
           "id": "2dd30fd8-dfe1-4f9b-85f2-2045fc545e5f",
           "role": "Fan",
-          "capability": "Ve los tres eventos destacados en Find Events",
+          "capability": "Ve los eventos destacados y abre la página de cada uno",
           "precondition": "Ninguna",
           "sort_order": 0
         },
@@ -1746,7 +1791,8 @@
       ],
       "counters": {
         "acceptance": 2,
-        "functional": 16,
+        "comment": 1,
+        "functional": 20,
         "out_of_scope": 2
       }
     },

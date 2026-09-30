@@ -105,7 +105,7 @@
           "code": "FND-03",
           "page": "P-01",
           "feature": "Eventos destacados en Find Events",
-          "description": "Como fan, quiero ver al principio de Find Events los próximos eventos en venta y el próximo que abre la venta, en tarjetas grandes con la imagen de cada evento, para identificarlos de un vistazo y comprar a tiempo.",
+          "description": "Como fan, quiero ver al principio de Find Events los tres próximos eventos, de los que al menos uno está en venta, en tarjetas grandes con la imagen de cada evento, para identificarlos de un vistazo.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP",
