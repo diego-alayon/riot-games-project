@@ -34,8 +34,8 @@ export function PageHero({ title, subtitle }: { title: string; subtitle: string 
 
 /**
  * Event detail header (EVT-03): back link, dates, venue, name over key art.
- * FND-04 asks for the event's own image; the v2 comps show the shared Riftbound
- * key art, so the event image wins only when one is supplied.
+ * The event's own image (FND-03) wins when one is supplied; otherwise the shared
+ * Riftbound key art of the v2 comps.
  */
 export function EventHero({ ev }: { ev: RiftEvent }) {
   return (
@@ -57,7 +57,7 @@ export function EventHero({ ev }: { ev: RiftEvent }) {
         <Heading level="display-hero" mobile="display-md" titleCase as="h1" tone="on-dark" className="mt-2">
           {ev.name}
         </Heading>
-        <ReqMarker ids={["EVT-03", "FND-04"]} corner="br" inset />
+        <ReqMarker ids={["EVT-03"]} corner="br" inset />
       </Container>
     </HeroBand>
   );

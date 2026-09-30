@@ -16,7 +16,7 @@ const INITIAL_LIST = 3;
 /** P-01 Find Events. */
 export default function FindEventsPage() {
   const [showAll, setShowAll] = useState(false);
-  // FND-08: the portal computes the three featured events; the rest go to "More events".
+  // FND-03: the portal computes the three featured events; the rest go to "More events".
   const { featured, more } = featuredEvents(EVENTS.filter((e) => e.listed));
   const [hero, ...grid] = featured;
   const visible = showAll ? more : more.slice(0, INITIAL_LIST);
@@ -34,7 +34,7 @@ export default function FindEventsPage() {
               <EventArtCard key={ev.slug} ev={ev} size="grid" />
             ))}
           </div>
-          <ReqMarker ids={["FND-08", "ACC-01"]} corner="tl" />
+          <ReqMarker ids={["FND-03", "ACC-01"]} corner="tl" />
         </div>
 
         <section className="relative mt-10 md:mt-14">

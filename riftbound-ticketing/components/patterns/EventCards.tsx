@@ -42,7 +42,7 @@ export function EventArtCard({ ev, size }: { ev: RiftEvent; size: "hero" | "grid
           {venueLine(ev)}
         </p>
       </div>
-      <ReqMarker ids={hero ? ["FND-03", "FND-04", "FND-05", "FND-06"] : ["FND-04", "FND-05", "FND-06"]} inset />
+      <ReqMarker ids={["FND-03", "FND-05", "FND-06"]} inset />
     </Link>
   );
 }

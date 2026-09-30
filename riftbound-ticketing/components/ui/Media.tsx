@@ -1,7 +1,7 @@
 import { cx } from "@/lib/cx";
 
 export interface EventArtwork {
-  /** Real image supplied by Riot (FND-04). When absent, a generated placeholder is drawn. */
+  /** Real image supplied by Riot (FND-03). When absent, a generated placeholder is drawn. */
   image?: string;
   from: string;
   to: string;
@@ -116,7 +116,7 @@ export function QRCode({ value, size = 104, className }: { value: string; size?:
 
 /**
  * Riftbound key art behind heroes (Find Events, event detail). The comps use
- * Riot's card-collage artwork; until Riot supplies it (FND-04), a generated
+ * Riot's card-collage artwork; until Riot supplies it (FND-03), a generated
  * collage stands in. Pass `image` to use the real asset. Colors are art data.
  */
 export function KeyArt({ image, className }: { image?: string; className?: string }) {

@@ -105,30 +105,15 @@
           "code": "FND-03",
           "page": "P-01",
           "feature": "Eventos destacados en Find Events",
-          "description": "Como fan, quiero ver al principio de Find Events los eventos destacados en tarjetas más grandes que las del listado, para identificar de un vistazo los más relevantes.",
+          "description": "Como fan, quiero ver al principio de Find Events los próximos eventos en venta y el próximo que abre la venta, en tarjetas grandes con la imagen de cada evento, para identificarlos de un vistazo y comprar a tiempo.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP",
           "woRef": "B1",
-          "owner": "Globant",
-          "comments": "Riot indica que lo habitual es un solo evento destacado.",
+          "owner": "Compartido",
+          "comments": "Incluye los antiguos FND-04 (imagen del evento) y FND-08 (selección de los destacados). Riot aporta las imágenes, que van fijas en el frontend (DEC-05). Los destacados no son administrables: los calcula el frontend del portal (PQ-01, decidido el 30 sep 2026). En la reunión, Riot indicó que lo habitual es un solo evento destacado; el diseño v2 muestra tres.",
           "acceptance": [
             "Dado al menos un evento en venta o próximo a abrir, cuando se carga Find Events, entonces se muestra al menos una tarjeta destacada con imagen de fondo."
-          ]
-        },
-        {
-          "code": "FND-04",
-          "page": "P-01, P-02",
-          "feature": "Imagen promocional del evento",
-          "description": "Como fan, quiero ver la imagen propia de cada evento, para reconocerlo de un vistazo en Find Events y en su página.",
-          "priority": "Crítica",
-          "status": "Confirmado",
-          "source": "RP",
-          "woRef": "—",
-          "owner": "Compartido",
-          "comments": "Riot aporta las imágenes. Se acepta hardcodearlas en frontend (DEC-05).",
-          "acceptance": [
-            "Cada evento muestra su propia imagen en su tarjeta de Find Events y en la cabecera de su detalle."
           ]
         },
         {
@@ -177,18 +162,6 @@
           ]
         },
         {
-          "code": "FND-08",
-          "page": "P-01",
-          "feature": "Selección de los eventos destacados",
-          "description": "Como fan, quiero ver destacados los próximos eventos en venta y el próximo que abre la venta, para comprar a tiempo o prepararme para la apertura.",
-          "priority": "No crítica",
-          "status": "Pendiente de definir",
-          "source": "RP",
-          "woRef": "—",
-          "owner": "Globant",
-          "comments": "PQ-01. Decidido el 30 sep 2026: los eventos destacados no son administrables; los calcula el frontend del portal a partir de los eventos que envía SmartVenues."
-        },
-        {
           "code": "FND-09",
           "page": "Global",
           "feature": "Pie de página global con enlaces legales y de soporte",
@@ -222,7 +195,7 @@
           "source": "Análisis de gaps",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "Separado de FND-08: qué eventos se muestran es distinto de cuáles se destacan. Mismo criterio de fecha que RN-09.",
+          "comments": "Separado de la selección de destacados (FND-03): qué eventos se muestran es distinto de cuáles se destacan. Mismo criterio de fecha que RN-09.",
           "platforms": [
             "riftbound",
             "smartvenues"
@@ -271,7 +244,7 @@
           "source": "RP; MK",
           "woRef": "B1",
           "owner": "Globant",
-          "comments": "Puede reutilizar la imagen de FND-04.",
+          "comments": "Puede reutilizar la imagen del evento definida en FND-03 (antes FND-04).",
           "acceptance": [
             "La cabecera del detalle muestra fechas, nombre, venue, ciudad, imagen y el enlace \"All events\"."
           ]
@@ -1332,6 +1305,16 @@
       "code": "NFR-02",
       "mergedInto": "RNF-04",
       "reason": "Se usa el ID del PRD."
+    },
+    {
+      "code": "FND-04",
+      "mergedInto": "FND-03",
+      "reason": "La imagen del evento es el fondo de las tarjetas destacadas: misma sección."
+    },
+    {
+      "code": "FND-08",
+      "mergedInto": "FND-03",
+      "reason": "La selección de los eventos destacados es parte de la definición de la sección."
     }
   ],
   "organization": "Capacidades del producto en el orden del recorrido del fan. Los IDs no se renumeran; plataforma, página, estado y prioridad son atributos."

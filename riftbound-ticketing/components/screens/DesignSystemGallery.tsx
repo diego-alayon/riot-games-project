@@ -432,7 +432,7 @@ export function DesignSystemGallery() {
             </Modal>
           </Section>
 
-          <Section id="media" title="Media" intro="Event art is a generated placeholder until Riot supplies imagery (FND-04). QR is a visual placeholder; the scannable token comes from the platform.">
+          <Section id="media" title="Media" intro="Event art is a generated placeholder until Riot supplies imagery (FND-03). QR is a visual placeholder; the scannable token comes from the platform.">
             <div className="grid grid-cols-2 gap-4 md:flex">
               {EVENTS.slice(0, 4).map((e) => (
                 <div key={e.slug} className="relative h-28 flex-1 rounded-lg overflow-hidden"><EventArt art={e.art} markScale={0.35} /></div>

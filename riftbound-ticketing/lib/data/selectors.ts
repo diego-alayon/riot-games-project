@@ -32,10 +32,10 @@ const byStart = (a: RiftEvent, b: RiftEvent) => a.startDate.localeCompare(b.star
 export const isOnSale = (ev: RiftEvent, today = DEMO_TODAY) => saleLabel(ev, today).live;
 
 /**
- * FND-08: the featured events are computed, not configured. 1st and 2nd: the events on
+ * FND-03: the featured events are computed, not configured. 1st and 2nd: the events on
  * sale with the nearest start date. 3rd: the event not yet on sale whose sale opens first.
  * Still pending, so provisional here: whether the 3rd goes by sale opening or start date
- * (FND-08.3), and how empty slots are filled — with the next events by start date (FND-08.4).
+ * (FND-03.11), and how empty slots are filled — with the next events by start date (FND-03.12).
  * The other visible events go to "More events", by start date (FND-07).
  */
 export function featuredEvents(visible: RiftEvent[], today = DEMO_TODAY) {
