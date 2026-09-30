@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { LinkButton } from "@/components/ui/Button";
 import { Price } from "@/components/ui/Data";
 import { Card, Divider } from "@/components/ui/Surface";
@@ -13,8 +15,14 @@ import { dateRange, money } from "@/lib/format";
 
 /** P-07 Order Confirmation. */
 export function ConfirmationScreen({ orderId }: { orderId: string }) {
-  const { orders, ready } = useStore();
-  if (!ready) return null;
+  const router = useRouter();
+  const { orders, ready, session } = useStore();
+
+  useEffect(() => {
+    if (ready && !session) router.replace(`/login?next=${encodeURIComponent(`/confirmation/${orderId}`)}`); // ACC-03.3
+  }, [ready, session, orderId, router]);
+
+  if (!ready || !session) return null;
   const order = orders.find((o) => o.id === orderId);
   const ev = order && getEvent(order.eventSlug);
 
@@ -80,7 +88,7 @@ export function ConfirmationScreen({ orderId }: { orderId: string }) {
           A receipt is on its way to your email — show your QR code at the door to check in.
           <ReqMarker ids={["CHK-09"]} />
         </p>
-        <ReqMarker ids={["CHK-08", "SDE-08"]} inset />
+        <ReqMarker ids={["CHK-08", "SDE-08", "ACC-03"]} inset />
       </Card>
     </Container>
   );

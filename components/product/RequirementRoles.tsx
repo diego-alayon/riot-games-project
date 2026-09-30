@@ -52,7 +52,7 @@ export function RequirementRoles({ requirementId }: { requirementId: string }) {
     return () => { alive = false; };
   }, [requirementId]);
 
-  const startNew = () => setDraft({ id: null, role: ROLES[1], capability: "", precondition: "" });
+  const startNew = () => setDraft({ id: null, role: ROLES[0], capability: "", precondition: "" });
   const startEdit = (r: RoleRow) => setDraft({ id: r.id, role: r.role, capability: r.capability, precondition: r.precondition ?? "" });
 
   async function save() {

@@ -20,7 +20,8 @@
           "owner": "Globant",
           "comments": "RN-02",
           "acceptance": [
-            "Dado un visitante sin sesión, cuando accede a Find Events o al detalle de un evento, entonces ve el contenido sin que se le pida login."
+            "Dado un fan sin sesión RSO, cuando accede a Find Events o al detalle de un evento, entonces ve el contenido sin que se le pida login.",
+            "Dado un fan sin sesión RSO en Event Passes con la venta abierta, entonces cada pase disponible muestra «Add» habilitado."
           ]
         },
         {
@@ -35,8 +36,10 @@
           "owner": "Globant",
           "comments": "RN-01. La WO también exige autenticación \"at intent-to-purchase\".",
           "acceptance": [
-            "Dado un visitante sin sesión, cuando pulsa Select o Add en un pase o side event, entonces se le redirige al login RSO.",
-            "No existe ningún camino que permita completar una compra sin sesión RSO."
+            "Dado un fan sin sesión RSO, cuando pulsa «Add» en un pase o side event, entonces se le redirige al login RSO.",
+            "No existe ningún camino que permita completar una compra sin sesión RSO.",
+            "Dado un fan sin sesión RSO que pulsa «Add» en Event Passes, cuando completa el login RSO, entonces vuelve a Event Passes del mismo evento.",
+            "Dado un fan en Checkout cuya sesión RSO ha expirado, cuando pulsa pagar, entonces se le redirige al login RSO y, al completarlo, vuelve a Checkout con el mismo carrito."
           ]
         },
         {
@@ -51,7 +54,9 @@
           "owner": "Globant",
           "comments": "—",
           "acceptance": [
-            "Dado un visitante sin sesión, cuando pulsa My Tickets, entonces se le redirige al login RSO."
+            "Dado un fan sin sesión RSO, cuando pulsa «My Tickets», entonces se le redirige al login RSO.",
+            "Dado un fan sin sesión RSO, cuando abre la URL de My Tickets y completa el login RSO, entonces ve My Tickets.",
+            "Dado un fan con sesión RSO, cuando consulta My Tickets o una factura, entonces solo ve datos de su cuenta Riot."
           ]
         },
         {
@@ -64,7 +69,11 @@
           "source": "MK",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "No tratado en la reunión."
+          "comments": "No tratado en la reunión. Pendiente: si «Sign out» cierra también la sesión global de RSO.",
+          "acceptance": [
+            "Dado un fan con sesión RSO, cuando abre cualquier página del portal, entonces la cabecera muestra su game name.",
+            "Dado un fan con productos en el carrito, cuando pulsa «Sign out», entonces la cabecera muestra «Sign in» y el carrito queda vacío."
+          ]
         }
       ]
     },

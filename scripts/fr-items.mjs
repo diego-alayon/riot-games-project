@@ -127,10 +127,8 @@ function add(code, target, texts) {
 
 /* ── Roles table (requirement_roles) ─────────────────────────────────────── */
 
-const KNOWN_ROLES = [
-  "Visitante anónimo", "Fan autenticado", "Operador Riot (backoffice)", "Staff de check-in",
-  "Beneficiario de cortesía", "Soporte a fans de Riot", "Soporte de plataforma de Globant",
-];
+// Keep in sync with ROLES in lib/requirements/roles.ts.
+const KNOWN_ROLES = ["Fan", "Chief Sales Operator"];
 
 function ensureRolesTable() {
   const ok = db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='requirement_roles'").get();
@@ -140,7 +138,7 @@ function ensureRolesTable() {
 /** Matches a known role case-insensitively; unknown roles are kept as written, with a warning. */
 function roleName(input) {
   const hit = KNOWN_ROLES.find((r) => r.toLowerCase() === input.trim().toLowerCase());
-  if (!hit) console.warn(`! "${input}" is not one of the PRD roles (${KNOWN_ROLES.join(", ")}). Saved as written.`);
+  if (!hit) console.warn(`! "${input}" is not one of the roles (${KNOWN_ROLES.join(", ")}). Saved as written.`);
   return hit ?? input.trim();
 }
 

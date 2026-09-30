@@ -26,7 +26,8 @@ export default function CheckoutPage() {
   const [paying, setPaying] = useState(false);
 
   useEffect(() => {
-    if (store.ready && !store.session) router.replace("/login?next=/checkout"); // RN-01
+    // RN-01. If the RSO session expires here, the fan comes back to Checkout with the same cart (ACC-02.3).
+    if (store.ready && !store.session) router.replace("/login?next=/checkout");
   }, [store.ready, store.session, router]);
 
   if (!store.ready || !store.session) return null;

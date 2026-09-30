@@ -1,17 +1,11 @@
 /**
- * Roles a functional requirement can support — the actors of the Riftbound PRD
- * (section 4). Stored as plain text in requirement_roles.role, so a role outside
- * this list (e.g. written from the CLI) still displays.
+ * Roles a functional requirement can support: the fan (Riot account, uses the
+ * portal) and the Chief Sales Operator (Riot, configures the ticketing in
+ * SmartVenues). Having an RSO session or not is a precondition, not a role.
+ * Stored as plain text in requirement_roles.role, so a role outside this list
+ * (e.g. written from the CLI) still displays.
  */
-export const ROLES = [
-  "Visitante anónimo",
-  "Fan autenticado",
-  "Operador Riot (backoffice)",
-  "Staff de check-in",
-  "Beneficiario de cortesía",
-  "Soporte a fans de Riot",
-  "Soporte de plataforma de Globant",
-] as const;
+export const ROLES = ["Fan", "Chief Sales Operator"] as const;
 
 export interface RoleFields {
   role: string;
