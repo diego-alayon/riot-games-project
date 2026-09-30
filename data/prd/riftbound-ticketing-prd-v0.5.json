@@ -111,39 +111,9 @@
           "source": "RP",
           "woRef": "B1",
           "owner": "Compartido",
-          "comments": "Incluye los antiguos FND-04 (imagen del evento) y FND-08 (selección de los destacados). Riot aporta las imágenes, que van fijas en el frontend (DEC-05). Los destacados no son administrables: los calcula el frontend del portal (PQ-01, decidido el 30 sep 2026). En la reunión, Riot indicó que lo habitual es un solo evento destacado; el diseño v2 muestra tres.",
+          "comments": "Incluye los antiguos FND-04 (imagen del evento), FND-05 (contenido de la tarjeta), FND-06 (etiqueta de estado de venta, RN-08), FND-08 (selección de los destacados) y FND-11 (retirada de los eventos terminados, RN-09). Riot aporta las imágenes, que van fijas en el frontend (DEC-05). Los destacados no son administrables: los calcula el frontend del portal (PQ-01, decidido el 30 sep 2026). Riot: «lo importante es dónde son y si están en venta». En la reunión, Riot indicó que lo habitual es un solo evento destacado; el diseño v2 muestra tres.",
           "acceptance": [
             "Dado al menos un evento en venta o próximo a abrir, cuando se carga Find Events, entonces se muestra al menos una tarjeta destacada con imagen de fondo."
-          ]
-        },
-        {
-          "code": "FND-05",
-          "page": "P-01",
-          "feature": "Contenido de la tarjeta de evento y acceso al detalle",
-          "description": "Como fan, quiero ver en cada tarjeta dónde y cuándo es el evento, y abrirlo al pulsarla, para decidir si me interesa sin entrar en cada uno.",
-          "priority": "Crítica",
-          "status": "Confirmado",
-          "source": "RP; MK",
-          "woRef": "B1",
-          "owner": "Globant",
-          "comments": "Riot: \"lo importante es dónde son y si están en venta\". La etiqueta de región solo aparece en el mockup.",
-          "acceptance": [
-            "Cada tarjeta de evento muestra nombre, fechas, venue y ciudad/país."
-          ]
-        },
-        {
-          "code": "FND-06",
-          "page": "P-01",
-          "feature": "Etiqueta de estado de venta del evento",
-          "description": "Como fan, quiero ver en cada evento si la venta está abierta o cuándo abre, para no perderme la apertura.",
-          "priority": "Crítica",
-          "status": "Confirmado",
-          "source": "RP; MK",
-          "woRef": "—",
-          "owner": "Globant",
-          "comments": "Relacionado con RN-08.",
-          "acceptance": [
-            "Dado un evento en venta, su tarjeta muestra \"On sale now\". Dado un evento cuya venta no ha abierto, su tarjeta indica cuándo abre."
           ]
         },
         {
@@ -159,46 +129,6 @@
           "comments": "—",
           "acceptance": [
             "Los eventos no destacados aparecen en \"More events\" con su fecha de apertura de venta."
-          ]
-        },
-        {
-          "code": "FND-09",
-          "page": "Global",
-          "feature": "Pie de página global con enlaces legales y de soporte",
-          "description": "Como fan, quiero encontrar en cualquier página los enlaces a los términos, la privacidad, las cookies y el soporte, para conocer las condiciones de compra y pedir ayuda cuando la necesite.",
-          "priority": "Crítica",
-          "status": "Pendiente de definir",
-          "source": "Análisis de gaps",
-          "woRef": "—",
-          "owner": "Compartido",
-          "comments": "El diseño v2 no incluye pie de página. Hay que proponérselo a Riot: un portal de venta en la UE debe dar acceso a las condiciones, la privacidad y las cookies. Riot define los textos y los destinos."
-        },
-        {
-          "code": "FND-10",
-          "page": "P-01",
-          "feature": "Título y subtítulo de Find Events",
-          "description": "Como fan, quiero ver al entrar en Find Events un título y un subtítulo que expliquen qué eventos encuentro, para saber que estoy en el calendario oficial de eventos de Riot.",
-          "priority": "No crítica",
-          "status": "Pendiente de definir",
-          "source": "MK",
-          "woRef": "—",
-          "owner": "Compartido",
-          "comments": "El PRD dice «Riot Games Live Events» (Frame_1) y el prototipo, «Riot Live Events». Propósito sin explicar en la reunión. PQ-27."
-        },
-        {
-          "code": "FND-11",
-          "page": "P-01",
-          "feature": "Publicación y retirada de eventos en Find Events",
-          "description": "Como Chief Sales Operator, quiero que en Find Events solo aparezcan los eventos que he publicado y que los ya celebrados se retiren solos, para que el fan solo vea eventos a los que todavía puede asistir.",
-          "priority": "Crítica",
-          "status": "Pendiente de definir",
-          "source": "Análisis de gaps",
-          "woRef": "—",
-          "owner": "Globant",
-          "comments": "Separado de la selección de destacados (FND-03): qué eventos se muestran es distinto de cuáles se destacan. Mismo criterio de fecha que RN-09.",
-          "platforms": [
-            "riftbound",
-            "smartvenues"
           ]
         },
         {
@@ -1315,6 +1245,31 @@
       "code": "FND-08",
       "mergedInto": "FND-03",
       "reason": "La selección de los eventos destacados es parte de la definición de la sección."
+    },
+    {
+      "code": "FND-05",
+      "mergedInto": "FND-03",
+      "reason": "El contenido de la tarjeta destacada ya se define en FND-03."
+    },
+    {
+      "code": "FND-06",
+      "mergedInto": "FND-03",
+      "reason": "La etiqueta de estado de venta ya se define en FND-03."
+    },
+    {
+      "code": "FND-11",
+      "mergedInto": "FND-03",
+      "reason": "La retirada de los eventos terminados es parte de los eventos destacados."
+    },
+    {
+      "code": "FND-09",
+      "mergedInto": null,
+      "reason": "Eliminado: el pie de página legal responde al RGPD y se cubre en otra parte."
+    },
+    {
+      "code": "FND-10",
+      "mergedInto": null,
+      "reason": "Eliminado: Find Events no tiene título ni subtítulo."
     }
   ],
   "organization": "Capacidades del producto en el orden del recorrido del fan. Los IDs no se renumeran; plataforma, página, estado y prioridad son atributos."

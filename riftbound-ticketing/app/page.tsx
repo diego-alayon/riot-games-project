@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/Button";
 import { Heading } from "@/components/ui/Typography";
 import { IconChevronDown } from "@/components/icons";
 import { ReqMarker } from "@/components/trace/ReqMarker";
-import { PageHero } from "@/components/patterns/Heroes";
 import { Container } from "@/components/patterns/Layout";
 import { EventArtCard, EventListRow } from "@/components/patterns/EventCards";
 import { EVENTS } from "@/lib/data/catalog";
@@ -23,7 +22,6 @@ export default function FindEventsPage() {
 
   return (
     <>
-      <PageHero title="Riot Live Events" subtitle="Compete, spectate, and celebrate across Riot's global calendar of live events." />
       <Container className="py-8">
         {/* FND-02 (game filter) is discarded for v1. */}
 

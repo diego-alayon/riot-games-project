@@ -6,7 +6,10 @@ export interface SaleLabel {
   text: string;         // "On sale now" | "On sale in 3 days" | "On sale Sep 25"
 }
 
-/** FND-06. Within 30 days the label counts down; beyond that it shows the date. */
+/**
+ * Sale-status label (FND-03.21, FND-03.22). FND-03 defines «On sale now» and «On sale in N days»;
+ * «On sale tomorrow», the date beyond 30 days and «On sale soon» are prototype choices still to confirm.
+ */
 export function saleLabel(ev: RiftEvent, today = DEMO_TODAY): SaleLabel {
   if (ev.passSale.competitor === "on-sale" || ev.passSale.attendee === "on-sale") return { live: true, text: "On sale now" };
   if (!ev.saleOpensAt) return { live: false, text: "On sale soon" };
@@ -28,7 +31,7 @@ export const venueLine = (ev: RiftEvent) => `${ev.venue} · ${ev.city}, ${ev.cou
 
 const byStart = (a: RiftEvent, b: RiftEvent) => a.startDate.localeCompare(b.startDate);
 
-/** "En venta" as FND-06.1 sees it: a pass sale is open, or its opening time has passed. */
+/** "En venta" as FND-03.21 sees it: a pass sale is open, or its opening time has passed. */
 export const isOnSale = (ev: RiftEvent, today = DEMO_TODAY) => saleLabel(ev, today).live;
 
 /**

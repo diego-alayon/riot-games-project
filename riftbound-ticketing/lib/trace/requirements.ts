@@ -1,7 +1,7 @@
 /**
  * Functional requirements from the Riftbound Ticketing PRD v0.5 (28 sep 2026),
  * plus the gap-review additions, organised by capability (see data/prd/*.json).
- * Retired IDs (CHK-04, CHK-07, PAS-09, PAS-11, MYT-11, REF-06, NFR-02, FND-04, FND-08) were merged.
+ * Retired IDs (CHK-04, CHK-07, PAS-09, PAS-11, MYT-11, REF-06, NFR-02, FND-04, FND-05, FND-06, FND-08, FND-11) were merged; FND-09 and FND-10 were deleted.
  * Only id, name, priority and status live here, to label markers. The source of
  * truth is the Riot Games Project catalog; markers link there.
  */
@@ -30,12 +30,7 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["FND-01", "Cabecera global y navegación principal del portal", C, OK],
   ["FND-02", "Filtro de eventos por juego", N, OUT],
   ["FND-03", "Eventos destacados en Find Events", C, OK],
-  ["FND-05", "Contenido de la tarjeta de evento y acceso al detalle", C, OK],
-  ["FND-06", "Etiqueta de estado de venta del evento", C, OK],
   ["FND-07", "Listado cronológico de eventos («More events»)", C, OK],
-  ["FND-09", "Pie de página global con enlaces legales y de soporte", C, TBD],
-  ["FND-10", "Título y subtítulo de Find Events", N, TBD],
-  ["FND-11", "Publicación y retirada de eventos en Find Events", C, TBD],
   ["FND-12", "Páginas de error del portal", C, TBD],
   ["EVT-01", "Sub-tabs del evento", C, OK],
   ["EVT-02", "On Demand Events", N, OUT],

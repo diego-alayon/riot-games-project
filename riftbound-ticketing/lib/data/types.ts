@@ -20,7 +20,7 @@ export interface RiftEvent {
   currency: Currency;        // CHK-07 / RN-19
   art: EventArtwork;
   listed: boolean;           // past editions are not shown on Find Events
-  saleOpensAt?: string;      // ISO date, when passes open (FND-06)
+  saleOpensAt?: string;      // ISO date, when passes open (FND-03.22)
   passSale: Record<Role, SaleState>;
   sideSaleOpen: boolean;     // RN-07: independent windows
   voucherValue: number;      // value of one side-event voucher in event currency

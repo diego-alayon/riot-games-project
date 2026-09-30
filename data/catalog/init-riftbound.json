@@ -1535,7 +1535,7 @@
       "story_id": null,
       "area": "FND",
       "classification": "build",
-      "comments": "Incluye los antiguos FND-04 (imagen del evento) y FND-08 (selección de los destacados). Riot aporta las imágenes, que van fijas en el frontend (DEC-05). Los destacados no son administrables: los calcula el frontend del portal (PQ-01, decidido el 30 sep 2026). En la reunión, Riot indicó que lo habitual es un solo evento destacado; el diseño v2 muestra tres.",
+      "comments": "Incluye los antiguos FND-04 (imagen del evento), FND-05 (contenido de la tarjeta), FND-06 (etiqueta de estado de venta, RN-08), FND-08 (selección de los destacados) y FND-11 (retirada de los eventos terminados, RN-09). Riot aporta las imágenes, que van fijas en el frontend (DEC-05). Los destacados no son administrables: los calcula el frontend del portal (PQ-01, decidido el 30 sep 2026). Riot: «lo importante es dónde son y si están en venta». En la reunión, Riot indicó que lo habitual es un solo evento destacado; el diseño v2 muestra tres.",
       "due_date": null,
       "implementation_note": null,
       "owner": "Compartido",
@@ -1554,7 +1554,7 @@
           "seq": 1,
           "sort_order": 0,
           "tag": null,
-          "text": "El portal debe mostrar en Find Events, debajo del título (FND-10), entre uno y tres eventos destacados, y siempre al menos uno mientras haya eventos visibles (FND-11)."
+          "text": "El portal debe mostrar al principio de Find Events entre uno y tres eventos destacados, y siempre al menos uno mientras haya eventos publicados que no hayan terminado."
         },
         {
           "id": "4a7e0479-36d9-4dea-aca3-a78e6cf58bbf",
@@ -1599,14 +1599,32 @@
           "seq": 4,
           "sort_order": 5,
           "tag": null,
-          "text": "El portal debe mostrar en cada tarjeta destacada la etiqueta de estado de venta (FND-06; ej. «On sale now» u «On sale in 3 days»), la fecha del evento (día de la semana y rango de fechas), el nombre y la ubicación (venue, ciudad y país)."
+          "text": "El portal debe mostrar en cada tarjeta destacada la etiqueta de estado de venta (FND-03.21 y FND-03.22), la fecha del evento (día de la semana y rango de fechas), el nombre y la ubicación (venue, ciudad y país)."
+        },
+        {
+          "id": "a0ddd70c-cbbd-4d97-9255-18a5afc162f0",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 21,
+          "sort_order": 6,
+          "tag": null,
+          "text": "Mientras la venta de pases de un evento esté abierta, el portal debe mostrar en su tarjeta la etiqueta «On sale now»."
+        },
+        {
+          "id": "fbfbc374-3562-47e9-aa62-655313bd8b75",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 22,
+          "sort_order": 7,
+          "tag": null,
+          "text": "Mientras la venta de pases de un evento no haya abierto, el portal debe mostrar en su tarjeta la etiqueta «On sale in N days», donde N es el número de días hasta la apertura de la venta [TBD-CRÍTICO: zona horaria de referencia de la fecha y hora de apertura (RN-08) y del cálculo de los días]."
         },
         {
           "id": "7b721dab-1f7c-422c-a2a4-673b3a8cbbaa",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 18,
-          "sort_order": 6,
+          "sort_order": 8,
           "tag": "pending-product",
           "text": "El portal debe mostrar en cada tarjeta destacada la región del evento [TBD: catálogo de regiones; se define a partir de los países en los que se vende]."
         },
@@ -1615,7 +1633,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 7,
-          "sort_order": 7,
+          "sort_order": 9,
           "tag": null,
           "text": "El portal debe mostrar como fondo de cada tarjeta destacada la imagen propia del evento."
         },
@@ -1624,7 +1642,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 8,
-          "sort_order": 8,
+          "sort_order": 10,
           "tag": null,
           "text": "Si un evento no tiene imagen, el portal debe mostrar como fondo de su tarjeta una imagen genérica de Riftbound [TBD: Riot aporta la imagen genérica]."
         },
@@ -1633,7 +1651,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 19,
-          "sort_order": 9,
+          "sort_order": 11,
           "tag": null,
           "text": "Cuando el fan pulse una tarjeta destacada, el portal debe abrir la página del evento (Event Passes, P-02)."
         },
@@ -1642,25 +1660,25 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 9,
-          "sort_order": 10,
+          "sort_order": 12,
           "tag": null,
-          "text": "El portal debe elegir como primer evento destacado el evento en venta (FND-06.1) con la fecha de inicio más próxima."
+          "text": "El portal debe elegir como primer evento destacado el evento con la venta de pases abierta y la fecha de inicio más próxima."
         },
         {
           "id": "644b19b1-bbd8-4b4b-8dff-46aab6ecffe3",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 10,
-          "sort_order": 11,
+          "sort_order": 13,
           "tag": null,
-          "text": "El portal debe elegir como segundo y tercer evento destacado los dos eventos visibles con la fecha de inicio más próxima, sin contar el primero, estén en venta o todavía no hayan abierto la venta."
+          "text": "El portal debe elegir como segundo y tercer evento destacado los dos eventos publicados con la fecha de inicio más próxima, sin contar el primero, estén en venta o todavía no hayan abierto la venta."
         },
         {
           "id": "c692e895-de23-4707-a740-6e83bd8d9bd4",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 11,
-          "sort_order": 12,
+          "sort_order": 14,
           "tag": null,
           "text": "Si un evento está agotado o tiene la venta cerrada, el portal debe [TBD: incluirlo o no entre los eventos destacados]."
         },
@@ -1669,7 +1687,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 12,
-          "sort_order": 13,
+          "sort_order": 15,
           "tag": null,
           "text": "Si no hay ningún evento en venta, el portal debe mostrar en la tarjeta principal [TBD: qué evento]."
         },
@@ -1678,25 +1696,34 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 13,
-          "sort_order": 14,
+          "sort_order": 16,
           "tag": null,
           "text": "Si dos eventos tienen la misma fecha de inicio, el portal debe ordenarlos por [TBD: criterio de ordenación secundario]."
+        },
+        {
+          "id": "6ac3f95a-361d-482e-bb18-f4e4e6dca519",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 23,
+          "sort_order": 17,
+          "tag": null,
+          "text": "Cuando un evento termine, el portal debe retirarlo de los eventos destacados a partir del día siguiente a su último día, con el mismo criterio que RN-09."
         },
         {
           "id": "4e98baa7-cca7-4f4d-ba2d-c08baa8b7c93",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 14,
-          "sort_order": 15,
+          "sort_order": 18,
           "tag": "pending-engineering",
-          "text": "El frontend del portal debe calcular la selección y el orden de los eventos destacados cada vez que muestra Find Events, a partir de los eventos que envía SmartVenues. El resto de eventos visibles va a «More events» (FND-07.1)."
+          "text": "El frontend del portal debe calcular la selección y el orden de los eventos destacados cada vez que muestra Find Events, a partir de los eventos que envía SmartVenues. El resto de eventos publicados que no hayan terminado va a «More events» (FND-07.1)."
         },
         {
           "id": "a713f04e-39f3-498b-b871-3df65fa4f95a",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 6,
-          "sort_order": 16,
+          "sort_order": 19,
           "tag": null,
           "text": "En dispositivos móviles, el portal debe mostrar los eventos destacados con [TBD: disposición de las tarjetas y recorte de la imagen; pendiente del diseño móvil]."
         },
@@ -1746,6 +1773,24 @@
           "text": "Cada evento muestra su propia imagen en su tarjeta de Find Events y en la cabecera de su detalle."
         },
         {
+          "id": "552e7859-c647-47f7-af8f-6c56881642fc",
+          "kind": "acceptance",
+          "platform": "all",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": null,
+          "text": "Cada tarjeta de evento muestra nombre, fechas, venue y ciudad/país."
+        },
+        {
+          "id": "5a78ff41-523f-4ef9-b518-0ab05d077940",
+          "kind": "acceptance",
+          "platform": "all",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": null,
+          "text": "Dado un evento en venta, su tarjeta muestra \"On sale now\". Dado un evento cuya venta no ha abierto, su tarjeta indica cuándo abre."
+        },
+        {
           "id": "05d7d8bc-9113-44d6-8664-6e19114333e3",
           "kind": "out_of_scope",
           "platform": "all",
@@ -1771,6 +1816,15 @@
           "sort_order": 0,
           "tag": "pending-riot",
           "text": "Confirmar con Riot el número de eventos destacados: en la reunión dijo que lo habitual es uno solo, y el diseño v2 muestra tres."
+        },
+        {
+          "id": "d496ca78-62af-42d7-aa53-90ab5453ad75",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": "pending-product",
+          "text": "Los eventos de venta restringida (AUD-01, P-12) no deben aparecer en Find Events. Detectado al revisar FND-01."
         }
       ],
       "roles": [
@@ -1790,82 +1844,10 @@
         }
       ],
       "counters": {
-        "acceptance": 2,
-        "comment": 1,
-        "functional": 20,
+        "acceptance": 4,
+        "comment": 2,
+        "functional": 23,
         "out_of_scope": 2
-      }
-    },
-    {
-      "id": "0101dc67-b1f4-4950-af0e-1c6d81bd562b",
-      "code": "FND-05",
-      "feature": "Contenido de la tarjeta de evento y acceso al detalle",
-      "description": "Como fan, quiero ver en cada tarjeta dónde y cuándo es el evento, y abrirlo al pulsarla, para decidir si me interesa sin entrar en cada uno.",
-      "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
-      "story_id": null,
-      "area": "FND",
-      "classification": "build",
-      "comments": "Riot: \"lo importante es dónde son y si están en venta\". La etiqueta de región solo aparece en el mockup.",
-      "due_date": null,
-      "implementation_note": null,
-      "owner": "Globant",
-      "page": "P-01",
-      "platforms": "[\"riftbound\"]",
-      "priority": "Crítica",
-      "prototype_view": null,
-      "source": "RP; MK",
-      "status": "Confirmado",
-      "wo_ref": "B1",
-      "items": [
-        {
-          "id": "b3607e21-59b1-471b-9bf0-67244e600a4c",
-          "kind": "acceptance",
-          "platform": "all",
-          "seq": 1,
-          "sort_order": 0,
-          "tag": null,
-          "text": "Cada tarjeta de evento muestra nombre, fechas, venue y ciudad/país."
-        }
-      ],
-      "roles": [],
-      "counters": {
-        "acceptance": 1
-      }
-    },
-    {
-      "id": "1eae09ed-79ed-41c0-a4cd-1523c0b2f0f8",
-      "code": "FND-06",
-      "feature": "Etiqueta de estado de venta del evento",
-      "description": "Como fan, quiero ver en cada evento si la venta está abierta o cuándo abre, para no perderme la apertura.",
-      "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
-      "story_id": null,
-      "area": "FND",
-      "classification": "build",
-      "comments": "Relacionado con RN-08.",
-      "due_date": null,
-      "implementation_note": null,
-      "owner": "Globant",
-      "page": "P-01",
-      "platforms": "[\"riftbound\"]",
-      "priority": "Crítica",
-      "prototype_view": null,
-      "source": "RP; MK",
-      "status": "Confirmado",
-      "wo_ref": "—",
-      "items": [
-        {
-          "id": "ec19db02-9830-43de-af45-ea88fbb50589",
-          "kind": "acceptance",
-          "platform": "all",
-          "seq": 1,
-          "sort_order": 0,
-          "tag": null,
-          "text": "Dado un evento en venta, su tarjeta muestra \"On sale now\". Dado un evento cuya venta no ha abierto, su tarjeta indica cuándo abre."
-        }
-      ],
-      "roles": [],
-      "counters": {
-        "acceptance": 1
       }
     },
     {
@@ -1902,90 +1884,6 @@
       "roles": [],
       "counters": {
         "acceptance": 1
-      }
-    },
-    {
-      "id": "f14a9ffc-737b-42a4-b72d-606f35ba4495",
-      "code": "FND-09",
-      "feature": "Pie de página global con enlaces legales y de soporte",
-      "description": "Como fan, quiero encontrar en cualquier página los enlaces a los términos, la privacidad, las cookies y el soporte, para conocer las condiciones de compra y pedir ayuda cuando la necesite.",
-      "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
-      "story_id": null,
-      "area": "FND",
-      "classification": "build",
-      "comments": "El diseño v2 no incluye pie de página. Hay que proponérselo a Riot: un portal de venta en la UE debe dar acceso a las condiciones, la privacidad y las cookies. Riot define los textos y los destinos.",
-      "due_date": null,
-      "implementation_note": null,
-      "owner": "Compartido",
-      "page": "Global",
-      "platforms": "[\"riftbound\"]",
-      "priority": "Crítica",
-      "prototype_view": null,
-      "source": "Análisis de gaps",
-      "status": "Pendiente de definir",
-      "wo_ref": "—",
-      "items": [],
-      "roles": [],
-      "counters": {}
-    },
-    {
-      "id": "397c0833-34ad-41be-a32b-0856c4c84270",
-      "code": "FND-10",
-      "feature": "Título y subtítulo de Find Events",
-      "description": "Como fan, quiero ver al entrar en Find Events un título y un subtítulo que expliquen qué eventos encuentro, para saber que estoy en el calendario oficial de eventos de Riot.",
-      "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
-      "story_id": null,
-      "area": "FND",
-      "classification": "build",
-      "comments": "El PRD dice «Riot Games Live Events» (Frame_1) y el prototipo, «Riot Live Events». Propósito sin explicar en la reunión. PQ-27.",
-      "due_date": null,
-      "implementation_note": null,
-      "owner": "Compartido",
-      "page": "P-01",
-      "platforms": "[\"riftbound\"]",
-      "priority": "No crítica",
-      "prototype_view": null,
-      "source": "MK",
-      "status": "Pendiente de definir",
-      "wo_ref": "—",
-      "items": [],
-      "roles": [],
-      "counters": {}
-    },
-    {
-      "id": "17ac5a2e-e279-4798-b06b-46e6a4014405",
-      "code": "FND-11",
-      "feature": "Publicación y retirada de eventos en Find Events",
-      "description": "Como Chief Sales Operator, quiero que en Find Events solo aparezcan los eventos que he publicado y que los ya celebrados se retiren solos, para que el fan solo vea eventos a los que todavía puede asistir.",
-      "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
-      "story_id": null,
-      "area": "FND",
-      "classification": "build",
-      "comments": "Separado de la selección de destacados (FND-03): qué eventos se muestran es distinto de cuáles se destacan. Mismo criterio de fecha que RN-09.",
-      "due_date": null,
-      "implementation_note": null,
-      "owner": "Globant",
-      "page": "P-01",
-      "platforms": "[\"riftbound\",\"smartvenues\"]",
-      "priority": "Crítica",
-      "prototype_view": null,
-      "source": "Análisis de gaps",
-      "status": "Pendiente de definir",
-      "wo_ref": "—",
-      "items": [
-        {
-          "id": "ba26284d-d3d0-48e7-a135-1000af8b5bb1",
-          "kind": "comment",
-          "platform": "all",
-          "seq": 1,
-          "sort_order": 0,
-          "tag": "pending-product",
-          "text": "Los eventos de venta restringida (AUD-01, P-12) no deben aparecer en Find Events. Detectado al revisar FND-01."
-        }
-      ],
-      "roles": [],
-      "counters": {
-        "comment": 1
       }
     },
     {
