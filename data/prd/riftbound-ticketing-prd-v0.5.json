@@ -180,13 +180,13 @@
           "code": "FND-08",
           "page": "P-01",
           "feature": "Selección de los eventos destacados",
-          "description": "Como Chief Sales Operator, quiero elegir qué eventos se destacan en Find Events, para dar más visibilidad a los eventos que Riot prioriza.",
+          "description": "Como fan, quiero ver destacados los próximos eventos en venta y el próximo que abre la venta, para comprar a tiempo o prepararme para la apertura.",
           "priority": "No crítica",
           "status": "Pendiente de definir",
           "source": "RP",
           "woRef": "—",
-          "owner": "Riot",
-          "comments": "PQ-01"
+          "owner": "Globant",
+          "comments": "PQ-01. Decidido el 30 sep 2026: los eventos destacados no son administrables; los calcula el frontend del portal a partir de los eventos que envía SmartVenues."
         },
         {
           "code": "FND-09",

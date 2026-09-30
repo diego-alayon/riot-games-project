@@ -1548,6 +1548,60 @@
       "wo_ref": "B1",
       "items": [
         {
+          "id": "73322494-0438-40a3-b254-ef1d2bfc0121",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "El portal debe mostrar en Find Events, debajo del título (FND-10), un máximo de tres eventos destacados, seleccionados y ordenados según FND-08."
+        },
+        {
+          "id": "4a7e0479-36d9-4dea-aca3-a78e6cf58bbf",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "El portal debe mostrar el primer evento destacado en la tarjeta principal, a todo el ancho."
+        },
+        {
+          "id": "01cb6529-6e43-43da-bdc1-a3dd6a42fa69",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": null,
+          "text": "El portal debe mostrar debajo de la tarjeta principal el segundo evento destacado en la tarjeta secundaria izquierda y el tercero en la tarjeta secundaria derecha."
+        },
+        {
+          "id": "a69f535c-1971-4bc0-810f-b0f05e1dce9f",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": null,
+          "text": "El portal debe mostrar en cada tarjeta destacada la etiqueta de estado de venta (FND-06), la fecha, el nombre y la ubicación del evento (FND-05.1)."
+        },
+        {
+          "id": "0bdf23c2-2a3b-4e06-87b4-8a7c05542f5c",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 5,
+          "sort_order": 4,
+          "tag": null,
+          "text": "Si hay menos de tres eventos destacados, el portal debe ocupar las posiciones en orden (principal, izquierda, derecha) y no mostrar las tarjetas que queden sin evento."
+        },
+        {
+          "id": "a713f04e-39f3-498b-b871-3df65fa4f95a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 6,
+          "sort_order": 5,
+          "tag": null,
+          "text": "En dispositivos móviles, el portal debe mostrar los eventos destacados con [TBD: disposición; pendiente del diseño móvil]."
+        },
+        {
           "id": "1e15938c-7c79-4750-bc11-b771feb2e18d",
           "kind": "acceptance",
           "platform": "all",
@@ -1557,9 +1611,18 @@
           "text": "Dado al menos un evento en venta o próximo a abrir, cuando se carga Find Events, entonces se muestra al menos una tarjeta destacada con imagen de fondo."
         }
       ],
-      "roles": [],
+      "roles": [
+        {
+          "id": "2dd30fd8-dfe1-4f9b-85f2-2045fc545e5f",
+          "role": "Fan",
+          "capability": "Ve los tres eventos destacados en Find Events",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        }
+      ],
       "counters": {
-        "acceptance": 1
+        "acceptance": 1,
+        "functional": 6
       }
     },
     {
@@ -1710,25 +1773,125 @@
       "id": "507708d8-9ae2-449e-bae0-36574bd2bdd9",
       "code": "FND-08",
       "feature": "Selección de los eventos destacados",
-      "description": "Como Chief Sales Operator, quiero elegir qué eventos se destacan en Find Events, para dar más visibilidad a los eventos que Riot prioriza.",
+      "description": "Como fan, quiero ver destacados los próximos eventos en venta y el próximo que abre la venta, para comprar a tiempo o prepararme para la apertura.",
       "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
       "story_id": null,
       "area": "FND",
       "classification": "build",
-      "comments": "PQ-01",
+      "comments": "PQ-01. Decidido el 30 sep 2026: los eventos destacados no son administrables; los calcula el frontend del portal a partir de los eventos que envía SmartVenues.",
       "due_date": null,
       "implementation_note": null,
-      "owner": "Riot",
+      "owner": "Globant",
       "page": "P-01",
-      "platforms": "[\"riftbound\"]",
+      "platforms": "[\"riftbound\",\"smartvenues\"]",
       "priority": "No crítica",
       "prototype_view": null,
       "source": "RP",
       "status": "Pendiente de definir",
       "wo_ref": "—",
-      "items": [],
-      "roles": [],
-      "counters": {}
+      "items": [
+        {
+          "id": "8ca288d4-084d-4b5e-b2c2-794ae258729d",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "El portal debe elegir como primer evento destacado el evento en venta (FND-06.1) con la fecha de inicio más próxima."
+        },
+        {
+          "id": "f2509acd-3c50-461d-bddf-cddd4b4fcb75",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "El portal debe elegir como segundo evento destacado el siguiente evento en venta por fecha de inicio."
+        },
+        {
+          "id": "b2e7052f-97b9-496e-b6d6-1c89ca26978c",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": null,
+          "text": "El portal debe elegir como tercer evento destacado el evento que todavía no está en venta y cuya venta abre antes [TBD: criterio: fecha de apertura de la venta o fecha de inicio del evento]."
+        },
+        {
+          "id": "15c0f4c7-9bc0-452a-8f65-4aa3b004b32b",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": null,
+          "text": "Si no hay dos eventos en venta, o no hay ninguno próximo a abrir la venta, el portal debe [TBD: cómo se ocupan las posiciones libres]."
+        },
+        {
+          "id": "ca5e744c-05b4-410a-957c-618a7c88eed2",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 5,
+          "sort_order": 4,
+          "tag": null,
+          "text": "Si dos eventos tienen la misma fecha de inicio, el portal debe ordenarlos por [TBD: criterio de ordenación secundario]."
+        },
+        {
+          "id": "4324837a-fe4d-4d5e-b382-0f988f190c7a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 6,
+          "sort_order": 5,
+          "tag": null,
+          "text": "El frontend del portal debe calcular la selección y el orden de los eventos destacados cada vez que muestra Find Events, a partir de los eventos que envía SmartVenues. El resto de eventos visibles va a «More events» (FND-07.1)."
+        },
+        {
+          "id": "a365463b-f15a-4341-8e22-5ee8a9014498",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 7,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "SmartVenues debe enviar al portal los eventos que el Chief Sales Operator configura y publica, con los datos que usa la selección de destacados: fechas de inicio y fin, estado de la venta y fecha y hora de apertura de la venta [TBD: API de SmartVenues: contrato y forma de comunicación con el portal]."
+        },
+        {
+          "id": "bbd90813-ed78-4f0a-a013-435ca4c4b4b6",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 8,
+          "sort_order": 1,
+          "tag": "pending-product",
+          "text": "Cuando el Chief Sales Operator cree, modifique o retire un evento en SmartVenues, SmartVenues debe comunicar el cambio al portal [TBD: mecanismo (el portal escucha los cambios o los consulta) y plazo máximo en que se refleja en Find Events]."
+        },
+        {
+          "id": "10baf183-fff3-4407-ae36-4310d9320e84",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "Gestión de los eventos destacados desde SmartVenues: no son administrables. El frontend del portal los calcula a partir de los eventos que envía SmartVenues."
+        }
+      ],
+      "roles": [
+        {
+          "id": "c8332bea-5b64-42d9-8c2b-f10b935e74af",
+          "role": "Fan",
+          "capability": "Ve los eventos destacados que calcula el portal",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        },
+        {
+          "id": "a85a3766-dc98-45d0-ac4c-cb876f1698d6",
+          "role": "Chief Sales Operator",
+          "capability": "Configura y publica en SmartVenues los eventos de los que el portal calcula los destacados",
+          "precondition": null,
+          "sort_order": 1
+        }
+      ],
+      "counters": {
+        "functional": 8,
+        "out_of_scope": 1
+      }
     },
     {
       "id": "f14a9ffc-737b-42a4-b72d-606f35ba4495",

@@ -1,45 +1,34 @@
 "use client";
 
 import { useState } from "react";
-import { FilterChip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/Button";
 import { Heading } from "@/components/ui/Typography";
-import { IconChevronDown, IconDiamond, IconGrid } from "@/components/icons";
+import { IconChevronDown } from "@/components/icons";
 import { ReqMarker } from "@/components/trace/ReqMarker";
 import { PageHero } from "@/components/patterns/Heroes";
 import { Container } from "@/components/patterns/Layout";
 import { EventArtCard, EventListRow } from "@/components/patterns/EventCards";
 import { EVENTS } from "@/lib/data/catalog";
+import { featuredEvents } from "@/lib/data/selectors";
 
 const INITIAL_LIST = 3;
 
 /** P-01 Find Events. */
 export default function FindEventsPage() {
   const [showAll, setShowAll] = useState(false);
-  const listed = EVENTS.filter((e) => e.listed);
-  const hero = listed.filter((e) => e.placement === "hero");
-  const grid = listed.filter((e) => e.placement === "grid");
-  const more = listed.filter((e) => e.placement === "list");
+  // FND-08: the portal computes the three featured events; the rest go to "More events".
+  const { featured, more } = featuredEvents(EVENTS.filter((e) => e.listed));
+  const [hero, ...grid] = featured;
   const visible = showAll ? more : more.slice(0, INITIAL_LIST);
 
   return (
     <>
       <PageHero title="Riot Live Events" subtitle="Compete, spectate, and celebrate across Riot's global calendar of live events." />
       <Container className="py-8">
-        <div className="relative">
-          <span className="text-micro uppercase text-subtle">Browse by event category</span>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {/* FND-02: v1 shows Riftbound only; other Riot games are out of scope. */}
-            <FilterChip icon={<IconGrid size={14} />} disabled>All</FilterChip>
-            <FilterChip icon={<IconDiamond className="text-accent" />} active>Riftbound</FilterChip>
-          </div>
-          <ReqMarker ids={["FND-02"]} corner="tr" />
-        </div>
+        {/* FND-02 (game filter) is discarded for v1. */}
 
-        <div className="relative mt-8 flex flex-col gap-4">
-          {hero.map((ev) => (
-            <EventArtCard key={ev.slug} ev={ev} size="hero" />
-          ))}
+        <div className="relative flex flex-col gap-4">
+          {hero && <EventArtCard ev={hero} size="hero" />}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {grid.map((ev) => (
               <EventArtCard key={ev.slug} ev={ev} size="grid" />

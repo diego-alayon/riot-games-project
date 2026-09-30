@@ -19,7 +19,6 @@ export interface RiftEvent {
   endDate: string;
   currency: Currency;        // CHK-07 / RN-19
   art: EventArtwork;
-  placement?: "hero" | "grid" | "list"; // FND-08 is pending: placement is configured, not computed
   listed: boolean;           // past editions are not shown on Find Events
   saleOpensAt?: string;      // ISO date, when passes open (FND-06)
   passSale: Record<Role, SaleState>;
