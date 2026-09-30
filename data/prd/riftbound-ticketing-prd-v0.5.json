@@ -27,7 +27,7 @@
         {
           "code": "ACC-02",
           "page": "P-02, P-03",
-          "feature": "Login al intentar comprar",
+          "feature": "Compra mediante sesión RSO",
           "description": "Al añadir al carrito o pagar sin sesión, se redirige a login RSO (P-11).",
           "priority": "Crítica",
           "status": "Confirmado",
@@ -37,7 +37,7 @@
           "comments": "RN-01. La WO también exige autenticación \"at intent-to-purchase\".",
           "acceptance": [
             "Dado un fan sin sesión RSO, cuando pulsa «Add» en un pase o side event, entonces se le redirige al login RSO.",
-            "No existe ningún camino que permita completar una compra sin sesión RSO.",
+            "Dado un fan sin sesión RSO válida, cuando se intenta crear una orden desde el portal o directamente contra SmartVenues, entonces SmartVenues la rechaza.",
             "Dado un fan sin sesión RSO que pulsa «Add» en Event Passes, cuando completa el login RSO, entonces vuelve a Event Passes del mismo evento.",
             "Dado un fan en Checkout cuya sesión RSO ha expirado, cuando pulsa pagar, entonces se le redirige al login RSO y, al completarlo, vuelve a Checkout con el mismo carrito."
           ]

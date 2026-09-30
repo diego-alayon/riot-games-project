@@ -256,7 +256,7 @@
     {
       "id": "ec50fac7-8c18-4849-95ef-ca2a5c57c505",
       "code": "ACC-02",
-      "feature": "Login al intentar comprar",
+      "feature": "Compra mediante sesión RSO",
       "description": "Al añadir al carrito o pagar sin sesión, se redirige a login RSO (P-11).",
       "epic_id": "bd4eb244-10bf-4f2c-b525-48e4619e7ca2",
       "story_id": null,
@@ -328,7 +328,7 @@
           "platform": "all",
           "seq": 2,
           "sort_order": 1,
-          "text": "No existe ningún camino que permita completar una compra sin sesión RSO."
+          "text": "Dado un fan sin sesión RSO válida, cuando se intenta crear una orden desde el portal o directamente contra SmartVenues, entonces SmartVenues la rechaza."
         },
         {
           "id": "d9bbd88b-274f-4f91-98b3-565649ff1228",
