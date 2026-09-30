@@ -38,7 +38,7 @@ export async function catalogToXlsx(doc: CatalogExport): Promise<Buffer> {
     { header: "Tipo", key: "type", width: 10 },
     { header: "ID", key: "id", width: 10 },
     { header: "Funcionalidad", key: "feature", width: 42 },
-    { header: "Descripción", key: "description", width: 60 },
+    { header: "Descripción corta", key: "description", width: 60 },
     { header: "Estado", key: "status", width: 20 },
     { header: "Plataforma", key: "platforms", width: 30 },
     { header: "Prioridad", key: "priority", width: 12 },

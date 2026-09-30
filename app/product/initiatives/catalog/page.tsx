@@ -127,6 +127,7 @@ const CELL: React.CSSProperties = { padding: "0 12px", height: ROW_H };
 
 /** Table columns after checkbox · Type · ID · Funcionalidad. Order follows the Linear list. */
 const DETAIL_COLS: Array<{ label: string; width: number }> = [
+  { label: "Descripción corta", width: 520 },
   { label: "Estado", width: 190 },
   { label: "Plataforma", width: 380 },
   { label: "Prioridad", width: 120 },
@@ -1035,12 +1036,12 @@ export default function FunctionalRequirementsPage() {
         <div style={{ fontSize: 13, color: TXT_3, padding: 24 }}>Loading…</div>
       ) : (
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", minWidth: 2400, borderCollapse: "collapse", tableLayout: "fixed" }}>
+          <table style={{ width: "100%", minWidth: 3050, borderCollapse: "collapse", tableLayout: "fixed" }}>
             <colgroup>
               <col style={{ width: 36 }} />
               <col style={{ width: 110 }} />
               <col style={{ width: 90 }} />
-              <col style={{ width: 460 }} />
+              <col style={{ width: 600 }} />
               {DETAIL_COLS.map(c => <col key={c.label} style={{ width: c.width }} />)}
             </colgroup>
             <thead>
@@ -1092,17 +1093,17 @@ export default function FunctionalRequirementsPage() {
                       {checkCell}
                       <td style={CELL}><KindCell kind="fr" /></td>
                       <td style={CELL}><IdCell code={fr.code} /></td>
-                      <td style={CELL} title={fr.description}>
+                      <td style={CELL} title={title}>
                         <div style={{ display: "flex", alignItems: "center", gap: 10, paddingLeft: indent + 22, minWidth: 0, fontSize: 14 }}>
                           <KindIcon kind="fr" />
                           <button onClick={() => !isPreview && openDrawer(fr)} className="req-title"
-                            style={{ background: "none", border: "none", padding: 0, font: "inherit", color: TXT, cursor: isPreview ? "default" : "pointer", textAlign: "left", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flexShrink: 0, maxWidth: fr.feature ? "55%" : "100%" }}>
+                            style={{ background: "none", border: "none", padding: 0, font: "inherit", color: TXT, cursor: isPreview ? "default" : "pointer", textAlign: "left", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", minWidth: 0 }}>
                             {title}
                           </button>
                           {!!fr.pending_items && <PendingBadge count={fr.pending_items} />}
-                          {fr.feature && <span style={{ color: TXT_3, fontSize: 13, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", minWidth: 0 }}>{fr.description}</span>}
                         </div>
                       </td>
+                      <td style={CELL}><TextCell value={fr.feature ? fr.description : null} /></td>
                       <td style={CELL}><StatusCell status={fr.status} /></td>
                       <td style={CELL}>
                         {isPreview ? null : <PlatformCell value={parsePlatforms(fr.platforms)} onChange={v => patchFr(fr.id, { platforms: v })} />}
