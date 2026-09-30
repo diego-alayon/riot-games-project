@@ -499,7 +499,7 @@
           "id": "3bbdfe3a-e907-442e-8900-edba1e27dd95",
           "role": "Fan",
           "capability": "Consulta sus órdenes y tickets",
-          "precondition": "Sesión RSO activa",
+          "precondition": "Requerido: sesión RSO activa",
           "sort_order": 1
         }
       ],
