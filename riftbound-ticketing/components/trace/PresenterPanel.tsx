@@ -15,7 +15,7 @@ import { cx } from "@/lib/cx";
  */
 export function PresenterPanel() {
   const { trace, setTrace } = useTrace();
-  const { session, signIn, signOut, resetDemo } = useStore();
+  const { session, signIn, signOut, expireSession, resetDemo } = useStore();
   const [expanded, setExpanded] = useState(false);
   if (!trace) return null;
 
@@ -62,6 +62,11 @@ export function PresenterPanel() {
           <button className={seg(!session)} onClick={signOut}>anonymous</button>
         </span>
       </div>
+      {session && (
+        <button onClick={expireSession} className="mt-1.5 hover:text-ink underline" title="The RSO session lapses; the cart is kept (ACC-02.3, ACC-04.8)">
+          expire session
+        </button>
+      )}
 
       <div className="mt-3 pt-2 border-t border-line flex flex-wrap gap-x-3 gap-y-1">
         <Link href="/design-system" className="hover:text-ink underline">design system</Link>

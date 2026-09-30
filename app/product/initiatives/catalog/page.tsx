@@ -5,6 +5,7 @@ import { FR_CODE_RE, FR_DEF_RE, compareFrCodes } from "@/lib/import/fr-codes";
 import type { ParsedPrd } from "@/lib/import/prd-parser";
 import type { ArtifactKind, InitiativeFolder } from "@/lib/import/source-repo";
 import { parsePlatforms, type PlatformKey } from "@/lib/requirements/platforms";
+import { PENDING_COLOR } from "@/lib/requirements/pending";
 import {
   DueDateCell, IdCell, KindCell, KindIcon, OwnerCell, PlatformCell, PriorityCell, StatusCell, TextCell, TXT, TXT_2, TXT_3,
 } from "@/components/product/RequirementCells";
@@ -32,6 +33,8 @@ interface DBFr {
   page?: string | null; feature?: string | null; priority?: string | null; status?: string | null;
   source?: string | null; wo_ref?: string | null; owner?: string | null; comments?: string | null;
   platforms?: string | null; due_date?: string | null;
+  /** Drawer entries still marked "[TBD…]". */
+  pending_items?: number;
 }
 interface DBStory     { id: string; name: string; epic_id: string; requirements?: DBFr[]; }
 /** `requirements` are FRs attached to the epic itself (PRD tables have no stories). */
@@ -208,6 +211,20 @@ function TypeFilterDropdown({ active, onChange, counts }: { active: Set<RowKind>
         </div>
       )}
     </div>
+  );
+}
+
+// ── Pending badge ─────────────────────────────────────────────────────────────
+/** Magenta warning next to an FR title while some of its drawer entries are "[TBD…]". */
+function PendingBadge({ count }: { count: number }) {
+  return (
+    <span title={`${count} ${count === 1 ? "punto pendiente" : "puntos pendientes"} de definir`}
+      style={{ display: "inline-flex", alignItems: "center", gap: 3, flexShrink: 0, fontSize: 11, fontWeight: 600, color: PENDING_COLOR }}>
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8 2.2L14.5 13.5h-13L8 2.2z" /><path d="M8 6.5v3.2M8 11.6v.01" />
+      </svg>
+      {count}
+    </span>
   );
 }
 
@@ -658,7 +675,8 @@ export default function FunctionalRequirementsPage() {
   const closeDrawer = useCallback(() => {
     setOpenFrId(null);
     window.history.replaceState(null, "", window.location.pathname);
-  }, []);
+    fetchData(); // drawer edits may have added or resolved "[TBD…]" entries (pending badge)
+  }, [fetchData]);
 
   // Expand the ancestors of ?code=…, open its drawer and scroll its row into view.
   // Runs once, on the first load — inline edits also update dbData.
@@ -1081,6 +1099,7 @@ export default function FunctionalRequirementsPage() {
                             style={{ background: "none", border: "none", padding: 0, font: "inherit", color: TXT, cursor: isPreview ? "default" : "pointer", textAlign: "left", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flexShrink: 0, maxWidth: fr.feature ? "55%" : "100%" }}>
                             {title}
                           </button>
+                          {!!fr.pending_items && <PendingBadge count={fr.pending_items} />}
                           {fr.feature && <span style={{ color: TXT_3, fontSize: 13, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", minWidth: 0 }}>{fr.description}</span>}
                         </div>
                       </td>

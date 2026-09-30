@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { StatPill } from "@/components/ui/Data";
 import { Modal, useToast } from "@/components/ui/Overlay";
@@ -13,21 +13,19 @@ import { Container } from "@/components/patterns/Layout";
 import { PastEventRow, TicketCard, type EventHolding, type HeldItem } from "@/components/patterns/TicketCard";
 import { getEvent } from "@/lib/data/catalog";
 import { isUpcoming, useStore } from "@/lib/state/store";
+import { usePrivatePage } from "@/lib/state/private-page";
 import { money } from "@/lib/format";
 
 
 /** P-08 My Tickets. */
 export function MyTicketsScreen() {
-  const router = useRouter();
   const params = useSearchParams();
   const toast = useToast();
   const store = useStore();
   const [welcome, setWelcome] = useState(params.get("welcome") === "1");
   const [refund, setRefund] = useState<{ ev: EventHolding["ev"]; items: HeldItem[] } | null>(null);
 
-  useEffect(() => {
-    if (store.ready && !store.session) router.replace("/login?next=/my-tickets"); // ACC-03
-  }, [store.ready, store.session, router]);
+  const allowed = usePrivatePage("/my-tickets"); // ACC-03.1, ACC-04.6
 
   const holdings = useMemo(() => {
     const map = new Map<string, EventHolding>();
@@ -48,7 +46,7 @@ export function MyTicketsScreen() {
     return [...map.values()].sort((a, b) => a.ev.startDate.localeCompare(b.ev.startDate));
   }, [store.orders]);
 
-  if (!store.ready || !store.session) return null;
+  if (!allowed) return null;
 
   const upcoming = holdings.filter((h) => isUpcoming(h.ev.endDate));
   const past = holdings.filter((h) => !isUpcoming(h.ev.endDate)).reverse();

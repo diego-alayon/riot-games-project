@@ -8,6 +8,8 @@ import { IconLock } from "@/components/icons";
 import { ReqMarker } from "@/components/trace/ReqMarker";
 import { Container } from "@/components/patterns/Layout";
 import { useStore } from "@/lib/state/store";
+import { isPrivatePath } from "@/lib/state/private-page";
+import Link from "next/link";
 
 /**
  * P-11 stand-in. In production this is a redirect to Riot Sign-On; the
@@ -40,8 +42,12 @@ export function LoginScreen() {
         >
           Continue with Riot account
         </Button>
+        {/* ACC-04.9: cancelling returns to the page of origin, or Find Events when that page needs a session. */}
+        <Link href={isPrivatePath(next) ? "/" : next} replace className="mt-4 inline-block text-caption text-muted hover:text-ink">
+          Cancel
+        </Link>
         <p className="mt-3 text-fine text-disabled">Simulated Riot Sign-On (RSO) for the prototype.</p>
-        <ReqMarker ids={["ACC-02", "ACC-03"]} inset />
+        <ReqMarker ids={["ACC-02", "ACC-03", "ACC-04"]} inset />
       </Card>
     </Container>
   );

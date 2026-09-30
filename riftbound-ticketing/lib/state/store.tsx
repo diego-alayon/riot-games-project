@@ -110,8 +110,12 @@ export function priceCart(cart: Cart, vouchers: Voucher[], input: CheckoutInput)
 
 interface Store extends State {
   ready: boolean;
+  /** True right after «Sign out» (not persisted): private pages then send the fan to Find Events, not to the login (ACC-04.6). */
+  signedOut: boolean;
   signIn: () => void;
   signOut: () => void;
+  /** Demo only: the RSO session lapses but the cart stays (ACC-02.3, ACC-04.8). */
+  expireSession: () => void;
   selectPass: (eventSlug: string, passId: string) => void;
   removePass: () => void;
   toggleSide: (eventSlug: string, sideId: string) => void;
@@ -128,6 +132,7 @@ const Ctx = createContext<Store | null>(null);
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<State>(seed);
   const [ready, setReady] = useState(false);
+  const [signedOut, setSignedOut] = useState(false);
   const stateRef = useRef(state);
   stateRef.current = state;
 
@@ -146,8 +151,18 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     } catch {}
   }, [state, ready]);
 
-  const signIn = useCallback(() => setState((s) => ({ ...s, session: DEMO_USER })), []);
-  const signOut = useCallback(() => setState((s) => ({ ...s, session: null, cart: EMPTY_CART })), []);
+  const signIn = useCallback(() => {
+    setSignedOut(false);
+    setState((s) => ({ ...s, session: DEMO_USER }));
+  }, []);
+  const signOut = useCallback(() => {
+    setSignedOut(true);
+    setState((s) => ({ ...s, session: null, cart: EMPTY_CART }));
+  }, []);
+  const expireSession = useCallback(() => {
+    setSignedOut(false);
+    setState((s) => ({ ...s, session: null }));
+  }, []);
 
   /** One pass per cart, and a cart belongs to a single event. */
   const selectPass = useCallback((eventSlug: string, passId: string) => {
@@ -232,10 +247,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<Store>(
     () => ({
-      ...state, ready, signIn, signOut, selectPass, removePass, toggleSide, clearCart,
+      ...state, ready, signedOut, signIn, signOut, expireSession, selectPass, removePass, toggleSide, clearCart,
       placeOrder, refundItem, refundOrder, togglePrereg, resetDemo,
     }),
-    [state, ready, signIn, signOut, selectPass, removePass, toggleSide, clearCart, placeOrder, refundItem, refundOrder, togglePrereg, resetDemo],
+    [state, ready, signedOut, signIn, signOut, expireSession, selectPass, removePass, toggleSide, clearCart, placeOrder, refundItem, refundOrder, togglePrereg, resetDemo],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

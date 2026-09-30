@@ -120,15 +120,18 @@ export const taskRepo = {
 };
 
 // ── Requirements ──────────────────────────────────────────────────────────────
+/** Drawer entries still marked "[TBD…]" (see lib/requirements/pending.ts), for the catalog warning. */
+const PENDING_ITEMS = "(SELECT COUNT(*) FROM requirement_items i WHERE i.requirement_id = requirements.id AND i.text LIKE '%[TBD%') AS pending_items";
+
 export const requirementRepo = {
   all: () => db.prepare("SELECT * FROM requirements ORDER BY code").all(),
   byInitiative: (initiativeId: string) =>
     db.prepare("SELECT * FROM requirements WHERE initiative_id=? ORDER BY code").all(initiativeId),
   byStory: (storyId: string) =>
-    db.prepare("SELECT * FROM requirements WHERE story_id=? ORDER BY code").all(storyId),
+    db.prepare(`SELECT *, ${PENDING_ITEMS} FROM requirements WHERE story_id=? ORDER BY code`).all(storyId),
   /** Requirements attached to the epic itself (PRD tables have no stories). */
   byEpicDirect: (epicId: string) =>
-    db.prepare("SELECT * FROM requirements WHERE epic_id=? AND story_id IS NULL ORDER BY code").all(epicId),
+    db.prepare(`SELECT *, ${PENDING_ITEMS} FROM requirements WHERE epic_id=? AND story_id IS NULL ORDER BY code`).all(epicId),
   forInitiative: (initiativeId: string) =>
     db.prepare("SELECT * FROM requirements WHERE initiative_id=? ORDER BY code").all(initiativeId),
   get: (id: string) => db.prepare("SELECT * FROM requirements WHERE id=?").get(id),

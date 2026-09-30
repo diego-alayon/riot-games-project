@@ -69,10 +69,15 @@
           "source": "MK",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "No tratado en la reunión. Pendiente: si «Sign out» cierra también la sesión global de RSO.",
+          "comments": "No tratado en la reunión.",
           "acceptance": [
             "Dado un fan con sesión RSO, cuando abre cualquier página del portal, entonces la cabecera muestra su game name.",
-            "Dado un fan con productos en el carrito, cuando pulsa «Sign out», entonces la cabecera muestra «Sign in» y el carrito queda vacío."
+            "Dado un fan con productos en el carrito, cuando pulsa «Sign out», entonces la cabecera muestra «Sign in» y el carrito queda vacío.",
+            "Dado un fan con sesión RSO, cuando abre el menú de cuenta, entonces ve su Riot ID completo y «Sign out».",
+            "Dado un fan sin sesión RSO en cualquier página, cuando pulsa «Sign in» y completa el login RSO, entonces vuelve a esa página y la cabecera muestra su game name.",
+            "Dado un fan con sesión RSO en My Tickets, cuando pulsa «Sign out», entonces el portal le lleva a Find Events.",
+            "Dado un fan con productos en el carrito cuya sesión RSO expira mientras navega, cuando vuelve a iniciar sesión, entonces el carrito conserva los productos.",
+            "Dado un fan sin sesión RSO que pulsa «Sign in», cuando cancela el login RSO, entonces vuelve a la página de origen y la cabecera sigue mostrando «Sign in»."
           ]
         }
       ]

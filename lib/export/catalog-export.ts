@@ -6,9 +6,11 @@
 
 import { getInitiativeTree, requirementItemRepo, requirementRoleRepo } from "@/lib/db/repos";
 import { itemLabel, type ItemKind } from "@/lib/requirements/items";
+import { isPending } from "@/lib/requirements/pending";
 import { PLATFORMS, PLATFORM_KEYS, parsePlatforms, type PlatformKey } from "@/lib/requirements/platforms";
 
-export interface ExportEntry { id: string; text: string }
+/** `pending`: the text carries a "[TBD…]" marker (lib/requirements/pending.ts). */
+export interface ExportEntry { id: string; text: string; pending: boolean }
 export interface ExportRole { role: string; capability: string; precondition: string | null }
 
 export interface ExportRequirement {
@@ -39,7 +41,7 @@ interface ItemRow { id: string; seq: number | null; text: string }
 interface RoleRow { role: string; capability: string; precondition: string | null }
 
 const entries = (reqId: string, code: string, kind: ItemKind, scope: PlatformKey | "all"): ExportEntry[] =>
-  (requirementItemRepo.list(reqId, kind, scope) as ItemRow[]).map(r => ({ id: itemLabel(code, kind, r.seq) ?? "", text: r.text }));
+  (requirementItemRepo.list(reqId, kind, scope) as ItemRow[]).map(r => ({ id: itemLabel(code, kind, r.seq) ?? "", text: r.text, pending: isPending(r.text) }));
 
 function toRequirement(r: any): ExportRequirement {
   return {

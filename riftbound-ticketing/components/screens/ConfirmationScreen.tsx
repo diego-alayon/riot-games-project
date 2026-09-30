@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { LinkButton } from "@/components/ui/Button";
 import { Price } from "@/components/ui/Data";
 import { Card, Divider } from "@/components/ui/Surface";
@@ -11,18 +9,15 @@ import { ReqMarker } from "@/components/trace/ReqMarker";
 import { Container } from "@/components/patterns/Layout";
 import { getEvent } from "@/lib/data/catalog";
 import { useStore } from "@/lib/state/store";
+import { usePrivatePage } from "@/lib/state/private-page";
 import { dateRange, money } from "@/lib/format";
 
 /** P-07 Order Confirmation. */
 export function ConfirmationScreen({ orderId }: { orderId: string }) {
-  const router = useRouter();
-  const { orders, ready, session } = useStore();
+  const { orders } = useStore();
+  const allowed = usePrivatePage(`/confirmation/${orderId}`); // ACC-03.3
 
-  useEffect(() => {
-    if (ready && !session) router.replace(`/login?next=${encodeURIComponent(`/confirmation/${orderId}`)}`); // ACC-03.3
-  }, [ready, session, orderId, router]);
-
-  if (!ready || !session) return null;
+  if (!allowed) return null;
   const order = orders.find((o) => o.id === orderId);
   const ev = order && getEvent(order.eventSlug);
 

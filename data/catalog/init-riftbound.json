@@ -517,7 +517,7 @@
       "story_id": null,
       "area": "ACC",
       "classification": "build",
-      "comments": "No tratado en la reunión. Pendiente: si «Sign out» cierra también la sesión global de RSO.",
+      "comments": "No tratado en la reunión.",
       "due_date": null,
       "implementation_note": null,
       "owner": "Globant",
@@ -570,6 +570,62 @@
           "text": "Cuando el fan sin sesión RSO pulse «Sign in», el portal debe redirigirle al login RSO (P-11) y, al completarlo, devolverle a la página actual."
         },
         {
+          "id": "c31f3ce6-a983-4990-9241-9e5a2bf1697a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 6,
+          "sort_order": 5,
+          "text": "Cuando el fan pulse «Sign out» en una página que requiere sesión (Checkout, Order Confirmation, My Tickets, Invoice o Recap), el portal debe llevarle a Find Events (P-01)."
+        },
+        {
+          "id": "dcf2b466-86e8-4303-8f26-7384f73a8e76",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 7,
+          "sort_order": 6,
+          "text": "Mientras la sesión RSO siga vigente, el portal debe mantenerla al recargar la página y en otras pestañas del mismo navegador."
+        },
+        {
+          "id": "a6584cd1-f774-4642-967e-97dd777a5985",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 8,
+          "sort_order": 7,
+          "text": "Si la sesión RSO expira fuera del checkout, el portal debe mostrar «Sign in» en la cabecera y conservar el carrito."
+        },
+        {
+          "id": "b09b1574-0b58-4191-8146-b96cd62e306b",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 9,
+          "sort_order": 8,
+          "text": "Si el fan cancela el login RSO o este falla, el portal debe devolverle a la página de origen sin sesión [TBD: mensaje que ve el fan]."
+        },
+        {
+          "id": "b6b313dd-c3fc-425f-86cf-a3f867f6aa2a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 10,
+          "sort_order": 9,
+          "text": "Cuando el login RSO se complete, el portal debe mostrar el game name y el Riot ID vigentes en RSO en ese momento."
+        },
+        {
+          "id": "b5bc4cf8-7c56-433e-bcdb-edeb35094b51",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 11,
+          "sort_order": 10,
+          "text": "En pantallas pequeñas, el portal debe mostrar en la cabecera la inicial del game name en lugar del nombre completo [TBD: pendiente del diseño móvil]."
+        },
+        {
+          "id": "5e8ff809-094a-4009-b1b2-7876c6c83a10",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 12,
+          "sort_order": 11,
+          "text": "El portal debe permitir al fan elegir el idioma [TBD: ubicación del selector de idioma; la candidata es la cabecera. Los idiomas se definen en I18N-01]."
+        },
+        {
           "id": "2579a406-3860-4638-b609-ba5d39d4f8c9",
           "kind": "acceptance",
           "platform": "all",
@@ -586,12 +642,76 @@
           "text": "Dado un fan con productos en el carrito, cuando pulsa «Sign out», entonces la cabecera muestra «Sign in» y el carrito queda vacío."
         },
         {
+          "id": "24f1b841-f028-4b12-9266-d1d95906e4a8",
+          "kind": "acceptance",
+          "platform": "all",
+          "seq": 3,
+          "sort_order": 2,
+          "text": "Dado un fan con sesión RSO, cuando abre el menú de cuenta, entonces ve su Riot ID completo y «Sign out»."
+        },
+        {
+          "id": "3ab7e6c6-ceb6-4584-81ba-4bfa1b3f6251",
+          "kind": "acceptance",
+          "platform": "all",
+          "seq": 4,
+          "sort_order": 3,
+          "text": "Dado un fan sin sesión RSO en cualquier página, cuando pulsa «Sign in» y completa el login RSO, entonces vuelve a esa página y la cabecera muestra su game name."
+        },
+        {
+          "id": "376bad35-42d0-4386-b361-50cc0c42311a",
+          "kind": "acceptance",
+          "platform": "all",
+          "seq": 5,
+          "sort_order": 4,
+          "text": "Dado un fan con sesión RSO en My Tickets, cuando pulsa «Sign out», entonces el portal le lleva a Find Events."
+        },
+        {
+          "id": "baabe7ad-1158-46a2-af85-b1f38b7d10e0",
+          "kind": "acceptance",
+          "platform": "all",
+          "seq": 6,
+          "sort_order": 5,
+          "text": "Dado un fan con productos en el carrito cuya sesión RSO expira mientras navega, cuando vuelve a iniciar sesión, entonces el carrito conserva los productos."
+        },
+        {
+          "id": "024ac6fa-c4f9-434a-9ace-d581b923aee4",
+          "kind": "acceptance",
+          "platform": "all",
+          "seq": 7,
+          "sort_order": 6,
+          "text": "Dado un fan sin sesión RSO que pulsa «Sign in», cuando cancela el login RSO, entonces vuelve a la página de origen y la cabecera sigue mostrando «Sign in»."
+        },
+        {
           "id": "11c5a0b0-e6ff-45a4-8924-de71a3ba8e7a",
           "kind": "out_of_scope",
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
           "text": "Avatar del usuario, porque el diseño v2 no lo incluye."
+        },
+        {
+          "id": "50e7d0c7-ac6f-4efb-a208-5353e886cab9",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 2,
+          "sort_order": 1,
+          "text": "Inicio de sesión automático con una sesión de Riot ya abierta (single sign-on); decisión aplazada."
+        },
+        {
+          "id": "583c5727-183f-4014-9dc9-db2fe2a756c3",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 3,
+          "sort_order": 2,
+          "text": "Gestión de la cuenta Riot (Riot ID, email, contraseña) desde el portal; se hace en la cuenta de Riot."
+        },
+        {
+          "id": "221faeda-b805-44b8-9986-97b5f83ebe09",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 4,
+          "sort_order": 3,
+          "text": "Cierre de la sesión global de RSO. «Sign out» solo cierra la sesión del portal."
         }
       ],
       "roles": [
@@ -611,9 +731,9 @@
         }
       ],
       "counters": {
-        "acceptance": 2,
-        "functional": 5,
-        "out_of_scope": 1
+        "acceptance": 7,
+        "functional": 12,
+        "out_of_scope": 4
       }
     },
     {

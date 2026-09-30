@@ -6,12 +6,14 @@
  * Click a bullet to edit it. Enter saves and starts the next bullet,
  * Shift+Enter adds a line break, Escape cancels, and Backspace on an empty
  * bullet removes it. Writes go through a queue so rapid typing keeps order.
- * Each saved entry shows its stable ID (FND-06.1, FND-06.AC1…).
+ * Each saved entry shows its stable ID (FND-06.1, FND-06.AC1…). Entries with a
+ * "[TBD: …]" marker are pending definition and show in magenta with a warning icon.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ItemScope } from "@/lib/requirements/platforms";
 import { itemLabel, type ItemKind } from "@/lib/requirements/items";
+import { isPending, PENDING_BG, PENDING_COLOR, PENDING_LABEL } from "@/lib/requirements/pending";
 import { TXT, TXT_2, TXT_3 } from "./RequirementCells";
 
 interface Item {
@@ -148,12 +150,19 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
     <div>
       {items.length === 0 && <p style={{ fontSize: 13, color: TXT_3, margin: "0 0 8px" }}>{emptyLabel}</p>}
       <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 2 }}>
-        {items.map((item, idx) => (
-          <li key={item.key} className="req-bullet" style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "5px 6px", margin: "0 -6px", borderRadius: 6 }}>
-            <span title="ID estable" style={{ width: 86, flexShrink: 0, paddingTop: 3, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 11, color: TXT_3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        {items.map((item, idx) => {
+          const pending = editing !== item.key && isPending(item.text);
+          return (
+          <li key={item.key} className="req-bullet" title={pending ? PENDING_LABEL : undefined}
+            style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "5px 6px", margin: "0 -6px", borderRadius: 6, backgroundColor: pending ? PENDING_BG : undefined }}>
+            <span title="ID estable" style={{ width: 86, flexShrink: 0, paddingTop: 3, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 11, color: pending ? PENDING_COLOR : TXT_3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
               {itemLabel(code, kind, item.seq) ?? "…"}
             </span>
-            {marker === "excluded" ? (
+            {pending ? (
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke={PENDING_COLOR} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 4, flexShrink: 0, marginLeft: -4, marginRight: -2 }} aria-label={PENDING_LABEL}>
+                <path d="M8 2.2L14.5 13.5h-13L8 2.2z" /><path d="M8 6.5v3.2M8 11.6v.01" />
+              </svg>
+            ) : marker === "excluded" ? (
               <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="#c4543f" strokeWidth="1.6" strokeLinecap="round" style={{ marginTop: 5, flexShrink: 0, marginLeft: -3, marginRight: -2 }} aria-label="Fuera de scope">
                 <circle cx="8" cy="8" r="6" /><path d="M3.8 12.2l8.4-8.4" />
               </svg>
@@ -191,7 +200,7 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
               />
             ) : (
               <button onClick={() => startEdit(item)}
-                style={{ flex: 1, minWidth: 0, textAlign: "left", background: "none", border: "none", padding: 0, font: "inherit", fontSize: 14, lineHeight: 1.55, color: TXT, cursor: "text", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+                style={{ flex: 1, minWidth: 0, textAlign: "left", background: "none", border: "none", padding: 0, font: "inherit", fontSize: 14, lineHeight: 1.55, color: pending ? PENDING_COLOR : TXT, cursor: "text", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
                 {item.text}
               </button>
             )}
@@ -202,7 +211,8 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
               </button>
             )}
           </li>
-        ))}
+          );
+        })}
       </ul>
       <button onClick={() => insertAfter(null)} className="req-editable"
         style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 6, padding: "5px 6px", marginLeft: -6, background: "none", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, color: TXT_2 }}>

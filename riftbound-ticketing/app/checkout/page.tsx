@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { Checkbox, RadioList, TextInput } from "@/components/ui/Form";
@@ -11,6 +11,7 @@ import { ReqMarker } from "@/components/trace/ReqMarker";
 import { Container, TwoColumn } from "@/components/patterns/Layout";
 import { CartLine, GroupLabel } from "@/components/patterns/OrderPanel";
 import { priceCart, useStore } from "@/lib/state/store";
+import { usePrivatePage } from "@/lib/state/private-page";
 import { dateRange, money } from "@/lib/format";
 
 /** P-06 Checkout. */
@@ -25,12 +26,10 @@ export default function CheckoutPage() {
   const [method, setMethod] = useState<"wallet" | "card">("wallet");
   const [paying, setPaying] = useState(false);
 
-  useEffect(() => {
-    // RN-01. If the RSO session expires here, the fan comes back to Checkout with the same cart (ACC-02.3).
-    if (store.ready && !store.session) router.replace("/login?next=/checkout");
-  }, [store.ready, store.session, router]);
+  // RN-01. If the RSO session expires here, the fan comes back to Checkout with the same cart (ACC-02.3).
+  const allowed = usePrivatePage("/checkout");
 
-  if (!store.ready || !store.session) return null;
+  if (!allowed) return null;
 
   const priced = priceCart(store.cart, store.vouchers, { voucherSideIds, discountCode });
   const { ev, pass, sides } = priced;
