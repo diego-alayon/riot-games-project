@@ -23,7 +23,7 @@ const TBD: Status = "Pendiente de definir";
 const OUT: Status = "Descartado v1";
 
 const LIST: Array<[string, string, Priority, Status]> = [
-  ["ACC-01", "Navegación pública", C, OK],
+  ["ACC-01", "Consulta de eventos mediante sesión", C, OK],
   ["ACC-02", "Login al intentar comprar", C, OK],
   ["ACC-03", "Login para My Tickets", C, OK],
   ["ACC-04", "Identidad en cabecera", N, TBD],

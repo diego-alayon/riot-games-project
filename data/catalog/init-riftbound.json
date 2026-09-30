@@ -180,7 +180,7 @@
     {
       "id": "6d282639-ebc5-45e9-a1cb-998016598f6a",
       "code": "ACC-01",
-      "feature": "Navegación pública",
+      "feature": "Consulta de eventos mediante sesión",
       "description": "Find Events y Event Detail son accesibles sin sesión.",
       "epic_id": "bd4eb244-10bf-4f2c-b525-48e4619e7ca2",
       "story_id": null,
