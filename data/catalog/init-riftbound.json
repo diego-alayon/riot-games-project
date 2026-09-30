@@ -399,7 +399,7 @@
           "id": "43418649-19c4-4bbf-9e73-cb0f839fbfd2",
           "role": "Fan",
           "capability": "Añade productos al carrito y paga",
-          "precondition": "Sesión RSO activa",
+          "precondition": "Requerido: sesión RSO activa",
           "sort_order": 1
         }
       ],
@@ -615,7 +615,7 @@
           "platform": "riftbound",
           "seq": 11,
           "sort_order": 10,
-          "text": "En pantallas pequeñas, el portal debe mostrar en la cabecera la inicial del game name en lugar del nombre completo [TBD: pendiente del diseño móvil]."
+          "text": "En dispositivos móviles, el portal debe mostrar en la cabecera la inicial del game name en lugar del nombre completo [TBD: pendiente del diseño móvil]."
         },
         {
           "id": "5e8ff809-094a-4009-b1b2-7876c6c83a10",
@@ -719,7 +719,7 @@
           "id": "9729b9bf-4465-4a96-9e3e-f068e8043699",
           "role": "Fan",
           "capability": "Ve su identidad y cierra sesión",
-          "precondition": "Sesión RSO activa",
+          "precondition": "Requerido: sesión RSO activa",
           "sort_order": 0
         },
         {
