@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Loaded with Node's require at runtime rather than bundled (the catalog Excel export).
+  serverExternalPackages: ["exceljs"],
 };
 
 export default nextConfig;

@@ -1,4 +1,5 @@
 import { db } from "./client";
+import { syncCatalogFile } from "./catalog-sync";
 
 export function runMigrations() {
   db.exec(`
@@ -233,6 +234,9 @@ export function runMigrations() {
       imported_at   TEXT NOT NULL DEFAULT (datetime('now'))
     )`);
   } catch {}
+
+  // The database is local; the catalog is mirrored into git-tracked data/catalog (restored from it when empty).
+  syncCatalogFile();
 }
 
 /**

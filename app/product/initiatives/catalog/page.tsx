@@ -211,6 +211,49 @@ function TypeFilterDropdown({ active, onChange, counts }: { active: Set<RowKind>
   );
 }
 
+// ── Export menu ───────────────────────────────────────────────────────────────
+/** Downloads the whole catalog (initiative → epic → FR, with every drawer section) as Excel or PDF. */
+function ExportMenu() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener("mousedown", h);
+    return () => document.removeEventListener("mousedown", h);
+  }, []);
+
+  const formats = [
+    { format: "xlsx", label: "Excel", hint: ".xlsx" },
+    { format: "pdf", label: "PDF", hint: ".pdf" },
+  ];
+
+  return (
+    <div ref={ref} style={{ position: "relative" }}>
+      <button onClick={() => setOpen(o => !o)}
+        style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", fontSize: 12, fontWeight: 500, border: "1px solid #e5e5e5", borderRadius: 6, backgroundColor: open ? "#f5f5f5" : "#fff", color: "#3b3b3b", cursor: "pointer" }}
+        onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#f5f5f5")}
+        onMouseLeave={e => (e.currentTarget.style.backgroundColor = open ? "#f5f5f5" : "#fff")}>
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M2 11h10M7 9V2M4 5l3-3 3 3"/></svg>
+        Export
+        <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M2 3.5l3 3 3-3" /></svg>
+      </button>
+      {open && (
+        <div style={{ position: "absolute", top: "calc(100% + 6px)", right: 0, zIndex: 50, backgroundColor: "#fff", border: "1px solid #e5e5e5", borderRadius: 8, boxShadow: "0 4px 16px rgba(0,0,0,0.08)", padding: "6px 0", minWidth: 160 }}>
+          {formats.map(f => (
+            <a key={f.format} href={`/api/catalog/export?format=${f.format}`} download onClick={() => setOpen(false)}
+              style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "6px 12px", fontSize: 12, color: "#0f0f0f", textDecoration: "none" }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#f5f5f5")} onMouseLeave={e => (e.currentTarget.style.backgroundColor = "")}>
+              {f.label}
+              <span style={{ fontSize: 11, color: TXT_3 }}>{f.hint}</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Import Modal ──────────────────────────────────────────────────────────────
 type ImportSource = "upload" | "repo";
 
@@ -910,6 +953,7 @@ export default function FunctionalRequirementsPage() {
           <h1 style={{ fontSize: 18, fontWeight: 600, color: "#0f0f0f", letterSpacing: "-0.3px" }}>Functional Requirements</h1>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <ExportMenu />
           <button onClick={() => setShowModal(true)}
             style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", fontSize: 12, fontWeight: 500, border: "1px solid #e5e5e5", borderRadius: 6, backgroundColor: "#fff", color: "#3b3b3b", cursor: "pointer" }}
             onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#f5f5f5")}

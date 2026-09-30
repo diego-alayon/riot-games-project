@@ -14,6 +14,11 @@
  *   npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]
  *   npm run fr -- role-rm ROLE_ID [ROLE_ID ...]
  *
+ *   npm run fr -- snapshot     rewrite data/catalog/*.json from the database
+ *
+ * Every change is also written to data/catalog/*.json (lib/catalog/snapshot.mjs),
+ * the git-tracked copy of the catalog.
+ *
  * CODE is the PRD requirement ID (e.g. ACC-01). ID is an entry's stable ID as
  * printed by `list` (FND-06.2, FND-06.AC1, FND-06.OOS1) or a UUID prefix.
  */
@@ -21,6 +26,7 @@
 import Database from "better-sqlite3";
 import { randomUUID } from "crypto";
 import path from "path";
+import { snapshotCatalog } from "../lib/catalog/snapshot.mjs";
 
 const PLATFORMS = { riftbound: "Riftbound Ticketing Portal", smartvenues: "SmartVenues" };
 /** CLI target → (kind, scope) in requirement_items. */
@@ -171,6 +177,7 @@ function listRoles(code) {
 }
 
 const [cmd, ...args] = process.argv.slice(2);
+const WRITES = new Set(["add", "edit", "rm", "role-add", "role-edit", "role-rm", "snapshot"]);
 switch (cmd) {
   case "list":
     list(args[0]);
@@ -226,6 +233,13 @@ switch (cmd) {
       console.log(`✓ Removed ${row.id.slice(0, 8)} — ${row.role}`);
     }
     break;
+  case "snapshot":
+    break;
   default:
-    console.log('Usage:\n  npm run fr -- list [CODE]\n  npm run fr -- add CODE <riftbound|smartvenues|acceptance|out-of-scope> "text" ["text" ...]\n  npm run fr -- edit ID "new text"\n  npm run fr -- rm ID [ID ...]\n  npm run fr -- roles [CODE]\n  npm run fr -- role-add CODE "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-rm ROLE_ID [ROLE_ID ...]');
+    console.log('Usage:\n  npm run fr -- list [CODE]\n  npm run fr -- add CODE <riftbound|smartvenues|acceptance|out-of-scope> "text" ["text" ...]\n  npm run fr -- edit ID "new text"\n  npm run fr -- rm ID [ID ...]\n  npm run fr -- roles [CODE]\n  npm run fr -- role-add CODE "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-rm ROLE_ID [ROLE_ID ...]\n  npm run fr -- snapshot');
+}
+
+if (WRITES.has(cmd)) {
+  const files = snapshotCatalog(db);
+  console.log(files.length ? `✓ Saved to ${files.map((f) => path.relative(process.cwd(), f)).join(", ")}` : "✓ data/catalog already up to date");
 }
