@@ -22,7 +22,7 @@
     {
       "id": "1991be00-08d9-41d0-924b-4d35f416f03a",
       "code": "EP-FND",
-      "name": "Event Discovery",
+      "name": "Navigation & Event Browsing",
       "assignee": null,
       "description": null,
       "due_date": null,
@@ -228,7 +228,7 @@
           "platform": "riftbound",
           "seq": 4,
           "sort_order": 3,
-          "text": "El portal debe estar publicado en una URL pública [TBD: dominio definitivo; en la reunión se usó tickets.games.com como ejemplo]."
+          "text": "El portal debe estar publicado en tickets.riotgames.com."
         },
         {
           "id": "d7996daa-fa45-4874-9a4a-6b9d4ab3656b",
@@ -618,14 +618,6 @@
           "text": "En dispositivos móviles, el portal debe mostrar en la cabecera la inicial del game name en lugar del nombre completo [TBD: pendiente del diseño móvil]."
         },
         {
-          "id": "5e8ff809-094a-4009-b1b2-7876c6c83a10",
-          "kind": "functional",
-          "platform": "riftbound",
-          "seq": 12,
-          "sort_order": 11,
-          "text": "El portal debe permitir al fan elegir el idioma [TBD: ubicación del selector de idioma; la candidata es la cabecera. Los idiomas se definen en I18N-01]."
-        },
-        {
           "id": "2579a406-3860-4638-b609-ba5d39d4f8c9",
           "kind": "acceptance",
           "platform": "all",
@@ -712,6 +704,14 @@
           "seq": 4,
           "sort_order": 3,
           "text": "Cierre de la sesión global de RSO. «Sign out» solo cierra la sesión del portal."
+        },
+        {
+          "id": "a5554bb9-1f81-48a2-8f51-90d4ed676688",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 5,
+          "sort_order": 4,
+          "text": "Selector de idioma, porque el diseño v2 no lo incluye."
         }
       ],
       "roles": [
@@ -733,7 +733,7 @@
       "counters": {
         "acceptance": 7,
         "functional": 12,
-        "out_of_scope": 4
+        "out_of_scope": 5
       }
     },
     {
@@ -1280,8 +1280,8 @@
     {
       "id": "38499e09-30a2-485a-949a-38f327be0516",
       "code": "FND-01",
-      "feature": "Navegación principal",
-      "description": "Dos tabs: \"Find Events\" (landing) y \"My Tickets\".",
+      "feature": "Cabecera global y navegación principal del portal",
+      "description": "Como fan, quiero una cabecera común en todas las páginas con acceso directo a Find Events y a My Tickets, para moverme entre los eventos y mis entradas desde cualquier página.",
       "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
       "story_id": null,
       "area": "FND",
@@ -1315,13 +1315,13 @@
     {
       "id": "ea891ba0-7a87-4a88-8962-549b9350c0e5",
       "code": "FND-02",
-      "feature": "Barra de juegos",
-      "description": "Filtro por juego. En la v1 solo se muestra Riftbound.",
-      "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
+      "feature": "Filtro de eventos por juego",
+      "description": "Como fan, quiero filtrar los eventos por juego, para ver solo los del juego que me interesa.",
+      "epic_id": "696cb794-e434-4257-bdb3-6bc880fcf987",
       "story_id": null,
-      "area": "FND",
+      "area": "OOS",
       "classification": "build",
-      "comments": "Riot propone incluso eliminar la barra en la v1. League of Legends, VALORANT y Teamfight Tactics se retiran de la v1 (ver Out of scope).",
+      "comments": "Descartado en la v1: con un solo juego, el filtro no filtra nada. Riot propone incluso eliminar la barra en la v1. League of Legends, VALORANT y Teamfight Tactics se retiran de la v1 (ver Out of scope).",
       "due_date": null,
       "implementation_note": null,
       "owner": "Globant",
@@ -1330,7 +1330,7 @@
       "priority": "No crítica",
       "prototype_view": null,
       "source": "RP",
-      "status": "Confirmado",
+      "status": "Descartado v1",
       "wo_ref": "—",
       "items": [
         {
@@ -1359,8 +1359,8 @@
     {
       "id": "2af79add-fe67-41ba-bbc0-61c97d730662",
       "code": "FND-03",
-      "feature": "Evento destacado (hero)",
-      "description": "Tarjeta grande de los eventos más próximos, en venta o a punto de abrir.",
+      "feature": "Eventos destacados en Find Events",
+      "description": "Como fan, quiero ver al principio de Find Events los eventos destacados en tarjetas más grandes que las del listado, para identificar de un vistazo los más relevantes.",
       "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
       "story_id": null,
       "area": "FND",
@@ -1394,8 +1394,8 @@
     {
       "id": "a9f0c116-2538-48cb-9b6d-3e3799f46f0f",
       "code": "FND-04",
-      "feature": "Imagen por evento",
-      "description": "Cada evento tiene una imagen propia en su tarjeta y en la cabecera del detalle.",
+      "feature": "Imagen promocional del evento",
+      "description": "Como fan, quiero ver la imagen propia de cada evento, para reconocerlo de un vistazo en Find Events y en su página.",
       "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
       "story_id": null,
       "area": "FND",
@@ -1429,8 +1429,8 @@
     {
       "id": "0101dc67-b1f4-4950-af0e-1c6d81bd562b",
       "code": "FND-05",
-      "feature": "Datos de la tarjeta",
-      "description": "Nombre, fechas, venue, ciudad/país y etiqueta de región (APAC, AMERICAS, EMEA).",
+      "feature": "Contenido de la tarjeta de evento y acceso al detalle",
+      "description": "Como fan, quiero ver en cada tarjeta dónde y cuándo es el evento, y abrirlo al pulsarla, para decidir si me interesa sin entrar en cada uno.",
       "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
       "story_id": null,
       "area": "FND",
@@ -1464,8 +1464,8 @@
     {
       "id": "1eae09ed-79ed-41c0-a4cd-1523c0b2f0f8",
       "code": "FND-06",
-      "feature": "Estado de venta",
-      "description": "Estados visibles: \"On sale now\", \"On sale in X days\", \"On sale [fecha]\".",
+      "feature": "Etiqueta de estado de venta del evento",
+      "description": "Como fan, quiero ver en cada evento si la venta está abierta o cuándo abre, para no perderme la apertura.",
       "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
       "story_id": null,
       "area": "FND",
@@ -1499,8 +1499,8 @@
     {
       "id": "eba944a2-18cd-4f76-9be6-8d78d0cf0b0f",
       "code": "FND-07",
-      "feature": "Listado \"More events\"",
-      "description": "Resto de eventos con fecha de apertura de venta y botón \"Show N more\".",
+      "feature": "Listado cronológico de eventos («More events»)",
+      "description": "Como fan, quiero ver el resto de eventos ordenados por fecha, para encontrar los próximos eventos aunque no estén destacados.",
       "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
       "story_id": null,
       "area": "FND",
@@ -1534,8 +1534,8 @@
     {
       "id": "507708d8-9ae2-449e-bae0-36574bd2bdd9",
       "code": "FND-08",
-      "feature": "Regla de destacado",
-      "description": "Lógica que decide qué evento va al hero y cuál al listado.",
+      "feature": "Selección de los eventos destacados",
+      "description": "Como Chief Sales Operator, quiero elegir qué eventos se destacan en Find Events, para dar más visibilidad a los eventos que Riot prioriza.",
       "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
       "story_id": null,
       "area": "FND",
@@ -1549,6 +1549,78 @@
       "priority": "No crítica",
       "prototype_view": null,
       "source": "RP",
+      "status": "Pendiente de definir",
+      "wo_ref": "—",
+      "items": [],
+      "roles": [],
+      "counters": {}
+    },
+    {
+      "id": "f14a9ffc-737b-42a4-b72d-606f35ba4495",
+      "code": "FND-09",
+      "feature": "Pie de página global con enlaces legales y de soporte",
+      "description": "Como fan, quiero encontrar en cualquier página los enlaces a los términos, la privacidad, las cookies y el soporte, para conocer las condiciones de compra y pedir ayuda cuando la necesite.",
+      "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
+      "story_id": null,
+      "area": "FND",
+      "classification": "build",
+      "comments": "El diseño v2 no incluye pie de página. Hay que proponérselo a Riot: un portal de venta en la UE debe dar acceso a las condiciones, la privacidad y las cookies. Riot define los textos y los destinos.",
+      "due_date": null,
+      "implementation_note": null,
+      "owner": "Compartido",
+      "page": "Global",
+      "platforms": "[\"riftbound\"]",
+      "priority": "Crítica",
+      "prototype_view": null,
+      "source": "Análisis de gaps",
+      "status": "Pendiente de definir",
+      "wo_ref": "—",
+      "items": [],
+      "roles": [],
+      "counters": {}
+    },
+    {
+      "id": "397c0833-34ad-41be-a32b-0856c4c84270",
+      "code": "FND-10",
+      "feature": "Título y subtítulo de Find Events",
+      "description": "Como fan, quiero ver al entrar en Find Events un título y un subtítulo que expliquen qué eventos encuentro, para saber que estoy en el calendario oficial de eventos de Riot.",
+      "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
+      "story_id": null,
+      "area": "FND",
+      "classification": "build",
+      "comments": "El PRD dice «Riot Games Live Events» (Frame_1) y el prototipo, «Riot Live Events». Propósito sin explicar en la reunión. PQ-27.",
+      "due_date": null,
+      "implementation_note": null,
+      "owner": "Compartido",
+      "page": "P-01",
+      "platforms": "[\"riftbound\"]",
+      "priority": "No crítica",
+      "prototype_view": null,
+      "source": "MK",
+      "status": "Pendiente de definir",
+      "wo_ref": "—",
+      "items": [],
+      "roles": [],
+      "counters": {}
+    },
+    {
+      "id": "17ac5a2e-e279-4798-b06b-46e6a4014405",
+      "code": "FND-11",
+      "feature": "Publicación y retirada de eventos en Find Events",
+      "description": "Como Chief Sales Operator, quiero que en Find Events solo aparezcan los eventos que he publicado y que los ya celebrados se retiren solos, para que el fan solo vea eventos a los que todavía puede asistir.",
+      "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
+      "story_id": null,
+      "area": "FND",
+      "classification": "build",
+      "comments": "Separado de FND-08: qué eventos se muestran es distinto de cuáles se destacan. Mismo criterio de fecha que RN-09.",
+      "due_date": null,
+      "implementation_note": null,
+      "owner": "Globant",
+      "page": "P-01",
+      "platforms": "[\"riftbound\",\"smartvenues\"]",
+      "priority": "Crítica",
+      "prototype_view": null,
+      "source": "Análisis de gaps",
       "status": "Pendiente de definir",
       "wo_ref": "—",
       "items": [],

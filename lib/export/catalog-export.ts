@@ -6,11 +6,11 @@
 
 import { getInitiativeTree, requirementItemRepo, requirementRoleRepo } from "@/lib/db/repos";
 import { itemLabel, type ItemKind } from "@/lib/requirements/items";
-import { isPending } from "@/lib/requirements/pending";
+import { pendingLevel, type PendingLevel } from "@/lib/requirements/pending";
 import { PLATFORMS, PLATFORM_KEYS, parsePlatforms, type PlatformKey } from "@/lib/requirements/platforms";
 
-/** `pending`: the text carries a "[TBD…]" marker (lib/requirements/pending.ts). */
-export interface ExportEntry { id: string; text: string; pending: boolean }
+/** `pending`: the text carries a "[TBD…]" or "[TBD-CRÍTICO…]" marker (lib/requirements/pending.ts). */
+export interface ExportEntry { id: string; text: string; pending: PendingLevel | null }
 export interface ExportRole { role: string; capability: string; precondition: string | null }
 
 export interface ExportRequirement {
@@ -41,7 +41,7 @@ interface ItemRow { id: string; seq: number | null; text: string }
 interface RoleRow { role: string; capability: string; precondition: string | null }
 
 const entries = (reqId: string, code: string, kind: ItemKind, scope: PlatformKey | "all"): ExportEntry[] =>
-  (requirementItemRepo.list(reqId, kind, scope) as ItemRow[]).map(r => ({ id: itemLabel(code, kind, r.seq) ?? "", text: r.text, pending: isPending(r.text) }));
+  (requirementItemRepo.list(reqId, kind, scope) as ItemRow[]).map(r => ({ id: itemLabel(code, kind, r.seq) ?? "", text: r.text, pending: pendingLevel(r.text) }));
 
 function toRequirement(r: any): ExportRequirement {
   return {

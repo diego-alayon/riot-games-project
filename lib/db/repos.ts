@@ -120,8 +120,9 @@ export const taskRepo = {
 };
 
 // ── Requirements ──────────────────────────────────────────────────────────────
-/** Drawer entries still marked "[TBD…]" (see lib/requirements/pending.ts), for the catalog warning. */
-const PENDING_ITEMS = "(SELECT COUNT(*) FROM requirement_items i WHERE i.requirement_id = requirements.id AND i.text LIKE '%[TBD%') AS pending_items";
+/** Drawer entries still marked "[TBD…]", and how many are "[TBD-CRÍTICO…]" (see lib/requirements/pending.ts), for the catalog warning. */
+const PENDING_ITEMS = "(SELECT COUNT(*) FROM requirement_items i WHERE i.requirement_id = requirements.id AND i.text LIKE '%[TBD%') AS pending_items, "
+  + "(SELECT COUNT(*) FROM requirement_items i WHERE i.requirement_id = requirements.id AND i.text LIKE '%[TBD-CR%') AS critical_items";
 
 export const requirementRepo = {
   all: () => db.prepare("SELECT * FROM requirements ORDER BY code").all(),

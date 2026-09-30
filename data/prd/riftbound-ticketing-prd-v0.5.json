@@ -84,13 +84,13 @@
     },
     {
       "code": "EP-FND",
-      "name": "Event Discovery",
+      "name": "Navigation & Event Browsing",
       "requirements": [
         {
           "code": "FND-01",
           "page": "Global",
-          "feature": "Navegación principal",
-          "description": "Dos tabs: \"Find Events\" (landing) y \"My Tickets\".",
+          "feature": "Cabecera global y navegación principal del portal",
+          "description": "Como fan, quiero una cabecera común en todas las páginas con acceso directo a Find Events y a My Tickets, para moverme entre los eventos y mis entradas desde cualquier página.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP; MK Riot_Games_Tickets-7",
@@ -102,25 +102,10 @@
           ]
         },
         {
-          "code": "FND-02",
-          "page": "P-01",
-          "feature": "Barra de juegos",
-          "description": "Filtro por juego. En la v1 solo se muestra Riftbound.",
-          "priority": "No crítica",
-          "status": "Confirmado",
-          "source": "RP",
-          "woRef": "—",
-          "owner": "Globant",
-          "comments": "Riot propone incluso eliminar la barra en la v1. League of Legends, VALORANT y Teamfight Tactics se retiran de la v1 (ver Out of scope).",
-          "acceptance": [
-            "Solo Riftbound aparece en la barra de juegos; el resto de juegos no se muestra."
-          ]
-        },
-        {
           "code": "FND-03",
           "page": "P-01",
-          "feature": "Evento destacado (hero)",
-          "description": "Tarjeta grande de los eventos más próximos, en venta o a punto de abrir.",
+          "feature": "Eventos destacados en Find Events",
+          "description": "Como fan, quiero ver al principio de Find Events los eventos destacados en tarjetas más grandes que las del listado, para identificar de un vistazo los más relevantes.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP",
@@ -134,8 +119,8 @@
         {
           "code": "FND-04",
           "page": "P-01, P-02",
-          "feature": "Imagen por evento",
-          "description": "Cada evento tiene una imagen propia en su tarjeta y en la cabecera del detalle.",
+          "feature": "Imagen promocional del evento",
+          "description": "Como fan, quiero ver la imagen propia de cada evento, para reconocerlo de un vistazo en Find Events y en su página.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP",
@@ -149,8 +134,8 @@
         {
           "code": "FND-05",
           "page": "P-01",
-          "feature": "Datos de la tarjeta",
-          "description": "Nombre, fechas, venue, ciudad/país y etiqueta de región (APAC, AMERICAS, EMEA).",
+          "feature": "Contenido de la tarjeta de evento y acceso al detalle",
+          "description": "Como fan, quiero ver en cada tarjeta dónde y cuándo es el evento, y abrirlo al pulsarla, para decidir si me interesa sin entrar en cada uno.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP; MK",
@@ -164,8 +149,8 @@
         {
           "code": "FND-06",
           "page": "P-01",
-          "feature": "Estado de venta",
-          "description": "Estados visibles: \"On sale now\", \"On sale in X days\", \"On sale [fecha]\".",
+          "feature": "Etiqueta de estado de venta del evento",
+          "description": "Como fan, quiero ver en cada evento si la venta está abierta o cuándo abre, para no perderme la apertura.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP; MK",
@@ -179,8 +164,8 @@
         {
           "code": "FND-07",
           "page": "P-01",
-          "feature": "Listado \"More events\"",
-          "description": "Resto de eventos con fecha de apertura de venta y botón \"Show N more\".",
+          "feature": "Listado cronológico de eventos («More events»)",
+          "description": "Como fan, quiero ver el resto de eventos ordenados por fecha, para encontrar los próximos eventos aunque no estén destacados.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP; MK",
@@ -194,14 +179,54 @@
         {
           "code": "FND-08",
           "page": "P-01",
-          "feature": "Regla de destacado",
-          "description": "Lógica que decide qué evento va al hero y cuál al listado.",
+          "feature": "Selección de los eventos destacados",
+          "description": "Como Chief Sales Operator, quiero elegir qué eventos se destacan en Find Events, para dar más visibilidad a los eventos que Riot prioriza.",
           "priority": "No crítica",
           "status": "Pendiente de definir",
           "source": "RP",
           "woRef": "—",
           "owner": "Riot",
           "comments": "PQ-01"
+        },
+        {
+          "code": "FND-09",
+          "page": "Global",
+          "feature": "Pie de página global con enlaces legales y de soporte",
+          "description": "Como fan, quiero encontrar en cualquier página los enlaces a los términos, la privacidad, las cookies y el soporte, para conocer las condiciones de compra y pedir ayuda cuando la necesite.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "Análisis de gaps",
+          "woRef": "—",
+          "owner": "Compartido",
+          "comments": "El diseño v2 no incluye pie de página. Hay que proponérselo a Riot: un portal de venta en la UE debe dar acceso a las condiciones, la privacidad y las cookies. Riot define los textos y los destinos."
+        },
+        {
+          "code": "FND-10",
+          "page": "P-01",
+          "feature": "Título y subtítulo de Find Events",
+          "description": "Como fan, quiero ver al entrar en Find Events un título y un subtítulo que expliquen qué eventos encuentro, para saber que estoy en el calendario oficial de eventos de Riot.",
+          "priority": "No crítica",
+          "status": "Pendiente de definir",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Compartido",
+          "comments": "El PRD dice «Riot Games Live Events» (Frame_1) y el prototipo, «Riot Live Events». Propósito sin explicar en la reunión. PQ-27."
+        },
+        {
+          "code": "FND-11",
+          "page": "P-01",
+          "feature": "Publicación y retirada de eventos en Find Events",
+          "description": "Como Chief Sales Operator, quiero que en Find Events solo aparezcan los eventos que he publicado y que los ya celebrados se retiren solos, para que el fan solo vea eventos a los que todavía puede asistir.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "Análisis de gaps",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Separado de FND-08: qué eventos se muestran es distinto de cuáles se destacan. Mismo criterio de fecha que RN-09.",
+          "platforms": [
+            "riftbound",
+            "smartvenues"
+          ]
         }
       ]
     },
@@ -1229,6 +1254,21 @@
           "woRef": "—",
           "owner": "Riot",
           "comments": "El diseño v2 retira el indicador de pasos. PQ-03."
+        },
+        {
+          "code": "FND-02",
+          "page": "P-01",
+          "feature": "Filtro de eventos por juego",
+          "description": "Como fan, quiero filtrar los eventos por juego, para ver solo los del juego que me interesa.",
+          "priority": "No crítica",
+          "status": "Descartado v1",
+          "source": "RP",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Descartado en la v1: con un solo juego, el filtro no filtra nada. Riot propone incluso eliminar la barra en la v1. League of Legends, VALORANT y Teamfight Tactics se retiran de la v1 (ver Out of scope).",
+          "acceptance": [
+            "Solo Riftbound aparece en la barra de juegos; el resto de juegos no se muestra."
+          ]
         }
       ]
     }

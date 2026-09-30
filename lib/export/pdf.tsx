@@ -6,7 +6,7 @@
 
 import { Document, Page, StyleSheet, Text, View, renderToBuffer } from "@react-pdf/renderer";
 import { PLATFORMS, PLATFORM_KEYS } from "@/lib/requirements/platforms";
-import { PENDING_COLOR, PENDING_LABEL } from "@/lib/requirements/pending";
+import { PENDING_STYLE } from "@/lib/requirements/pending";
 import { epicTitle, formatDate, platformNames, type CatalogExport, type ExportEntry, type ExportRequirement } from "./catalog-export";
 
 const INK = "#282a30";
@@ -47,15 +47,18 @@ const COLS = [{ w: "22%" }, { w: "48%" }, { w: "30%" }];
 function Entries({ list }: { list: ExportEntry[] }) {
   return (
     <>
-      {list.map(e => (
-        <View key={e.id} style={s.entry} wrap={false}>
-          <Text style={[s.entryId, e.pending ? { color: PENDING_COLOR } : {}]}>{e.id}</Text>
-          <Text style={[s.entryText, e.pending ? { color: PENDING_COLOR } : {}]}>
-            {e.pending ? <Text style={{ fontWeight: 700 }}>{PENDING_LABEL.toUpperCase()} · </Text> : null}
-            {e.text}
-          </Text>
-        </View>
-      ))}
+      {list.map(e => {
+        const pending = e.pending ? PENDING_STYLE[e.pending] : null;
+        return (
+          <View key={e.id} style={s.entry} wrap={false}>
+            <Text style={[s.entryId, pending ? { color: pending.color } : {}]}>{e.id}</Text>
+            <Text style={[s.entryText, pending ? { color: pending.color } : {}]}>
+              {pending ? <Text style={{ fontWeight: 700 }}>{pending.label.toUpperCase()} · </Text> : null}
+              {e.text}
+            </Text>
+          </View>
+        );
+      })}
     </>
   );
 }

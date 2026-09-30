@@ -7,13 +7,14 @@
  * Shift+Enter adds a line break, Escape cancels, and Backspace on an empty
  * bullet removes it. Writes go through a queue so rapid typing keeps order.
  * Each saved entry shows its stable ID (FND-06.1, FND-06.AC1…). Entries with a
- * "[TBD: …]" marker are pending definition and show in magenta with a warning icon.
+ * "[TBD: …]" marker are pending definition and show in magenta with a warning icon;
+ * "[TBD-CRÍTICO: …]" entries show in red.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ItemScope } from "@/lib/requirements/platforms";
 import { itemLabel, type ItemKind } from "@/lib/requirements/items";
-import { isPending, PENDING_BG, PENDING_COLOR, PENDING_LABEL } from "@/lib/requirements/pending";
+import { pendingLevel, PENDING_STYLE } from "@/lib/requirements/pending";
 import { TXT, TXT_2, TXT_3 } from "./RequirementCells";
 
 interface Item {
@@ -151,15 +152,16 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
       {items.length === 0 && <p style={{ fontSize: 13, color: TXT_3, margin: "0 0 8px" }}>{emptyLabel}</p>}
       <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 2 }}>
         {items.map((item, idx) => {
-          const pending = editing !== item.key && isPending(item.text);
+          const level = editing !== item.key ? pendingLevel(item.text) : null;
+          const pending = level ? PENDING_STYLE[level] : null;
           return (
-          <li key={item.key} className="req-bullet" title={pending ? PENDING_LABEL : undefined}
-            style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "5px 6px", margin: "0 -6px", borderRadius: 6, backgroundColor: pending ? PENDING_BG : undefined }}>
-            <span title="ID estable" style={{ width: 86, flexShrink: 0, paddingTop: 3, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 11, color: pending ? PENDING_COLOR : TXT_3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          <li key={item.key} className="req-bullet" title={pending?.label}
+            style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "5px 6px", margin: "0 -6px", borderRadius: 6, backgroundColor: pending?.bg }}>
+            <span title="ID estable" style={{ width: 86, flexShrink: 0, paddingTop: 3, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 11, color: pending?.color ?? TXT_3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
               {itemLabel(code, kind, item.seq) ?? "…"}
             </span>
             {pending ? (
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke={PENDING_COLOR} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 4, flexShrink: 0, marginLeft: -4, marginRight: -2 }} aria-label={PENDING_LABEL}>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke={pending.color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 4, flexShrink: 0, marginLeft: -4, marginRight: -2 }} aria-label={pending.label}>
                 <path d="M8 2.2L14.5 13.5h-13L8 2.2z" /><path d="M8 6.5v3.2M8 11.6v.01" />
               </svg>
             ) : marker === "excluded" ? (
@@ -200,7 +202,7 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
               />
             ) : (
               <button onClick={() => startEdit(item)}
-                style={{ flex: 1, minWidth: 0, textAlign: "left", background: "none", border: "none", padding: 0, font: "inherit", fontSize: 14, lineHeight: 1.55, color: pending ? PENDING_COLOR : TXT, cursor: "text", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+                style={{ flex: 1, minWidth: 0, textAlign: "left", background: "none", border: "none", padding: 0, font: "inherit", fontSize: 14, lineHeight: 1.55, color: pending?.color ?? TXT, cursor: "text", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
                 {item.text}
               </button>
             )}

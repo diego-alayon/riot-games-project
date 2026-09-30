@@ -7,7 +7,7 @@
 
 import ExcelJS from "exceljs";
 import { PLATFORMS, PLATFORM_KEYS } from "@/lib/requirements/platforms";
-import { PENDING_COLOR, PENDING_LABEL } from "@/lib/requirements/pending";
+import { PENDING_STYLE } from "@/lib/requirements/pending";
 import { epicTitle, platformNames, type CatalogExport } from "./catalog-export";
 
 const INK = "FF282A30";
@@ -108,9 +108,10 @@ export async function catalogToXlsx(doc: CatalogExport): Promise<Buffer> {
         ];
         for (const [section, list] of sections)
           for (const e of list) {
-            const row = det.addRow({ ...base, section, id: e.id, text: e.text, pending: e.pending ? PENDING_LABEL : "" });
+            const pending = e.pending ? PENDING_STYLE[e.pending] : null;
+            const row = det.addRow({ ...base, section, id: e.id, text: e.text, pending: pending?.label ?? "" });
             row.alignment = WRAP;
-            if (e.pending) row.font = { color: { argb: `FF${PENDING_COLOR.slice(1).toUpperCase()}` } };
+            if (pending) row.font = { color: { argb: `FF${pending.color.slice(1).toUpperCase()}` } };
           }
         for (const ro of r.roles) roles.addRow({ ...base, ...ro }).alignment = WRAP;
       }

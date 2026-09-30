@@ -5,7 +5,7 @@ import { FR_CODE_RE, FR_DEF_RE, compareFrCodes } from "@/lib/import/fr-codes";
 import type { ParsedPrd } from "@/lib/import/prd-parser";
 import type { ArtifactKind, InitiativeFolder } from "@/lib/import/source-repo";
 import { parsePlatforms, type PlatformKey } from "@/lib/requirements/platforms";
-import { PENDING_COLOR } from "@/lib/requirements/pending";
+import { PENDING_STYLE } from "@/lib/requirements/pending";
 import {
   DueDateCell, IdCell, KindCell, KindIcon, OwnerCell, PlatformCell, PriorityCell, StatusCell, TextCell, TXT, TXT_2, TXT_3,
 } from "@/components/product/RequirementCells";
@@ -33,8 +33,9 @@ interface DBFr {
   page?: string | null; feature?: string | null; priority?: string | null; status?: string | null;
   source?: string | null; wo_ref?: string | null; owner?: string | null; comments?: string | null;
   platforms?: string | null; due_date?: string | null;
-  /** Drawer entries still marked "[TBD…]". */
+  /** Drawer entries still marked "[TBD…]"; `critical_items` of them are "[TBD-CRÍTICO…]". */
   pending_items?: number;
+  critical_items?: number;
 }
 interface DBStory     { id: string; name: string; epic_id: string; requirements?: DBFr[]; }
 /** `requirements` are FRs attached to the epic itself (PRD tables have no stories). */
@@ -216,11 +217,13 @@ function TypeFilterDropdown({ active, onChange, counts }: { active: Set<RowKind>
 }
 
 // ── Pending badge ─────────────────────────────────────────────────────────────
-/** Magenta warning next to an FR title while some of its drawer entries are "[TBD…]". */
-function PendingBadge({ count }: { count: number }) {
+/** Warning next to an FR title while some of its drawer entries are "[TBD…]": magenta, or red if any is critical. */
+function PendingBadge({ count, critical = 0 }: { count: number; critical?: number }) {
+  const title = `${count} ${count === 1 ? "punto pendiente" : "puntos pendientes"} de definir`
+    + (critical ? ` (${critical} ${critical === 1 ? "crítico" : "críticos"})` : "");
   return (
-    <span title={`${count} ${count === 1 ? "punto pendiente" : "puntos pendientes"} de definir`}
-      style={{ display: "inline-flex", alignItems: "center", gap: 3, flexShrink: 0, fontSize: 11, fontWeight: 600, color: PENDING_COLOR }}>
+    <span title={title}
+      style={{ display: "inline-flex", alignItems: "center", gap: 3, flexShrink: 0, fontSize: 11, fontWeight: 600, color: PENDING_STYLE[critical ? "critical" : "pending"].color }}>
       <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M8 2.2L14.5 13.5h-13L8 2.2z" /><path d="M8 6.5v3.2M8 11.6v.01" />
       </svg>
@@ -1100,7 +1103,7 @@ export default function FunctionalRequirementsPage() {
                             style={{ background: "none", border: "none", padding: 0, font: "inherit", color: TXT, cursor: isPreview ? "default" : "pointer", textAlign: "left", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", minWidth: 0 }}>
                             {title}
                           </button>
-                          {!!fr.pending_items && <PendingBadge count={fr.pending_items} />}
+                          {!!fr.pending_items && <PendingBadge count={fr.pending_items} critical={fr.critical_items} />}
                         </div>
                       </td>
                       <td style={CELL}><TextCell value={fr.feature ? fr.description : null} /></td>
