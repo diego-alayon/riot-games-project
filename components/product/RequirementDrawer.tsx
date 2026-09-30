@@ -163,12 +163,24 @@ const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => 
   {
     id: "comments",
     title: "Comentarios",
-    render: ({ fr }) =>
-      fr.comments && fr.comments !== "—" ? (
-        <p style={{ fontSize: 14, lineHeight: 1.6, color: TXT, margin: 0 }}>{fr.comments}</p>
-      ) : (
-        <p style={{ fontSize: 13, color: TXT_3, margin: 0 }}>Sin comentarios.</p>
-      ),
+    render: ({ fr }) => (
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <RequirementBullets
+          requirementId={fr.id}
+          code={fr.code}
+          kind="comment"
+          addLabel="Añadir comentario"
+          emptyLabel="Sin comentarios."
+          placeholder="Escribe el comentario…"
+        />
+        {fr.comments && fr.comments !== "—" && (
+          <div>
+            <div style={{ fontSize: 12, color: TXT_3, marginBottom: 4 }}>Nota del PRD</div>
+            <p style={{ fontSize: 14, lineHeight: 1.6, color: TXT_2, margin: 0 }}>{fr.comments}</p>
+          </div>
+        )}
+      </div>
+    ),
   },
 ];
 

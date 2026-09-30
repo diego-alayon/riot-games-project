@@ -58,7 +58,8 @@ export function SiteHeader() {
           </svg>
         </span>
         <nav className="relative flex items-center gap-4 sm:gap-8">
-          <NavLink href="/" active={path === "/"}>
+          {/* FND-01.3: the event pages (passes, side events, Fan First pre-registration) belong to Find Events. */}
+          <NavLink href="/" active={path === "/" || path.startsWith("/events/")}>
             <span className="sm:hidden">Events</span>
             <span className="max-sm:hidden">Find Events</span>
           </NavLink>

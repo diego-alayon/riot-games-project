@@ -7,6 +7,7 @@
 import { Document, Page, StyleSheet, Text, View, renderToBuffer } from "@react-pdf/renderer";
 import { PLATFORMS, PLATFORM_KEYS } from "@/lib/requirements/platforms";
 import { PENDING_STYLE } from "@/lib/requirements/pending";
+import { ITEM_TAGS } from "@/lib/requirements/tags";
 import { epicTitle, formatDate, platformNames, type CatalogExport, type ExportEntry, type ExportRequirement } from "./catalog-export";
 
 const INK = "#282a30";
@@ -49,10 +50,13 @@ function Entries({ list }: { list: ExportEntry[] }) {
     <>
       {list.map(e => {
         const pending = e.pending ? PENDING_STYLE[e.pending] : null;
+        const tag = e.tag ? ITEM_TAGS[e.tag] : null;
+        const accent = pending ?? tag;
         return (
           <View key={e.id} style={s.entry} wrap={false}>
-            <Text style={[s.entryId, pending ? { color: pending.color } : {}]}>{e.id}</Text>
+            <Text style={[s.entryId, accent ? { color: accent.color } : {}]}>{e.id}</Text>
             <Text style={[s.entryText, pending ? { color: pending.color } : {}]}>
+              {tag ? <Text style={{ fontWeight: 700, color: tag.color }}>[{tag.label}] </Text> : null}
               {pending ? <Text style={{ fontWeight: 700 }}>{pending.label.toUpperCase()} · </Text> : null}
               {e.text}
             </Text>
@@ -114,6 +118,14 @@ function Requirement({ r }: { r: ExportRequirement }) {
         <>
           <Text style={s.sectionLabel}>Out of scope</Text>
           <Entries list={r.outOfScope} />
+        </>
+      )}
+
+      {(r.commentEntries.length > 0 || (r.comments && r.comments !== "—")) && (
+        <>
+          <Text style={s.sectionLabel}>Comentarios</Text>
+          <Entries list={r.commentEntries} />
+          {r.comments && r.comments !== "—" ? <Text style={s.description}>Nota del PRD: {r.comments}</Text> : null}
         </>
       )}
 

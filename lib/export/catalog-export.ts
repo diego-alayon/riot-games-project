@@ -7,10 +7,14 @@
 import { getInitiativeTree, requirementItemRepo, requirementRoleRepo } from "@/lib/db/repos";
 import { itemLabel, type ItemKind } from "@/lib/requirements/items";
 import { pendingLevel, type PendingLevel } from "@/lib/requirements/pending";
+import { isItemTag, type ItemTag } from "@/lib/requirements/tags";
 import { PLATFORMS, PLATFORM_KEYS, parsePlatforms, type PlatformKey } from "@/lib/requirements/platforms";
 
-/** `pending`: the text carries a "[TBD…]" or "[TBD-CRÍTICO…]" marker (lib/requirements/pending.ts). */
-export interface ExportEntry { id: string; text: string; pending: PendingLevel | null }
+/**
+ * `pending`: the text carries a "[TBD…]" or "[TBD-CRÍTICO…]" marker (lib/requirements/pending.ts).
+ * `tag`: its review tag (lib/requirements/tags.ts).
+ */
+export interface ExportEntry { id: string; text: string; pending: PendingLevel | null; tag: ItemTag | null }
 export interface ExportRole { role: string; capability: string; precondition: string | null }
 
 export interface ExportRequirement {
@@ -31,17 +35,19 @@ export interface ExportRequirement {
   roles: ExportRole[];
   outOfScope: ExportEntry[];
   acceptance: ExportEntry[];
+  /** Comentarios del drawer; `comments` is the note imported from the PRD. */
+  commentEntries: ExportEntry[];
 }
 
 export interface ExportEpic { code: string | null; name: string; requirements: ExportRequirement[] }
 export interface ExportInitiative { name: string; epics: ExportEpic[] }
 export interface CatalogExport { title: string; generatedAt: Date; initiatives: ExportInitiative[] }
 
-interface ItemRow { id: string; seq: number | null; text: string }
+interface ItemRow { id: string; seq: number | null; text: string; tag: string | null }
 interface RoleRow { role: string; capability: string; precondition: string | null }
 
 const entries = (reqId: string, code: string, kind: ItemKind, scope: PlatformKey | "all"): ExportEntry[] =>
-  (requirementItemRepo.list(reqId, kind, scope) as ItemRow[]).map(r => ({ id: itemLabel(code, kind, r.seq) ?? "", text: r.text, pending: pendingLevel(r.text) }));
+  (requirementItemRepo.list(reqId, kind, scope) as ItemRow[]).map(r => ({ id: itemLabel(code, kind, r.seq) ?? "", text: r.text, pending: pendingLevel(r.text), tag: isItemTag(r.tag) ? r.tag : null }));
 
 function toRequirement(r: any): ExportRequirement {
   return {
@@ -61,6 +67,7 @@ function toRequirement(r: any): ExportRequirement {
     roles: (requirementRoleRepo.list(r.id) as RoleRow[]).map(({ role, capability, precondition }) => ({ role, capability, precondition })),
     outOfScope: entries(r.id, r.code, "out_of_scope", "all"),
     acceptance: entries(r.id, r.code, "acceptance", "all"),
+    commentEntries: entries(r.id, r.code, "comment", "all"),
   };
 }
 

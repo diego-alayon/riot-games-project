@@ -136,3 +136,5 @@ body {
 .req-bullet:hover { background-color: #f7f7f8; }
 .req-bullet-delete { visibility: hidden; }
 .req-bullet:hover .req-bullet-delete { visibility: visible; }
+.req-bullet-action { visibility: hidden; }
+.req-bullet:hover .req-bullet-action { visibility: visible; }

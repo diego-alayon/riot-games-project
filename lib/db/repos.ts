@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 import type { ItemScope } from "../requirements/platforms";
 import { ITEM_KINDS, ITEM_KIND_KEYS, type ItemKind } from "../requirements/items";
 import type { RoleFields } from "../requirements/roles";
+import type { ItemTag } from "../requirements/tags";
 
 // Ensure schema exists on first import (server-side only)
 runMigrations();
@@ -120,9 +121,13 @@ export const taskRepo = {
 };
 
 // ── Requirements ──────────────────────────────────────────────────────────────
-/** Drawer entries still marked "[TBD…]", and how many are "[TBD-CRÍTICO…]" (see lib/requirements/pending.ts), for the catalog warning. */
+/**
+ * For the catalog warnings: drawer entries still marked "[TBD…]", how many are
+ * "[TBD-CRÍTICO…]" (lib/requirements/pending.ts), and how many await Riot (tag pending-riot).
+ */
 const PENDING_ITEMS = "(SELECT COUNT(*) FROM requirement_items i WHERE i.requirement_id = requirements.id AND i.text LIKE '%[TBD%') AS pending_items, "
-  + "(SELECT COUNT(*) FROM requirement_items i WHERE i.requirement_id = requirements.id AND i.text LIKE '%[TBD-CR%') AS critical_items";
+  + "(SELECT COUNT(*) FROM requirement_items i WHERE i.requirement_id = requirements.id AND i.text LIKE '%[TBD-CR%') AS critical_items, "
+  + "(SELECT COUNT(*) FROM requirement_items i WHERE i.requirement_id = requirements.id AND i.tag = 'pending-riot') AS riot_items";
 
 export const requirementRepo = {
   all: () => db.prepare("SELECT * FROM requirements ORDER BY code").all(),
@@ -195,6 +200,9 @@ export const requirementItemRepo = {
   },
   update: (id: string, text: string) =>
     db.prepare("UPDATE requirement_items SET text=?, updated_at=datetime('now') WHERE id=?").run(text, id),
+  /** `null` clears the tag (the point is resolved). */
+  setTag: (id: string, tag: ItemTag | null) =>
+    db.prepare("UPDATE requirement_items SET tag=?, updated_at=datetime('now') WHERE id=?").run(tag, id),
   delete: (id: string) => db.prepare("DELETE FROM requirement_items WHERE id=?").run(id),
 };
 

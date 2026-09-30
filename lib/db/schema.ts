@@ -208,6 +208,9 @@ export function runMigrations() {
   } catch {}
   backfillItemSeq();
 
+  // Review tag of an entry (lib/requirements/tags.ts); NULL when it has none or it was resolved.
+  try { db.exec(`ALTER TABLE requirement_items ADD COLUMN tag TEXT`); } catch {}
+
   // Roles table in the requirement drawer: which role the requirement supports,
   // what it lets that role do, and any special precondition.
   try {

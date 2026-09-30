@@ -6,6 +6,7 @@ import type { ParsedPrd } from "@/lib/import/prd-parser";
 import type { ArtifactKind, InitiativeFolder } from "@/lib/import/source-repo";
 import { parsePlatforms, type PlatformKey } from "@/lib/requirements/platforms";
 import { PENDING_STYLE } from "@/lib/requirements/pending";
+import { ITEM_TAGS } from "@/lib/requirements/tags";
 import {
   DueDateCell, IdCell, KindCell, KindIcon, OwnerCell, PlatformCell, PriorityCell, StatusCell, TextCell, TXT, TXT_2, TXT_3,
 } from "@/components/product/RequirementCells";
@@ -36,6 +37,8 @@ interface DBFr {
   /** Drawer entries still marked "[TBD…]"; `critical_items` of them are "[TBD-CRÍTICO…]". */
   pending_items?: number;
   critical_items?: number;
+  /** Drawer entries tagged "Pending Riot Games confirmation". */
+  riot_items?: number;
 }
 interface DBStory     { id: string; name: string; epic_id: string; requirements?: DBFr[]; }
 /** `requirements` are FRs attached to the epic itself (PRD tables have no stories). */
@@ -228,6 +231,20 @@ function PendingBadge({ count, critical = 0 }: { count: number; critical?: numbe
         <path d="M8 2.2L14.5 13.5h-13L8 2.2z" /><path d="M8 6.5v3.2M8 11.6v.01" />
       </svg>
       {count}
+    </span>
+  );
+}
+
+/** Orange warning next to an FR title while some of its entries are tagged "Pending Riot Games confirmation". */
+function RiotBadge({ count }: { count: number }) {
+  const t = ITEM_TAGS["pending-riot"];
+  return (
+    <span title={`${count} ${count === 1 ? "punto" : "puntos"}: ${t.label}`}
+      style={{ display: "inline-flex", alignItems: "center", gap: 3, flexShrink: 0, fontSize: 11, fontWeight: 600, color: t.color }}>
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
+        <path d="M2 2.5h5.3l6.7 6.7-4.8 4.8L2.5 7.3V2.5z" /><circle cx="5.2" cy="5.7" r="1" />
+      </svg>
+      Riot {count}
     </span>
   );
 }
@@ -1104,6 +1121,7 @@ export default function FunctionalRequirementsPage() {
                             {title}
                           </button>
                           {!!fr.pending_items && <PendingBadge count={fr.pending_items} critical={fr.critical_items} />}
+                          {!!fr.riot_items && <RiotBadge count={fr.riot_items} />}
                         </div>
                       </td>
                       <td style={CELL}><TextCell value={fr.feature ? fr.description : null} /></td>

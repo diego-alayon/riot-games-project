@@ -5,8 +5,9 @@
  * the dev server does not need to be running; reopen the drawer to see changes.
  *
  *   npm run fr -- list [CODE]
- *   npm run fr -- add CODE <riftbound|smartvenues|acceptance|out-of-scope> "text" ["text" ...]
+ *   npm run fr -- add CODE <riftbound|smartvenues|acceptance|out-of-scope|comment> "text" ["text" ...]
  *   npm run fr -- edit ID "new text"
+ *   npm run fr -- tag ID <pending-riot|pending-architecture|pending-engineering|pending-product|out-of-scope|none>
  *   npm run fr -- rm ID [ID ...]
  *
  *   npm run fr -- roles [CODE]
@@ -20,7 +21,8 @@
  * the git-tracked copy of the catalog.
  *
  * CODE is the PRD requirement ID (e.g. ACC-01). ID is an entry's stable ID as
- * printed by `list` (FND-06.2, FND-06.AC1, FND-06.OOS1) or a UUID prefix.
+ * printed by `list` (FND-06.2, FND-06.AC1, FND-06.OOS1, FND-06.C1) or a UUID prefix.
+ * `tag … none` clears the tag (the point is resolved).
  */
 
 import Database from "better-sqlite3";
@@ -35,10 +37,20 @@ const TARGETS = {
   smartvenues: { kind: "functional", scope: "smartvenues", label: PLATFORMS.smartvenues },
   acceptance: { kind: "acceptance", scope: "all", label: "Criterios de aceptación" },
   "out-of-scope": { kind: "out_of_scope", scope: "all", label: "Out of scope" },
+  comment: { kind: "comment", scope: "all", label: "Comentarios" },
 };
-const PREFIX = { functional: "", acceptance: "AC", out_of_scope: "OOS" }; // keep in sync with lib/requirements/items.ts
-const labelOf = (kind, scope) =>
-  kind === "out_of_scope" ? "Out of scope" : kind === "acceptance" ? "Criterios de aceptación" : PLATFORMS[scope] ?? scope;
+const PREFIX = { functional: "", acceptance: "AC", out_of_scope: "OOS", comment: "C" }; // keep in sync with lib/requirements/items.ts
+// Keep in sync with ITEM_TAGS in lib/requirements/tags.ts.
+const TAGS = {
+  "pending-riot": "Pending Riot Games confirmation",
+  "pending-architecture": "Pending architectural confirmation",
+  "pending-engineering": "Pending engineering confirmation",
+  "pending-product": "Pending product definition",
+  "out-of-scope": "Out of scope",
+};
+const SECTION_LABEL = { out_of_scope: "Out of scope", acceptance: "Criterios de aceptación", comment: "Comentarios" };
+const labelOf = (kind, scope) => SECTION_LABEL[kind] ?? PLATFORMS[scope] ?? scope;
+const KIND_ORDER = "CASE i.kind WHEN 'functional' THEN 0 WHEN 'acceptance' THEN 1 WHEN 'out_of_scope' THEN 2 ELSE 3 END";
 const stableId = (code, kind, seq) => (seq ? `${code}.${PREFIX[kind] ?? ""}${seq}` : "(sin ID)");
 
 /** Next stable sequence number for (requirement, kind); never reuses a deleted one. */
@@ -65,7 +77,7 @@ const fail = (msg) => {
 const hasTable = db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='requirement_items'").get();
 if (!hasTable) fail("requirement_items does not exist yet — start the manager once (npm run dev) so it runs its migrations.");
 const cols = db.prepare("PRAGMA table_info(requirement_items)").all().map((c) => c.name);
-if (!cols.includes("platform") || !cols.includes("seq") ||
+if (!cols.includes("platform") || !cols.includes("seq") || !cols.includes("tag") ||
     !db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='requirement_item_counters'").get())
   fail("The database schema is out of date — start the manager once (npm run dev) so it runs its migrations.");
 
@@ -78,12 +90,12 @@ function requirement(code) {
   return rows[0];
 }
 
-/** Finds an entry by stable ID (FND-06.2, FND-06.AC1, FND-06.OOS1) or by UUID prefix. */
+/** Finds an entry by stable ID (FND-06.2, FND-06.AC1, FND-06.OOS1, FND-06.C1) or by UUID prefix. */
 function item(ref) {
-  const m = ref.match(/^([A-Z0-9]+-[A-Z0-9]+)\.(AC|OOS)?(\d+)$/i);
+  const m = ref.match(/^([A-Z0-9]+-[A-Z0-9]+)\.(AC|OOS|C)?(\d+)$/i);
   if (m) {
     const req = requirement(m[1]);
-    const kind = { AC: "acceptance", OOS: "out_of_scope" }[(m[2] ?? "").toUpperCase()] ?? "functional";
+    const kind = { AC: "acceptance", OOS: "out_of_scope", C: "comment" }[(m[2] ?? "").toUpperCase()] ?? "functional";
     const row = db.prepare("SELECT * FROM requirement_items WHERE requirement_id=? AND kind=? AND seq=?").get(req.id, kind, Number(m[3]));
     if (!row) fail(`No entry ${ref.toUpperCase()}.`);
     return row;
@@ -98,10 +110,10 @@ function list(code) {
   if (code) requirement(code);
   const rows = db
     .prepare(
-      `SELECT r.code, r.feature, i.id, i.kind, i.platform, i.seq, i.text FROM requirement_items i
+      `SELECT r.code, r.feature, i.id, i.kind, i.platform, i.seq, i.tag, i.text FROM requirement_items i
        JOIN requirements r ON r.id = i.requirement_id
        WHERE (? IS NULL OR upper(r.code) = upper(?))
-       ORDER BY r.code, CASE i.kind WHEN 'functional' THEN 0 WHEN 'acceptance' THEN 1 ELSE 2 END, i.platform, i.sort_order, i.created_at`,
+       ORDER BY r.code, ${KIND_ORDER}, i.platform, i.sort_order, i.created_at`,
     )
     .all(code ?? null, code ?? null);
   if (rows.length === 0) return console.log(code ? `${code.toUpperCase()}: no bullets yet.` : "No bullets yet.");
@@ -110,7 +122,8 @@ function list(code) {
     const head = `${r.code} · ${r.feature ?? ""}  —  ${labelOf(r.kind, r.platform)}`;
     if (head !== last) console.log(`\n${head}`);
     last = head;
-    console.log(`  ${stableId(r.code, r.kind, r.seq).padEnd(14)} ${r.kind === "out_of_scope" ? "⊘" : "•"} ${r.text}`);
+    const tag = r.tag ? `  [${TAGS[r.tag] ?? r.tag}]` : "";
+    console.log(`  ${stableId(r.code, r.kind, r.seq).padEnd(14)} ${r.kind === "out_of_scope" ? "⊘" : "•"} ${r.text}${tag}`);
   }
 }
 
@@ -177,13 +190,13 @@ function listRoles(code) {
 }
 
 const [cmd, ...args] = process.argv.slice(2);
-const WRITES = new Set(["add", "edit", "rm", "role-add", "role-edit", "role-rm", "snapshot"]);
+const WRITES = new Set(["add", "edit", "tag", "rm", "role-add", "role-edit", "role-rm", "snapshot"]);
 switch (cmd) {
   case "list":
     list(args[0]);
     break;
   case "add":
-    if (args.length < 3) fail('Usage: add CODE <riftbound|smartvenues|acceptance|out-of-scope> "text" ["text" ...]');
+    if (args.length < 3) fail('Usage: add CODE <riftbound|smartvenues|acceptance|out-of-scope|comment> "text" ["text" ...]');
     add(args[0], args[1].toLowerCase(), args.slice(2));
     break;
   case "edit": {
@@ -191,6 +204,14 @@ switch (cmd) {
     const it = item(args[0]);
     db.prepare("UPDATE requirement_items SET text=?, updated_at=datetime('now') WHERE id=?").run(args[1].trim(), it.id);
     console.log(`✓ Updated ${args[0].toUpperCase()}`);
+    break;
+  }
+  case "tag": {
+    const key = (args[1] ?? "").toLowerCase();
+    if (args.length < 2 || (key !== "none" && !TAGS[key])) fail(`Usage: tag ID <${[...Object.keys(TAGS), "none"].join("|")}>`);
+    const it = item(args[0]);
+    db.prepare("UPDATE requirement_items SET tag=?, updated_at=datetime('now') WHERE id=?").run(key === "none" ? null : key, it.id);
+    console.log(key === "none" ? `✓ ${args[0].toUpperCase()}: tag cleared (resolved)` : `✓ ${args[0].toUpperCase()}: ${TAGS[key]}`);
     break;
   }
   case "rm":
@@ -236,7 +257,7 @@ switch (cmd) {
   case "snapshot":
     break;
   default:
-    console.log('Usage:\n  npm run fr -- list [CODE]\n  npm run fr -- add CODE <riftbound|smartvenues|acceptance|out-of-scope> "text" ["text" ...]\n  npm run fr -- edit ID "new text"\n  npm run fr -- rm ID [ID ...]\n  npm run fr -- roles [CODE]\n  npm run fr -- role-add CODE "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-rm ROLE_ID [ROLE_ID ...]\n  npm run fr -- snapshot');
+    console.log('Usage:\n  npm run fr -- list [CODE]\n  npm run fr -- add CODE <riftbound|smartvenues|acceptance|out-of-scope|comment> "text" ["text" ...]\n  npm run fr -- edit ID "new text"\n  npm run fr -- tag ID <pending-riot|pending-architecture|pending-engineering|pending-product|out-of-scope|none>\n  npm run fr -- rm ID [ID ...]\n  npm run fr -- roles [CODE]\n  npm run fr -- role-add CODE "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-rm ROLE_ID [ROLE_ID ...]\n  npm run fr -- snapshot');
 }
 
 if (WRITES.has(cmd)) {

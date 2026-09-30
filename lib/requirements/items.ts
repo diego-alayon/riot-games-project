@@ -7,11 +7,13 @@
  *   functional   → FND-06.1, FND-06.2 …   (one sequence across both platforms)
  *   acceptance   → FND-06.AC1 …
  *   out_of_scope → FND-06.OOS1 …
+ *   comment      → FND-06.C1 …
  */
 export const ITEM_KINDS = {
   functional: { prefix: "", perPlatform: true },
   acceptance: { prefix: "AC", perPlatform: false },
   out_of_scope: { prefix: "OOS", perPlatform: false },
+  comment: { prefix: "C", perPlatform: false },
 } as const;
 
 export type ItemKind = keyof typeof ITEM_KINDS;

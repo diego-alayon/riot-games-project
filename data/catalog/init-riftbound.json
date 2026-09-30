@@ -204,6 +204,7 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "El portal debe mostrar Find Events (P-01) al fan sin requerir sesión RSO."
         },
         {
@@ -212,6 +213,7 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "El portal debe mostrar al fan el detalle del evento (pestañas «Event Passes» y «Side Events»), con precios y estados de venta, sin requerir sesión RSO."
         },
         {
@@ -220,6 +222,7 @@
           "platform": "riftbound",
           "seq": 3,
           "sort_order": 2,
+          "tag": null,
           "text": "Mientras la venta esté abierta, el portal debe mostrar al fan el CTA «Add» habilitado en pases y side events, con o sin sesión RSO. Lo que ocurre al pulsarlo sin sesión lo define ACC-02."
         },
         {
@@ -228,6 +231,7 @@
           "platform": "riftbound",
           "seq": 4,
           "sort_order": 3,
+          "tag": null,
           "text": "El portal debe estar publicado en tickets.riotgames.com."
         },
         {
@@ -236,6 +240,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado un fan sin sesión RSO, cuando accede a Find Events o al detalle de un evento, entonces ve el contenido sin que se le pida login."
         },
         {
@@ -244,6 +249,7 @@
           "platform": "all",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Dado un fan sin sesión RSO en Event Passes con la venta abierta, entonces cada pase disponible muestra «Add» habilitado."
         }
       ],
@@ -288,6 +294,7 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cuando el fan sin sesión RSO pulse «Add» en un pase o en un side event, el portal debe redirigirle al login RSO (P-11) sin añadir el producto al carrito."
         },
         {
@@ -296,6 +303,7 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Cuando el login RSO se complete, el portal debe devolver al fan a la página donde pulsó «Add», sin añadir el producto."
         },
         {
@@ -304,6 +312,7 @@
           "platform": "riftbound",
           "seq": 3,
           "sort_order": 2,
+          "tag": null,
           "text": "Si la sesión RSO expira durante el checkout, el portal debe redirigir al fan al login RSO (P-11) y, al completarlo, devolverle a Checkout (P-06) con el mismo carrito."
         },
         {
@@ -312,6 +321,7 @@
           "platform": "riftbound",
           "seq": 6,
           "sort_order": 3,
+          "tag": null,
           "text": "Cuando el login RSO se complete, el portal debe obtener el PUID de la cuenta Riot del fan."
         },
         {
@@ -320,6 +330,7 @@
           "platform": "smartvenues",
           "seq": 4,
           "sort_order": 0,
+          "tag": null,
           "text": "SmartVenues debe rechazar toda petición de creación de orden que no incluya un token de sesión RSO válido."
         },
         {
@@ -328,6 +339,7 @@
           "platform": "smartvenues",
           "seq": 5,
           "sort_order": 1,
+          "tag": null,
           "text": "SmartVenues debe guardar en cada orden el PUID de la cuenta Riot del fan que la crea."
         },
         {
@@ -336,6 +348,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado un fan sin sesión RSO, cuando pulsa «Add» en un pase o side event, entonces se le redirige al login RSO."
         },
         {
@@ -344,6 +357,7 @@
           "platform": "all",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Dado un fan sin sesión RSO válida, cuando se intenta crear una orden desde el portal o directamente contra SmartVenues, entonces SmartVenues la rechaza."
         },
         {
@@ -352,6 +366,7 @@
           "platform": "all",
           "seq": 3,
           "sort_order": 2,
+          "tag": null,
           "text": "Dado un fan sin sesión RSO que pulsa «Add» en Event Passes, cuando completa el login RSO, entonces vuelve a Event Passes del mismo evento."
         },
         {
@@ -360,6 +375,7 @@
           "platform": "all",
           "seq": 4,
           "sort_order": 3,
+          "tag": null,
           "text": "Dado un fan en Checkout cuya sesión RSO ha expirado, cuando pulsa pagar, entonces se le redirige al login RSO y, al completarlo, vuelve a Checkout con el mismo carrito."
         },
         {
@@ -368,6 +384,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Compra sin cuenta Riot (RN-01)."
         },
         {
@@ -376,6 +393,7 @@
           "platform": "all",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Registro de la cuenta Riot y recuperación de credenciales; los gestiona RSO."
         },
         {
@@ -384,6 +402,7 @@
           "platform": "all",
           "seq": 3,
           "sort_order": 2,
+          "tag": null,
           "text": "Acciones de SmartVenues en el login del fan. El login ocurre entre el portal y RSO; SmartVenues recibe la identidad del fan en cada petición a sus endpoints."
         }
       ],
@@ -436,6 +455,7 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cuando el fan sin sesión RSO pulse «My Tickets» en la cabecera o abra My Tickets (P-08) por URL, el portal debe redirigirle al login RSO (P-11)."
         },
         {
@@ -444,6 +464,7 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Cuando el login RSO se complete, el portal debe mostrar My Tickets (P-08)."
         },
         {
@@ -452,6 +473,7 @@
           "platform": "riftbound",
           "seq": 3,
           "sort_order": 2,
+          "tag": null,
           "text": "Cuando el fan sin sesión RSO abra por URL Order Confirmation (P-07), Invoice (P-09) o Recap (P-10), el portal debe redirigirle al login RSO (P-11)."
         },
         {
@@ -460,6 +482,7 @@
           "platform": "smartvenues",
           "seq": 4,
           "sort_order": 0,
+          "tag": null,
           "text": "SmartVenues debe devolver solo las órdenes, los tickets y las facturas de la cuenta Riot de la sesión."
         },
         {
@@ -468,6 +491,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado un fan sin sesión RSO, cuando pulsa «My Tickets», entonces se le redirige al login RSO."
         },
         {
@@ -476,6 +500,7 @@
           "platform": "all",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Dado un fan sin sesión RSO, cuando abre la URL de My Tickets y completa el login RSO, entonces ve My Tickets."
         },
         {
@@ -484,6 +509,7 @@
           "platform": "all",
           "seq": 3,
           "sort_order": 2,
+          "tag": null,
           "text": "Dado un fan con sesión RSO, cuando consulta My Tickets o una factura, entonces solo ve datos de su cuenta Riot."
         }
       ],
@@ -535,6 +561,7 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Mientras haya sesión RSO, el portal debe mostrar en la cabecera el game name de la cuenta Riot (ej. «Slazareth»)."
         },
         {
@@ -543,6 +570,7 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Cuando el fan abra el menú de cuenta, el portal debe mostrar su Riot ID completo (ej. «Slazareth#NA1») y la opción «Sign out»."
         },
         {
@@ -551,6 +579,7 @@
           "platform": "riftbound",
           "seq": 3,
           "sort_order": 2,
+          "tag": null,
           "text": "Cuando el fan pulse «Sign out», el portal debe cerrar la sesión del portal y vaciar el carrito."
         },
         {
@@ -559,6 +588,7 @@
           "platform": "riftbound",
           "seq": 4,
           "sort_order": 3,
+          "tag": null,
           "text": "Mientras no haya sesión RSO, el portal debe mostrar «Sign in» en la cabecera."
         },
         {
@@ -567,6 +597,7 @@
           "platform": "riftbound",
           "seq": 5,
           "sort_order": 4,
+          "tag": null,
           "text": "Cuando el fan sin sesión RSO pulse «Sign in», el portal debe redirigirle al login RSO (P-11) y, al completarlo, devolverle a la página actual."
         },
         {
@@ -575,6 +606,7 @@
           "platform": "riftbound",
           "seq": 6,
           "sort_order": 5,
+          "tag": null,
           "text": "Cuando el fan pulse «Sign out» en una página que requiere sesión (Checkout, Order Confirmation, My Tickets, Invoice o Recap), el portal debe llevarle a Find Events (P-01)."
         },
         {
@@ -583,6 +615,7 @@
           "platform": "riftbound",
           "seq": 7,
           "sort_order": 6,
+          "tag": null,
           "text": "Mientras la sesión RSO siga vigente, el portal debe mantenerla al recargar la página y en otras pestañas del mismo navegador."
         },
         {
@@ -591,6 +624,7 @@
           "platform": "riftbound",
           "seq": 8,
           "sort_order": 7,
+          "tag": null,
           "text": "Si la sesión RSO expira fuera del checkout, el portal debe mostrar «Sign in» en la cabecera y conservar el carrito."
         },
         {
@@ -599,6 +633,7 @@
           "platform": "riftbound",
           "seq": 9,
           "sort_order": 8,
+          "tag": null,
           "text": "Si el fan cancela el login RSO o este falla, el portal debe devolverle a la página de origen sin sesión [TBD: mensaje que ve el fan]."
         },
         {
@@ -607,6 +642,7 @@
           "platform": "riftbound",
           "seq": 10,
           "sort_order": 9,
+          "tag": null,
           "text": "Cuando el login RSO se complete, el portal debe mostrar el game name y el Riot ID vigentes en RSO en ese momento."
         },
         {
@@ -615,6 +651,7 @@
           "platform": "riftbound",
           "seq": 11,
           "sort_order": 10,
+          "tag": null,
           "text": "En dispositivos móviles, el portal debe mostrar en la cabecera la inicial del game name en lugar del nombre completo [TBD: pendiente del diseño móvil]."
         },
         {
@@ -623,6 +660,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado un fan con sesión RSO, cuando abre cualquier página del portal, entonces la cabecera muestra su game name."
         },
         {
@@ -631,6 +669,7 @@
           "platform": "all",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Dado un fan con productos en el carrito, cuando pulsa «Sign out», entonces la cabecera muestra «Sign in» y el carrito queda vacío."
         },
         {
@@ -639,6 +678,7 @@
           "platform": "all",
           "seq": 3,
           "sort_order": 2,
+          "tag": null,
           "text": "Dado un fan con sesión RSO, cuando abre el menú de cuenta, entonces ve su Riot ID completo y «Sign out»."
         },
         {
@@ -647,6 +687,7 @@
           "platform": "all",
           "seq": 4,
           "sort_order": 3,
+          "tag": null,
           "text": "Dado un fan sin sesión RSO en cualquier página, cuando pulsa «Sign in» y completa el login RSO, entonces vuelve a esa página y la cabecera muestra su game name."
         },
         {
@@ -655,6 +696,7 @@
           "platform": "all",
           "seq": 5,
           "sort_order": 4,
+          "tag": null,
           "text": "Dado un fan con sesión RSO en My Tickets, cuando pulsa «Sign out», entonces el portal le lleva a Find Events."
         },
         {
@@ -663,6 +705,7 @@
           "platform": "all",
           "seq": 6,
           "sort_order": 5,
+          "tag": null,
           "text": "Dado un fan con productos en el carrito cuya sesión RSO expira mientras navega, cuando vuelve a iniciar sesión, entonces el carrito conserva los productos."
         },
         {
@@ -671,6 +714,7 @@
           "platform": "all",
           "seq": 7,
           "sort_order": 6,
+          "tag": null,
           "text": "Dado un fan sin sesión RSO que pulsa «Sign in», cuando cancela el login RSO, entonces vuelve a la página de origen y la cabecera sigue mostrando «Sign in»."
         },
         {
@@ -679,6 +723,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Avatar del usuario, porque el diseño v2 no lo incluye."
         },
         {
@@ -687,6 +732,7 @@
           "platform": "all",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Inicio de sesión automático con una sesión de Riot ya abierta (single sign-on); decisión aplazada."
         },
         {
@@ -695,6 +741,7 @@
           "platform": "all",
           "seq": 3,
           "sort_order": 2,
+          "tag": null,
           "text": "Gestión de la cuenta Riot (Riot ID, email, contraseña) desde el portal; se hace en la cuenta de Riot."
         },
         {
@@ -703,6 +750,7 @@
           "platform": "all",
           "seq": 4,
           "sort_order": 3,
+          "tag": null,
           "text": "Cierre de la sesión global de RSO. «Sign out» solo cierra la sesión del portal."
         },
         {
@@ -711,6 +759,7 @@
           "platform": "all",
           "seq": 5,
           "sort_order": 4,
+          "tag": null,
           "text": "Selector de idioma, porque el diseño v2 no lo incluye."
         }
       ],
@@ -811,6 +860,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "El checkout ofrece un único proveedor de pago, Stripe. No aparecen PayPal ni otros métodos como opciones independientes."
         },
         {
@@ -819,6 +869,7 @@
           "platform": "all",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "La orden solo se confirma cuando Stripe confirma el pago."
         }
       ],
@@ -878,6 +929,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "El resumen del checkout muestra evento, fechas, ítems con su precio, vouchers aplicados y total."
         }
       ],
@@ -961,6 +1013,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dada una compra completada, la pantalla de confirmación muestra el número de confirmación, los ítems, el total pagado y los CTAs \"View My Tickets\" y \"Browse More Events\"."
         }
       ],
@@ -1068,6 +1121,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "El detalle del evento muestra los sub-tabs Event Passes y Side Events operativos. El tratamiento del tab On Demand en la v1 (oculto o deshabilitado) está por definir."
         }
       ],
@@ -1127,6 +1181,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "La cabecera del detalle muestra fechas, nombre, venue, ciudad, imagen y el enlace \"All events\"."
         }
       ],
@@ -1162,6 +1217,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado un usuario con pase del evento, cuando abre el detalle, entonces ve el aviso de pase adquirido con el tipo de pase y un enlace a My Tickets."
         }
       ],
@@ -1197,6 +1253,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado un usuario con pase del evento, su pase aparece marcado como propio y no puede seleccionar otro pase del mismo evento."
         }
       ],
@@ -1304,7 +1361,8 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
-          "text": "El portal debe mostrar en todas las páginas una cabecera con el logotipo de Riot Games, la marca de Riftbound, la navegación principal («Find Events» y «My Tickets») y la identidad del fan (ACC-04)."
+          "tag": null,
+          "text": "El portal debe mostrar en todas sus páginas una cabecera con el logotipo de Riot Games, la marca de Riftbound, la navegación principal («Find Events» y «My Tickets») y la identidad del fan (ACC-04). El login RSO (P-11) es una página de Riot y no forma parte del portal."
         },
         {
           "id": "f0ee0054-ac56-440a-b2a2-682cf02c5dba",
@@ -1312,6 +1370,7 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Mientras el fan desplaza la página, el portal debe mantener la cabecera visible en la parte superior."
         },
         {
@@ -1320,7 +1379,8 @@
           "platform": "riftbound",
           "seq": 3,
           "sort_order": 2,
-          "text": "El portal debe resaltar en la cabecera la opción de la página en la que está el fan: «Find Events» en Find Events y «My Tickets» en My Tickets."
+          "tag": null,
+          "text": "El portal debe resaltar en la cabecera la opción de la sección en la que está el fan: «Find Events» en Find Events (P-01), Event Passes (P-02), Side Events (P-03) y el pre-registro Fan First (P-05); «My Tickets» en My Tickets (P-08), Invoice y Recap. En Checkout (P-06), Order Confirmation (P-07) y la venta restringida (P-12) no debe resaltar ninguna."
         },
         {
           "id": "d3ee344a-59e6-49e9-ab19-72fe202d00d6",
@@ -1328,6 +1388,7 @@
           "platform": "riftbound",
           "seq": 4,
           "sort_order": 3,
+          "tag": null,
           "text": "Cuando el fan pulse el logotipo de Riot Games o «Find Events», el portal debe mostrar Find Events (P-01)."
         },
         {
@@ -1336,6 +1397,7 @@
           "platform": "riftbound",
           "seq": 5,
           "sort_order": 4,
+          "tag": null,
           "text": "Cuando el fan pulse «My Tickets», el portal debe mostrar My Tickets (P-08). Sin sesión RSO aplica ACC-03."
         },
         {
@@ -1344,6 +1406,7 @@
           "platform": "riftbound",
           "seq": 6,
           "sort_order": 5,
+          "tag": null,
           "text": "En dispositivos móviles, el portal debe mostrar la cabecera con [TBD: contenido y comportamiento; pendiente del diseño móvil]."
         },
         {
@@ -1352,7 +1415,53 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "La navegación principal muestra los tabs \"Find Events\" y \"My Tickets\"."
+        },
+        {
+          "id": "a6bf01a5-088f-48bf-b217-897d7519ef2b",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "Avisos generales en la cabecera configurables por el Chief Sales Operator (ej. un cambio de hora de apertura o una incidencia)."
+        },
+        {
+          "id": "d4f65581-035e-4839-b168-0527f2ed0683",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "Enlace de vuelta a playriftbound.com."
+        },
+        {
+          "id": "5303f5f2-59d8-43b4-8cc7-da7860c53e1c",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "Proponer a Riot un acceso al carrito en la cabecera, con el número de productos, que lleve a la página del evento con el panel «Your Order» abierto (PAS-10). El carrito se conserva (ACC-04.8), pero solo se ve en la página del evento: desde Find Events o My Tickets el fan no sabe que tiene una compra a medias. El diseño v2 no lo incluye."
+        },
+        {
+          "id": "3c6bb224-1083-46b8-8691-1799b303b1d2",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": "pending-product",
+          "text": "Cola de acceso en la apertura de venta: falta definir si la cabecera muestra la navegación mientras el fan espera y si se le avisa de que perderá su turno al salir. Depende del mecanismo de control de acceso, sin decidir (RNF-02, EC-16, PQ-14)."
+        },
+        {
+          "id": "80b1dce6-c16d-4f8f-8e50-7ff66d9aea0f",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": null,
+          "text": "La accesibilidad de la cabecera (uso con teclado, opción resaltada para lectores de pantalla y enlace para saltar al contenido) se cubre en NFR-03."
         }
       ],
       "roles": [
@@ -1366,7 +1475,9 @@
       ],
       "counters": {
         "acceptance": 1,
-        "functional": 6
+        "comment": 3,
+        "functional": 6,
+        "out_of_scope": 2
       }
     },
     {
@@ -1396,6 +1507,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Solo Riftbound aparece en la barra de juegos; el resto de juegos no se muestra."
         },
         {
@@ -1404,6 +1516,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Filtro por otros juegos de Riot: League of Legends, VALORANT y Teamfight Tactics no aparecen en la barra de juegos en la v1."
         }
       ],
@@ -1440,6 +1553,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado al menos un evento en venta o próximo a abrir, cuando se carga Find Events, entonces se muestra al menos una tarjeta destacada con imagen de fondo."
         }
       ],
@@ -1475,6 +1589,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cada evento muestra su propia imagen en su tarjeta de Find Events y en la cabecera de su detalle."
         }
       ],
@@ -1510,6 +1625,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cada tarjeta de evento muestra nombre, fechas, venue y ciudad/país."
         }
       ],
@@ -1545,6 +1661,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado un evento en venta, su tarjeta muestra \"On sale now\". Dado un evento cuya venta no ha abierto, su tarjeta indica cuándo abre."
         }
       ],
@@ -1580,6 +1697,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Los eventos no destacados aparecen en \"More events\" con su fecha de apertura de venta."
         }
       ],
@@ -1680,9 +1798,93 @@
       "source": "Análisis de gaps",
       "status": "Pendiente de definir",
       "wo_ref": "—",
-      "items": [],
+      "items": [
+        {
+          "id": "ba26284d-d3d0-48e7-a135-1000af8b5bb1",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "Los eventos de venta restringida (AUD-01, P-12) no deben aparecer en Find Events. Detectado al revisar FND-01."
+        }
+      ],
       "roles": [],
-      "counters": {}
+      "counters": {
+        "comment": 1
+      }
+    },
+    {
+      "id": "5390b10b-4cad-468f-9968-ba8e05592cb9",
+      "code": "FND-12",
+      "feature": "Páginas de error del portal",
+      "description": "Como fan, quiero que el portal me explique qué ha pasado cuando una página no existe o falla, y me dé una forma de seguir, para no quedarme bloqueado en mitad de la compra.",
+      "epic_id": "1991be00-08d9-41d0-924b-4d35f416f03a",
+      "story_id": null,
+      "area": "FND",
+      "classification": "build",
+      "comments": "El diseño v2 no incluye páginas de error. Detectado al revisar FND-01.",
+      "due_date": null,
+      "implementation_note": null,
+      "owner": "Globant",
+      "page": "Global",
+      "platforms": "[\"riftbound\"]",
+      "priority": "Crítica",
+      "prototype_view": null,
+      "source": "Análisis de gaps",
+      "status": "Pendiente de definir",
+      "wo_ref": "—",
+      "items": [
+        {
+          "id": "278faa32-5f9e-4c7d-8720-b3cdfee3e17f",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "Si el fan abre una dirección del portal que no existe, el portal debe mostrar la cabecera, un mensaje [TBD: texto] y un enlace a Find Events."
+        },
+        {
+          "id": "517604db-3fae-4e90-9b69-a036d0555e15",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "Si el portal no puede atender la petición por un error del servidor, el portal debe mostrar la cabecera, un mensaje [TBD: texto] y la opción de reintentar."
+        },
+        {
+          "id": "ee3f0394-a43c-4ba8-a1af-35ac72bae8b8",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": null,
+          "text": "En dispositivos móviles, el portal debe mostrar las páginas de error con [TBD: contenido y comportamiento; pendiente del diseño móvil]."
+        },
+        {
+          "id": "404eb208-cc4d-4a76-adda-d863668b72d1",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "Acordar con Riot las páginas de error y sus textos: el diseño v2 no las incluye."
+        }
+      ],
+      "roles": [
+        {
+          "id": "49ceb83e-2cfa-453b-8f12-f37a6f3fb20a",
+          "role": "Fan",
+          "capability": "Ve qué ha pasado y vuelve a Find Events o reintenta",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        }
+      ],
+      "counters": {
+        "comment": 1,
+        "functional": 3
+      }
     },
     {
       "id": "bc9c5afe-f010-4dc6-8e4c-1e950fe6c83c",
@@ -1759,6 +1961,7 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Idiomas soportados: English (NA), German, Spanish (EUW), French, Italian, Korean, Japanese y Portuguese (Brazil)."
         },
         {
@@ -1767,6 +1970,7 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Si no hay configuración regional, el portal se muestra en English (NA)."
         },
         {
@@ -1775,6 +1979,7 @@
           "platform": "riftbound",
           "seq": 3,
           "sort_order": 2,
+          "tag": null,
           "text": "Pendiente: confirmar el noveno idioma que exige la WO (la lista actual tiene 8)."
         }
       ],
@@ -1810,6 +2015,7 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Fechas, horas, números y precios siguen el formato regional del idioma seleccionado."
         },
         {
@@ -1818,6 +2024,7 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Si no hay configuración regional, se aplican los formatos de English (NA)."
         }
       ],
@@ -1853,6 +2060,7 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Los precios de cada evento se muestran en la moneda local del lugar del evento."
         },
         {
@@ -1861,6 +2069,7 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "Si el evento no tiene configuración regional, se usa USD por defecto."
         },
         {
@@ -1869,6 +2078,7 @@
           "platform": "riftbound",
           "seq": 3,
           "sort_order": 2,
+          "tag": null,
           "text": "El pago se procesa siempre con Stripe, el único PSP para todos los países."
         },
         {
@@ -1877,6 +2087,7 @@
           "platform": "smartvenues",
           "seq": 4,
           "sort_order": 0,
+          "tag": null,
           "text": "Los precios de cada evento se configuran en el backoffice de OneVenue en la moneda local del lugar del evento."
         },
         {
@@ -1885,6 +2096,7 @@
           "platform": "smartvenues",
           "seq": 5,
           "sort_order": 1,
+          "tag": null,
           "text": "Sin configuración regional, el evento usa English (NA) / USD por defecto."
         },
         {
@@ -1893,6 +2105,7 @@
           "platform": "smartvenues",
           "seq": 6,
           "sort_order": 2,
+          "tag": null,
           "text": "Un único PSP, Stripe, para todos los países."
         },
         {
@@ -1901,6 +2114,7 @@
           "platform": "smartvenues",
           "seq": 7,
           "sort_order": 3,
+          "tag": null,
           "text": "Los costes de cambio de divisa del PSP quedan fuera del alcance (WO 6.7)."
         },
         {
@@ -1909,6 +2123,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Los precios de un evento se muestran en la moneda local configurada para ese evento."
         }
       ],
@@ -1945,6 +2160,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado un evento cuyo último día es D, el evento aparece en \"Upcoming\" hasta D inclusive y en \"Past\" a partir de D+1."
         }
       ],
@@ -1980,6 +2196,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "La tarjeta de cada evento muestra evento, fechas, venue, pase adquirido y código del badge."
         }
       ],
@@ -2087,6 +2304,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cada side event registrado aparece como fila propia, con nombre, día y hora, dentro de la tarjeta de su evento."
         }
       ],
@@ -2146,6 +2364,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "\"Explore Event\" lleva al detalle del evento."
         }
       ],
@@ -2227,6 +2446,77 @@
       "counters": {}
     },
     {
+      "id": "21afabb2-3f5e-43ba-be49-57754fad9f42",
+      "code": "NFR-03",
+      "feature": "Accesibilidad del portal (European Accessibility Act)",
+      "description": "Como fan que usa el teclado, un lector de pantalla u otra ayuda técnica, quiero poder usar todo el portal, para comprar y gestionar mis entradas sin depender de otra persona.",
+      "epic_id": "336d96df-2091-46b0-a431-6da22e33db84",
+      "story_id": null,
+      "area": "NFR",
+      "classification": "build",
+      "comments": "El European Accessibility Act se aplica desde el 28 de junio de 2025 a los servicios de comercio electrónico dirigidos a consumidores de la UE. Su norma armonizada es EN 301 549, que incorpora WCAG 2.1 nivel AA. Detectado al revisar FND-01.",
+      "due_date": null,
+      "implementation_note": null,
+      "owner": "Compartido",
+      "page": "Global",
+      "platforms": "[\"riftbound\"]",
+      "priority": "Crítica",
+      "prototype_view": null,
+      "source": "Análisis de gaps",
+      "status": "Pendiente de definir",
+      "wo_ref": "—",
+      "items": [
+        {
+          "id": "7264c741-0315-47a9-bd3e-6ead4fc4cfbe",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "El portal debe cumplir el nivel AA de WCAG 2.1, tal como lo recoge la norma EN 301 549."
+        },
+        {
+          "id": "425a63e4-fc43-44e4-ad98-53bea2153247",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "El portal debe permitir usar la cabecera y la navegación principal (FND-01) solo con el teclado."
+        },
+        {
+          "id": "0459e2eb-6cbd-466e-9ab8-30987702a5e2",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": null,
+          "text": "El portal debe indicar a los lectores de pantalla qué opción de la navegación principal está resaltada (FND-01.3)."
+        },
+        {
+          "id": "f33541cc-41cf-4124-8c0e-4bba27eb5f6c",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": null,
+          "text": "El portal debe ofrecer al principio de cada página un enlace para saltar la cabecera e ir directamente al contenido."
+        }
+      ],
+      "roles": [
+        {
+          "id": "a8b6a6be-53eb-49e9-87b0-8c7e6937c925",
+          "role": "Fan",
+          "capability": "Usa el portal con el teclado o un lector de pantalla",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        }
+      ],
+      "counters": {
+        "functional": 4
+      }
+    },
+    {
       "id": "a31ab9f7-7891-4a3a-8270-966fa792bb06",
       "code": "PAS-01",
       "feature": "Tarjeta de pase",
@@ -2253,6 +2543,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cada pase muestra nombre, tag, precio, descripción, lista de beneficios y CTA."
         }
       ],
@@ -2288,6 +2579,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "La vista expandida de un pase muestra su texto completo sin truncar, con los beneficios en bullet points."
         }
       ],
@@ -2323,6 +2615,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Se pueden expandir varios pases a la vez, y \"See less\" colapsa cada uno."
         }
       ],
@@ -2358,6 +2651,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cada pase tiene exactamente un nivel (Standard o Premium) y un rol (Competitor o Attendee)."
         }
       ],
@@ -2393,6 +2687,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Los pases se muestran agrupados en las secciones Competitor y Attendee."
         }
       ],
@@ -2428,6 +2723,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cuando el usuario selecciona un pase, este pasa a \"Selected\" y aparece en el carrito; el usuario puede quitarlo. No existe selector de cantidad."
         }
       ],
@@ -2511,12 +2807,23 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "El carrito lateral muestra los ítems seleccionados, el total y el CTA \"Continue to checkout\"."
+        },
+        {
+          "id": "36956bdf-5887-4e89-bdf8-a50965c94e04",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "En el prototipo, añadir un pase de otro evento sustituye el carrito sin avisar al fan, porque el carrito pertenece a un único evento. Falta definir qué pasa en ese caso. Detectado al revisar FND-01."
         }
       ],
       "roles": [],
       "counters": {
-        "acceptance": 1
+        "acceptance": 1,
+        "comment": 1
       }
     },
     {
@@ -2546,6 +2853,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cada pase muestra el aviso de un pase por cuenta Riot y no transferible."
         }
       ],
@@ -2581,6 +2889,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dada una orden con varios ítems, cuando el usuario reembolsa uno, entonces solo se reembolsa ese ítem y el resto sigue activo."
         },
         {
@@ -2589,6 +2898,7 @@
           "platform": "all",
           "seq": 2,
           "sort_order": 1,
+          "tag": null,
           "text": "El usuario inicia el refund desde My Tickets sin intervención del soporte."
         }
       ],
@@ -2624,6 +2934,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "El refund de una orden completa reembolsa todos sus ítems."
         }
       ],
@@ -2659,6 +2970,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cada refund confirmado de un ítem queda disponible como evento para el servicio de Riot (mecanismo según PQ-36)."
         }
       ],
@@ -2694,6 +3006,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cada side event registrado tiene su propia acción de refund en My Tickets."
         }
       ],
@@ -2777,6 +3090,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Los side events se muestran agrupados por día y ordenados por hora de inicio."
         }
       ],
@@ -2812,6 +3126,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cada side event muestra nombre, hora, duración, precio y descripción corta; \"See more\" muestra su detalle."
         }
       ],
@@ -2895,6 +3210,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "El CTA de un side event muestra \"Add\"; tras añadirlo, \"Added\"; tras comprarlo, \"Registered\"."
         }
       ],
@@ -2930,6 +3246,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado un usuario sin pase del evento, no puede comprar side events de ese evento."
         }
       ],
@@ -2965,6 +3282,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dadas la venta de pases y la de side events abiertas a la vez, el usuario puede comprar un pase y side events en una única orden. Sujeto a PQ-37."
         }
       ],
@@ -3000,6 +3318,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Cada compra confirmada queda disponible como evento para el servicio de Riot (mecanismo según PQ-36)."
         }
       ],
@@ -3035,6 +3354,7 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "test"
         },
         {
@@ -3043,6 +3363,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado un pase que incluye vouchers, cuando el usuario lo compra, entonces recibe el número de vouchers asociado a ese pase."
         }
       ],
@@ -3079,6 +3400,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Dado un usuario con un voucher emitido por Riot, puede usarlo aunque no tenga un pase Premium."
         }
       ],
@@ -3114,6 +3436,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Un voucher no se puede aplicar a pases ni a side events de un evento distinto al de su origen."
         }
       ],
@@ -3149,6 +3472,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "Un código de descuento general se puede aplicar en el checkout sobre los productos para los que está configurado."
         }
       ],
@@ -3184,6 +3508,7 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
+          "tag": null,
           "text": "El voucher solo se aplica cuando el usuario lo elige en el checkout; nunca desde el carrito ni de forma automática."
         }
       ],

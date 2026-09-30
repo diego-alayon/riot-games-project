@@ -227,6 +227,18 @@
             "riftbound",
             "smartvenues"
           ]
+        },
+        {
+          "code": "FND-12",
+          "page": "Global",
+          "feature": "Páginas de error del portal",
+          "description": "Como fan, quiero que el portal me explique qué ha pasado cuando una página no existe o falla, y me dé una forma de seguir, para no quedarme bloqueado en mitad de la compra.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "Análisis de gaps",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "El diseño v2 no incluye páginas de error. Detectado al revisar FND-01."
         }
       ]
     },
@@ -1224,6 +1236,18 @@
           "platforms": [
             "smartvenues"
           ]
+        },
+        {
+          "code": "NFR-03",
+          "page": "Global",
+          "feature": "Accesibilidad del portal (European Accessibility Act)",
+          "description": "Como fan que usa el teclado, un lector de pantalla u otra ayuda técnica, quiero poder usar todo el portal, para comprar y gestionar mis entradas sin depender de otra persona.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "Análisis de gaps",
+          "woRef": "—",
+          "owner": "Compartido",
+          "comments": "El European Accessibility Act se aplica desde el 28 de junio de 2025 a los servicios de comercio electrónico dirigidos a consumidores de la UE. Su norma armonizada es EN 301 549, que incorpora WCAG 2.1 nivel AA. Detectado al revisar FND-01."
         }
       ]
     },

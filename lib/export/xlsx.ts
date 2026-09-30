@@ -8,6 +8,7 @@
 import ExcelJS from "exceljs";
 import { PLATFORMS, PLATFORM_KEYS } from "@/lib/requirements/platforms";
 import { PENDING_STYLE } from "@/lib/requirements/pending";
+import { ITEM_TAGS } from "@/lib/requirements/tags";
 import { epicTitle, platformNames, type CatalogExport } from "./catalog-export";
 
 const INK = "FF282A30";
@@ -81,6 +82,7 @@ export async function catalogToXlsx(doc: CatalogExport): Promise<Buffer> {
     { header: "ID", key: "id", width: 13 },
     { header: "Texto", key: "text", width: 100 },
     { header: "Pendiente", key: "pending", width: 22 },
+    { header: "Tag", key: "tag", width: 34 },
   ];
   styleHeader(det);
 
@@ -100,18 +102,21 @@ export async function catalogToXlsx(doc: CatalogExport): Promise<Buffer> {
     for (const epic of init.epics) {
       for (const r of epic.requirements) {
         const base = { epic: epicTitle(epic), code: r.code, feature: r.feature };
-        // Drawer order: functional per platform, acceptance criteria, out of scope (roles have their own sheet).
+        // Drawer order: functional per platform, acceptance criteria, out of scope, comments (roles have their own sheet).
         const sections = [
           ...PLATFORM_KEYS.map(p => [`Requerimiento funcional · ${PLATFORMS[p]}`, r.functional[p]] as const),
           ["Criterio de aceptación", r.acceptance] as const,
           ["Out of scope", r.outOfScope] as const,
+          ["Comentario", r.commentEntries] as const,
         ];
         for (const [section, list] of sections)
           for (const e of list) {
             const pending = e.pending ? PENDING_STYLE[e.pending] : null;
-            const row = det.addRow({ ...base, section, id: e.id, text: e.text, pending: pending?.label ?? "" });
+            const tag = e.tag ? ITEM_TAGS[e.tag] : null;
+            const row = det.addRow({ ...base, section, id: e.id, text: e.text, pending: pending?.label ?? "", tag: tag?.label ?? "" });
             row.alignment = WRAP;
-            if (pending) row.font = { color: { argb: `FF${pending.color.slice(1).toUpperCase()}` } };
+            const color = (pending ?? tag)?.color;
+            if (color) row.font = { color: { argb: `FF${color.slice(1).toUpperCase()}` } };
           }
         for (const ro of r.roles) roles.addRow({ ...base, ...ro }).alignment = WRAP;
       }

@@ -8,13 +8,16 @@
  * bullet removes it. Writes go through a queue so rapid typing keeps order.
  * Each saved entry shows its stable ID (FND-06.1, FND-06.AC1…). Entries with a
  * "[TBD: …]" marker are pending definition and show in magenta with a warning icon;
- * "[TBD-CRÍTICO: …]" entries show in red.
+ * "[TBD-CRÍTICO: …]" entries show in red. Saved entries can carry a review tag
+ * (lib/requirements/tags.ts), set from the tag button that appears on hover.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ItemScope } from "@/lib/requirements/platforms";
 import { itemLabel, type ItemKind } from "@/lib/requirements/items";
 import { pendingLevel, PENDING_STYLE } from "@/lib/requirements/pending";
+import { isItemTag, tagStyle, type ItemTag } from "@/lib/requirements/tags";
+import { TagChip, TagIcon, TagPicker } from "./ItemTag";
 import { TXT, TXT_2, TXT_3 } from "./RequirementCells";
 
 interface Item {
@@ -22,14 +25,15 @@ interface Item {
   id?: string;
   seq?: number | null;
   text: string;
+  tag?: ItemTag | null;
 }
 
-interface ServerItem { id: string; text: string; seq: number | null }
+interface ServerItem { id: string; text: string; seq: number | null; tag?: string | null }
 
 let seq = 0;
 const newKey = () => `draft-${++seq}`;
 
-export function RequirementBullets({ requirementId, code, platform = "all", kind = "functional", marker = "dot", addLabel, emptyLabel }: {
+export function RequirementBullets({ requirementId, code, platform = "all", kind = "functional", marker = "dot", addLabel, emptyLabel, placeholder = "Describe el requerimiento…" }: {
   requirementId: string;
   /** Requirement code, to build each entry's stable ID. */
   code: string;
@@ -39,6 +43,7 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
   kind?: ItemKind;
   addLabel: string;
   emptyLabel: string;
+  placeholder?: string;
 }) {
   const [items, setItems] = useState<Item[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -69,7 +74,7 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
         setItems(rows.map(r => {
           const key = `item-${r.id}`;
           ids.current[key] = r.id;
-          return { key, id: r.id, seq: r.seq, text: r.text };
+          return { key, id: r.id, seq: r.seq, text: r.text, tag: isItemTag(r.tag) ? r.tag : null };
         }));
         setLoaded(true);
       });
@@ -140,6 +145,15 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
     if (!ids.current[key]) setItems(xs => xs.filter(i => i.key !== key));
   };
 
+  /** Sets or clears (null) the review tag of a saved entry. */
+  const setTag = (key: string, tag: ItemTag | null) => {
+    setItems(xs => xs.map(i => (i.key === key ? { ...i, tag } : i)));
+    enqueue(async () => {
+      const id = ids.current[key];
+      if (id) await fetch(`/api/requirement-items/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tag }) });
+    });
+  };
+
   const remove = (key: string) => {
     setItems(xs => xs.filter(i => i.key !== key));
     if (ids.current[key]) persist(key, "");
@@ -154,16 +168,20 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
         {items.map((item, idx) => {
           const level = editing !== item.key ? pendingLevel(item.text) : null;
           const pending = level ? PENDING_STYLE[level] : null;
+          const tag = editing !== item.key && item.tag ? item.tag : null;
+          const tagged = tagStyle(tag);
           return (
-          <li key={item.key} className="req-bullet" title={pending?.label}
-            style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "5px 6px", margin: "0 -6px", borderRadius: 6, backgroundColor: pending?.bg }}>
-            <span title="ID estable" style={{ width: 86, flexShrink: 0, paddingTop: 3, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 11, color: pending?.color ?? TXT_3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          <li key={item.key} className="req-bullet" title={pending?.label ?? tagged?.label}
+            style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "5px 6px", margin: "0 -6px", borderRadius: 6, backgroundColor: pending?.bg ?? tagged?.bg }}>
+            <span title="ID estable" style={{ width: 86, flexShrink: 0, paddingTop: 3, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 11, color: pending?.color ?? tagged?.color ?? TXT_3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
               {itemLabel(code, kind, item.seq) ?? "…"}
             </span>
             {pending ? (
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke={pending.color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 4, flexShrink: 0, marginLeft: -4, marginRight: -2 }} aria-label={pending.label}>
                 <path d="M8 2.2L14.5 13.5h-13L8 2.2z" /><path d="M8 6.5v3.2M8 11.6v.01" />
               </svg>
+            ) : tag ? (
+              <span style={{ marginTop: 5, marginLeft: -4, marginRight: -2, display: "flex" }}><TagIcon tag={tag} size={13} /></span>
             ) : marker === "excluded" ? (
               <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="#c4543f" strokeWidth="1.6" strokeLinecap="round" style={{ marginTop: 5, flexShrink: 0, marginLeft: -3, marginRight: -2 }} aria-label="Fuera de scope">
                 <circle cx="8" cy="8" r="6" /><path d="M3.8 12.2l8.4-8.4" />
@@ -171,12 +189,13 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
             ) : (
               <span style={{ width: 5, height: 5, borderRadius: "50%", background: TXT_2, marginTop: 9, flexShrink: 0 }} />
             )}
+            <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4 }}>
             {editing === item.key ? (
               <textarea
                 autoFocus
                 value={draft}
                 rows={1}
-                placeholder="Describe el requerimiento…"
+                placeholder={placeholder}
                 ref={el => { if (el) { el.style.height = "0px"; el.style.height = `${el.scrollHeight}px`; } }}
                 onFocus={e => { const el = e.currentTarget; el.setSelectionRange(el.value.length, el.value.length); }}
                 onChange={e => setDraft(e.target.value)}
@@ -198,14 +217,17 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
                     else edit(null);
                   }
                 }}
-                style={{ flex: 1, minWidth: 0, resize: "none", border: "none", outline: "none", padding: 0, background: "transparent", font: "inherit", fontSize: 14, lineHeight: 1.55, color: TXT, overflow: "hidden" }}
+                style={{ width: "100%", resize: "none", border: "none", outline: "none", padding: 0, background: "transparent", font: "inherit", fontSize: 14, lineHeight: 1.55, color: TXT, overflow: "hidden" }}
               />
             ) : (
               <button onClick={() => startEdit(item)}
-                style={{ flex: 1, minWidth: 0, textAlign: "left", background: "none", border: "none", padding: 0, font: "inherit", fontSize: 14, lineHeight: 1.55, color: pending?.color ?? TXT, cursor: "text", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+                style={{ width: "100%", textAlign: "left", background: "none", border: "none", padding: 0, font: "inherit", fontSize: 14, lineHeight: 1.55, color: pending?.color ?? TXT, cursor: "text", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
                 {item.text}
               </button>
             )}
+            {tag && <TagChip tag={tag} />}
+            </div>
+            {editing !== item.key && item.id && <TagPicker value={item.tag ?? null} onChange={t => setTag(item.key, t)} />}
             {editing !== item.key && (
               <button className="req-bullet-delete" onClick={() => remove(item.key)} title="Eliminar"
                 style={{ background: "none", border: "none", cursor: "pointer", color: TXT_3, fontSize: 15, lineHeight: 1, padding: "3px 2px", flexShrink: 0 }}>
