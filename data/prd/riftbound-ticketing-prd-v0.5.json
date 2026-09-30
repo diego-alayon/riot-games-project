@@ -11,7 +11,7 @@
         {
           "code": "ACC-01",
           "page": "P-01, P-02, P-03",
-          "feature": "Consulta de eventos mediante sesión",
+          "feature": "Consulta de eventos sin sesión",
           "description": "Find Events y Event Detail son accesibles sin sesión.",
           "priority": "Crítica",
           "status": "Confirmado",

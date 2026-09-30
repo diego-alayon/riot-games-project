@@ -180,7 +180,7 @@
     {
       "id": "6d282639-ebc5-45e9-a1cb-998016598f6a",
       "code": "ACC-01",
-      "feature": "Consulta de eventos mediante sesión",
+      "feature": "Consulta de eventos sin sesión",
       "description": "Find Events y Event Detail son accesibles sin sesión.",
       "epic_id": "bd4eb244-10bf-4f2c-b525-48e4619e7ca2",
       "story_id": null,
@@ -223,6 +223,14 @@
           "text": "Mientras la venta esté abierta, el portal debe mostrar al fan el CTA «Add» habilitado en pases y side events, con o sin sesión RSO. Lo que ocurre al pulsarlo sin sesión lo define ACC-02."
         },
         {
+          "id": "61b33cae-c91a-43e3-ab6c-9177b9c73873",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "text": "El portal debe estar publicado en una URL pública [TBD: dominio definitivo; en la reunión se usó tickets.games.com como ejemplo]."
+        },
+        {
           "id": "d7996daa-fa45-4874-9a4a-6b9d4ab3656b",
           "kind": "acceptance",
           "platform": "all",
@@ -250,7 +258,7 @@
       ],
       "counters": {
         "acceptance": 2,
-        "functional": 3
+        "functional": 4
       }
     },
     {
@@ -299,6 +307,14 @@
           "text": "Si la sesión RSO expira durante el checkout, el portal debe redirigir al fan al login RSO (P-11) y, al completarlo, devolverle a Checkout (P-06) con el mismo carrito."
         },
         {
+          "id": "0a247818-829c-4802-8c20-e2b54184026a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 6,
+          "sort_order": 3,
+          "text": "Cuando el login RSO se complete, el portal debe obtener el PUID de la cuenta Riot del fan."
+        },
+        {
           "id": "fd4935b8-03c5-43ed-bd9f-485076ab8088",
           "kind": "functional",
           "platform": "smartvenues",
@@ -312,7 +328,7 @@
           "platform": "smartvenues",
           "seq": 5,
           "sort_order": 1,
-          "text": "SmartVenues debe guardar en cada orden el identificador de la cuenta Riot del fan que la crea [TBD: confirmar con Riot si es el PUID que usa PlayRiftbound]."
+          "text": "SmartVenues debe guardar en cada orden el PUID de la cuenta Riot del fan que la crea."
         },
         {
           "id": "a0666126-50c3-4df5-8561-3144ca88bab7",
@@ -389,7 +405,7 @@
       ],
       "counters": {
         "acceptance": 4,
-        "functional": 5,
+        "functional": 6,
         "out_of_scope": 3
       }
     },
