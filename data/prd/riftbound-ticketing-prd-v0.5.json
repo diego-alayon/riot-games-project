@@ -11,8 +11,8 @@
         {
           "code": "ACC-01",
           "page": "P-01, P-02, P-03",
-          "feature": "Consulta de eventos sin sesión",
-          "description": "Find Events y Event Detail son accesibles sin sesión.",
+          "feature": "Consulta pública de eventos sin autenticación RSO",
+          "description": "Como fan, quiero consultar los eventos, sus pases, sus precios y su estado de venta sin iniciar sesión, para decidir qué comprar antes de identificarme con mi cuenta Riot.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP",
@@ -27,8 +27,8 @@
         {
           "code": "ACC-02",
           "page": "P-02, P-03",
-          "feature": "Compra mediante sesión RSO",
-          "description": "Al añadir al carrito o pagar sin sesión, se redirige a login RSO (P-11).",
+          "feature": "Autenticación RSO obligatoria para la compra",
+          "description": "Como fan, quiero comprar pases y side events con mi cuenta Riot, para que cada compra quede ligada a mi cuenta y pueda gestionarla en My Tickets.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP",
@@ -45,8 +45,8 @@
         {
           "code": "ACC-03",
           "page": "P-08",
-          "feature": "Login para My Tickets",
-          "description": "Al acceder a My Tickets sin sesión, se redirige a login RSO.",
+          "feature": "Autenticación RSO obligatoria para acceder a My Tickets y a las páginas privadas",
+          "description": "Como fan, quiero que My Tickets y mis pedidos solo sean accesibles con mi cuenta Riot, para que nadie más pueda ver mis entradas ni mis datos.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP",
@@ -62,8 +62,8 @@
         {
           "code": "ACC-04",
           "page": "Global",
-          "feature": "Identidad en cabecera",
-          "description": "Se muestran el Riot ID (ej. Slazareth#NA1) y el avatar del usuario autenticado.",
+          "feature": "Gestión de la sesión RSO e identidad del fan",
+          "description": "Como fan, quiero ver en la cabecera con qué cuenta Riot he iniciado sesión, e iniciarla o cerrarla desde ahí, para saber con qué cuenta compro y controlar mi sesión.",
           "priority": "No crítica",
           "status": "Pendiente de definir",
           "source": "MK",

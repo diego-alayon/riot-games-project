@@ -23,10 +23,10 @@ const TBD: Status = "Pendiente de definir";
 const OUT: Status = "Descartado v1";
 
 const LIST: Array<[string, string, Priority, Status]> = [
-  ["ACC-01", "Consulta de eventos sin sesión", C, OK],
-  ["ACC-02", "Compra mediante sesión RSO", C, OK],
-  ["ACC-03", "Login para My Tickets", C, OK],
-  ["ACC-04", "Identidad en cabecera", N, TBD],
+  ["ACC-01", "Consulta pública de eventos sin autenticación RSO", C, OK],
+  ["ACC-02", "Autenticación RSO obligatoria para la compra", C, OK],
+  ["ACC-03", "Autenticación RSO obligatoria para acceder a My Tickets y a las páginas privadas", C, OK],
+  ["ACC-04", "Gestión de la sesión RSO e identidad del fan", N, TBD],
   ["FND-01", "Navegación principal", C, OK],
   ["FND-02", "Barra de juegos", N, OK],
   ["FND-03", "Evento destacado (hero)", C, OK],

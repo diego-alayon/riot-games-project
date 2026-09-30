@@ -180,8 +180,8 @@
     {
       "id": "6d282639-ebc5-45e9-a1cb-998016598f6a",
       "code": "ACC-01",
-      "feature": "Consulta de eventos sin sesión",
-      "description": "Find Events y Event Detail son accesibles sin sesión.",
+      "feature": "Consulta pública de eventos sin autenticación RSO",
+      "description": "Como fan, quiero consultar los eventos, sus pases, sus precios y su estado de venta sin iniciar sesión, para decidir qué comprar antes de identificarme con mi cuenta Riot.",
       "epic_id": "bd4eb244-10bf-4f2c-b525-48e4619e7ca2",
       "story_id": null,
       "area": "ACC",
@@ -264,8 +264,8 @@
     {
       "id": "ec50fac7-8c18-4849-95ef-ca2a5c57c505",
       "code": "ACC-02",
-      "feature": "Compra mediante sesión RSO",
-      "description": "Al añadir al carrito o pagar sin sesión, se redirige a login RSO (P-11).",
+      "feature": "Autenticación RSO obligatoria para la compra",
+      "description": "Como fan, quiero comprar pases y side events con mi cuenta Riot, para que cada compra quede ligada a mi cuenta y pueda gestionarla en My Tickets.",
       "epic_id": "bd4eb244-10bf-4f2c-b525-48e4619e7ca2",
       "story_id": null,
       "area": "ACC",
@@ -412,8 +412,8 @@
     {
       "id": "f1f0e6e4-aea6-46e0-a96b-32ca3abca38c",
       "code": "ACC-03",
-      "feature": "Login para My Tickets",
-      "description": "Al acceder a My Tickets sin sesión, se redirige a login RSO.",
+      "feature": "Autenticación RSO obligatoria para acceder a My Tickets y a las páginas privadas",
+      "description": "Como fan, quiero que My Tickets y mis pedidos solo sean accesibles con mi cuenta Riot, para que nadie más pueda ver mis entradas ni mis datos.",
       "epic_id": "bd4eb244-10bf-4f2c-b525-48e4619e7ca2",
       "story_id": null,
       "area": "ACC",
@@ -511,8 +511,8 @@
     {
       "id": "e2705007-b1e4-493c-9570-7e031232db53",
       "code": "ACC-04",
-      "feature": "Identidad en cabecera",
-      "description": "Se muestran el Riot ID (ej. Slazareth#NA1) y el avatar del usuario autenticado.",
+      "feature": "Gestión de la sesión RSO e identidad del fan",
+      "description": "Como fan, quiero ver en la cabecera con qué cuenta Riot he iniciado sesión, e iniciarla o cerrarla desde ahí, para saber con qué cuenta compro y controlar mi sesión.",
       "epic_id": "bd4eb244-10bf-4f2c-b525-48e4619e7ca2",
       "story_id": null,
       "area": "ACC",
