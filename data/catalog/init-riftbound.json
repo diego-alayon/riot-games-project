@@ -1118,7 +1118,7 @@
       "implementation_note": null,
       "owner": "Globant",
       "page": "P-02, P-03, P-04",
-      "platforms": "[\"riftbound\"]",
+      "platforms": "[\"riftbound\",\"smartvenues\"]",
       "priority": "Crítica",
       "prototype_view": null,
       "source": "RP; MK",
@@ -1234,6 +1234,33 @@
           "text": "En dispositivos móviles, el portal debe mostrar las pestañas con [TBD: textos y disposición; pendiente del diseño móvil]."
         },
         {
+          "id": "a40e6f8c-133d-411e-be71-640bfce7bbcc",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 13,
+          "sort_order": 0,
+          "tag": null,
+          "text": "SmartVenues debe permitir al Chief Sales Operator configurar, para cada evento, sus pases y sus side events, con la ventana de venta de cada uno (RN-07)."
+        },
+        {
+          "id": "41c707bb-4743-4711-9a00-8adba7e4617c",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 14,
+          "sort_order": 1,
+          "tag": "pending-engineering",
+          "text": "SmartVenues debe enviar al portal todos los pases y side events de cada evento, con su estado de venta, para que el portal construya las pestañas «Event Passes» y «Side Events» [TBD: API de SmartVenues: contrato y forma de comunicación con el portal]."
+        },
+        {
+          "id": "eb7571f5-685e-4b02-85b1-191ec04aa27a",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 15,
+          "sort_order": 2,
+          "tag": "pending-engineering",
+          "text": "Cuando el Chief Sales Operator cree, modifique o retire un pase o un side event, o cambie su estado de venta, SmartVenues debe comunicar el cambio al portal [TBD: mecanismo (el portal escucha los cambios o los consulta) y plazo máximo en que se refleja]."
+        },
+        {
           "id": "a0405a0f-9858-40a4-b4fd-06b1cd58fa68",
           "kind": "acceptance",
           "platform": "all",
@@ -1250,11 +1277,18 @@
           "capability": "Cambia entre los pases y los side events del evento",
           "precondition": "Ninguna",
           "sort_order": 0
+        },
+        {
+          "id": "564ca53c-472f-44de-9cd4-9840f342fb09",
+          "role": "Chief Sales Operator",
+          "capability": "Configura en SmartVenues los pases y los side events del evento",
+          "precondition": null,
+          "sort_order": 1
         }
       ],
       "counters": {
         "acceptance": 1,
-        "functional": 12
+        "functional": 15
       }
     },
     {
@@ -1404,7 +1438,7 @@
       "implementation_note": null,
       "owner": "Globant",
       "page": "P-02, P-03",
-      "platforms": "[\"riftbound\"]",
+      "platforms": "[\"riftbound\",\"smartvenues\"]",
       "priority": "Crítica",
       "prototype_view": null,
       "source": "RP; MK Riot_Games_Tickets",
@@ -1457,6 +1491,15 @@
           "text": "En dispositivos móviles, el portal debe mostrar el aviso con [TBD: posición; pendiente del diseño móvil]."
         },
         {
+          "id": "34b36d17-3fe1-427a-ba39-f733a179ee60",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 6,
+          "sort_order": 0,
+          "tag": "pending-engineering",
+          "text": "SmartVenues debe informar al portal de los pases que tiene cada fan en cada evento, identificado por su cuenta Riot (PUID), incluido si un pase se ha reembolsado [TBD: API de SmartVenues: contrato y forma de comunicación con el portal]."
+        },
+        {
           "id": "21fcc007-bbbf-45a7-8220-5c4214d3f552",
           "kind": "acceptance",
           "platform": "all",
@@ -1477,7 +1520,7 @@
       ],
       "counters": {
         "acceptance": 1,
-        "functional": 5
+        "functional": 6
       }
     },
     {
@@ -1554,7 +1597,7 @@
       "implementation_note": null,
       "owner": "Globant",
       "page": "P-02, P-03",
-      "platforms": "[\"riftbound\"]",
+      "platforms": "[\"riftbound\",\"smartvenues\"]",
       "priority": "Crítica",
       "prototype_view": null,
       "source": "Análisis de gaps",
@@ -1605,6 +1648,33 @@
           "sort_order": 4,
           "tag": "pending-product",
           "text": "Cuando el fan comparta el enlace de un evento, el portal debe ofrecer una vista previa con [TBD: nombre, fechas e imagen del evento]."
+        },
+        {
+          "id": "529805f7-a10c-415a-a43f-2f7a696f0628",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 6,
+          "sort_order": 0,
+          "tag": null,
+          "text": "SmartVenues debe permitir al Chief Sales Operator configurar, publicar y retirar cada evento."
+        },
+        {
+          "id": "316b5ada-1e35-40ee-84ec-91792ea843ac",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 7,
+          "sort_order": 1,
+          "tag": "pending-engineering",
+          "text": "SmartVenues debe enviar al portal, para cada evento, un identificador estable, su estado de publicación y sus fechas, para que el portal sepa si el evento existe, está publicado o ha terminado [TBD: API de SmartVenues; si el identificador forma la dirección del evento (EVT-07.1)]."
+        },
+        {
+          "id": "ceb5eac8-e799-4177-b83e-dfc551c4f112",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 8,
+          "sort_order": 2,
+          "tag": "pending-engineering",
+          "text": "Cuando se abra la venta de un evento, SmartVenues debe comunicar el cambio al portal en el momento de la apertura [TBD: mecanismo y plazo; ver EVT-07.4]."
         }
       ],
       "roles": [
@@ -1614,10 +1684,17 @@
           "capability": "Abre un evento desde un enlace",
           "precondition": "Ninguna",
           "sort_order": 0
+        },
+        {
+          "id": "b5176873-61b2-4006-94a4-d952e2d793a0",
+          "role": "Chief Sales Operator",
+          "capability": "Configura, publica y retira el evento en SmartVenues",
+          "precondition": null,
+          "sort_order": 1
         }
       ],
       "counters": {
-        "functional": 5
+        "functional": 8
       }
     },
     {
