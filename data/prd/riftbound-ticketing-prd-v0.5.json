@@ -83,6 +83,11 @@
       ]
     },
     {
+      "code": "EP-RAL",
+      "name": "Riot Account Linking",
+      "requirements": []
+    },
+    {
       "code": "EP-FND",
       "name": "Navigation & Event Browsing",
       "requirements": [
