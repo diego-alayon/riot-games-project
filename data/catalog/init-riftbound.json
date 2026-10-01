@@ -1608,14 +1608,23 @@
           "seq": 4,
           "sort_order": 6,
           "tag": null,
-          "text": "El portal debe mostrar en cada tarjeta destacada la etiqueta de estado de venta (FND-03.21 y FND-03.22), la fecha del evento (día de la semana y rango de fechas), el nombre y la ubicación (venue, ciudad y país)."
+          "text": "El portal debe mostrar en cada tarjeta destacada la etiqueta de estado de venta (FND-03.21, FND-03.22 y FND-03.25), la fecha del evento (día de la semana y rango de fechas), el nombre y la ubicación (venue, ciudad y país)."
+        },
+        {
+          "id": "efc0e463-c893-4f72-b5b9-e12f6b603d2a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 26,
+          "sort_order": 7,
+          "tag": "pending-riot",
+          "text": "El portal debe mostrar las fechas del evento en el calendario local del venue, sin convertirlas a la zona horaria del fan (I18N-02)."
         },
         {
           "id": "a0ddd70c-cbbd-4d97-9255-18a5afc162f0",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 21,
-          "sort_order": 7,
+          "sort_order": 8,
           "tag": null,
           "text": "Mientras la venta de pases de un evento esté abierta, el portal debe mostrar en su tarjeta la etiqueta «On sale now»."
         },
@@ -1624,25 +1633,34 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 22,
-          "sort_order": 8,
-          "tag": null,
-          "text": "Mientras la venta de pases de un evento no haya abierto, el portal debe mostrar en su tarjeta la etiqueta «On sale in N days», donde N es el número de días hasta la apertura de la venta [TBD-CRÍTICO: zona horaria de referencia de la fecha y hora de apertura (RN-08) y del cálculo de los días]."
+          "sort_order": 9,
+          "tag": "pending-product",
+          "text": "Mientras falten [TBD: umbral; el prototipo usa 30] días o menos para la apertura de la venta, el portal debe mostrar en su tarjeta la etiqueta «On sale in N days» [TBD-CRÍTICO: zona horaria de referencia de la fecha y hora de apertura (RN-08) y del cálculo de los días]."
+        },
+        {
+          "id": "f1917146-30b4-4212-8761-1a4b68f2534f",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 25,
+          "sort_order": 10,
+          "tag": "pending-product",
+          "text": "Mientras falten más de [TBD: umbral] días para la apertura de la venta, el portal debe mostrar en su tarjeta «On sale» seguido de la fecha de apertura (ej. «On sale SEP 25»)."
         },
         {
           "id": "7b721dab-1f7c-422c-a2a4-673b3a8cbbaa",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 18,
-          "sort_order": 9,
+          "sort_order": 11,
           "tag": "pending-product",
-          "text": "El portal debe mostrar en cada tarjeta destacada la región del evento [TBD: catálogo de regiones; se define a partir de los países en los que se vende]."
+          "text": "El portal debe mostrar en cada tarjeta destacada la región del evento, que asigna el frontend a partir de su ciudad y país según el catálogo de regiones [TBD: catálogo; se define a partir de los países en los que se vende]."
         },
         {
           "id": "8794e1c1-d692-40ca-96ad-fee765cb7698",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 7,
-          "sort_order": 10,
+          "sort_order": 12,
           "tag": null,
           "text": "El portal debe mostrar como fondo de cada tarjeta destacada la imagen propia del evento."
         },
@@ -1651,7 +1669,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 8,
-          "sort_order": 11,
+          "sort_order": 13,
           "tag": null,
           "text": "Si un evento no tiene imagen, el portal debe mostrar como fondo de su tarjeta una imagen genérica de Riftbound [TBD: Riot aporta la imagen genérica]."
         },
@@ -1660,7 +1678,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 19,
-          "sort_order": 12,
+          "sort_order": 14,
           "tag": null,
           "text": "Cuando el fan pulse una tarjeta destacada, el portal debe abrir la página del evento (Event Passes, P-02)."
         },
@@ -1669,7 +1687,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 9,
-          "sort_order": 13,
+          "sort_order": 15,
           "tag": null,
           "text": "El portal debe elegir como primer evento destacado el evento con la venta de pases abierta y la fecha de inicio más próxima."
         },
@@ -1678,7 +1696,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 10,
-          "sort_order": 14,
+          "sort_order": 16,
           "tag": null,
           "text": "El portal debe elegir como segundo y tercer evento destacado los dos eventos publicados con la fecha de inicio más próxima, sin contar el primero, estén en venta o todavía no hayan abierto la venta."
         },
@@ -1687,7 +1705,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 11,
-          "sort_order": 15,
+          "sort_order": 17,
           "tag": null,
           "text": "Si un evento está agotado o tiene la venta cerrada, el portal debe [TBD: incluirlo o no entre los eventos destacados]."
         },
@@ -1696,7 +1714,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 12,
-          "sort_order": 16,
+          "sort_order": 18,
           "tag": null,
           "text": "Si no hay ningún evento en venta, el portal debe mostrar en la tarjeta principal [TBD: qué evento]."
         },
@@ -1705,7 +1723,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 13,
-          "sort_order": 17,
+          "sort_order": 19,
           "tag": null,
           "text": "Si dos eventos tienen la misma fecha de inicio, el portal debe ordenarlos por [TBD: criterio de ordenación secundario]."
         },
@@ -1714,7 +1732,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 23,
-          "sort_order": 18,
+          "sort_order": 20,
           "tag": null,
           "text": "Cuando un evento termine, el portal debe retirarlo de los eventos destacados a partir del día siguiente a su último día, con el mismo criterio que RN-09."
         },
@@ -1723,7 +1741,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 14,
-          "sort_order": 19,
+          "sort_order": 21,
           "tag": "pending-engineering",
           "text": "El frontend del portal debe calcular la selección y el orden de los eventos destacados cada vez que muestra Find Events, a partir de los eventos que envía SmartVenues. El resto de eventos publicados que no hayan terminado va a «More events» (FND-07.1)."
         },
@@ -1732,7 +1750,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 6,
-          "sort_order": 20,
+          "sort_order": 22,
           "tag": null,
           "text": "En dispositivos móviles, el portal debe mostrar los eventos destacados con [TBD: disposición de las tarjetas y recorte de la imagen; pendiente del diseño móvil]."
         },
@@ -1855,7 +1873,7 @@
       "counters": {
         "acceptance": 4,
         "comment": 2,
-        "functional": 24,
+        "functional": 26,
         "out_of_scope": 2
       }
     },
@@ -1949,7 +1967,7 @@
           "platform": "riftbound",
           "seq": 8,
           "sort_order": 7,
-          "tag": null,
+          "tag": "pending-product",
           "text": "Mientras falten [TBD: umbral; el prototipo usa 30] días o menos para la apertura de la venta, el portal debe mostrar en su fila la etiqueta «On sale in N days» [TBD-CRÍTICO: zona horaria de referencia de la fecha y hora de apertura (RN-08) y del cálculo de los días]."
         },
         {
@@ -1958,7 +1976,7 @@
           "platform": "riftbound",
           "seq": 9,
           "sort_order": 8,
-          "tag": null,
+          "tag": "pending-product",
           "text": "Mientras falten más de [TBD: umbral] días para la apertura de la venta, el portal debe mostrar en su fila «On sale» seguido de la fecha de apertura (ej. «On sale DEC 4»)."
         },
         {

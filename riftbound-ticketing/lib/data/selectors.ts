@@ -7,8 +7,9 @@ export interface SaleLabel {
 }
 
 /**
- * Sale-status label (FND-03.21, FND-03.22). FND-03 defines «On sale now» and «On sale in N days»;
- * «On sale tomorrow», the date beyond 30 days and «On sale soon» are prototype choices still to confirm.
+ * Sale-status label (FND-03.21/.22/.25, FND-07.7/.8/.9): «On sale now», «On sale in N days» up to a
+ * threshold still to define (30 here), and the opening date beyond it. «On sale tomorrow» and
+ * «On sale soon» are prototype choices still to confirm.
  */
 export function saleLabel(ev: RiftEvent, today = DEMO_TODAY): SaleLabel {
   if (ev.passSale.competitor === "on-sale" || ev.passSale.attendee === "on-sale") return { live: true, text: "On sale now" };
