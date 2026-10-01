@@ -36,7 +36,10 @@ export function EventShell({
   // and side events can be bought together (SDE-07; PQ-37 still open). Visitors
   // without a session keep read access (ACC-01).
   const passInCart = store.cart.eventSlug === ev.slug && !!store.cart.passId;
-  const sideLocked = store.ready && !!store.session && !owned && !passInCart;
+  const noPass = store.ready && !!store.session && !owned && !passInCart;
+  // EVT-01.6: also disabled while side events are not on sale (RN-07); the text is still to be defined.
+  const sideLocked = noPass || !ev.sideSaleOpen;
+  const sideHint = !ev.sideSaleOpen ? "Side events aren't on sale yet" : "Get a pass for this event to add side events";
 
   return (
     <>
@@ -49,7 +52,7 @@ export function EventShell({
                 <Tabs
                   items={[
                     { label: "Event Passes", shortLabel: "Passes", href: base, active: tab === "passes" },
-                    { label: "Side Events", href: `${base}/side-events`, active: tab === "side", disabled: sideLocked && tab !== "side", hint: "Get a pass for this event to add side events" },
+                    { label: "Side Events", href: `${base}/side-events`, active: tab === "side", disabled: sideLocked && tab !== "side", hint: sideHint },
                     { label: "On Demand Events", shortLabel: "On Demand", disabled: true, hint: "Not available in the first release" },
                   ]}
                 />

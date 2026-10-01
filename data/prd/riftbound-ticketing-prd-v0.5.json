@@ -152,8 +152,8 @@
         {
           "code": "EVT-01",
           "page": "P-02, P-03, P-04",
-          "feature": "Sub-tabs del evento",
-          "description": "\"Event Passes\", \"Side Events\" y \"On Demand Events\".",
+          "feature": "Pestañas de la página del evento",
+          "description": "Como fan, quiero moverme entre los pases y los side events de un evento desde su página, para elegir qué comprar sin salir de ella.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP; MK",
@@ -167,14 +167,14 @@
         {
           "code": "EVT-03",
           "page": "P-02, P-03",
-          "feature": "Cabecera del evento",
-          "description": "Fechas, nombre, venue, ciudad e imagen, con enlace \"All events\".",
+          "feature": "Cabecera de la página del evento",
+          "description": "Como fan, quiero ver al principio de la página del evento cuándo y dónde es, para confirmar que estoy en el evento que busco.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP; MK",
           "woRef": "B1",
           "owner": "Globant",
-          "comments": "Puede reutilizar la imagen del evento definida en FND-03 (antes FND-04).",
+          "comments": "La imagen de fondo es la común de Riftbound del diseño v2, la misma para todos los eventos; Riot la aporta y va fija en el frontend (decidido el 1 oct 2026).",
           "acceptance": [
             "La cabecera del detalle muestra fechas, nombre, venue, ciudad, imagen y el enlace \"All events\"."
           ]
@@ -183,7 +183,7 @@
           "code": "EVT-04",
           "page": "P-02, P-03",
           "feature": "Aviso de pase ya adquirido",
-          "description": "Si el usuario ya tiene un pase del evento: banner \"You already hold a pass for this event\", tipo de pase y enlace a My Tickets.",
+          "description": "Como fan, quiero saber al entrar en un evento si ya tengo un pase, para no intentar comprar otro y encontrar el mío en My Tickets.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP; MK Riot_Games_Tickets",
@@ -195,16 +195,16 @@
           ]
         },
         {
-          "code": "EVT-06",
-          "page": "P-02",
-          "feature": "Layout de pases",
-          "description": "Variante en filas colapsables o en tarjetas.",
-          "priority": "No crítica",
+          "code": "EVT-07",
+          "page": "P-02, P-03",
+          "feature": "Acceso a la página del evento",
+          "description": "Como fan, quiero abrir un evento desde cualquier enlace y entender qué pasa si ya no está disponible, para no quedarme en una página sin salida.",
+          "priority": "Crítica",
           "status": "Pendiente de definir",
-          "source": "MK",
+          "source": "Análisis de gaps",
           "woRef": "—",
-          "owner": "Riot",
-          "comments": "PQ-19"
+          "owner": "Globant",
+          "comments": "Detectado al revisar Event Details. Incluye la vista previa al compartir un evento, que quedó pendiente al revisar Find Events."
         }
       ]
     },
@@ -359,6 +359,18 @@
           "acceptance": [
             "Dado un usuario con pase del evento, su pase aparece marcado como propio y no puede seleccionar otro pase del mismo evento."
           ]
+        },
+        {
+          "code": "EVT-06",
+          "page": "P-02",
+          "feature": "Layout de pases",
+          "description": "Los pases se muestran en tarjetas, con «More» para desplegar el detalle, como en el diseño v2.",
+          "priority": "No crítica",
+          "status": "Confirmado",
+          "source": "MK",
+          "woRef": "—",
+          "owner": "Riot",
+          "comments": "PQ-19 cerrado con el diseño v2 (tarjetas). Movido desde Event Details al revisar EP-EVT."
         }
       ]
     },

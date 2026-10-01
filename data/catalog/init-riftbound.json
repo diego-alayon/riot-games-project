@@ -1107,8 +1107,8 @@
     {
       "id": "734dfc48-9f67-4a88-9957-a4c51acba369",
       "code": "EVT-01",
-      "feature": "Sub-tabs del evento",
-      "description": "\"Event Passes\", \"Side Events\" y \"On Demand Events\".",
+      "feature": "Pestañas de la página del evento",
+      "description": "Como fan, quiero moverme entre los pases y los side events de un evento desde su página, para elegir qué comprar sin salir de ella.",
       "epic_id": "7c8a1830-a9ad-4959-ae26-2b78ac91f9f7",
       "story_id": null,
       "area": "EVT",
@@ -1126,18 +1126,135 @@
       "wo_ref": "B1",
       "items": [
         {
+          "id": "55e37c1e-0b39-4abc-8b59-cee107dd8ce0",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "El portal debe mostrar en la página de cada evento, debajo de la cabecera (EVT-03), las pestañas «Event Passes», «Side Events» y «On Demand Events»."
+        },
+        {
+          "id": "455ed196-d667-47d4-8329-825a67a2eacf",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "Cuando el fan abra la página de un evento, el portal debe mostrar la pestaña «Event Passes»."
+        },
+        {
+          "id": "51b64dd8-9ffc-4f75-b097-dbcf59926ee9",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": "pending-product",
+          "text": "El portal debe dar a cada pestaña su propia dirección, para que el fan pueda abrir «Side Events» directamente desde un enlace [TBD: si cada pestaña tiene dirección propia]."
+        },
+        {
+          "id": "e62a3abd-7ba4-4e69-83a1-3b8c207876f1",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": null,
+          "text": "El portal debe resaltar la pestaña activa."
+        },
+        {
+          "id": "c824de3e-5fa4-428c-b2cc-2ab2ccc3bbda",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 5,
+          "sort_order": 4,
+          "tag": null,
+          "text": "Mientras un fan con sesión RSO no tenga un pase del evento, ni comprado ni en el carrito, el portal debe mostrar «Side Events» deshabilitada, porque sin pase no se pueden comprar side events (RN-06, SDE-06)."
+        },
+        {
+          "id": "30bd9858-b25a-45cc-a506-6ef94955dea2",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 6,
+          "sort_order": 5,
+          "tag": null,
+          "text": "Mientras la venta de side events del evento no haya abierto, el portal debe mostrar «Side Events» deshabilitada, aunque la venta de pases esté abierta (RN-07) [TBD: texto del motivo; el prototipo muestra «Side events aren't on sale yet»]."
+        },
+        {
+          "id": "6f575bf6-12d9-41fe-8f09-f5fd240064f1",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 7,
+          "sort_order": 6,
+          "tag": null,
+          "text": "El portal debe explicar por qué «Side Events» está deshabilitada; sin pase, con el texto «Get a pass for this event to add side events», también en dispositivos móviles [TBD: dónde se muestra en móvil, donde no hay hover]."
+        },
+        {
+          "id": "04d02d71-91a4-4f01-8f0c-57d2c190882b",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 8,
+          "sort_order": 7,
+          "tag": null,
+          "text": "Si un fan con sesión RSO y sin pase abre directamente la dirección de «Side Events» (EVT-01.3), el portal debe mostrar el aviso «A pass is required for side events» (SDE-06)."
+        },
+        {
+          "id": "6051d30c-4869-4ca9-8180-40a530a5c636",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 9,
+          "sort_order": 8,
+          "tag": null,
+          "text": "Mientras el fan no tenga sesión RSO, el portal debe permitirle abrir «Side Events» para consultarla (ACC-01), salvo en el caso de EVT-01.6."
+        },
+        {
+          "id": "9f140a71-57f4-4f39-a237-6a84cb43f692",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 10,
+          "sort_order": 9,
+          "tag": null,
+          "text": "El portal debe mantener el carrito al cambiar de pestaña."
+        },
+        {
+          "id": "0235ab55-016d-47d5-b764-5b6c63e2697b",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 11,
+          "sort_order": 10,
+          "tag": null,
+          "text": "El portal debe mostrar «On Demand Events» deshabilitada, con el texto «Not available in the first release», como propone el diseño v2; On Demand queda fuera de alcance en la v1 (EVT-02)."
+        },
+        {
+          "id": "a7bd7ea3-6b0c-47b1-8bd7-ef281b3246fc",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 12,
+          "sort_order": 11,
+          "tag": "pending-riot",
+          "text": "En dispositivos móviles, el portal debe mostrar las pestañas con [TBD: textos y disposición; pendiente del diseño móvil]."
+        },
+        {
           "id": "a0405a0f-9858-40a4-b4fd-06b1cd58fa68",
           "kind": "acceptance",
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
           "tag": null,
-          "text": "El detalle del evento muestra los sub-tabs Event Passes y Side Events operativos. El tratamiento del tab On Demand en la v1 (oculto o deshabilitado) está por definir."
+          "text": "El detalle del evento muestra las pestañas Event Passes y Side Events operativas, y On Demand Events deshabilitada."
         }
       ],
-      "roles": [],
+      "roles": [
+        {
+          "id": "0d90795f-482a-42c4-be54-e447e5f6636e",
+          "role": "Fan",
+          "capability": "Cambia entre los pases y los side events del evento",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        }
+      ],
       "counters": {
-        "acceptance": 1
+        "acceptance": 1,
+        "functional": 12
       }
     },
     {
@@ -1167,13 +1284,13 @@
     {
       "id": "daa2a943-6613-4a56-942d-5d9795742e7a",
       "code": "EVT-03",
-      "feature": "Cabecera del evento",
-      "description": "Fechas, nombre, venue, ciudad e imagen, con enlace \"All events\".",
+      "feature": "Cabecera de la página del evento",
+      "description": "Como fan, quiero ver al principio de la página del evento cuándo y dónde es, para confirmar que estoy en el evento que busco.",
       "epic_id": "7c8a1830-a9ad-4959-ae26-2b78ac91f9f7",
       "story_id": null,
       "area": "EVT",
       "classification": "build",
-      "comments": "Puede reutilizar la imagen del evento definida en FND-03 (antes FND-04).",
+      "comments": "La imagen de fondo es la común de Riftbound del diseño v2, la misma para todos los eventos; Riot la aporta y va fija en el frontend (decidido el 1 oct 2026).",
       "due_date": null,
       "implementation_note": null,
       "owner": "Globant",
@@ -1186,6 +1303,51 @@
       "wo_ref": "B1",
       "items": [
         {
+          "id": "11549308-9d77-46aa-b665-2cdde00e80ee",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "El portal debe mostrar al principio de la página de cada evento una cabecera con el enlace «All events», el rango de fechas, el venue, la ciudad y el país, y el nombre del evento."
+        },
+        {
+          "id": "0835370c-2935-4741-9593-1eee5c19bee7",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "Cuando el fan pulse «All events», el portal debe mostrar Find Events tal como lo dejó (FND-07.16)."
+        },
+        {
+          "id": "628927b1-2f31-44dc-b703-4182e9eb8952",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": "pending-riot",
+          "text": "El portal debe mostrar las fechas en el calendario local del venue (I18N-02.3), con el formato «SEP 4 - 6, 2026»."
+        },
+        {
+          "id": "2c44a007-8089-4d6c-9611-7a76e4037bb1",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": null,
+          "text": "El portal debe mostrar como fondo de la cabecera la imagen común de Riftbound del diseño v2, la misma para todos los eventos. Riot la aporta y va fija en el frontend."
+        },
+        {
+          "id": "72500b16-f811-4562-82a0-cc641f5ff149",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 5,
+          "sort_order": 4,
+          "tag": "pending-riot",
+          "text": "En dispositivos móviles, el portal debe mostrar la cabecera con [TBD: contenido y disposición; pendiente del diseño móvil]."
+        },
+        {
           "id": "af38d21b-6b74-4d32-a598-488936d13ce9",
           "kind": "acceptance",
           "platform": "all",
@@ -1193,18 +1355,46 @@
           "sort_order": 0,
           "tag": null,
           "text": "La cabecera del detalle muestra fechas, nombre, venue, ciudad, imagen y el enlace \"All events\"."
+        },
+        {
+          "id": "c6b24214-728c-4c63-8d5e-2d5ed0cac977",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "Dirección del venue y enlace a un mapa, porque el diseño v2 no los incluye. Propuesta para Riot: para un fan que viaja a otro país, la dirección es importante."
+        },
+        {
+          "id": "4f297b22-fc42-47fc-a692-53f5535bd3be",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": "pending-riot",
+          "text": "Descripción general del evento (formato, horarios, reglas), porque el diseño v2 no la incluye. Propuesta para Riot."
         }
       ],
-      "roles": [],
+      "roles": [
+        {
+          "id": "dfb53ee1-7d2d-41ab-ad98-512eb03a1586",
+          "role": "Fan",
+          "capability": "Consulta cuándo y dónde es el evento",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        }
+      ],
       "counters": {
-        "acceptance": 1
+        "acceptance": 1,
+        "functional": 5,
+        "out_of_scope": 2
       }
     },
     {
       "id": "b9c87fc4-5f20-425a-ba7d-59ecb4cf37ff",
       "code": "EVT-04",
       "feature": "Aviso de pase ya adquirido",
-      "description": "Si el usuario ya tiene un pase del evento: banner \"You already hold a pass for this event\", tipo de pase y enlace a My Tickets.",
+      "description": "Como fan, quiero saber al entrar en un evento si ya tengo un pase, para no intentar comprar otro y encontrar el mío en My Tickets.",
       "epic_id": "7c8a1830-a9ad-4959-ae26-2b78ac91f9f7",
       "story_id": null,
       "area": "EVT",
@@ -1222,6 +1412,51 @@
       "wo_ref": "B1 (conditional content)",
       "items": [
         {
+          "id": "d75147b9-e065-48e5-97eb-fd1d4d3dae33",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "Mientras un fan con sesión RSO tenga un pase del evento, el portal debe mostrar en la página del evento el aviso «You already hold a pass for this event», con el nombre del pase, el texto «one pass per account» (RN-03) y el enlace «View in My Tickets»."
+        },
+        {
+          "id": "581add4b-c6bc-4b71-91e4-f2da18a3ea58",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "El portal debe mostrar el aviso en las dos pestañas, encima del carrito."
+        },
+        {
+          "id": "f058c28d-e192-4440-9c5c-6fe046e93756",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": null,
+          "text": "Cuando el fan pulse «View in My Tickets», el portal debe mostrar My Tickets (P-08)."
+        },
+        {
+          "id": "572f8dff-9d30-42a0-8f09-2a615d6800fa",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": null,
+          "text": "Si el fan ha reembolsado su pase, el portal debe dejar de mostrar el aviso."
+        },
+        {
+          "id": "a9e508d7-859e-426d-bee8-384cbb33ff2b",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 5,
+          "sort_order": 4,
+          "tag": "pending-riot",
+          "text": "En dispositivos móviles, el portal debe mostrar el aviso con [TBD: posición; pendiente del diseño móvil]."
+        },
+        {
           "id": "21fcc007-bbbf-45a7-8220-5c4214d3f552",
           "kind": "acceptance",
           "platform": "all",
@@ -1231,9 +1466,18 @@
           "text": "Dado un usuario con pase del evento, cuando abre el detalle, entonces ve el aviso de pase adquirido con el tipo de pase y un enlace a My Tickets."
         }
       ],
-      "roles": [],
+      "roles": [
+        {
+          "id": "329bb574-a668-4543-99d5-b161cb9bb945",
+          "role": "Fan",
+          "capability": "Ve que ya tiene un pase del evento y lo abre en My Tickets",
+          "precondition": "Requerido: sesión RSO activa",
+          "sort_order": 0
+        }
+      ],
       "counters": {
-        "acceptance": 1
+        "acceptance": 1,
+        "functional": 5
       }
     },
     {
@@ -1276,12 +1520,12 @@
       "id": "3ced0ba1-9970-441b-9082-92e587a61b8c",
       "code": "EVT-06",
       "feature": "Layout de pases",
-      "description": "Variante en filas colapsables o en tarjetas.",
-      "epic_id": "7c8a1830-a9ad-4959-ae26-2b78ac91f9f7",
+      "description": "Los pases se muestran en tarjetas, con «More» para desplegar el detalle, como en el diseño v2.",
+      "epic_id": "0050cab6-4b3b-4fc1-b230-41837230ed6d",
       "story_id": null,
-      "area": "EVT",
+      "area": "PAS",
       "classification": "build",
-      "comments": "PQ-19",
+      "comments": "PQ-19 cerrado con el diseño v2 (tarjetas). Movido desde Event Details al revisar EP-EVT.",
       "due_date": null,
       "implementation_note": null,
       "owner": "Riot",
@@ -1290,11 +1534,91 @@
       "priority": "No crítica",
       "prototype_view": null,
       "source": "MK",
-      "status": "Pendiente de definir",
+      "status": "Confirmado",
       "wo_ref": "—",
       "items": [],
       "roles": [],
       "counters": {}
+    },
+    {
+      "id": "2a499725-48c7-4566-b671-07f1e752117b",
+      "code": "EVT-07",
+      "feature": "Acceso a la página del evento",
+      "description": "Como fan, quiero abrir un evento desde cualquier enlace y entender qué pasa si ya no está disponible, para no quedarme en una página sin salida.",
+      "epic_id": "7c8a1830-a9ad-4959-ae26-2b78ac91f9f7",
+      "story_id": null,
+      "area": "EVT",
+      "classification": "build",
+      "comments": "Detectado al revisar Event Details. Incluye la vista previa al compartir un evento, que quedó pendiente al revisar Find Events.",
+      "due_date": null,
+      "implementation_note": null,
+      "owner": "Globant",
+      "page": "P-02, P-03",
+      "platforms": "[\"riftbound\"]",
+      "priority": "Crítica",
+      "prototype_view": null,
+      "source": "Análisis de gaps",
+      "status": "Pendiente de definir",
+      "wo_ref": "—",
+      "items": [
+        {
+          "id": "124690ce-e614-4f1d-9970-47d616142b2a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "El portal debe dar a cada evento una dirección propia y estable [TBD: formato, ej. /events/regional-qualifier-bologna], para que el fan pueda abrirlo desde Find Events, un email o un enlace compartido."
+        },
+        {
+          "id": "1819ca9b-0f33-475f-8a2d-ab6813523cc7",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "Si el fan abre la dirección de un evento que no existe o no está publicado, por ejemplo por un enlace roto, el portal debe mostrar la página de error (FND-12.1)."
+        },
+        {
+          "id": "a1ff13bc-45d3-4f9e-a89b-14b91e05de29",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": "pending-riot",
+          "text": "Si el fan abre la dirección de un evento que ya ha terminado, el portal debe mostrar un mensaje propio de evento terminado [TBD: texto y contenido; propuesta: enlace a Find Events y, si el fan tiene un pase, a My Tickets]."
+        },
+        {
+          "id": "2d9433de-b11a-4bb9-aaf3-0f3be5e1e5c2",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": "pending-engineering",
+          "text": "Cuando se abra la venta mientras el fan tiene abierta la página del evento, el portal debe [TBD: habilitar «Add» sin que el fan recargue la página, o pedirle que recargue; depende de la cola de acceso (RNF-02) y es también una decisión de producto]."
+        },
+        {
+          "id": "af2a524b-e02a-4c77-aad4-cb63ccf8328e",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 5,
+          "sort_order": 4,
+          "tag": "pending-product",
+          "text": "Cuando el fan comparta el enlace de un evento, el portal debe ofrecer una vista previa con [TBD: nombre, fechas e imagen del evento]."
+        }
+      ],
+      "roles": [
+        {
+          "id": "45a0398a-f232-4a7b-8218-bb95aaafaf87",
+          "role": "Fan",
+          "capability": "Abre un evento desde un enlace",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        }
+      ],
+      "counters": {
+        "functional": 5
+      }
     },
     {
       "id": "08092abf-dbcd-4fc5-b396-3e9d5f78ea94",
@@ -3228,11 +3552,21 @@
           "sort_order": 0,
           "tag": null,
           "text": "Los pases se muestran agrupados en las secciones Competitor y Attendee."
+        },
+        {
+          "id": "e92e6abb-9121-43ef-b5e1-f1ffd29864c6",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "Falta especificar los productos a la venta. Cada evento ofrece cuatro pases en dos grupos: «Compete» (Standard Competitor Pass y Premium Competitor Pass) y «Spectate» (Standard Attendee Pass y Premium Attendee Pass), cada uno con su descripción, beneficios, precio y unidades. Definir si son siempre estos cuatro o se configuran por evento, y quién los configura en SmartVenues. Lo mismo para los side events (EP-SDE). Detectado al revisar Event Details."
         }
       ],
       "roles": [],
       "counters": {
-        "acceptance": 1
+        "acceptance": 1,
+        "comment": 1
       }
     },
     {

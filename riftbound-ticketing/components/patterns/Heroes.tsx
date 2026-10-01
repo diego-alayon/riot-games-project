@@ -34,12 +34,11 @@ export function PageHero({ title, subtitle }: { title: string; subtitle: string 
 
 /**
  * Event detail header (EVT-03): back link, dates, venue, name over key art.
- * The event's own image (FND-03) wins when one is supplied; otherwise the shared
- * Riftbound key art of the v2 comps.
+ * Always the shared Riftbound key art of the v2 comps, the same for every event (EVT-03.4).
  */
 export function EventHero({ ev }: { ev: RiftEvent }) {
   return (
-    <HeroBand image={ev.art.image}>
+    <HeroBand>
       <Container className="relative min-h-hero py-8 flex flex-col justify-center">
         <BackLink href="/" tone="on-dark">
           All events
