@@ -931,11 +931,21 @@
           "sort_order": 0,
           "tag": null,
           "text": "El resumen del checkout muestra evento, fechas, ítems con su precio, vouchers aplicados y total."
+        },
+        {
+          "id": "2f1de80b-33c9-4b90-bbce-320f1a646e37",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "No hay ningún requerimiento de impuestos: en la UE el precio que ve el consumidor debe incluir el IVA. Falta definir cómo se calculan y se muestran los impuestos por país. Detectado al revisar I18N-03."
         }
       ],
       "roles": [],
       "counters": {
-        "acceptance": 1
+        "acceptance": 1,
+        "comment": 1
       }
     },
     {
@@ -2252,8 +2262,8 @@
     {
       "id": "0bd27ae4-83a4-49b2-ac49-89205a644d2b",
       "code": "I18N-01",
-      "feature": "Traducción a 9 idiomas",
-      "description": "El portal está disponible en los idiomas soportados, con selector de idioma: English (NA), German, Spanish (EUW), French, Italian, Korean, Japanese y Portuguese (Brazil).",
+      "feature": "Idiomas del portal y selección del idioma",
+      "description": "Como fan, quiero usar el portal en mi idioma, para entender los eventos, los pases y las condiciones de compra.",
       "epic_id": "69e63744-1344-4fcf-9822-f6d38a1e2b31",
       "story_id": null,
       "area": "I18N",
@@ -2263,7 +2273,7 @@
       "implementation_note": null,
       "owner": "Globant",
       "page": "Global",
-      "platforms": "[\"riftbound\"]",
+      "platforms": "[\"riftbound\",\"smartvenues\"]",
       "priority": "Crítica",
       "prototype_view": null,
       "source": "WO",
@@ -2276,8 +2286,8 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
-          "tag": null,
-          "text": "Idiomas soportados: English (NA), German, Spanish (EUW), French, Italian, Korean, Japanese y Portuguese (Brazil)."
+          "tag": "pending-riot",
+          "text": "El portal debe estar disponible en estos idiomas: English (NA), German, Spanish (EUW), French, Italian, Korean, Japanese y Portuguese (Brazil) [TBD: noveno idioma que exige la WO; PQ-25]."
         },
         {
           "id": "40ef9547-f940-4b8a-b460-af563a9a743d",
@@ -2285,8 +2295,8 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
-          "tag": null,
-          "text": "Si no hay configuración regional, el portal se muestra en English (NA)."
+          "tag": "pending-product",
+          "text": "El portal debe determinar el idioma del fan a partir de [TBD: idioma del navegador, configuración de la cuenta Riot o idioma de la URL; propuesta: el idioma del navegador en la primera visita y el idioma en la URL, para que un enlace compartido se abra en el mismo idioma]."
         },
         {
           "id": "1f203837-45d1-4c29-aae7-1c78dae15825",
@@ -2295,19 +2305,135 @@
           "seq": 3,
           "sort_order": 2,
           "tag": null,
-          "text": "Pendiente: confirmar el noveno idioma que exige la WO (la lista actual tiene 8)."
+          "text": "Si el idioma del fan no está entre los soportados, el portal debe mostrarse en English (NA) (WO 3.5)."
+        },
+        {
+          "id": "aaeeddf5-2eb7-4b80-ae38-4bafe2e39dc1",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": null,
+          "text": "El portal debe mostrar todos los textos de la interfaz en el idioma del fan, incluidos los literales de los requerimientos (ej. «On sale now»)."
+        },
+        {
+          "id": "2c055d43-3650-4d6b-953c-0081a3d73ce2",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 5,
+          "sort_order": 4,
+          "tag": null,
+          "text": "Si falta la traducción de un texto, el portal debe mostrarlo en English (NA)."
+        },
+        {
+          "id": "01e4f545-7011-4e52-a9dc-ca40b064f038",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 6,
+          "sort_order": 5,
+          "tag": "pending-product",
+          "text": "El portal debe mostrar en el idioma del fan el contenido de los eventos que envía SmartVenues: nombres, descripciones de pases y de side events [TBD: si SmartVenues guarda el contenido en varios idiomas]."
+        },
+        {
+          "id": "5354534a-6231-4a68-8654-b91781e318cc",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 7,
+          "sort_order": 6,
+          "tag": "pending-riot",
+          "text": "El portal debe mostrar en el idioma del fan los textos legales de Checkout (CHK-05) [TBD: Riot aporta los textos traducidos]."
+        },
+        {
+          "id": "4a3ee423-b4f6-4ea3-b6af-413d9627592f",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 8,
+          "sort_order": 7,
+          "tag": null,
+          "text": "El portal debe mostrar el formulario de pago de Stripe (CHK-02) en el idioma del fan."
+        },
+        {
+          "id": "98a8bca3-bd25-4880-a350-8385984b724a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 9,
+          "sort_order": 8,
+          "tag": null,
+          "text": "El portal debe mostrar correctamente los textos en coreano y japonés."
+        },
+        {
+          "id": "b578d022-95b6-45c9-90d4-1d897607b2a5",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 10,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "SmartVenues debe permitir al Chief Sales Operator introducir el contenido de cada evento en los idiomas soportados [TBD: si SmartVenues lo soporta y quién traduce]."
+        },
+        {
+          "id": "0dfd7edb-f68d-4c87-abbf-e8374ed07478",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "Selector de idioma, porque el diseño v2 no lo incluye (ACC-04.OOS5)."
+        },
+        {
+          "id": "91e14405-2d0b-496d-b103-89291b6e206f",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "El idioma de los emails (CHK-09, FFA-02) lo gestiona el CRM de Riot (PQ-16)."
+        },
+        {
+          "id": "aab11d7b-43be-47b0-8086-12562318b359",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": "pending-riot",
+          "text": "¿Hace falta español de Latinoamérica para el evento de Mexico City? La lista solo tiene Spanish (EUW)."
+        },
+        {
+          "id": "0d3ce677-7cf1-4e3d-98cf-d5eb06376a6d",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": "pending-engineering",
+          "text": "La tipografía del diseño (Inter) no incluye caracteres coreanos ni japoneses: hace falta una tipografía de respaldo (I18N-01.9)."
         }
       ],
-      "roles": [],
+      "roles": [
+        {
+          "id": "e8a09395-e211-4959-8b8c-5b56d157a170",
+          "role": "Fan",
+          "capability": "Usa el portal en su idioma",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        },
+        {
+          "id": "af1ec42b-1692-4425-b7c6-cf335d70c96f",
+          "role": "Chief Sales Operator",
+          "capability": "Introduce en SmartVenues el contenido de cada evento en los idiomas soportados",
+          "precondition": null,
+          "sort_order": 1
+        }
+      ],
       "counters": {
-        "functional": 3
+        "comment": 3,
+        "functional": 10,
+        "out_of_scope": 1
       }
     },
     {
       "id": "5e6216c4-92de-41b7-a93d-e2c61069ce38",
       "code": "I18N-02",
       "feature": "Formatos regionales",
-      "description": "Fechas, horas, números y precios se muestran con el formato regional del idioma y país del usuario.",
+      "description": "Como fan, quiero ver las fechas, las horas y los precios en el formato de mi idioma, para entenderlos sin dudas.",
       "epic_id": "69e63744-1344-4fcf-9822-f6d38a1e2b31",
       "story_id": null,
       "area": "I18N",
@@ -2331,7 +2457,7 @@
           "seq": 1,
           "sort_order": 0,
           "tag": null,
-          "text": "Fechas, horas, números y precios siguen el formato regional del idioma seleccionado."
+          "text": "El portal debe mostrar fechas, horas, números y precios con el formato regional del idioma activo (ej. «€1,234.50» en inglés y «1.234,50 €» en español)."
         },
         {
           "id": "81e5b1aa-73aa-4b11-9181-f705cdb4a1d0",
@@ -2340,7 +2466,7 @@
           "seq": 2,
           "sort_order": 1,
           "tag": null,
-          "text": "Si no hay configuración regional, se aplican los formatos de English (NA)."
+          "text": "Si no hay configuración regional, el portal debe aplicar los formatos de English (NA)."
         },
         {
           "id": "b49bc2ce-a834-463e-a20f-2215d1817a80",
@@ -2350,18 +2476,72 @@
           "sort_order": 2,
           "tag": "pending-riot",
           "text": "El portal debe mostrar las fechas de los eventos en el calendario local del venue, sin convertirlas a la zona horaria del fan."
+        },
+        {
+          "id": "953c82ed-17fe-4df3-95c5-ff4a9e935f9e",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": "pending-product",
+          "text": "El portal debe mostrar las horas de los side events en la hora local del venue [TBD: si se indica la zona horaria, ej. «13:00 CEST»]."
+        },
+        {
+          "id": "385aac32-b060-4af1-9deb-aa3c8794a598",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 5,
+          "sort_order": 4,
+          "tag": null,
+          "text": "El portal debe mostrar la fecha y hora de apertura de la venta, que es la misma en todo el mundo (RN-08), [TBD-CRÍTICO: en la hora local del fan o en una zona horaria de referencia indicada; ej. si abre a las 18:00 CEST, un fan de Los Angeles ve «9:00 AM» o «18:00 CEST»]."
+        },
+        {
+          "id": "8443a8d6-c560-4686-b5d8-5e18687d5141",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 6,
+          "sort_order": 5,
+          "tag": null,
+          "text": "El portal debe usar el formato de 12 o 24 horas que corresponda al idioma activo (ej. «1:00 PM» en English (NA) y «13:00» en español)."
+        },
+        {
+          "id": "6e1192ee-5c9e-4e24-8e2f-59f671efec0a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 7,
+          "sort_order": 6,
+          "tag": null,
+          "text": "El portal debe mostrar cada precio con los decimales de su moneda (ej. «€129.99» y «₩150,000»)."
+        },
+        {
+          "id": "7022e15f-17a7-418f-a056-031e768e11a5",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "El prototipo redondea todos los precios a unidades enteras (ej. €129.99 se ve «€130»): hay que corregirlo según I18N-02.7."
         }
       ],
-      "roles": [],
+      "roles": [
+        {
+          "id": "fcfe120e-0326-43e1-ae22-c932fc66d693",
+          "role": "Fan",
+          "capability": "Ve fechas, horas y precios en el formato de su idioma",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        }
+      ],
       "counters": {
-        "functional": 3
+        "comment": 1,
+        "functional": 7
       }
     },
     {
       "id": "bc3dbf28-6b5b-41cc-b1da-f52a9b67037e",
       "code": "I18N-03",
       "feature": "Multimoneda por evento",
-      "description": "Los precios de cada evento se configuran en el backoffice de OneVenue en la moneda local del lugar del evento, y el portal los muestra en esa moneda. Si no hay configuración regional, se usa USD por defecto.",
+      "description": "Como fan, quiero ver y pagar los precios de cada evento en su moneda, sin confundirla con otras, para saber exactamente cuánto voy a pagar.",
       "epic_id": "69e63744-1344-4fcf-9822-f6d38a1e2b31",
       "story_id": null,
       "area": "I18N",
@@ -2385,7 +2565,7 @@
           "seq": 1,
           "sort_order": 0,
           "tag": null,
-          "text": "Los precios de cada evento se muestran en la moneda local del lugar del evento."
+          "text": "El portal debe mostrar los precios de cada evento en la moneda configurada para ese evento (ej. Bologna en EUR y Seoul en KRW)."
         },
         {
           "id": "c3d6cf8b-65ff-4607-841c-4aba9ec3acd2",
@@ -2393,8 +2573,8 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
-          "tag": null,
-          "text": "Si el evento no tiene configuración regional, se usa USD por defecto."
+          "tag": "pending-product",
+          "text": "Si un evento no tiene moneda configurada, el portal debe usar USD [TBD: confirmar si un evento puede publicarse sin moneda; si no puede, SmartVenues debe exigirla y esta regla sobra]."
         },
         {
           "id": "26ce63fa-9827-4390-83a5-1b6585bca210",
@@ -2403,7 +2583,25 @@
           "seq": 3,
           "sort_order": 2,
           "tag": null,
-          "text": "El pago se procesa siempre con Stripe, el único PSP para todos los países."
+          "text": "El portal debe cobrar cada orden en la moneda del evento, con Stripe (CHK-01). Cada orden tiene una sola moneda, porque el carrito pertenece a un único evento."
+        },
+        {
+          "id": "7f4d8d86-934a-4323-a82c-a9d3145fbc72",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 8,
+          "sort_order": 3,
+          "tag": null,
+          "text": "El portal debe distinguir las monedas que comparten símbolo (ej. «A$», «S$» y «MX$» frente a «$» para USD)."
+        },
+        {
+          "id": "b6a405d9-4188-4b40-bf5e-339b23c97b17",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 9,
+          "sort_order": 4,
+          "tag": "pending-product",
+          "text": "El portal debe indicar en Checkout que el cargo se hace en la moneda del evento y que el banco del fan puede aplicar un cambio de divisa [TBD: si se muestra el aviso y su texto]."
         },
         {
           "id": "db263134-8121-4e97-93cb-42e53a4e44ff",
@@ -2412,34 +2610,7 @@
           "seq": 4,
           "sort_order": 0,
           "tag": null,
-          "text": "Los precios de cada evento se configuran en el backoffice de OneVenue en la moneda local del lugar del evento."
-        },
-        {
-          "id": "673c153c-3af8-40c0-816e-e9931e1ee561",
-          "kind": "functional",
-          "platform": "smartvenues",
-          "seq": 5,
-          "sort_order": 1,
-          "tag": null,
-          "text": "Sin configuración regional, el evento usa English (NA) / USD por defecto."
-        },
-        {
-          "id": "0dcf8740-5867-4abf-ab47-c4e0a3813ba7",
-          "kind": "functional",
-          "platform": "smartvenues",
-          "seq": 6,
-          "sort_order": 2,
-          "tag": null,
-          "text": "Un único PSP, Stripe, para todos los países."
-        },
-        {
-          "id": "691bec7f-d1f3-4d56-a576-366e019c94d6",
-          "kind": "functional",
-          "platform": "smartvenues",
-          "seq": 7,
-          "sort_order": 3,
-          "tag": null,
-          "text": "Los costes de cambio de divisa del PSP quedan fuera del alcance (WO 6.7)."
+          "text": "SmartVenues debe permitir al Chief Sales Operator configurar la moneda y los precios de cada evento en la moneda local del venue."
         },
         {
           "id": "bde31dcd-970f-4937-b8f3-1bc6145afe11",
@@ -2449,12 +2620,56 @@
           "sort_order": 0,
           "tag": null,
           "text": "Los precios de un evento se muestran en la moneda local configurada para ese evento."
+        },
+        {
+          "id": "fd11556f-a6d7-4000-9c21-c1d785d35364",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "Costes de cambio de divisa del PSP (WO 6.7)."
+        },
+        {
+          "id": "c0340c46-2cc1-4207-b581-c0ca8f0b6ac7",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "Impuestos: en la UE el precio que ve el consumidor debe incluir el IVA, y no hay ningún requerimiento de impuestos. Va en Cart & Checkout (ver CHK-03.C1)."
+        },
+        {
+          "id": "d847dc2d-ddd8-424b-90ff-3db8caff633e",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": "pending-product",
+          "text": "Los reembolsos se hacen en la moneda original de la orden. Va en Refunds (ver REF-01.C1)."
         }
       ],
-      "roles": [],
+      "roles": [
+        {
+          "id": "7b3b6674-3fe3-4492-924b-53d41a0a4108",
+          "role": "Fan",
+          "capability": "Ve y paga los precios en la moneda del evento",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        },
+        {
+          "id": "48ed3b72-38e4-408d-bd1a-ea6904231c3b",
+          "role": "Chief Sales Operator",
+          "capability": "Configura en SmartVenues la moneda y los precios de cada evento",
+          "precondition": null,
+          "sort_order": 1
+        }
+      ],
       "counters": {
         "acceptance": 1,
-        "functional": 7
+        "comment": 2,
+        "functional": 9,
+        "out_of_scope": 1
       }
     },
     {
@@ -3224,11 +3439,21 @@
           "sort_order": 1,
           "tag": null,
           "text": "El usuario inicia el refund desde My Tickets sin intervención del soporte."
+        },
+        {
+          "id": "0d869349-aa2d-4cd4-9c82-c270b089a6aa",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "El reembolso debe hacerse en la moneda original de la orden. Detectado al revisar I18N-03."
         }
       ],
       "roles": [],
       "counters": {
-        "acceptance": 2
+        "acceptance": 2,
+        "comment": 1
       }
     },
     {

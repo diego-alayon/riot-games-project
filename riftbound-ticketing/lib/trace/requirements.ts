@@ -91,7 +91,7 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["REF-04", "Refund por fila", C, OK],
   ["REF-05", "Incident ticket en refund", N, TBD],
   ["PAS-12", "Tickets no transferibles", C, OK],
-  ["I18N-01", "Traducción a 9 idiomas", C, TBD],
+  ["I18N-01", "Idiomas del portal y selección del idioma", C, TBD],
   ["I18N-02", "Formatos regionales", C, TBD],
   ["I18N-03", "Multimoneda por evento", C, OK],
   ["NFR-01", "Data residency en la UE", C, OK],
