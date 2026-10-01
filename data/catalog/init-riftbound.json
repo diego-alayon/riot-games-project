@@ -33,7 +33,7 @@
     {
       "id": "7c8a1830-a9ad-4959-ae26-2b78ac91f9f7",
       "code": "EP-EVT",
-      "name": "Event Details",
+      "name": "Event Page Structure",
       "assignee": null,
       "description": null,
       "due_date": null,
@@ -1568,7 +1568,7 @@
       "story_id": null,
       "area": "PAS",
       "classification": "build",
-      "comments": "PQ-19 cerrado con el diseño v2 (tarjetas). Movido desde Event Details al revisar EP-EVT.",
+      "comments": "PQ-19 cerrado con el diseño v2 (tarjetas). Movido desde Event Page Structure (EP-EVT).",
       "due_date": null,
       "implementation_note": null,
       "owner": "Riot",
@@ -1592,7 +1592,7 @@
       "story_id": null,
       "area": "EVT",
       "classification": "build",
-      "comments": "Detectado al revisar Event Details. Incluye la vista previa al compartir un evento, que quedó pendiente al revisar Find Events.",
+      "comments": "Detectado al revisar Event Page Structure (EP-EVT). Incluye la vista previa al compartir un evento, que quedó pendiente al revisar Find Events.",
       "due_date": null,
       "implementation_note": null,
       "owner": "Globant",
@@ -3637,7 +3637,7 @@
           "seq": 1,
           "sort_order": 0,
           "tag": "pending-product",
-          "text": "Falta especificar los productos a la venta. Cada evento ofrece cuatro pases en dos grupos: «Compete» (Standard Competitor Pass y Premium Competitor Pass) y «Spectate» (Standard Attendee Pass y Premium Attendee Pass), cada uno con su descripción, beneficios, precio y unidades. Definir si son siempre estos cuatro o se configuran por evento, y quién los configura en SmartVenues. Lo mismo para los side events (EP-SDE). Detectado al revisar Event Details."
+          "text": "Falta especificar los productos a la venta. Cada evento ofrece cuatro pases en dos grupos: «Compete» (Standard Competitor Pass y Premium Competitor Pass) y «Spectate» (Standard Attendee Pass y Premium Attendee Pass), cada uno con su descripción, beneficios, precio y unidades. Definir si son siempre estos cuatro o se configuran por evento, y quién los configura en SmartVenues. Lo mismo para los side events (EP-SDE). Detectado al revisar Event Page Structure (EP-EVT)."
         }
       ],
       "roles": [],

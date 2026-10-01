@@ -147,7 +147,7 @@
     },
     {
       "code": "EP-EVT",
-      "name": "Event Details",
+      "name": "Event Page Structure",
       "requirements": [
         {
           "code": "EVT-01",
@@ -204,7 +204,7 @@
           "source": "Análisis de gaps",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "Detectado al revisar Event Details. Incluye la vista previa al compartir un evento, que quedó pendiente al revisar Find Events."
+          "comments": "Detectado al revisar Event Page Structure (EP-EVT). Incluye la vista previa al compartir un evento, que quedó pendiente al revisar Find Events."
         }
       ]
     },
@@ -370,7 +370,7 @@
           "source": "MK",
           "woRef": "—",
           "owner": "Riot",
-          "comments": "PQ-19 cerrado con el diseño v2 (tarjetas). Movido desde Event Details al revisar EP-EVT."
+          "comments": "PQ-19 cerrado con el diseño v2 (tarjetas). Movido desde Event Page Structure (EP-EVT)."
         }
       ]
     },
