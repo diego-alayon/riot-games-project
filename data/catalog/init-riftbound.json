@@ -1557,11 +1557,20 @@
           "text": "El portal debe mostrar al principio de Find Events entre uno y tres eventos destacados, y siempre al menos uno mientras haya eventos publicados que no hayan terminado."
         },
         {
+          "id": "8c4c2450-ba38-4e3d-91ae-2e0accc71190",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 24,
+          "sort_order": 1,
+          "tag": null,
+          "text": "Si no hay ningún evento publicado que no haya terminado, el portal debe mostrar en Find Events un mensaje que indique que no hay eventos [TBD: texto]."
+        },
+        {
           "id": "4a7e0479-36d9-4dea-aca3-a78e6cf58bbf",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 2,
-          "sort_order": 1,
+          "sort_order": 2,
           "tag": null,
           "text": "El portal debe mostrar el primer evento destacado en la tarjeta principal, a todo el ancho."
         },
@@ -1570,7 +1579,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 3,
-          "sort_order": 2,
+          "sort_order": 3,
           "tag": null,
           "text": "El portal debe mostrar debajo de la tarjeta principal el segundo evento destacado en la tarjeta secundaria izquierda y el tercero en la tarjeta secundaria derecha."
         },
@@ -1579,7 +1588,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 5,
-          "sort_order": 3,
+          "sort_order": 4,
           "tag": null,
           "text": "Si solo hay un evento destacado, el portal debe mostrar únicamente la tarjeta principal."
         },
@@ -1588,7 +1597,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 17,
-          "sort_order": 4,
+          "sort_order": 5,
           "tag": "pending-riot",
           "text": "Si solo hay dos eventos destacados, el portal debe mostrarlos en [TBD: disposición de las dos tarjetas]."
         },
@@ -1597,7 +1606,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 4,
-          "sort_order": 5,
+          "sort_order": 6,
           "tag": null,
           "text": "El portal debe mostrar en cada tarjeta destacada la etiqueta de estado de venta (FND-03.21 y FND-03.22), la fecha del evento (día de la semana y rango de fechas), el nombre y la ubicación (venue, ciudad y país)."
         },
@@ -1606,7 +1615,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 21,
-          "sort_order": 6,
+          "sort_order": 7,
           "tag": null,
           "text": "Mientras la venta de pases de un evento esté abierta, el portal debe mostrar en su tarjeta la etiqueta «On sale now»."
         },
@@ -1615,7 +1624,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 22,
-          "sort_order": 7,
+          "sort_order": 8,
           "tag": null,
           "text": "Mientras la venta de pases de un evento no haya abierto, el portal debe mostrar en su tarjeta la etiqueta «On sale in N days», donde N es el número de días hasta la apertura de la venta [TBD-CRÍTICO: zona horaria de referencia de la fecha y hora de apertura (RN-08) y del cálculo de los días]."
         },
@@ -1624,7 +1633,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 18,
-          "sort_order": 8,
+          "sort_order": 9,
           "tag": "pending-product",
           "text": "El portal debe mostrar en cada tarjeta destacada la región del evento [TBD: catálogo de regiones; se define a partir de los países en los que se vende]."
         },
@@ -1633,7 +1642,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 7,
-          "sort_order": 9,
+          "sort_order": 10,
           "tag": null,
           "text": "El portal debe mostrar como fondo de cada tarjeta destacada la imagen propia del evento."
         },
@@ -1642,7 +1651,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 8,
-          "sort_order": 10,
+          "sort_order": 11,
           "tag": null,
           "text": "Si un evento no tiene imagen, el portal debe mostrar como fondo de su tarjeta una imagen genérica de Riftbound [TBD: Riot aporta la imagen genérica]."
         },
@@ -1651,7 +1660,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 19,
-          "sort_order": 11,
+          "sort_order": 12,
           "tag": null,
           "text": "Cuando el fan pulse una tarjeta destacada, el portal debe abrir la página del evento (Event Passes, P-02)."
         },
@@ -1660,7 +1669,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 9,
-          "sort_order": 12,
+          "sort_order": 13,
           "tag": null,
           "text": "El portal debe elegir como primer evento destacado el evento con la venta de pases abierta y la fecha de inicio más próxima."
         },
@@ -1669,7 +1678,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 10,
-          "sort_order": 13,
+          "sort_order": 14,
           "tag": null,
           "text": "El portal debe elegir como segundo y tercer evento destacado los dos eventos publicados con la fecha de inicio más próxima, sin contar el primero, estén en venta o todavía no hayan abierto la venta."
         },
@@ -1678,7 +1687,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 11,
-          "sort_order": 14,
+          "sort_order": 15,
           "tag": null,
           "text": "Si un evento está agotado o tiene la venta cerrada, el portal debe [TBD: incluirlo o no entre los eventos destacados]."
         },
@@ -1687,7 +1696,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 12,
-          "sort_order": 15,
+          "sort_order": 16,
           "tag": null,
           "text": "Si no hay ningún evento en venta, el portal debe mostrar en la tarjeta principal [TBD: qué evento]."
         },
@@ -1696,7 +1705,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 13,
-          "sort_order": 16,
+          "sort_order": 17,
           "tag": null,
           "text": "Si dos eventos tienen la misma fecha de inicio, el portal debe ordenarlos por [TBD: criterio de ordenación secundario]."
         },
@@ -1705,7 +1714,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 23,
-          "sort_order": 17,
+          "sort_order": 18,
           "tag": null,
           "text": "Cuando un evento termine, el portal debe retirarlo de los eventos destacados a partir del día siguiente a su último día, con el mismo criterio que RN-09."
         },
@@ -1714,7 +1723,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 14,
-          "sort_order": 18,
+          "sort_order": 19,
           "tag": "pending-engineering",
           "text": "El frontend del portal debe calcular la selección y el orden de los eventos destacados cada vez que muestra Find Events, a partir de los eventos que envía SmartVenues. El resto de eventos publicados que no hayan terminado va a «More events» (FND-07.1)."
         },
@@ -1723,7 +1732,7 @@
           "kind": "functional",
           "platform": "riftbound",
           "seq": 6,
-          "sort_order": 19,
+          "sort_order": 20,
           "tag": null,
           "text": "En dispositivos móviles, el portal debe mostrar los eventos destacados con [TBD: disposición de las tarjetas y recorte de la imagen; pendiente del diseño móvil]."
         },
@@ -1846,7 +1855,7 @@
       "counters": {
         "acceptance": 4,
         "comment": 2,
-        "functional": 23,
+        "functional": 24,
         "out_of_scope": 2
       }
     },
@@ -1864,13 +1873,184 @@
       "implementation_note": null,
       "owner": "Globant",
       "page": "P-01",
-      "platforms": "[\"riftbound\"]",
+      "platforms": "[\"riftbound\",\"smartvenues\"]",
       "priority": "Crítica",
       "prototype_view": null,
       "source": "RP; MK",
       "status": "Confirmado",
       "wo_ref": "B1",
       "items": [
+        {
+          "id": "24dc0f6e-272d-4dd9-a84f-73d706a82f03",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "El portal debe mostrar en Find Events, debajo de los eventos destacados (FND-03), la sección «More events» con los eventos publicados que no están destacados ni han terminado."
+        },
+        {
+          "id": "789cbb98-f09c-4458-9113-8dd9d710a09d",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": "pending-product",
+          "text": "Cuando un evento termine, el portal debe retirarlo de «More events» [TBD: momento exacto de la retirada; propuesta: a partir del día siguiente a su último día, como RN-09]."
+        },
+        {
+          "id": "a75f2107-f1b3-48f9-91d5-d867683e37a7",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": null,
+          "text": "El portal debe ordenar la lista por fecha de inicio ascendente. Si dos eventos tienen la misma fecha de inicio, el portal debe ordenarlos por [TBD: criterio de ordenación secundario; el mismo que FND-03.13]."
+        },
+        {
+          "id": "8e923607-cea8-4c55-94a2-c268260f6e9c",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": "pending-riot",
+          "text": "El portal debe mostrar junto al título el texto «N on the calendar», donde N es el número total de eventos publicados, incluidos los destacados (provisional)."
+        },
+        {
+          "id": "0a8a8191-2c3f-4e47-b065-4424666511fc",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 5,
+          "sort_order": 4,
+          "tag": null,
+          "text": "El portal debe mostrar en cada fila: la imagen del evento con la región y la ciudad encima; el día de la semana y el rango de fechas; el nombre del evento; el venue, la ciudad y el país; y el estado de venta bajo la etiqueta «Tickets»."
+        },
+        {
+          "id": "6a4d699a-29ab-405b-af74-d40fcddbb8a7",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 6,
+          "sort_order": 5,
+          "tag": "pending-product",
+          "text": "El frontend del portal debe asignar la región de cada evento a partir de su ciudad y país, según el catálogo de regiones [TBD: catálogo; se define a partir de los países en los que se vende]."
+        },
+        {
+          "id": "be50ca0d-a8a6-495d-932f-8eaa534fcefc",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 7,
+          "sort_order": 6,
+          "tag": null,
+          "text": "Mientras la venta de pases de un evento esté abierta, el portal debe mostrar en su fila la etiqueta «On sale now»."
+        },
+        {
+          "id": "bfe3f2a8-b2c6-4ddb-9392-a10345399dd6",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 8,
+          "sort_order": 7,
+          "tag": null,
+          "text": "Mientras falten [TBD: umbral; el prototipo usa 30] días o menos para la apertura de la venta, el portal debe mostrar en su fila la etiqueta «On sale in N days» [TBD-CRÍTICO: zona horaria de referencia de la fecha y hora de apertura (RN-08) y del cálculo de los días]."
+        },
+        {
+          "id": "9bc8c432-f52c-43bf-b3d6-f7b3b42708e7",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 9,
+          "sort_order": 8,
+          "tag": null,
+          "text": "Mientras falten más de [TBD: umbral] días para la apertura de la venta, el portal debe mostrar en su fila «On sale» seguido de la fecha de apertura (ej. «On sale DEC 4»)."
+        },
+        {
+          "id": "10a8be82-2ebe-4897-985b-89407da18ec1",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 10,
+          "sort_order": 9,
+          "tag": "pending-riot",
+          "text": "El portal debe mostrar las fechas del evento en el calendario local del venue, sin convertirlas a la zona horaria del fan (I18N-02)."
+        },
+        {
+          "id": "da34563e-7b29-49fd-8b0e-f91d7a8c3047",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 11,
+          "sort_order": 10,
+          "tag": "pending-product",
+          "text": "En inglés, el portal debe mostrar las fechas con el formato «FRIDAY · SEP 4 - 6, 2026» («SEP 30 - OCT 2, 2026» si el evento cambia de mes). En el resto de idiomas aplica I18N-02 [TBD: formato definitivo]."
+        },
+        {
+          "id": "22693e5a-49fd-48e2-b576-1fd3df9e4d60",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 12,
+          "sort_order": 11,
+          "tag": null,
+          "text": "Si un evento no tiene imagen, el portal debe mostrar en su fila la imagen genérica de Riftbound (FND-03.8)."
+        },
+        {
+          "id": "2992a682-25f0-4260-805d-25252af2854c",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 13,
+          "sort_order": 12,
+          "tag": null,
+          "text": "Cuando el fan pulse una fila, el portal debe abrir la página del evento (Event Passes, P-02)."
+        },
+        {
+          "id": "336867a0-5b4e-475a-a55f-a21093704bc1",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 14,
+          "sort_order": 13,
+          "tag": null,
+          "text": "El portal debe mostrar al principio 3 eventos y el botón «Show N more», donde N es el número de eventos ocultos."
+        },
+        {
+          "id": "719c3f14-6c98-49e5-8d6d-f4b6ca83f44e",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 15,
+          "sort_order": 14,
+          "tag": null,
+          "text": "Cuando el fan pulse «Show N more», el portal debe mostrar el resto de la lista y ocultar el botón."
+        },
+        {
+          "id": "c920eec9-6b84-43ff-823c-3dab536bdad9",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 16,
+          "sort_order": 15,
+          "tag": null,
+          "text": "Cuando el fan vuelva a Find Events desde la página de un evento, el portal debe mantener la lista como la dejó (desplegada o no) y la misma posición de desplazamiento."
+        },
+        {
+          "id": "68aff3ba-e190-4a91-8a99-f13849d4869d",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 17,
+          "sort_order": 16,
+          "tag": "pending-product",
+          "text": "Si no hay eventos fuera de los destacados, el portal debe [TBD: producto y Riot: ocultar la sección «More events» o mostrar un mensaje del tipo «More events coming soon»]."
+        },
+        {
+          "id": "509786d7-5684-48d7-8707-62b758c7f738",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 18,
+          "sort_order": 17,
+          "tag": "pending-riot",
+          "text": "En dispositivos móviles, el portal debe mostrar «More events» con [TBD: disposición de las filas; pendiente del diseño móvil]."
+        },
+        {
+          "id": "bb735e20-0467-4fd4-a20a-42a45f69ba81",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 19,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "SmartVenues debe enviar al portal los eventos de «More events» con los datos de cada fila (nombre, fechas, venue, ciudad, país y estado de la venta) y la fecha y hora de apertura de la venta, por el mismo canal que los eventos destacados (FND-03.15 y FND-03.16) [TBD: API de SmartVenues]."
+        },
         {
           "id": "07798a7f-9d14-495c-90fb-c7c04b4ebeef",
           "kind": "acceptance",
@@ -1879,11 +2059,56 @@
           "sort_order": 0,
           "tag": null,
           "text": "Los eventos no destacados aparecen en \"More events\" con su fecha de apertura de venta."
+        },
+        {
+          "id": "9fbb2f72-0846-44ad-9fbd-68ebe2ffc339",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "Búsqueda de eventos y filtros por región, ciudad o fecha."
+        },
+        {
+          "id": "b06c2ed4-6c0c-4e1a-ad04-9f75ea9fe652",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "Sección de eventos pasados en Find Events."
+        },
+        {
+          "id": "c4510a15-4f50-4d32-bc64-2c28ce126ddf",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "Falta definir qué puede hacer el Chief Sales Operator con los eventos en SmartVenues (crear, editar, publicar, retirar)."
         }
       ],
-      "roles": [],
+      "roles": [
+        {
+          "id": "94c8facb-d491-49a5-a57e-0583b56c599c",
+          "role": "Fan",
+          "capability": "Consulta el resto de eventos y abre su página",
+          "precondition": "Ninguna",
+          "sort_order": 0
+        },
+        {
+          "id": "07a48f83-3b6f-4d32-ba1a-bd1179335837",
+          "role": "Chief Sales Operator",
+          "capability": "Configura y publica en SmartVenues los eventos de la lista",
+          "precondition": null,
+          "sort_order": 1
+        }
+      ],
       "counters": {
-        "acceptance": 1
+        "acceptance": 1,
+        "comment": 1,
+        "functional": 19,
+        "out_of_scope": 2
       }
     },
     {
@@ -2098,11 +2323,20 @@
           "sort_order": 1,
           "tag": null,
           "text": "Si no hay configuración regional, se aplican los formatos de English (NA)."
+        },
+        {
+          "id": "b49bc2ce-a834-463e-a20f-2215d1817a80",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": "pending-riot",
+          "text": "El portal debe mostrar las fechas de los eventos en el calendario local del venue, sin convertirlas a la zona horaria del fan."
         }
       ],
       "roles": [],
       "counters": {
-        "functional": 2
+        "functional": 3
       }
     },
     {
