@@ -1661,6 +1661,15 @@
           "text": "Cuando el fan comparta el enlace de un evento, el portal debe ofrecer una vista previa con [TBD: nombre, fechas e imagen del evento]."
         },
         {
+          "id": "61774a55-cbf5-42b6-a963-3cc96b1eedc5",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 9,
+          "sort_order": 5,
+          "tag": "pending-product",
+          "text": "El portal debe retirar el evento, con sus pases y side events, 24 horas después de que termine, en el mismo instante en todas las zonas horarias [TBD: si durante esas 24 horas la página del evento sigue accesible por su enlace]."
+        },
+        {
           "id": "529805f7-a10c-415a-a43f-2f7a696f0628",
           "kind": "functional",
           "platform": "smartvenues",
@@ -1705,7 +1714,7 @@
         }
       ],
       "counters": {
-        "functional": 8
+        "functional": 9
       }
     },
     {
@@ -1823,11 +1832,20 @@
           "text": "Cuando el fan pulse «My Tickets», el portal debe mostrar My Tickets (P-08). Sin sesión RSO aplica ACC-03."
         },
         {
+          "id": "0f559fea-6cff-4035-ab4c-d6a15248d2dc",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 7,
+          "sort_order": 5,
+          "tag": "pending-riot",
+          "text": "El portal debe indicar en la cabecera que el fan tiene productos en el carrito [TBD: diseño de Riot]."
+        },
+        {
           "id": "3d0e967f-2321-431d-98f0-ac81684bfa13",
           "kind": "functional",
           "platform": "riftbound",
           "seq": 6,
-          "sort_order": 5,
+          "sort_order": 6,
           "tag": null,
           "text": "En dispositivos móviles, el portal debe mostrar la cabecera con [TBD: contenido y comportamiento; pendiente del diseño móvil]."
         },
@@ -1864,8 +1882,8 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
-          "tag": "pending-riot",
-          "text": "Proponer a Riot un acceso al carrito en la cabecera, con el número de productos, que lleve a la página del evento con el panel «Your Order» abierto (PAS-10). El carrito se conserva (ACC-04.8), pero solo se ve en la página del evento: desde Find Events o My Tickets el fan no sabe que tiene una compra a medias. El diseño v2 no lo incluye."
+          "tag": null,
+          "text": "Proponer a Riot un acceso al carrito en la cabecera, con el número de productos, que lleve a la página del evento con el panel «Your Order» abierto (PAS-10). El carrito se conserva (ACC-04.8), pero solo se ve en la página del evento: desde Find Events o My Tickets el fan no sabe que tiene una compra a medias. El diseño v2 no lo incluye. Riot (5 oct 2026): el diseño lo incluirá (FND-01.7)."
         },
         {
           "id": "3c6bb224-1083-46b8-8691-1799b303b1d2",
@@ -1898,7 +1916,7 @@
       "counters": {
         "acceptance": 1,
         "comment": 3,
-        "functional": 6,
+        "functional": 7,
         "out_of_scope": 2
       }
     },
@@ -1976,7 +1994,7 @@
           "seq": 1,
           "sort_order": 0,
           "tag": null,
-          "text": "El portal debe mostrar al principio de Find Events entre uno y tres eventos destacados, y siempre al menos uno mientras haya eventos publicados que no hayan terminado."
+          "text": "El portal debe mostrar al principio de Find Events tres eventos destacados si hay tres o más eventos publicados que no hayan terminado, y uno solo si hay menos."
         },
         {
           "id": "8c4c2450-ba38-4e3d-91ae-2e0accc71190",
@@ -2020,8 +2038,8 @@
           "platform": "riftbound",
           "seq": 17,
           "sort_order": 5,
-          "tag": "pending-riot",
-          "text": "Si solo hay dos eventos destacados, el portal debe mostrarlos en [TBD: disposición de las dos tarjetas]."
+          "tag": null,
+          "text": "Si solo hay dos eventos publicados que no hayan terminado, el portal debe mostrar uno como destacado, en la tarjeta principal, y el otro en «More events»."
         },
         {
           "id": "a69f535c-1971-4bc0-810f-b0f05e1dce9f",
@@ -2038,7 +2056,7 @@
           "platform": "riftbound",
           "seq": 26,
           "sort_order": 7,
-          "tag": "pending-riot",
+          "tag": null,
           "text": "El portal debe mostrar las fechas del evento en el calendario local del venue, sin convertirlas a la zona horaria del fan (I18N-02)."
         },
         {
@@ -2056,8 +2074,8 @@
           "platform": "riftbound",
           "seq": 22,
           "sort_order": 9,
-          "tag": "pending-product",
-          "text": "Mientras falten [TBD: umbral; el prototipo usa 30] días o menos para la apertura de la venta, el portal debe mostrar en su tarjeta la etiqueta «On sale in N days» [TBD-CRÍTICO: zona horaria de referencia de la fecha y hora de apertura (RN-08) y del cálculo de los días]."
+          "tag": "pending-riot",
+          "text": "Mientras falten [TBD: umbral; el prototipo usa 30] días o menos para la apertura de la venta, el portal debe mostrar en su tarjeta la etiqueta «On sale in N days». N se calcula a partir del instante de apertura en UTC (I18N-02.5)."
         },
         {
           "id": "f1917146-30b4-4212-8761-1a4b68f2534f",
@@ -2065,7 +2083,7 @@
           "platform": "riftbound",
           "seq": 25,
           "sort_order": 10,
-          "tag": "pending-product",
+          "tag": "pending-riot",
           "text": "Mientras falten más de [TBD: umbral] días para la apertura de la venta, el portal debe mostrar en su tarjeta «On sale» seguido de la fecha de apertura (ej. «On sale SEP 25»)."
         },
         {
@@ -2129,7 +2147,7 @@
           "seq": 11,
           "sort_order": 17,
           "tag": null,
-          "text": "Si un evento está agotado o tiene la venta cerrada, el portal debe [TBD: incluirlo o no entre los eventos destacados]."
+          "text": "Si todos los pases de un evento están agotados, el portal debe [TBD: incluirlo o no entre los eventos destacados]."
         },
         {
           "id": "83c5c65f-b27f-4d4a-9d0e-5312f6f06c6e",
@@ -2156,7 +2174,7 @@
           "seq": 23,
           "sort_order": 20,
           "tag": null,
-          "text": "Cuando un evento termine, el portal debe retirarlo de los eventos destacados a partir del día siguiente a su último día, con el mismo criterio que RN-09."
+          "text": "Cuando un evento termine, el portal debe dejar de mostrarlo entre los eventos destacados en ese mismo momento, igual en todas las zonas horarias."
         },
         {
           "id": "4e98baa7-cca7-4f4d-ba2d-c08baa8b7c93",
@@ -2263,8 +2281,8 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
-          "tag": "pending-riot",
-          "text": "Confirmar con Riot el número de eventos destacados: en la reunión dijo que lo habitual es uno solo, y el diseño v2 muestra tres."
+          "tag": null,
+          "text": "Número de eventos destacados. Riot (5 oct 2026): tres si hay tres o más eventos publicados; con uno, ocupa todo el ancho; con dos, uno destacado y el otro en «More events»."
         },
         {
           "id": "d496ca78-62af-42d7-aa53-90ab5453ad75",
@@ -2274,6 +2292,15 @@
           "sort_order": 1,
           "tag": "pending-product",
           "text": "Los eventos de venta restringida (AUD-01, P-12) no deben aparecer en Find Events. Detectado al revisar FND-01."
+        },
+        {
+          "id": "e6c4f10e-99dc-4a8e-8ff0-ee7fc6a9c409",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": "pending-riot",
+          "text": "Pregunta para Riot: ¿a partir de cuántos días antes de la apertura de la venta se muestra «On sale in N days» en lugar de la fecha de apertura? El prototipo usa 30."
         }
       ],
       "roles": [
@@ -2294,7 +2321,7 @@
       ],
       "counters": {
         "acceptance": 4,
-        "comment": 2,
+        "comment": 3,
         "functional": 26,
         "out_of_scope": 2
       }
@@ -2335,8 +2362,8 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
-          "tag": "pending-product",
-          "text": "Cuando un evento termine, el portal debe retirarlo de «More events» [TBD: momento exacto de la retirada; propuesta: a partir del día siguiente a su último día, como RN-09]."
+          "tag": null,
+          "text": "Cuando un evento termine, el portal debe retirarlo de «More events» en ese mismo momento, igual en todas las zonas horarias."
         },
         {
           "id": "a75f2107-f1b3-48f9-91d5-d867683e37a7",
@@ -2353,8 +2380,8 @@
           "platform": "riftbound",
           "seq": 4,
           "sort_order": 3,
-          "tag": "pending-riot",
-          "text": "El portal debe mostrar junto al título el texto «N on the calendar», donde N es el número total de eventos publicados, incluidos los destacados (provisional)."
+          "tag": null,
+          "text": "El portal debe mostrar junto al título el texto «N on the calendar», donde N es el número total de eventos publicados que quedan, incluidos los destacados."
         },
         {
           "id": "0a8a8191-2c3f-4e47-b065-4424666511fc",
@@ -2389,8 +2416,8 @@
           "platform": "riftbound",
           "seq": 8,
           "sort_order": 7,
-          "tag": "pending-product",
-          "text": "Mientras falten [TBD: umbral; el prototipo usa 30] días o menos para la apertura de la venta, el portal debe mostrar en su fila la etiqueta «On sale in N days» [TBD-CRÍTICO: zona horaria de referencia de la fecha y hora de apertura (RN-08) y del cálculo de los días]."
+          "tag": "pending-riot",
+          "text": "Mientras falten [TBD: umbral; el prototipo usa 30] días o menos para la apertura de la venta, el portal debe mostrar en su fila la etiqueta «On sale in N days». N se calcula a partir del instante de apertura en UTC (I18N-02.5)."
         },
         {
           "id": "9bc8c432-f52c-43bf-b3d6-f7b3b42708e7",
@@ -2398,7 +2425,7 @@
           "platform": "riftbound",
           "seq": 9,
           "sort_order": 8,
-          "tag": "pending-product",
+          "tag": "pending-riot",
           "text": "Mientras falten más de [TBD: umbral] días para la apertura de la venta, el portal debe mostrar en su fila «On sale» seguido de la fecha de apertura (ej. «On sale DEC 4»)."
         },
         {
@@ -2407,7 +2434,7 @@
           "platform": "riftbound",
           "seq": 10,
           "sort_order": 9,
-          "tag": "pending-riot",
+          "tag": null,
           "text": "El portal debe mostrar las fechas del evento en el calendario local del venue, sin convertirlas a la zona horaria del fan (I18N-02)."
         },
         {
@@ -2470,8 +2497,8 @@
           "platform": "riftbound",
           "seq": 17,
           "sort_order": 16,
-          "tag": "pending-product",
-          "text": "Si no hay eventos fuera de los destacados, el portal debe [TBD: producto y Riot: ocultar la sección «More events» o mostrar un mensaje del tipo «More events coming soon»]."
+          "tag": null,
+          "text": "Si no hay eventos fuera de los destacados, el portal debe mostrar en «More events» el mensaje «Check back later for more events»."
         },
         {
           "id": "509786d7-5684-48d7-8707-62b758c7f738",
@@ -2526,6 +2553,15 @@
           "sort_order": 0,
           "tag": "pending-product",
           "text": "Falta definir qué puede hacer el Chief Sales Operator con los eventos en SmartVenues (crear, editar, publicar, retirar)."
+        },
+        {
+          "id": "6a92de0c-27ad-493a-8b04-dcb782d0c784",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": "pending-riot",
+          "text": "Pregunta para Riot: ¿a partir de cuántos días antes de la apertura de la venta se muestra «On sale in N days» en lugar de la fecha de apertura? El prototipo usa 30."
         }
       ],
       "roles": [
@@ -2546,7 +2582,7 @@
       ],
       "counters": {
         "acceptance": 1,
-        "comment": 1,
+        "comment": 2,
         "functional": 19,
         "out_of_scope": 2
       }
@@ -2578,7 +2614,7 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
-          "tag": null,
+          "tag": "pending-riot",
           "text": "Si el fan abre una dirección del portal que no existe, el portal debe mostrar la cabecera, un mensaje [TBD: texto] y un enlace a Find Events."
         },
         {
@@ -2587,7 +2623,7 @@
           "platform": "riftbound",
           "seq": 2,
           "sort_order": 1,
-          "tag": null,
+          "tag": "pending-riot",
           "text": "Si el portal no puede atender la petición por un error del servidor, el portal debe mostrar la cabecera, un mensaje [TBD: texto] y la opción de reintentar."
         },
         {
@@ -2605,8 +2641,8 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
-          "tag": "pending-riot",
-          "text": "Acordar con Riot las páginas de error y sus textos: el diseño v2 no las incluye."
+          "tag": null,
+          "text": "Acordar con Riot las páginas de error y sus textos: el diseño v2 no las incluye. Riot (5 oct 2026): Riot diseñará la página de error; faltan sus textos."
         }
       ],
       "roles": [
@@ -2905,7 +2941,7 @@
           "seq": 5,
           "sort_order": 4,
           "tag": null,
-          "text": "El portal debe mostrar la fecha y hora de apertura de la venta, que es la misma en todo el mundo (RN-08), [TBD-CRÍTICO: en la hora local del fan o en una zona horaria de referencia indicada; ej. si abre a las 18:00 CEST, un fan de Los Angeles ve «9:00 AM» o «18:00 CEST»]."
+          "text": "El portal debe abrir la venta de cada evento en un único instante, definido en UTC, igual para todos los fans del mundo (RN-08), y mostrar la hora de apertura en UTC (ej. «17:00 UTC»)."
         },
         {
           "id": "8443a8d6-c560-4686-b5d8-5e18687d5141",

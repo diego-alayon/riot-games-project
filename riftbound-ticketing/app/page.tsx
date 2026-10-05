@@ -64,15 +64,16 @@ export default function FindEventsPage() {
           <ReqMarker ids={["FND-03", "ACC-01"]} corner="tl" />
         </div>
 
-        {/* FND-07.17: hide or show a "coming soon" message is still to be decided; hidden for now. */}
-        {more.length > 0 && (
+        {hero && (
         <section className="relative mt-10 md:mt-14">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
             <Heading level="heading-lg">More events</Heading>
-            {/* FND-07.4: every published event, featured ones included (provisional). */}
+            {/* FND-07.4: every published event that remains, featured ones included. */}
             <span className="text-body text-muted">{featured.length + more.length} on the calendar</span>
           </div>
           <div className="relative mt-4 flex flex-col gap-3">
+            {/* FND-07.17 */}
+            {more.length === 0 && <p className="py-6 text-center text-body text-muted">Check back later for more events</p>}
             {visible.map((ev) => (
               <EventListRow key={ev.slug} ev={ev} />
             ))}

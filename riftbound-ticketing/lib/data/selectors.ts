@@ -45,6 +45,8 @@ export const isOnSale = (ev: RiftEvent, today = DEMO_TODAY) => saleLabel(ev, tod
 export function featuredEvents(visible: RiftEvent[], today = DEMO_TODAY) {
   const events = [...visible].sort(byStart);
   const first = events.find((e) => isOnSale(e, today)) ?? events[0];
-  const featured = first ? [first, ...events.filter((e) => e !== first).slice(0, 2)] : [];
+  // FND-03.1 / FND-03.17: three featured events with three or more published, otherwise just one.
+  const others = events.length >= 3 ? events.filter((e) => e !== first).slice(0, 2) : [];
+  const featured = first ? [first, ...others] : [];
   return { featured, more: events.filter((e) => !featured.includes(e)) };
 }
