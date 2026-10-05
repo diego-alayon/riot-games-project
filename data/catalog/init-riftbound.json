@@ -1063,9 +1063,21 @@
       "source": "RP",
       "status": "Pendiente de definir",
       "wo_ref": "6.5; 8.1",
-      "items": [],
+      "items": [
+        {
+          "id": "4c76ec69-779f-49a6-83dd-106dabe13a78",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "Riot (5 oct 2026): espera que Globant envíe los emails de confirmación; si no es posible, usaría su servicio de email. Contradice la WO, que los asigna al CRM de Riot (PQ-16). Riot dice que ya lo ha respondido varias veces: no volver a preguntarlo."
+        }
+      ],
       "roles": [],
-      "counters": {}
+      "counters": {
+        "comment": 1
+      }
     },
     {
       "id": "891cf397-5ba3-4033-9814-da8a58dec501",
@@ -2744,8 +2756,8 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
-          "tag": "pending-riot",
-          "text": "El portal debe estar disponible en estos idiomas: English (NA), German, Spanish (EUW), French, Italian, Korean, Japanese y Portuguese (Brazil) [TBD: noveno idioma que exige la WO; PQ-25]."
+          "tag": "pending-product",
+          "text": "El portal debe estar disponible en los idiomas del contrato: English (NA), German, Spanish (EUW), French, Italian, Korean, Japanese y Portuguese (Brazil) [TBD: revisar en la WO cuál es el noveno idioma]."
         },
         {
           "id": "40ef9547-f940-4b8a-b460-af563a9a743d",
@@ -2799,7 +2811,7 @@
           "seq": 7,
           "sort_order": 6,
           "tag": "pending-riot",
-          "text": "El portal debe mostrar en el idioma del fan los textos legales de Checkout (CHK-05) [TBD: Riot aporta los textos traducidos]."
+          "text": "El portal debe mostrar en el idioma del fan los textos legales de Checkout (CHK-05) [TBD: Riot aporta los textos más adelante; mientras tanto, texto provisional (Lorem ipsum)]."
         },
         {
           "id": "4a3ee423-b4f6-4ea3-b6af-413d9627592f",
@@ -2843,8 +2855,8 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
-          "tag": "pending-riot",
-          "text": "El idioma de los emails (CHK-09, FFA-02) lo gestiona el CRM de Riot (PQ-16)."
+          "tag": "pending-product",
+          "text": "El idioma de los emails (CHK-09, FFA-02). Riot (5 oct 2026): espera que Globant envíe los emails de confirmación; si no es posible, usaría su servicio de email. Contradice la WO, que los asigna al CRM de Riot (PQ-16). Riot dice que ya lo ha respondido varias veces: no volver a preguntarlo."
         },
         {
           "id": "aab11d7b-43be-47b0-8086-12562318b359",
@@ -2852,8 +2864,8 @@
           "platform": "all",
           "seq": 2,
           "sort_order": 1,
-          "tag": "pending-riot",
-          "text": "¿Hace falta español de Latinoamérica para el evento de Mexico City? La lista solo tiene Spanish (EUW)."
+          "tag": null,
+          "text": "¿Hace falta español de Latinoamérica para el evento de Mexico City? Riot (5 oct 2026): no hay evento en Mexico City; solo se traduce a los idiomas del contrato."
         },
         {
           "id": "0d3ce677-7cf1-4e3d-98cf-d5eb06376a6d",
@@ -2863,6 +2875,15 @@
           "sort_order": 2,
           "tag": "pending-engineering",
           "text": "La tipografía del diseño (Inter) no incluye caracteres coreanos ni japoneses: hace falta una tipografía de respaldo (I18N-01.9)."
+        },
+        {
+          "id": "1ab046d2-21de-478d-b304-afbc14a46681",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": null,
+          "text": "Riot (5 oct 2026): aportará todos los textos más adelante; hasta entonces se usa texto provisional (Lorem ipsum)."
         }
       ],
       "roles": [
@@ -2882,7 +2903,7 @@
         }
       ],
       "counters": {
-        "comment": 3,
+        "comment": 4,
         "functional": 10,
         "out_of_scope": 1
       }
@@ -2932,8 +2953,8 @@
           "platform": "riftbound",
           "seq": 3,
           "sort_order": 2,
-          "tag": "pending-riot",
-          "text": "El portal debe mostrar las fechas de los eventos en el calendario local del venue, sin convertirlas a la zona horaria del fan."
+          "tag": null,
+          "text": "El portal debe mostrar las fechas y horas de los eventos en la hora local del venue, sin convertirlas a la zona horaria del fan."
         },
         {
           "id": "953c82ed-17fe-4df3-95c5-ff4a9e935f9e",
@@ -2942,7 +2963,7 @@
           "seq": 4,
           "sort_order": 3,
           "tag": "pending-product",
-          "text": "El portal debe mostrar las horas de los side events en la hora local del venue [TBD: si se indica la zona horaria, ej. «13:00 CEST»]."
+          "text": "El portal debe mostrar las horas de los side events en la hora local del venue (confirmado por Riot) [TBD: si se indica la zona horaria, ej. «13:00 CEST»]."
         },
         {
           "id": "385aac32-b060-4af1-9deb-aa3c8794a598",
@@ -3469,7 +3490,7 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
-          "tag": "pending-riot",
+          "tag": null,
           "text": "El portal debe cumplir el nivel AA de WCAG 2.1, tal como lo recoge la norma EN 301 549."
         },
         {
@@ -3498,6 +3519,15 @@
           "sort_order": 3,
           "tag": null,
           "text": "El portal debe ofrecer al principio de cada página un enlace para saltar la cabecera e ir directamente al contenido."
+        },
+        {
+          "id": "e78bcb8b-3d0d-4356-82fe-eb87009830c5",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "Riot (5 oct 2026): sí, si lo exige la ley. El European Accessibility Act se aplica desde el 28 de junio de 2025 a la venta online a consumidores de la UE, y Riot no es una microempresa (única exención), así que entendemos que es obligatorio [TBD: confirmación del equipo legal]."
         }
       ],
       "roles": [
@@ -3510,6 +3540,7 @@
         }
       ],
       "counters": {
+        "comment": 1,
         "functional": 4
       }
     },
