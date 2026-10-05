@@ -83,7 +83,7 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["VOU-08", "Uso parcial y saldo", N, TBD],
   ["VOU-09", "Caducidad", N, TBD],
   ["AUD-01", "Venta restringida por audiencia", C, TBD],
-  ["AUD-02", "Restricción por variables de perfil", C, TBD],
+  ["AUD-02", "Restricción por flag de la cuenta Riot", C, TBD],
   ["COM-01", "Emisión de cortesía", N, TBD],
   ["COM-02", "Visualización de la cortesía", N, TBD],
   ["REF-01", "Refund por ítem autogestionado", C, OK],

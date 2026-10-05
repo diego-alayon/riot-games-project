@@ -147,7 +147,7 @@ function add(code, target, texts) {
 /* ── Roles table (requirement_roles) ─────────────────────────────────────── */
 
 // Keep in sync with ROLES in lib/requirements/roles.ts.
-const KNOWN_ROLES = ["Fan", "Chief Sales Operator"];
+const KNOWN_ROLES = ["Fan", "Chief Sales Operator", "Ticketing Operator"];
 
 function ensureRolesTable() {
   const ok = db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='requirement_roles'").get();

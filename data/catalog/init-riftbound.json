@@ -800,12 +800,12 @@
       "id": "6a358bd6-7386-4ebe-b8e3-8717f92d49b0",
       "code": "AUD-01",
       "feature": "Venta restringida por audiencia",
-      "description": "Limitar la compra de productos a cuentas Riot concretas, configurable por evento o producto. Mecanismo por decidir: código de acceso o visibilidad por entitlement.",
+      "description": "Como fan con acceso, quiero comprar en las ventas restringidas de un evento o producto, con un código de acceso o porque mi cuenta Riot tiene acceso, para acceder a ventas que no son públicas.",
       "epic_id": "230259e2-9999-4ef5-b016-383f370c86ca",
       "story_id": null,
       "area": "AUD",
       "classification": "build",
-      "comments": "Riot la califica como \"pretty critical\". Globant debe confirmar si existe hoy (Enrique). PQ-08, PQ-09. GAP-06",
+      "comments": "Riot la califica como \"pretty critical\". Globant debe confirmar si existe hoy (Enrique). PQ-08, PQ-09. GAP-06 Riot (5 oct 2026): quiere las dos opciones, código de acceso y visibilidad por cuenta.",
       "due_date": null,
       "implementation_note": null,
       "owner": "Compartido",
@@ -816,20 +816,110 @@
       "source": "RP",
       "status": "Pendiente de definir",
       "wo_ref": "B2 (parcial)",
-      "items": [],
-      "roles": [],
-      "counters": {}
+      "items": [
+        {
+          "id": "42504fad-e388-4aad-a399-1090f8376d82",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "Donde la venta de un evento o de un producto esté restringida por código de acceso, el portal debe pedir el código antes de permitir añadir el producto al carrito [TBD: dónde se introduce el código]."
+        },
+        {
+          "id": "a016ecf2-bf4b-4827-be89-909b53c62da1",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "Donde la venta esté restringida por cuenta, el portal debe mostrar el evento o el producto solo a los fans con sesión RSO cuya cuenta Riot tenga acceso (AUD-02)."
+        },
+        {
+          "id": "2ce6850a-5848-4202-8edc-ab5c20442538",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": null,
+          "text": "Mientras el fan no tenga sesión RSO, el portal no debe mostrarle los eventos ni los productos restringidos por cuenta."
+        },
+        {
+          "id": "224fd729-a0c5-48cd-ac7c-cde699bb19de",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": null,
+          "text": "Si solo está restringido un producto, el portal debe mostrar el evento a todos los fans y aplicar la restricción solo a ese producto."
+        },
+        {
+          "id": "cdd88c87-9b1f-4281-85b0-f80d5b5a2e07",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 5,
+          "sort_order": 4,
+          "tag": "pending-product",
+          "text": "Si un evento está restringido por código de acceso, el portal debe [TBD: no mostrarlo en Find Events y permitir el acceso por un enlace directo donde se pide el código (recomendado), o mostrarlo a todos bloqueado hasta introducir el código]."
+        },
+        {
+          "id": "8a163d7c-daa5-44a0-a731-cac864127347",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 6,
+          "sort_order": 5,
+          "tag": null,
+          "text": "El portal debe calcular para cada fan los eventos destacados y el contador «N on the calendar» con los eventos que ese fan puede ver (FND-03.14, FND-07.4)."
+        },
+        {
+          "id": "9b2f3615-f632-4ac2-9128-62cb224eb468",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 7,
+          "sort_order": 0,
+          "tag": null,
+          "text": "SmartVenues debe permitir al Chief Sales Operator restringir la venta de un evento o de un producto a fans con un código de acceso, a cuentas Riot con acceso (AUD-02), o a ambos."
+        },
+        {
+          "id": "0ec1fa32-cb1b-4fe3-9fda-332187ffa997",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 8,
+          "sort_order": 1,
+          "tag": "pending-engineering",
+          "text": "SmartVenues debe enviar al portal qué eventos y productos están restringidos y con qué mecanismo [TBD: API de SmartVenues: contrato y forma de comunicación con el portal]."
+        }
+      ],
+      "roles": [
+        {
+          "id": "ce141f4f-37e6-4116-a9b0-140817873e19",
+          "role": "Fan",
+          "capability": "Compra en una venta restringida con un código de acceso o con una cuenta con acceso",
+          "precondition": "Requerido: sesión RSO activa",
+          "sort_order": 0
+        },
+        {
+          "id": "08e2b9f0-6547-486d-8b0f-f602e19e3d6c",
+          "role": "Chief Sales Operator",
+          "capability": "Configura en SmartVenues las ventas restringidas de cada evento o producto",
+          "precondition": null,
+          "sort_order": 1
+        }
+      ],
+      "counters": {
+        "functional": 8
+      }
     },
     {
       "id": "39f59ece-d0b7-4f4e-ac24-3313a8db1f97",
       "code": "AUD-02",
-      "feature": "Restricción por variables de perfil",
-      "description": "Restringir la compra según variables del perfil RSO (ej. Riot Points, interacción social).",
+      "feature": "Restricción por flag de la cuenta Riot",
+      "description": "Como fan al que Riot ha dado acceso, quiero poder comprar los productos restringidos a mi cuenta, para acceder a ventas que no son públicas.",
       "epic_id": "230259e2-9999-4ef5-b016-383f370c86ca",
       "story_id": null,
       "area": "AUD",
       "classification": "build",
-      "comments": "Contratada, pero no tratada en la reunión. PQ-24. Se implementaría junto a los access codes (AUD-01).",
+      "comments": "Contratada, pero no tratada en la reunión. PQ-24. Se implementaría junto a los access codes (AUD-01). Riot (5 oct 2026): no son variables del perfil, sino un único flag en la cuenta: tiene acceso o no.",
       "due_date": null,
       "implementation_note": null,
       "owner": "Compartido",
@@ -840,9 +930,38 @@
       "source": "WO",
       "status": "Pendiente de definir",
       "wo_ref": "B2; 3.2 stage 3",
-      "items": [],
-      "roles": [],
-      "counters": {}
+      "items": [
+        {
+          "id": "7907dbc1-0625-4e8e-94d6-2b15b8e7ac35",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-engineering",
+          "text": "El portal debe permitir comprar un producto restringido por cuenta solo a las cuentas Riot que tengan el flag de acceso [TBD: quién marca el flag y cómo lo lee el portal: desde RSO o desde SmartVenues]."
+        },
+        {
+          "id": "f6ed7b7c-0ce3-4deb-98f7-94535ff4ef19",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": "pending-product",
+          "text": "Si una cuenta sin el flag de acceso abre la dirección de un evento o de un producto restringido por cuenta, el portal debe [TBD: mostrar un mensaje o la página de error (FND-12)]."
+        }
+      ],
+      "roles": [
+        {
+          "id": "ae663db5-36d6-429e-ad90-44d6e06c91b8",
+          "role": "Fan",
+          "capability": "Compra productos restringidos a su cuenta Riot",
+          "precondition": "Requerido: sesión RSO activa",
+          "sort_order": 0
+        }
+      ],
+      "counters": {
+        "functional": 2
+      }
     },
     {
       "id": "19510225-1c3f-4126-8f3a-1ddf306fed42",
@@ -1083,12 +1202,12 @@
       "id": "891cf397-5ba3-4033-9814-da8a58dec501",
       "code": "COM-01",
       "feature": "Emisión de cortesía",
-      "description": "Asignar un ticket gratuito a una cuenta Riot concreta (ej. content creators).",
+      "description": "Los operadores de ticketing de Riot asignan desde SmartVenues un ticket gratuito a una cuenta Riot concreta (ej. content creators).",
       "epic_id": "230259e2-9999-4ef5-b016-383f370c86ca",
       "story_id": null,
       "area": "AUD",
       "classification": "build",
-      "comments": "No existe hoy. Mecanismo por decidir. PQ-10. GAP-03",
+      "comments": "No existe hoy. Mecanismo por decidir. PQ-10. GAP-03 Riot (5 oct 2026): las cortesías se asignan desde el backend y las gestionan sus «ticketing operators».",
       "due_date": null,
       "implementation_note": null,
       "owner": "Compartido",
@@ -1099,9 +1218,39 @@
       "source": "RP",
       "status": "Pendiente de definir",
       "wo_ref": "—",
-      "items": [],
-      "roles": [],
-      "counters": {}
+      "items": [
+        {
+          "id": "5c19eee5-f5f6-4888-987a-d87224ba6c11",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "SmartVenues debe permitir al Ticketing Operator asignar un ticket de cortesía a una cuenta Riot concreta [TBD: qué identifica la cuenta: Riot ID o PUID]."
+        },
+        {
+          "id": "76c43a85-234d-4a51-a9b5-2f091bc49f31",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "Riot (5 oct 2026): las cortesías las asignan desde el backend sus «ticketing operators». Pendiente de que Riot defina el rol Ticketing Operator y si es distinto del Chief Sales Operator."
+        }
+      ],
+      "roles": [
+        {
+          "id": "774e1c66-a9e4-4216-b131-60d91fbccc41",
+          "role": "Ticketing Operator",
+          "capability": "Asigna desde SmartVenues tickets de cortesía a cuentas Riot",
+          "precondition": null,
+          "sort_order": 0
+        }
+      ],
+      "counters": {
+        "comment": 1,
+        "functional": 1
+      }
     },
     {
       "id": "a740dad2-67c8-445a-8428-09b78c25d0db",
@@ -2312,8 +2461,8 @@
           "platform": "all",
           "seq": 2,
           "sort_order": 1,
-          "tag": "pending-product",
-          "text": "Los eventos de venta restringida (AUD-01, P-12) no deben aparecer en Find Events. Detectado al revisar FND-01."
+          "tag": null,
+          "text": "Eventos de venta restringida en Find Events (AUD-01): con restricción por cuenta, solo los ven los fans con sesión cuya cuenta tiene acceso; con código de acceso, pendiente (AUD-01.5). Detectado al revisar FND-01."
         },
         {
           "id": "e6c4f10e-99dc-4a8e-8ff0-ee7fc6a9c409",

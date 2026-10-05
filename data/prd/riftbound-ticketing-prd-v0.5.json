@@ -522,37 +522,37 @@
           "code": "AUD-01",
           "page": "P-02, P-12",
           "feature": "Venta restringida por audiencia",
-          "description": "Limitar la compra de productos a cuentas Riot concretas, configurable por evento o producto. Mecanismo por decidir: código de acceso o visibilidad por entitlement.",
+          "description": "Como fan con acceso, quiero comprar en las ventas restringidas de un evento o producto, con un código de acceso o porque mi cuenta Riot tiene acceso, para acceder a ventas que no son públicas.",
           "priority": "Crítica",
           "status": "Pendiente de definir",
           "source": "RP",
           "woRef": "B2 (parcial)",
           "owner": "Compartido",
-          "comments": "Riot la califica como \"pretty critical\". Globant debe confirmar si existe hoy (Enrique). PQ-08, PQ-09. GAP-06"
+          "comments": "Riot la califica como \"pretty critical\". Globant debe confirmar si existe hoy (Enrique). PQ-08, PQ-09. GAP-06 Riot (5 oct 2026): quiere las dos opciones, código de acceso y visibilidad por cuenta."
         },
         {
           "code": "AUD-02",
           "page": "P-02",
-          "feature": "Restricción por variables de perfil",
-          "description": "Restringir la compra según variables del perfil RSO (ej. Riot Points, interacción social).",
+          "feature": "Restricción por flag de la cuenta Riot",
+          "description": "Como fan al que Riot ha dado acceso, quiero poder comprar los productos restringidos a mi cuenta, para acceder a ventas que no son públicas.",
           "priority": "Crítica",
           "status": "Pendiente de definir",
           "source": "WO",
           "woRef": "B2; 3.2 stage 3",
           "owner": "Compartido",
-          "comments": "Contratada, pero no tratada en la reunión. PQ-24. Se implementaría junto a los access codes (AUD-01)."
+          "comments": "Contratada, pero no tratada en la reunión. PQ-24. Se implementaría junto a los access codes (AUD-01). Riot (5 oct 2026): no son variables del perfil, sino un único flag en la cuenta: tiene acceso o no."
         },
         {
           "code": "COM-01",
           "page": "P-12",
           "feature": "Emisión de cortesía",
-          "description": "Asignar un ticket gratuito a una cuenta Riot concreta (ej. content creators).",
+          "description": "Los operadores de ticketing de Riot asignan desde SmartVenues un ticket gratuito a una cuenta Riot concreta (ej. content creators).",
           "priority": "No crítica",
           "status": "Pendiente de definir",
           "source": "RP",
           "woRef": "—",
           "owner": "Compartido",
-          "comments": "No existe hoy. Mecanismo por decidir. PQ-10. GAP-03"
+          "comments": "No existe hoy. Mecanismo por decidir. PQ-10. GAP-03 Riot (5 oct 2026): las cortesías se asignan desde el backend y las gestionan sus «ticketing operators»."
         },
         {
           "code": "COM-02",
