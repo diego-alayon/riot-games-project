@@ -1279,6 +1279,15 @@
           "sort_order": 0,
           "tag": null,
           "text": "El detalle del evento muestra las pestañas Event Passes y Side Events operativas, y On Demand Events deshabilitada."
+        },
+        {
+          "id": "5d878888-92b1-4f32-ac4a-97652e454fe6",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "Riot (5 oct 2026) dice que los on demand events se venden durante el fin de semana del evento, pero On Demand está descartado en la v1 (EVT-02) y su pestaña sale deshabilitada (EVT-01.11). Confirmar con Riot que On Demand sigue fuera de la v1."
         }
       ],
       "roles": [
@@ -1299,6 +1308,7 @@
       ],
       "counters": {
         "acceptance": 1,
+        "comment": 1,
         "functional": 15
       }
     },
@@ -1371,7 +1381,7 @@
           "platform": "riftbound",
           "seq": 3,
           "sort_order": 2,
-          "tag": "pending-riot",
+          "tag": null,
           "text": "El portal debe mostrar las fechas en el calendario local del venue (I18N-02.3), con el formato «SEP 4 - 6, 2026»."
         },
         {
@@ -1639,8 +1649,8 @@
           "platform": "riftbound",
           "seq": 3,
           "sort_order": 2,
-          "tag": "pending-riot",
-          "text": "Si el fan abre la dirección de un evento que ya ha terminado, el portal debe mostrar un mensaje propio de evento terminado [TBD: texto y contenido; propuesta: enlace a Find Events y, si el fan tiene un pase, a My Tickets]."
+          "tag": "pending-product",
+          "text": "Si el fan abre la dirección de un evento terminado que ya no es accesible (EVT-07.9), el portal debe mostrar el mensaje «This event has concluded» [TBD: si se añade un enlace a Find Events y, si el fan tiene un pase, a My Tickets]."
         },
         {
           "id": "2d9433de-b11a-4bb9-aaf3-0f3be5e1e5c2",
