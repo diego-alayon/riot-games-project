@@ -17,7 +17,7 @@ export interface PassCardProps {
   currency: Currency;
   sale: SaleState;
   owned?: boolean;        // EVT-05 — shown as "Registered"
-  dimmed?: boolean;       // the user holds another pass of this event (RN-03)
+  dimmed?: boolean;       // the pass type has reached its purchase limit (PAS-06)
   selected?: boolean;     // in cart (PAS-06)
   preregistered?: boolean;
   onSelect?: () => void;

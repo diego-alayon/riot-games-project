@@ -401,7 +401,7 @@ export function DesignSystemGallery() {
               <div className="flex flex-col gap-4">
                 <TextInput label="Code" placeholder="Enter a code" />
                 <Checkbox checked={check} onChange={setCheck}>I agree to the <InlineLink href="#">Terms of Service</InlineLink>.</Checkbox>
-                <Specimen label="quantity stepper (RN-03 caps passes at 1)"><QuantityStepper value={qty} max={4} onChange={setQty} /></Specimen>
+                <Specimen label="quantity stepper (PAS-06: types with a limit above 1)"><QuantityStepper value={qty} max={4} onChange={setQty} /></Specimen>
               </div>
             </div>
           </Section>
@@ -473,10 +473,10 @@ export function DesignSystemGallery() {
               </Specimen>
               <Specimen label="OrderPanel · empty / cart / owned / fan first">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                  <OrderPanel ev={sg} cart={{ eventSlug: null, passId: null, sideIds: [] }} owned={null} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
-                  <OrderPanel ev={sg} cart={{ eventSlug: sg.slug, passId: passesFor(sg)[0].id, sideIds: [sides[0].id] }} owned={null} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
-                  <OrderPanel ev={bcn} cart={{ eventSlug: null, passId: null, sideIds: [] }} owned={p1} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
-                  <OrderPanel ev={bcn} cart={{ eventSlug: null, passId: null, sideIds: [] }} owned={null} preregs={[]} mode="fan-first" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
+                  <OrderPanel ev={sg} cart={{ eventSlug: null, passIds: [], sideIds: [] }} owned={[]} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
+                  <OrderPanel ev={sg} cart={{ eventSlug: sg.slug, passIds: [passesFor(sg)[0].id], sideIds: [sides[0].id] }} owned={[]} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
+                  <OrderPanel ev={bcn} cart={{ eventSlug: null, passIds: [], sideIds: [] }} owned={[p1]} preregs={[]} mode="sale" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
+                  <OrderPanel ev={bcn} cart={{ eventSlug: null, passIds: [], sideIds: [] }} owned={[]} preregs={[]} mode="fan-first" onRemovePass={() => {}} onRemoveSide={() => {}} onCheckout={() => {}} />
                 </div>
               </Specimen>
             </div>

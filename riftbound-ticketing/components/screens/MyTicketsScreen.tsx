@@ -32,14 +32,13 @@ export function MyTicketsScreen() {
     for (const o of store.orders) {
       const ev = getEvent(o.eventSlug);
       if (!ev) continue;
-      const h = map.get(ev.slug) ?? { ev, orders: [], sides: [] };
+      const h = map.get(ev.slug) ?? { ev, orders: [], passes: [], sides: [] };
       h.orders.push(o);
       for (const i of o.items) {
-        const held = { ...i, orderId: o.id };
-        if (i.kind === "pass" && (!h.pass || h.pass.refunded)) {
-          h.pass = held;
-          h.badgeCode = o.badgeCode;
-        } else if (i.kind === "side") h.sides.push(held);
+        // PAS-06: a fan can hold one pass of each type; each pass has its own badge.
+        const held = { ...i, orderId: o.id, badgeCode: i.badgeCode ?? (i.kind === "pass" ? o.badgeCode : undefined) };
+        if (i.kind === "pass") h.passes.push(held);
+        else if (i.kind === "side") h.sides.push(held);
       }
       map.set(ev.slug, h);
     }

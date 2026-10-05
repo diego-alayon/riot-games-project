@@ -44,7 +44,7 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["PAS-03", "See more / See less", C, OK],
   ["PAS-04", "Tags de pase", C, OK],
   ["PAS-05", "Agrupación por rol", C, OK],
-  ["PAS-06", "Selección sin cantidad", C, OK],
+  ["PAS-06", "Límite de compra por tipo de pase", C, OK],
   ["PAS-07", "Disponibilidad y resumen del pase", N, TBD],
   ["PAS-08", "Estado de venta por grupo de pases", N, TBD],
   ["PAS-10", "Carrito lateral", C, OK],

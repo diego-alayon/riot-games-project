@@ -18,7 +18,8 @@ export interface Session {
 
 export interface Cart {
   eventSlug: string | null;
-  passId: string | null;
+  /** PAS-06: up to one pass of each type (the default limit; configurable per type in SmartVenues). */
+  passIds: string[];
   sideIds: string[];
 }
 
@@ -32,7 +33,7 @@ interface State {
 }
 
 const DEMO_USER: Session = { riotId: "Slazareth#NA1", gameName: "Slazareth", puid: "a1f3-demo-puid" };
-const EMPTY_CART: Cart = { eventSlug: null, passId: null, sideIds: [] };
+const EMPTY_CART: Cart = { eventSlug: null, passIds: [], sideIds: [] };
 
 /** Clean slate: signed in, no purchases, no vouchers — every on-sale product is available. */
 function seed(): State {
@@ -46,7 +47,7 @@ function seed(): State {
   };
 }
 
-const KEY = "riftbound-demo-v2";
+const KEY = "riftbound-demo-v3"; // v3: the cart holds several pass types (PAS-06)
 
 function code(prefix = "RB") {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -56,14 +57,17 @@ function code(prefix = "RB") {
 
 /* ── Derived helpers ────────────────────────────────────────────────────── */
 
-export function ownedPassFor(orders: Order[], eventSlug: string): { order: Order; pass: Pass } | null {
+/** Passes the fan holds for an event, not refunded (EVT-04, PAS-06). */
+export function ownedPassesFor(orders: Order[], eventSlug: string): Pass[] {
+  const passes: Pass[] = [];
   for (const o of orders) {
     if (o.eventSlug !== eventSlug) continue;
-    const it = o.items.find((i) => i.kind === "pass" && !i.refunded);
-    const pass = it && getPass(it.refId);
-    if (pass) return { order: o, pass };
+    for (const i of o.items) {
+      const pass = i.kind === "pass" && !i.refunded ? getPass(i.refId) : undefined;
+      if (pass && !passes.some((p) => p.id === pass.id)) passes.push(pass);
+    }
   }
-  return null;
+  return passes;
 }
 
 export function registeredSideIds(orders: Order[], eventSlug: string): Set<string> {
@@ -86,12 +90,12 @@ export const DISCOUNT_CODES: Record<string, number> = { RIFT10: 0.1 };
 /** Prices a cart. Vouchers only on side events of the same event (RN-11/RN-12). */
 export function priceCart(cart: Cart, vouchers: Voucher[], input: CheckoutInput) {
   const ev = cart.eventSlug ? getEvent(cart.eventSlug) : undefined;
-  const pass = cart.passId ? getPass(cart.passId) : undefined;
+  const passes = cart.passIds.map((id) => getPass(id)).filter((x): x is Pass => !!x);
   const sides = cart.sideIds.map((id) => getSideEvent(id)).filter((s): s is NonNullable<typeof s> => !!s);
   const available = vouchers.filter((v) => !v.usedOn && v.eventSlug === cart.eventSlug).length;
   const voucherIds = input.voucherSideIds.filter((id) => cart.sideIds.includes(id)).slice(0, available);
   const items: OrderItem[] = [
-    ...(pass ? [{ kind: "pass" as const, refId: pass.id, name: pass.name, price: pass.price, voucherDiscount: 0 }] : []),
+    ...passes.map((pass) => ({ kind: "pass" as const, refId: pass.id, name: pass.name, price: pass.price, voucherDiscount: 0 })),
     ...sides.map((s) => ({
       kind: "side" as const,
       refId: s.id,
@@ -103,7 +107,7 @@ export function priceCart(cart: Cart, vouchers: Voucher[], input: CheckoutInput)
   const subtotal = items.reduce((a, i) => a + i.price - i.voucherDiscount, 0);
   const rate = input.discountCode ? DISCOUNT_CODES[input.discountCode.trim().toUpperCase()] ?? 0 : 0;
   const codeDiscount = Math.round(subtotal * rate);
-  return { ev, pass, sides, items, available, voucherIds, codeDiscount, total: subtotal - codeDiscount, codeValid: rate > 0 };
+  return { ev, passes, sides, items, available, voucherIds, codeDiscount, total: subtotal - codeDiscount, codeValid: rate > 0 };
 }
 
 /* ── Context ────────────────────────────────────────────────────────────── */
@@ -117,7 +121,7 @@ interface Store extends State {
   /** Demo only: the RSO session lapses but the cart stays (ACC-02.3, ACC-04.8). */
   expireSession: () => void;
   selectPass: (eventSlug: string, passId: string) => void;
-  removePass: () => void;
+  removePass: (passId: string) => void;
   toggleSide: (eventSlug: string, sideId: string) => void;
   clearCart: () => void;
   placeOrder: (input: CheckoutInput) => Order | null;
@@ -164,27 +168,27 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setState((s) => ({ ...s, session: null }));
   }, []);
 
-  /** One pass per cart, and a cart belongs to a single event. */
+  /** One pass of each type per cart (PAS-06, default limit 1), and a cart belongs to a single event. */
   const selectPass = useCallback((eventSlug: string, passId: string) => {
-    setState((s) => ({
-      ...s,
-      cart: s.cart.eventSlug === eventSlug ? { ...s.cart, passId } : { eventSlug, passId, sideIds: [] },
-    }));
+    setState((s) => {
+      const base = s.cart.eventSlug === eventSlug ? s.cart : { eventSlug, passIds: [], sideIds: [] };
+      return { ...s, cart: base.passIds.includes(passId) ? base : { ...base, passIds: [...base.passIds, passId] } };
+    });
   }, []);
 
-  const removePass = useCallback(() => {
+  const removePass = useCallback((passId: string) => {
     setState((s) => {
-      const cart = { ...s.cart, passId: null };
-      return { ...s, cart: cart.sideIds.length ? cart : EMPTY_CART };
+      const cart = { ...s.cart, passIds: s.cart.passIds.filter((x) => x !== passId) };
+      return { ...s, cart: cart.passIds.length || cart.sideIds.length ? cart : EMPTY_CART };
     });
   }, []);
 
   const toggleSide = useCallback((eventSlug: string, sideId: string) => {
     setState((s) => {
-      const base = s.cart.eventSlug === eventSlug ? s.cart : { eventSlug, passId: null, sideIds: [] };
+      const base = s.cart.eventSlug === eventSlug ? s.cart : { eventSlug, passIds: [], sideIds: [] };
       const sideIds = base.sideIds.includes(sideId) ? base.sideIds.filter((x) => x !== sideId) : [...base.sideIds, sideId];
       const cart = { ...base, sideIds };
-      return { ...s, cart: cart.passId || sideIds.length ? cart : EMPTY_CART };
+      return { ...s, cart: cart.passIds.length || sideIds.length ? cart : EMPTY_CART };
     });
   }, []);
 
@@ -194,13 +198,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const s = stateRef.current;
     if (!s.session || !s.cart.eventSlug) return null;
     const priced = priceCart(s.cart, s.vouchers, input);
+    const items = priced.items.map((i) => (i.kind === "pass" ? { ...i, badgeCode: code() } : i));
     const order: Order = {
       id: `ord-${Date.now().toString(36)}`,
       confirmation: code(),
-      badgeCode: priced.pass ? code() : undefined,
+      badgeCode: items.find((i) => i.kind === "pass")?.badgeCode,
       eventSlug: s.cart.eventSlug,
       createdAt: new Date().toISOString().slice(0, 10),
-      items: priced.items,
+      items,
       discountCode: priced.codeValid ? input.discountCode?.toUpperCase() : undefined,
       codeDiscount: priced.codeDiscount,
     };
@@ -209,7 +214,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const vouchers = s.vouchers.map((v) =>
       toUse > 0 && !v.usedOn && v.eventSlug === order.eventSlug ? (toUse--, { ...v, usedOn: order.id }) : v,
     );
-    const granted: Voucher[] = Array.from({ length: priced.pass?.vouchers ?? 0 }, (_, i) => ({
+    const granted: Voucher[] = Array.from({ length: priced.passes.reduce((n, pass) => n + pass.vouchers, 0) }, (_, i) => ({
       id: `v-${order.id}-${i}`,
       eventSlug: order.eventSlug,
       source: "pass" as const,

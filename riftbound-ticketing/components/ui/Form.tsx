@@ -67,7 +67,7 @@ export function TextInput({ label, className, ...rest }: { label?: string; class
   );
 }
 
-/** − 1 + stepper. Kept in the system because a comp shows it; RN-03 limits passes to 1. */
+/** − 1 + stepper. Kept in the system because a comp shows it; used when a pass type allows more than 1 (PAS-06.3). */
 export function QuantityStepper({ value, min = 1, max = 1, onChange }: { value: number; min?: number; max?: number; onChange: (v: number) => void }) {
   return (
     <div className="inline-flex items-center gap-4">

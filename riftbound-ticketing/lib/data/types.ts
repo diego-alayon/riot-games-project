@@ -67,12 +67,13 @@ export interface OrderItem {
   price: number;
   voucherDiscount: number;
   refunded?: boolean;
+  badgeCode?: string;         // pass items: one badge (and QR) per pass (PAS-06)
 }
 
 export interface Order {
   id: string;
   confirmation: string;      // "RB-CPK1-GOYP"
-  badgeCode?: string;        // "RB-7QF2-9KLM" — only when the order has a pass
+  badgeCode?: string;        // "RB-7QF2-9KLM" — badge of the first pass; each pass item carries its own
   eventSlug: string;
   createdAt: string;
   items: OrderItem[];

@@ -7,7 +7,7 @@ import { EventShell, useRequireSession } from "@/components/patterns/EventShell"
 import { PassCard, PassGroupStatus } from "@/components/patterns/PassCard";
 import { passesFor } from "@/lib/data/catalog";
 import type { Pass, RiftEvent, Role } from "@/lib/data/types";
-import { ownedPassFor, useStore } from "@/lib/state/store";
+import { ownedPassesFor, useStore } from "@/lib/state/store";
 
 const ROLES: Role[] = ["competitor", "attendee"];
 /** Group headings from the v2 comps. The pass tags keep the PRD role names (PAS-04). */
@@ -21,7 +21,8 @@ export function EventPassesScreen({ ev }: { ev: RiftEvent }) {
   const store = useStore();
   const requireSession = useRequireSession();
   const passes = passesFor(ev);
-  const owned = store.ready ? ownedPassFor(store.orders, ev.slug) : null;
+  // PAS-06 / EVT-05: each pass type has its own limit (1 by default), so holding one type does not block the others.
+  const ownedIds = new Set((store.ready ? ownedPassesFor(store.orders, ev.slug) : []).map((p) => p.id));
   const allFanFirst = ROLES.every((r) => ev.passSale[r] === "fan-first");
 
   /** Pre-registering goes to its confirmation (P-05); tapping again cancels it in place. */
@@ -72,12 +73,11 @@ export function EventPassesScreen({ ev }: { ev: RiftEvent }) {
                     pass={p}
                     currency={ev.currency}
                     sale={sale}
-                    owned={owned?.pass.id === p.id}
-                    dimmed={!!owned && owned.pass.id !== p.id}
-                    selected={store.cart.passId === p.id}
+                    owned={ownedIds.has(p.id)}
+                    selected={store.cart.eventSlug === ev.slug && store.cart.passIds.includes(p.id)}
                     preregistered={store.preregs.includes(p.id)}
                     onSelect={() => requireSession(() => store.selectPass(ev.slug, p.id))}
-                    onRemove={store.removePass}
+                    onRemove={() => store.removePass(p.id)}
                     onPrereg={() => prereg(p)}
                   />
                 ))}

@@ -1466,7 +1466,7 @@
       "story_id": null,
       "area": "EVT",
       "classification": "build",
-      "comments": "RN-03",
+      "comments": "RN-03: el límite de compra se configura por tipo de pase (PAS-06).",
       "due_date": null,
       "implementation_note": null,
       "owner": "Globant",
@@ -1484,8 +1484,8 @@
           "platform": "riftbound",
           "seq": 1,
           "sort_order": 0,
-          "tag": null,
-          "text": "Mientras un fan con sesión RSO tenga un pase del evento, el portal debe mostrar en la página del evento el aviso «You already hold a pass for this event», con el nombre del pase, el texto «one pass per account» (RN-03) y el enlace «View in My Tickets»."
+          "tag": "pending-riot",
+          "text": "Mientras un fan con sesión RSO tenga un pase del evento, el portal debe mostrar en la página del evento el aviso «You already hold a pass for this event», con el nombre del pase y el enlace «View in My Tickets» [TBD: texto sobre el límite de compra, que sustituye a «one pass per account» (PAS-06)]."
         },
         {
           "id": "581add4b-c6bc-4b71-91e4-f2da18a3ea58",
@@ -1560,12 +1560,12 @@
       "id": "4abd2c69-7564-4274-9b8d-a7f01a8e49de",
       "code": "EVT-05",
       "feature": "Estado de los pases con pase adquirido",
-      "description": "El pase propio se marca como \"Your badge\" y los demás se muestran atenuados.",
+      "description": "El pase propio se marca como «Your badge». Solo se bloquean los tipos de pase que han llegado a su límite de compra (PAS-06).",
       "epic_id": "0050cab6-4b3b-4fc1-b230-41837230ed6d",
       "story_id": null,
       "area": "PAS",
       "classification": "build",
-      "comments": "La reunión confirma el marcado (\"registered or purchased\"). El atenuado de los demás solo aparece en el mockup.",
+      "comments": "La reunión confirma el marcado (\"registered or purchased\"). Con el límite por tipo de pase (Riot, 5 oct 2026), los demás tipos siguen disponibles según su límite.",
       "due_date": null,
       "implementation_note": null,
       "owner": "Globant",
@@ -1584,7 +1584,7 @@
           "seq": 1,
           "sort_order": 0,
           "tag": null,
-          "text": "Dado un usuario con pase del evento, su pase aparece marcado como propio y no puede seleccionar otro pase del mismo evento."
+          "text": "Dado un fan que ha llegado al límite de un tipo de pase, su pase de ese tipo aparece como propio («Your badge») y no puede añadir otro de ese tipo; los demás tipos siguen disponibles según su límite (PAS-06)."
         }
       ],
       "roles": [],
@@ -3196,7 +3196,7 @@
       "story_id": null,
       "area": "MYT",
       "classification": "build",
-      "comments": "El mockup muestra \"Premium Attendee ×2\", en contradicción con RN-03. PQ-21.",
+      "comments": "El mockup muestra \"Premium Attendee ×2\". Ya no contradice RN-03: el límite de compra se configura por tipo de pase (PAS-06; Riot, 5 oct 2026). PQ-21.",
       "due_date": null,
       "implementation_note": null,
       "owner": "Globant",
@@ -3737,18 +3737,18 @@
     {
       "id": "4aee04df-4ba6-476b-bc84-48acb1ce08a8",
       "code": "PAS-06",
-      "feature": "Selección sin cantidad",
-      "description": "Seleccionar un pase lo añade al carrito (\"Selected\") y se puede quitar. No hay selector de cantidad.",
+      "feature": "Límite de compra por tipo de pase",
+      "description": "Como fan, quiero saber cuántos pases de cada tipo puedo comprar, para no intentar comprar más de los permitidos.",
       "epic_id": "0050cab6-4b3b-4fc1-b230-41837230ed6d",
       "story_id": null,
       "area": "PAS",
       "classification": "build",
-      "comments": "RN-03. El mockup Passes_Row_treatment sí muestra un selector de cantidad en el carrito, en contradicción con la reunión. PQ-21.",
+      "comments": "RN-03 cambia. Riot (5 oct 2026): el límite se configura por tipo de entrada; por defecto suele ser 1 por tipo, pero no siempre. Pendiente de comprobar si el producto actual permite configurarlo. El mockup Passes_Row_treatment muestra un selector de cantidad. PQ-21.",
       "due_date": null,
       "implementation_note": null,
       "owner": "Globant",
       "page": "P-02",
-      "platforms": "[\"riftbound\"]",
+      "platforms": "[\"riftbound\",\"smartvenues\"]",
       "priority": "Crítica",
       "prototype_view": null,
       "source": "RP",
@@ -3756,18 +3756,98 @@
       "wo_ref": "—",
       "items": [
         {
+          "id": "3171d3ba-53ec-4ee9-a4bb-fea067f17b5a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "El portal debe permitir comprar, por cuenta Riot y evento, como máximo el número de pases de cada tipo que configure el Chief Sales Operator; por defecto, 1 por tipo (RN-03) [TBD: comprobar si SmartVenues permite hoy configurar el límite por tipo de entrada]."
+        },
+        {
+          "id": "0d1d8ac6-15b2-478a-aaf0-469bb648e698",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "Mientras el límite de un tipo de pase sea 1, el portal debe añadirlo al carrito con «Add» / «Selected», sin selector de cantidad."
+        },
+        {
+          "id": "b80191a2-13ef-4f54-b884-462c49b27f3c",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": "pending-riot",
+          "text": "Donde el límite de un tipo de pase sea mayor que 1, el portal debe mostrar un selector de cantidad hasta ese límite [TBD: diseño; el mockup Passes_Row_treatment ya muestra uno]."
+        },
+        {
+          "id": "688c0efc-b403-4650-a0db-0ed040bb32e5",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 3,
+          "tag": null,
+          "text": "Cuando el fan llegue al límite de un tipo de pase, contando los que ya tiene y los del carrito, el portal debe impedir que añada más de ese tipo [TBD: mensaje]."
+        },
+        {
+          "id": "44be08ef-c4a0-4412-9baa-f6e0f716b1d6",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 5,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "SmartVenues debe permitir al Chief Sales Operator configurar, por evento y tipo de pase, cuántos pases puede comprar cada cuenta Riot (por defecto, 1) [TBD: si el producto actual lo permite]."
+        },
+        {
+          "id": "fcd874e6-fd76-43b8-a68c-c5b7718f972f",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 6,
+          "sort_order": 1,
+          "tag": "pending-engineering",
+          "text": "SmartVenues debe enviar al portal el límite de compra de cada tipo de pase [TBD: API de SmartVenues: contrato y forma de comunicación con el portal]."
+        },
+        {
           "id": "e5fd3866-7c34-4beb-abbd-c5773e4862b7",
           "kind": "acceptance",
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
           "tag": null,
-          "text": "Cuando el usuario selecciona un pase, este pasa a \"Selected\" y aparece en el carrito; el usuario puede quitarlo. No existe selector de cantidad."
+          "text": "Dado un tipo de pase con límite 1, cuando el fan lo selecciona, entonces pasa a «Selected» y aparece en el carrito sin selector de cantidad, y el fan puede quitarlo."
+        },
+        {
+          "id": "5e926ee7-f511-4a37-969b-e44019a2d7c4",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "Pregunta para Riot: si una cuenta puede comprar más de un pase del mismo tipo, ¿para quién son los demás? Los pases quedan ligados a la cuenta que los compra (PAS-12) y la transferencia queda fuera del MVP."
         }
       ],
-      "roles": [],
+      "roles": [
+        {
+          "id": "499ec9c4-5bf3-41c5-b39c-232a3f68efbf",
+          "role": "Fan",
+          "capability": "Compra pases dentro del límite de cada tipo",
+          "precondition": "Requerido: sesión RSO activa",
+          "sort_order": 0
+        },
+        {
+          "id": "07de2448-e16e-4daa-8132-e6e35019d73d",
+          "role": "Chief Sales Operator",
+          "capability": "Configura en SmartVenues el límite de compra de cada tipo de pase",
+          "precondition": null,
+          "sort_order": 1
+        }
+      ],
       "counters": {
-        "acceptance": 1
+        "acceptance": 1,
+        "comment": 1,
+        "functional": 6
       }
     },
     {
@@ -3814,9 +3894,21 @@
       "source": "MK Riot_Games_Tickets-5",
       "status": "Pendiente de definir",
       "wo_ref": "—",
-      "items": [],
+      "items": [
+        {
+          "id": "58048a51-eac4-4ff6-9479-7c41432c5841",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "Riot (5 oct 2026): la venta de pases no se cierra hasta que termina el evento; se vende hasta agotar las unidades. Los side events se venden durante todo el fin de semana del evento."
+        }
+      ],
       "roles": [],
-      "counters": {}
+      "counters": {
+        "comment": 1
+      }
     },
     {
       "id": "315b13f5-4fa8-4f05-bffa-78a815dbd58b",
@@ -3892,12 +3984,22 @@
           "seq": 1,
           "sort_order": 0,
           "tag": null,
-          "text": "Cada pase muestra el aviso de un pase por cuenta Riot y no transferible."
+          "text": "Cada pase muestra el aviso de que queda ligado a la cuenta Riot que lo compra y no es transferible."
+        },
+        {
+          "id": "90eaa7c3-3320-4cef-ad93-5573e1e1b38f",
+          "kind": "out_of_scope",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "Transferencia de pases entre cuentas: Riot la quiere como opción, pero no en el MVP (Riot, 5 oct 2026)."
         }
       ],
       "roles": [],
       "counters": {
-        "acceptance": 1
+        "acceptance": 1,
+        "out_of_scope": 1
       }
     },
     {

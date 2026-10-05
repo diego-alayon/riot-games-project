@@ -194,7 +194,7 @@
           "source": "RP; MK Riot_Games_Tickets",
           "woRef": "B1 (conditional content)",
           "owner": "Globant",
-          "comments": "RN-03",
+          "comments": "RN-03: el límite de compra se configura por tipo de pase (PAS-06).",
           "acceptance": [
             "Dado un usuario con pase del evento, cuando abre el detalle, entonces ve el aviso de pase adquirido con el tipo de pase y un enlace a My Tickets."
           ]
@@ -295,14 +295,14 @@
         {
           "code": "PAS-06",
           "page": "P-02",
-          "feature": "Selección sin cantidad",
-          "description": "Seleccionar un pase lo añade al carrito (\"Selected\") y se puede quitar. No hay selector de cantidad.",
+          "feature": "Límite de compra por tipo de pase",
+          "description": "Como fan, quiero saber cuántos pases de cada tipo puedo comprar, para no intentar comprar más de los permitidos.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP",
           "woRef": "—",
           "owner": "Globant",
-          "comments": "RN-03. El mockup Passes_Row_treatment sí muestra un selector de cantidad en el carrito, en contradicción con la reunión. PQ-21.",
+          "comments": "RN-03 cambia. Riot (5 oct 2026): el límite se configura por tipo de entrada; por defecto suele ser 1 por tipo, pero no siempre. Pendiente de comprobar si el producto actual permite configurarlo. El mockup Passes_Row_treatment muestra un selector de cantidad. PQ-21.",
           "acceptance": [
             "Cuando el usuario selecciona un pase, este pasa a \"Selected\" y aparece en el carrito; el usuario puede quitarlo. No existe selector de cantidad."
           ]
@@ -354,13 +354,13 @@
           "code": "EVT-05",
           "page": "P-02",
           "feature": "Estado de los pases con pase adquirido",
-          "description": "El pase propio se marca como \"Your badge\" y los demás se muestran atenuados.",
+          "description": "El pase propio se marca como «Your badge». Solo se bloquean los tipos de pase que han llegado a su límite de compra (PAS-06).",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP; MK Riot_Games_Tickets",
           "woRef": "B1",
           "owner": "Globant",
-          "comments": "La reunión confirma el marcado (\"registered or purchased\"). El atenuado de los demás solo aparece en el mockup.",
+          "comments": "La reunión confirma el marcado (\"registered or purchased\"). Con el límite por tipo de pase (Riot, 5 oct 2026), los demás tipos siguen disponibles según su límite.",
           "acceptance": [
             "Dado un usuario con pase del evento, su pase aparece marcado como propio y no puede seleccionar otro pase del mismo evento."
           ]
@@ -817,7 +817,7 @@
           "source": "RP; MK",
           "woRef": "B5",
           "owner": "Globant",
-          "comments": "El mockup muestra \"Premium Attendee ×2\", en contradicción con RN-03. PQ-21.",
+          "comments": "El mockup muestra \"Premium Attendee ×2\". Ya no contradice RN-03: el límite de compra se configura por tipo de pase (PAS-06; Riot, 5 oct 2026). PQ-21.",
           "acceptance": [
             "La tarjeta de cada evento muestra evento, fechas, venue, pase adquirido y código del badge."
           ]

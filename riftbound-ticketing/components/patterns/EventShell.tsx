@@ -5,7 +5,7 @@ import { useRef, type ReactNode } from "react";
 import { Tabs } from "@/components/ui/Tabs";
 import { ReqMarker } from "@/components/trace/ReqMarker";
 import type { RiftEvent } from "@/lib/data/types";
-import { ownedPassFor, useStore } from "@/lib/state/store";
+import { ownedPassesFor, useStore } from "@/lib/state/store";
 import { EventHero } from "./Heroes";
 import { Container, TwoColumn } from "./Layout";
 import { OrderPanel, orderSummary } from "./OrderPanel";
@@ -26,7 +26,7 @@ export function EventShell({
 }) {
   const router = useRouter();
   const store = useStore();
-  const owned = store.ready ? ownedPassFor(store.orders, ev.slug) : null;
+  const owned = store.ready ? ownedPassesFor(store.orders, ev.slug) : [];
   const base = `/events/${ev.slug}`;
   const panelRef = useRef<HTMLDivElement>(null);
   const summary = orderSummary(ev, store.cart);
@@ -35,8 +35,8 @@ export function EventShell({
   // or in the cart, cannot open Side Events. A pass in the cart unlocks it so a pass
   // and side events can be bought together (SDE-07; PQ-37 still open). Visitors
   // without a session keep read access (ACC-01).
-  const passInCart = store.cart.eventSlug === ev.slug && !!store.cart.passId;
-  const noPass = store.ready && !!store.session && !owned && !passInCart;
+  const passInCart = store.cart.eventSlug === ev.slug && store.cart.passIds.length > 0;
+  const noPass = store.ready && !!store.session && owned.length === 0 && !passInCart;
   // EVT-01.6: also disabled while side events are not on sale (RN-07); the text is still to be defined.
   const sideLocked = noPass || !ev.sideSaleOpen;
   const sideHint = !ev.sideSaleOpen ? "Side events aren't on sale yet" : "Get a pass for this event to add side events";
@@ -66,7 +66,7 @@ export function EventShell({
               <OrderPanel
                 ev={ev}
                 cart={store.cart}
-                owned={owned?.pass ?? null}
+                owned={owned}
                 preregs={store.preregs}
                 mode={mode}
                 onRemovePass={store.removePass}

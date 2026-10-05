@@ -7,16 +7,16 @@ import { EventShell, useRequireSession } from "@/components/patterns/EventShell"
 import { SideEventCard, type SideEventCta } from "@/components/patterns/SideEventCard";
 import { sideEventsFor } from "@/lib/data/catalog";
 import type { RiftEvent } from "@/lib/data/types";
-import { ownedPassFor, registeredSideIds, useStore } from "@/lib/state/store";
+import { ownedPassesFor, registeredSideIds, useStore } from "@/lib/state/store";
 import { dayHeading, saleLabelFor } from "./helpers";
 
 /** P-03 Weekend Schedule. */
 export function SideEventsScreen({ ev }: { ev: RiftEvent }) {
   const store = useStore();
   const requireSession = useRequireSession();
-  const owned = store.ready ? ownedPassFor(store.orders, ev.slug) : null;
+  const owned = store.ready ? ownedPassesFor(store.orders, ev.slug).length > 0 : false;
   const registered = store.ready ? registeredSideIds(store.orders, ev.slug) : new Set<string>();
-  const passInCart = store.cart.eventSlug === ev.slug && !!store.cart.passId;
+  const passInCart = store.cart.eventSlug === ev.slug && store.cart.passIds.length > 0;
   // RN-06: a pass of this event is required. A pass in the cart counts (F-04; PQ-37 open).
   const unlocked = !store.session || !!owned || passInCart;
 

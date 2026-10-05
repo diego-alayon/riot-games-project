@@ -22,8 +22,8 @@ export interface HeldItem extends OrderItem {
 export interface EventHolding {
   ev: RiftEvent;
   orders: Order[];
-  pass?: HeldItem;
-  badgeCode?: string;
+  /** Every pass held for the event (one per type by default, PAS-06), refunded ones included. */
+  passes: HeldItem[];
   sides: HeldItem[];
 }
 
@@ -63,38 +63,43 @@ export function TicketCard({
   onRefund: (items: HeldItem[]) => void;
   onPending: (what: string) => void;
 }) {
-  const { ev, pass } = h;
-  const passInfo = pass ? getPass(pass.refId) : undefined;
-  const passActive = !!pass && !pass.refunded;
+  const { ev } = h;
+  const activePasses = h.passes.filter((p) => !p.refunded);
+  const passActive = activePasses.length > 0;
+  const passName = (i: HeldItem) => getPass(i.refId)?.name ?? i.name;
   const activeSides = h.sides.filter((s) => !s.refunded);
   const [selecting, setSelecting] = useState(false);
   const [picked, setPicked] = useState<Set<string>>(new Set());
   const key = (i: HeldItem) => `${i.orderId}:${i.refId}`;
 
-  // v2 rule: refunding the event pass also cancels every side event of the event.
-  const passPicked = !!pass && picked.has(key(pass));
+  // v2 rule: side events need a pass, so refunding every pass held also cancels every side event of the event.
+  const allPassesIn = (set: Set<string>) => passActive && activePasses.every((p) => set.has(key(p)));
+  const passPicked = allPassesIn(picked);
   const toggle = (item: HeldItem) =>
     setPicked((prev) => {
       const next = new Set(prev);
       if (next.has(key(item))) next.delete(key(item));
       else next.add(key(item));
-      if (item.kind === "pass") activeSides.forEach((s) => (next.has(key(item)) ? next.add(key(s)) : next.delete(key(s))));
+      if (item.kind === "pass") {
+        const all = allPassesIn(next);
+        activeSides.forEach((s) => (all ? next.add(key(s)) : next.delete(key(s))));
+      }
       return next;
     });
-  const selectedItems = [...(passActive ? [pass!] : []), ...activeSides].filter((i) => picked.has(key(i)));
+  const selectedItems = [...activePasses, ...activeSides].filter((i) => picked.has(key(i)));
+  const passesPicked = selectedItems.filter((i) => i.kind === "pass").length;
   const sidesPicked = selectedItems.filter((i) => i.kind === "side").length;
+  const plural = (n: number, one: string) => `${n} ${one}${n > 1 ? "s" : ""}`;
   const summary = !selectedItems.length
     ? "Select items to refund"
-    : passPicked
-      ? `Event pass${sidesPicked ? ` and ${sidesPicked} side event${sidesPicked > 1 ? "s" : ""}` : ""} selected`
-      : `${sidesPicked} side event${sidesPicked > 1 ? "s" : ""} selected`;
+    : [passesPicked && plural(passesPicked, "event pass"), sidesPicked && plural(sidesPicked, "side event")].filter(Boolean).join(" and ") + " selected";
   const exitSelect = () => {
     setSelecting(false);
     setPicked(new Set());
   };
   const nothingToRefund = !passActive && activeSides.length === 0;
   // Leave selection mode once the selected items are refunded (or nothing is left).
-  const refundable = [...(passActive ? [pass!] : []), ...activeSides].map(key).join("|");
+  const refundable = [...activePasses, ...activeSides].map(key).join("|");
   const [lastRefundable, setLastRefundable] = useState(refundable);
   if (refundable !== lastRefundable) {
     setLastRefundable(refundable);
@@ -120,10 +125,12 @@ export function TicketCard({
           <p className="mt-1 text-body text-on-dark-muted">
             {dateRange(ev.startDate, ev.endDate)} · {ev.venue}, {ev.city}
           </p>
-          {passInfo && passActive && (
-            <Badge tone="premium" className="mt-3 self-start">
-              {passInfo.name} badge
-            </Badge>
+          {passActive && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {activePasses.map((p) => (
+                <Badge key={key(p)} tone="premium">{passName(p)} badge</Badge>
+              ))}
+            </div>
           )}
         </div>
         <ReqMarker ids={["MYT-02"]} inset />
@@ -134,13 +141,13 @@ export function TicketCard({
           <div className="relative pt-5">
             <Callout tone="warning">
               <span className="text-body text-ink">
-                Select the items you want to refund. Refunding your event pass will also cancel all side event registrations.
+                Select the items you want to refund. Refunding every event pass you hold will also cancel all side event registrations.
               </span>
             </Callout>
             <div className="mt-1">
-              {passActive && passInfo && (
-                <RefundRow checked={passPicked} onToggle={() => toggle(pass!)} title={passInfo.name} />
-              )}
+              {activePasses.map((p) => (
+                <RefundRow key={key(p)} checked={picked.has(key(p))} onToggle={() => toggle(p)} title={passName(p)} />
+              ))}
               {activeSides.map((s) => (
                 <RefundRow key={key(s)} checked={picked.has(key(s))} locked={passPicked} onToggle={() => toggle(s)} title={s.name} sub={sideWhen(s.refId)} />
               ))}
@@ -164,12 +171,13 @@ export function TicketCard({
         ) : (
           <>
             <div className="flex flex-col gap-5 pt-5 md:flex-row md:gap-6">
-              {passActive && h.badgeCode && (
-                <div className="relative w-full md:w-42 shrink-0 flex flex-col items-center">
+              {activePasses.filter((p) => p.badgeCode).map((p) => (
+                <div key={key(p)} className="relative w-full md:w-42 shrink-0 flex flex-col items-center">
                   <div className="p-4 rounded-lg border border-line bg-surface">
-                    <QRCode value={h.badgeCode} className="max-md:size-qr-mobile" />
+                    <QRCode value={p.badgeCode!} className="max-md:size-qr-mobile" />
                   </div>
-                  <span className="mt-2 text-micro uppercase text-ink tracking-[0.1em]">{h.badgeCode}</span>
+                  <span className="mt-2 text-micro uppercase text-ink tracking-[0.1em]">{p.badgeCode}</span>
+                  {activePasses.length > 1 && <span className="mt-1 text-micro uppercase text-muted">{passName(p)}</span>}
                   <div className="mt-3 md:mt-2 flex flex-col items-center gap-2 md:gap-1.5">
                     <Button variant="dark" size="xs" className="max-md:h-10 max-md:px-4" iconLeft={<IconWallet size={12} />} onClick={() => onPending("Apple Wallet")}>
                       Add to Apple Wallet
@@ -183,12 +191,15 @@ export function TicketCard({
                   </div>
                   <ReqMarker ids={["MYT-03", "MYT-04", "MYT-05"]} />
                 </div>
-              )}
+              ))}
               <div className="flex-1 min-w-0">
-                <p className={cx("text-heading-sm uppercase", passActive ? "text-ink" : "text-disabled")}>
-                  {passInfo?.name ?? "Side events"}
-                  {pass?.refunded && <span className="ml-2 text-micro text-subtle">Refunded</span>}
-                </p>
+                {h.passes.length === 0 && <p className="text-heading-sm uppercase text-ink">Side events</p>}
+                {h.passes.map((p) => (
+                  <p key={key(p)} className={cx("text-heading-sm uppercase", p.refunded ? "text-disabled" : "text-ink")}>
+                    {passName(p)}
+                    {p.refunded && <span className="ml-2 text-micro text-subtle">Refunded</span>}
+                  </p>
+                ))}
               </div>
             </div>
 
@@ -236,7 +247,7 @@ export function TicketCard({
 
 export function PastEventRow({ h, onRecap }: { h: EventHolding; onRecap: () => void }) {
   const { ev } = h;
-  const passInfo = h.pass ? getPass(h.pass.refId) : undefined;
+  const passNames = h.passes.map((p) => getPass(p.refId)?.name ?? p.name);
   return (
     <Card padded={false} className="flex flex-col md:flex-row overflow-hidden">
       <div className="relative h-32 md:h-auto md:w-past-thumb shrink-0 md:min-h-46">
@@ -249,9 +260,9 @@ export function PastEventRow({ h, onRecap }: { h: EventHolding; onRecap: () => v
         <p className="mt-1 inline-flex items-center gap-1.5 text-caption text-muted">
           <IconPin size={12} /> {ev.venue} · {ev.city}, {ev.country}
         </p>
-        {passInfo && (
-          <div className="mt-3">
-            <Badge tone="neutral">{passInfo.name}</Badge>
+        {passNames.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {passNames.map((n) => <Badge key={n} tone="neutral">{n}</Badge>)}
           </div>
         )}
         <div className="relative mt-4 inline-flex">

@@ -14,21 +14,21 @@ import { money } from "@/lib/format";
 /** Items and total of the cart for one event. Shared by the panel and the mobile order bar. */
 export function orderSummary(ev: RiftEvent, cart: Cart) {
   const inCart = cart.eventSlug === ev.slug;
-  const pass = inCart && cart.passId ? getPass(cart.passId) : undefined;
+  const passes = inCart ? cart.passIds.map((id) => getPass(id)).filter((p): p is Pass => !!p) : [];
   const sides = inCart ? cart.sideIds.map((id) => getSideEvent(id)).filter((s): s is NonNullable<typeof s> => !!s) : [];
-  const total = (pass?.price ?? 0) + sides.reduce((a, s) => a + s.price, 0);
-  return { pass, sides, total, count: (pass ? 1 : 0) + sides.length, hasItems: !!pass || sides.length > 0 };
+  const total = passes.reduce((a, p) => a + p.price, 0) + sides.reduce((a, s) => a + s.price, 0);
+  return { passes, sides, total, count: passes.length + sides.length, hasItems: passes.length + sides.length > 0 };
 }
 
-/** EVT-04: separate pink card above the order panel. */
-export function OwnedPassBanner({ pass }: { pass: Pass }) {
+/** EVT-04: separate pink card above the order panel. The purchase-limit copy replacing «one pass per account» is pending (EVT-04.1). */
+export function OwnedPassBanner({ passes }: { passes: Pass[] }) {
   return (
     <div className="relative flex gap-3 px-5 py-4 rounded-xl border border-accent-line bg-accent-soft">
       <IconCheck size={15} className="mt-0.5 shrink-0 text-accent" />
       <div className="min-w-0">
         <p className="text-label uppercase text-ink">You already hold a pass for this event</p>
         <p className="mt-0.5 text-caption text-muted">
-          {pass.name} · one pass per account.{" "}
+          {passes.map((p) => p.name).join(" · ")}.{" "}
           <Link href="/my-tickets" className="underline underline-offset-2 hover:text-ink">View in My Tickets</Link>
         </p>
       </div>
@@ -78,19 +78,19 @@ export function OrderPanel({
 }: {
   ev: RiftEvent;
   cart: Cart;
-  owned: Pass | null;
+  owned: Pass[];
   preregs: string[];
   mode: "sale" | "fan-first";
-  onRemovePass: () => void;
+  onRemovePass: (passId: string) => void;
   onRemoveSide: (id: string) => void;
   onCheckout: () => void;
 }) {
-  const { pass, sides, total, hasItems } = orderSummary(ev, cart);
+  const { passes, sides, total, hasItems } = orderSummary(ev, cart);
   const myPreregs = preregs.map((id) => getPass(id)).filter((p): p is Pass => !!p && p.eventSlug === ev.slug);
 
   return (
     <div className="flex flex-col gap-3">
-      {owned && <OwnedPassBanner pass={owned} />}
+      {owned.length > 0 && <OwnedPassBanner passes={owned} />}
 
       <Card padded={false} className="rounded-xl">
         <div className="relative p-5">
@@ -101,14 +101,18 @@ export function OrderPanel({
             </div>
           ) : (
             <>
-              {pass && (
+              {passes.length > 0 && (
                 <>
-                  <GroupLabel>Event pass</GroupLabel>
-                  <CartLine name={pass.name} sub={ev.name} price={money(pass.price, ev.currency)} onRemove={onRemovePass} />
+                  <GroupLabel>{passes.length > 1 ? "Event passes" : "Event pass"}</GroupLabel>
+                  <div className="flex flex-col gap-3">
+                    {passes.map((p) => (
+                      <CartLine key={p.id} name={p.name} sub={ev.name} price={money(p.price, ev.currency)} onRemove={() => onRemovePass(p.id)} />
+                    ))}
+                  </div>
                 </>
               )}
               {sides.length > 0 && (
-                <div className={pass ? "mt-5" : undefined}>
+                <div className={passes.length ? "mt-5" : undefined}>
                   <GroupLabel>Side events</GroupLabel>
                   <div className="flex flex-col gap-3">
                     {sides.map((s) => (

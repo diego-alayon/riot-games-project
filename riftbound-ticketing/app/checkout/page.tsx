@@ -32,9 +32,9 @@ export default function CheckoutPage() {
   if (!allowed) return null;
 
   const priced = priceCart(store.cart, store.vouchers, { voucherSideIds, discountCode });
-  const { ev, pass, sides } = priced;
+  const { ev, passes, sides } = priced;
 
-  if (!ev || (!pass && sides.length === 0)) {
+  if (!ev || (passes.length === 0 && sides.length === 0)) {
     return (
       <Container className="py-20 text-center">
         <Heading level="heading-lg">Your order is empty</Heading>
@@ -124,10 +124,12 @@ export default function CheckoutPage() {
               {dateRange(ev.startDate, ev.endDate)} · {ev.city}
             </p>
 
-            {pass && (
+            {passes.length > 0 && (
               <div className="mt-5">
-                <GroupLabel>Event pass</GroupLabel>
-                <CartLine name={pass.name} price={money(pass.price, ev.currency)} onRemove={store.removePass} />
+                <GroupLabel>{passes.length > 1 ? "Event passes" : "Event pass"}</GroupLabel>
+                {passes.map((p) => (
+                  <CartLine key={p.id} name={p.name} price={money(p.price, ev.currency)} onRemove={() => store.removePass(p.id)} />
+                ))}
               </div>
             )}
 
