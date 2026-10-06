@@ -146,7 +146,8 @@ export const getEvent = (slug: string) => EVENTS.find((e) => e.slug === slug);
 
 /* ── Passes ─────────────────────────────────────────────────────────────── */
 
-const NON_TRANSFERABLE = "One pass per Riot account · badge and side-event entries are non-transferable and tied to your account.";
+// PAS-12: no "one pass per account" any more — the purchase limit is per pass type (PAS-06).
+const NON_TRANSFERABLE = "Badge and side-event entries are non-transferable and tied to your Riot account.";
 export { NON_TRANSFERABLE };
 
 const FULL_PASSES: Array<Omit<Pass, "id" | "eventSlug" | "price">> = [
