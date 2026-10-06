@@ -51,6 +51,8 @@ export function EventPassesScreen({ ev }: { ev: RiftEvent }) {
         {ROLES.map((role, i) => {
           const sale = ev.passSale[role];
           const group = passes.filter((p) => p.role === role).sort(byTier);
+          const inCart = (id: string) => store.cart.eventSlug === ev.slug && store.cart.passIds.includes(id);
+          const groupInCart = group.some((p) => inCart(p.id));
           return (
             <section key={role}>
               <div className="relative flex items-end justify-between gap-4">
@@ -74,7 +76,8 @@ export function EventPassesScreen({ ev }: { ev: RiftEvent }) {
                     currency={ev.currency}
                     sale={sale}
                     owned={ownedIds.has(p.id)}
-                    selected={store.cart.eventSlug === ev.slug && store.cart.passIds.includes(p.id)}
+                    selected={inCart(p.id)}
+                    groupTaken={groupInCart && !inCart(p.id)}
                     preregistered={store.preregs.includes(p.id)}
                     onSelect={() => requireSession(() => store.selectPass(ev.slug, p.id))}
                     onRemove={() => store.removePass(p.id)}

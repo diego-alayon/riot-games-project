@@ -19,6 +19,8 @@ export interface PassCardProps {
   owned?: boolean;        // EVT-05 — shown as "Registered"
   dimmed?: boolean;       // the pass type has reached its purchase limit (PAS-06)
   selected?: boolean;     // in cart (PAS-06)
+  /** Another pass of the same group (Compete / Spectate) is in the cart: its benefits go grey, as in the v2 comps. */
+  groupTaken?: boolean;
   preregistered?: boolean;
   onSelect?: () => void;
   onRemove?: () => void;
@@ -93,7 +95,7 @@ function Cta({ sale, selected, owned, dimmed, preregistered, onSelect, onRemove,
 }
 
 export function PassCard(props: PassCardProps) {
-  const { pass, currency, sale, owned, dimmed } = props;
+  const { pass, currency, sale, owned, dimmed, groupTaken } = props;
   const [open, setOpen] = useState(false);
 
   return (
@@ -110,7 +112,7 @@ export function PassCard(props: PassCardProps) {
           <>
             <Divider className="my-4" />
             <div className="relative">
-              <BenefitList items={pass.benefitsLong} muted />
+              <BenefitList items={pass.benefitsLong} muted={groupTaken} />
               <ReqMarker ids={["PAS-02", "VOU-01"]} />
             </div>
             <p className="relative mt-4 text-fine text-muted">
