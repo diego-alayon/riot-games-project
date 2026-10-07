@@ -18,6 +18,7 @@ import { itemLabel, type ItemKind } from "@/lib/requirements/items";
 import { pendingLevel, PENDING_STYLE } from "@/lib/requirements/pending";
 import { isItemTag, tagStyle, type ItemTag } from "@/lib/requirements/tags";
 import { TagChip, TagIcon, TagPicker } from "./ItemTag";
+import { EntryText } from "./EntryText";
 import { TXT, TXT_2, TXT_3 } from "./RequirementCells";
 
 interface Item {
@@ -220,10 +221,11 @@ export function RequirementBullets({ requirementId, code, platform = "all", kind
                 style={{ width: "100%", resize: "none", border: "none", outline: "none", padding: 0, background: "transparent", font: "inherit", fontSize: 14, lineHeight: 1.55, color: TXT, overflow: "hidden" }}
               />
             ) : (
-              <button onClick={() => startEdit(item)}
-                style={{ width: "100%", textAlign: "left", background: "none", border: "none", padding: 0, font: "inherit", fontSize: 14, lineHeight: 1.55, color: pending?.color ?? TXT, cursor: "text", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
-                {item.text}
-              </button>
+              <div role="button" tabIndex={0} onClick={() => startEdit(item)}
+                onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); startEdit(item); } }}
+                style={{ width: "100%", textAlign: "left", fontSize: 14, lineHeight: 1.55, color: pending?.color ?? TXT, cursor: "text", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+                <EntryText text={item.text} />
+              </div>
             )}
             {tag && <TagChip tag={tag} />}
             </div>

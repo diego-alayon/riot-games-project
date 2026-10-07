@@ -55,6 +55,7 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["CHK-06", "Checkout multipaso", N, OUT],
   ["CHK-08", "Confirmación de orden", C, OK],
   ["CHK-09", "Email de confirmación", C, TBD],
+  ["CHK-10", "Vendedor e impuestos de la orden", C, TBD],
   ["MYT-01", "Upcoming / Past", C, OK],
   ["MYT-02", "Tarjeta de evento", C, OK],
   ["MYT-03", "QR del pase", C, TBD],
@@ -100,6 +101,7 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["RNF-04", "Límite de Access Rights", C, OK],
   ["GFW-01", "Control de acceso con Gateflow", C, TBD],
   ["GFW-02", "Puntos de acceso separados Main / Side Events", C, TBD],
+  ["INT-01", "Envío de eventos de SmartVenues al portal", C, TBD],
   ["FFA-01", "Pre-registro por pase", N, TBD],
   ["FFA-02", "Aviso de apertura", N, TBD],
 ];

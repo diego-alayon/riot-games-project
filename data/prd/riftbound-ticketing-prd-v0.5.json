@@ -640,7 +640,7 @@
           "source": "MK",
           "woRef": "6.6",
           "owner": "Compartido",
-          "comments": "No tratado en la reunión. Los textos legales los aporta Riot. Incluye el antiguo REF-06 (texto «Free cancellation up to 14 days out»; RN-21, PQ-15)."
+          "comments": "Los textos legales los aporta Riot; mientras tanto, texto provisional (Lorem ipsum). Riot (5 oct 2026): los reembolsos se activan o desactivan desde el backend, así que ya no hay una política fija «Free cancellation up to 14 days out» (antiguo REF-06). RN-21, PQ-15."
         },
         {
           "code": "CHK-08",
@@ -656,6 +656,18 @@
           "acceptance": [
             "Dada una compra completada, la pantalla de confirmación muestra el número de confirmación, los ítems, el total pagado y los CTAs \"View My Tickets\" y \"Browse More Events\"."
           ]
+        },
+        {
+          "code": "CHK-10",
+          "page": "P-06, P-07",
+          "feature": "Vendedor e impuestos de la orden",
+          "description": "Como fan, quiero saber quién me vende las entradas y cuántos impuestos pago, para tener claro el importe de mi compra.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "Riot (5 oct 2026)",
+          "woRef": "—",
+          "owner": "Compartido",
+          "comments": "Riot (5 oct 2026): Riot Games figura como vendedor; los impuestos y el IVA se configuran según la ubicación del evento. La configuración no va en SmartVenues: se hará en el portal o en Stripe (pendiente de decidir)."
         }
       ]
     },
@@ -1063,6 +1075,22 @@
           "owner": "Globant",
           "comments": "Futuro, junto a GFW-01. Hoy el check-in de side events se hace en PlayRiftbound (RN-23).",
           "platforms": [
+            "smartvenues"
+          ]
+        },
+        {
+          "code": "INT-01",
+          "page": "—",
+          "feature": "Envío de eventos de SmartVenues al portal",
+          "description": "Como Chief Sales Operator, quiero que los eventos, pases y side events que configuro en SmartVenues lleguen al portal, para no mantenerlos en dos sitios.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "Análisis de gaps",
+          "woRef": "—",
+          "owner": "Globant",
+          "comments": "Define una sola vez la API que usan FND-03, FND-07, EVT-01, EVT-03, EVT-07, PAS-06 y AUD-01. Riot (5 oct 2026): los eventos se configuran en SmartVenues y el portal los escucha.",
+          "platforms": [
+            "riftbound",
             "smartvenues"
           ]
         }

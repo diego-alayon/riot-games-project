@@ -887,7 +887,7 @@
           "seq": 8,
           "sort_order": 1,
           "tag": "pending-engineering",
-          "text": "SmartVenues debe enviar al portal qué eventos y productos están restringidos y con qué mecanismo [TBD: API de SmartVenues: contrato y forma de comunicación con el portal]."
+          "text": "SmartVenues debe enviar al portal qué eventos y productos están restringidos y con qué mecanismo (INT-01)."
         }
       ],
       "roles": [
@@ -1068,8 +1068,8 @@
           "platform": "all",
           "seq": 1,
           "sort_order": 0,
-          "tag": "pending-product",
-          "text": "No hay ningún requerimiento de impuestos: en la UE el precio que ve el consumidor debe incluir el IVA. Falta definir cómo se calculan y se muestran los impuestos por país. Detectado al revisar I18N-03."
+          "tag": null,
+          "text": "No hay ningún requerimiento de impuestos: en la UE el precio que ve el consumidor debe incluir el IVA. Falta definir cómo se calculan y se muestran los impuestos por país. Detectado al revisar I18N-03. Resuelto: Riot (5 oct 2026) quiere los impuestos configurables por ubicación del evento; se define en CHK-10."
         }
       ],
       "roles": [],
@@ -1087,7 +1087,7 @@
       "story_id": null,
       "area": "CHK",
       "classification": "build",
-      "comments": "No tratado en la reunión. Los textos legales los aporta Riot. Incluye el antiguo REF-06 (texto «Free cancellation up to 14 days out»; RN-21, PQ-15).",
+      "comments": "Los textos legales los aporta Riot; mientras tanto, texto provisional (Lorem ipsum). Riot (5 oct 2026): los reembolsos se activan o desactivan desde el backend, así que ya no hay una política fija «Free cancellation up to 14 days out» (antiguo REF-06). RN-21, PQ-15.",
       "due_date": null,
       "implementation_note": null,
       "owner": "Compartido",
@@ -1098,9 +1098,38 @@
       "source": "MK",
       "status": "Pendiente de definir",
       "wo_ref": "6.6",
-      "items": [],
-      "roles": [],
-      "counters": {}
+      "items": [
+        {
+          "id": "a5a4084b-74a8-4af0-9b8e-5e763f8b65a8",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "El portal debe mostrar en Checkout la casilla de aceptación de los Terms of Service y de la Refund Policy, y habilitar el pago solo cuando el fan la marque."
+        },
+        {
+          "id": "4ae8d66a-58aa-423f-8608-318df5229ea1",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": "pending-riot",
+          "text": "El portal debe mostrar en Checkout la política de reembolso que corresponda a lo configurado en SmartVenues: reembolsos permitidos o no permitidos [TBD: texto; Riot lo aportará más adelante; mientras tanto, texto provisional (Lorem ipsum)]."
+        }
+      ],
+      "roles": [
+        {
+          "id": "05b91904-2cdf-4d93-b173-35e1e6b29214",
+          "role": "Fan",
+          "capability": "Acepta los términos y la política de reembolso para pagar",
+          "precondition": "Requerido: sesión RSO activa",
+          "sort_order": 0
+        }
+      ],
+      "counters": {
+        "functional": 2
+      }
     },
     {
       "id": "b165b77c-443e-4e38-b24d-24137f06afc9",
@@ -1196,6 +1225,78 @@
       "roles": [],
       "counters": {
         "comment": 1
+      }
+    },
+    {
+      "id": "67304de6-075f-452f-b1d8-04f5f806c597",
+      "code": "CHK-10",
+      "feature": "Vendedor e impuestos de la orden",
+      "description": "Como fan, quiero saber quién me vende las entradas y cuántos impuestos pago, para tener claro el importe de mi compra.",
+      "epic_id": "460a4082-6ee2-4768-b80c-1463e2b889f1",
+      "story_id": null,
+      "area": "CHK",
+      "classification": "build",
+      "comments": "Riot (5 oct 2026): Riot Games figura como vendedor; los impuestos y el IVA se configuran según la ubicación del evento. La configuración no va en SmartVenues: se hará en el portal o en Stripe (pendiente de decidir).",
+      "due_date": null,
+      "implementation_note": null,
+      "owner": "Compartido",
+      "page": "P-06, P-07",
+      "platforms": "[\"riftbound\"]",
+      "priority": "Crítica",
+      "prototype_view": null,
+      "source": "Riot (5 oct 2026)",
+      "status": "Pendiente de definir",
+      "wo_ref": "—",
+      "items": [
+        {
+          "id": "0bec1a04-8092-4caf-bb6e-a0b90680fd3c",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "El portal debe mostrar a Riot Games como vendedor en Checkout, en la confirmación de la orden y en el comprobante de compra."
+        },
+        {
+          "id": "721aa350-2488-4bdd-9f7f-39e5d7692c5a",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": "pending-riot",
+          "text": "El portal debe aplicar los impuestos de cada orden según la configuración del evento [TBD: si el precio que ve el fan incluye el IVA o el impuesto se suma en Checkout]."
+        },
+        {
+          "id": "9da06103-ee2a-4b39-9852-268caac56fef",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": "pending-product",
+          "text": "Los impuestos de cada evento se deben configurar según su ubicación [TBD: en el portal o en Stripe; no en SmartVenues]."
+        },
+        {
+          "id": "d91fb408-5e61-4b7e-aa1b-dc6f06a28eeb",
+          "kind": "comment",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-product",
+          "text": "Ejemplo de configuración de impuestos por ubicación del evento (Riot, 5 oct 2026: «Taxes and VAT should be configurable by event location»). Tipos de ejemplo, a validar por un asesor fiscal; países de los eventos del prototipo, sin México.\n| Evento | País | Impuesto | Tipo de ejemplo | Precio que ve el fan | Desglose de un pase de 100 |\n|---|---|---|---|---|---|\n| Barcelona | España | IVA | 21 % (10 % si cuenta como espectáculo) | Incluido: €100 | €82,64 + €17,36 de IVA |\n| Bologna | Italia | IVA | 22 % (10 % si cuenta como espectáculo) | Incluido: €100 | €81,97 + €18,03 de IVA |\n| Paris | Francia | TVA | 20 % (5,5 % o 10 % según el evento) | Incluido: €100 | €83,33 + €16,67 de TVA |\n| Utrecht | Países Bajos | BTW | 9 % (entradas) o 21 % | Incluido: €100 | €91,74 + €8,26 de BTW |\n| Singapore | Singapur | GST | 9 % | Incluido: S$100 | S$91,74 + S$8,26 de GST |\n| Sydney | Australia | GST | 10 % | Incluido: A$100 | A$90,91 + A$9,09 de GST |\n| Seoul | Corea del Sur | VAT | 10 % | Incluido: ₩100,000 | ₩90,909 + ₩9,091 de VAT |\n| Los Angeles | EE. UU. (California) | Sales tax | 0 % (las entradas suelen estar exentas) | Sin impuesto: $100 | $100 |\n| Atlanta | EE. UU. (Georgia) | Sales tax | 8,9 % (estado, condado y ciudad) | Añadido en Checkout: $108.90 | $100 + $8.90 de sales tax |\n| São Paulo | Brasil | ISS y tributos federales | Régimen propio, en reforma | Incluido: R$100 | Pendiente de asesoría local |\nMatices: los pases con productos físicos (booster boxes, playmat) pueden tributar distinto; los descuentos y vouchers reducen la base; el reembolso devuelve el impuesto; el redondeo sigue los decimales de cada moneda (I18N-02.7)."
+        }
+      ],
+      "roles": [
+        {
+          "id": "4552e8e3-f57f-4bd3-ad6f-738249518d25",
+          "role": "Fan",
+          "capability": "Ve el vendedor y los impuestos de su orden",
+          "precondition": "Requerido: sesión RSO activa",
+          "sort_order": 0
+        }
+      ],
+      "counters": {
+        "comment": 1,
+        "functional": 3
       }
     },
     {
@@ -1421,7 +1522,7 @@
           "seq": 14,
           "sort_order": 1,
           "tag": "pending-engineering",
-          "text": "SmartVenues debe enviar al portal todos los pases y side events de cada evento, con su estado de venta, para que el portal construya las pestañas «Event Passes» y «Side Events» [TBD: API de SmartVenues: contrato y forma de comunicación con el portal]."
+          "text": "SmartVenues debe enviar al portal todos los pases y side events de cada evento, con su estado de venta, para que el portal construya las pestañas «Event Passes» y «Side Events» (INT-01)."
         },
         {
           "id": "eb7571f5-685e-4b02-85b1-191ec04aa27a",
@@ -1430,7 +1531,7 @@
           "seq": 15,
           "sort_order": 2,
           "tag": "pending-engineering",
-          "text": "Cuando el Chief Sales Operator cree, modifique o retire un pase o un side event, o cambie su estado de venta, SmartVenues debe comunicar el cambio al portal [TBD: mecanismo (el portal escucha los cambios o los consulta) y plazo máximo en que se refleja]."
+          "text": "Cuando el Chief Sales Operator cree, modifique o retire un pase o un side event, o cambie su estado de venta, SmartVenues debe comunicar el cambio al portal (INT-01)."
         },
         {
           "id": "a0405a0f-9858-40a4-b4fd-06b1cd58fa68",
@@ -1511,7 +1612,7 @@
       "implementation_note": null,
       "owner": "Globant",
       "page": "P-02, P-03",
-      "platforms": "[\"riftbound\"]",
+      "platforms": "[\"riftbound\",\"smartvenues\"]",
       "priority": "Crítica",
       "prototype_view": null,
       "source": "RP; MK",
@@ -1564,6 +1665,15 @@
           "text": "En dispositivos móviles, el portal debe mostrar la cabecera con [TBD: contenido y disposición; pendiente del diseño móvil]."
         },
         {
+          "id": "f084d6b3-fa3d-451c-8581-d2f56bb0509c",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 6,
+          "sort_order": 0,
+          "tag": "pending-engineering",
+          "text": "SmartVenues debe enviar al portal el nombre, las fechas, el venue, la ciudad y el país de cada evento, que muestra la cabecera (INT-01)."
+        },
+        {
           "id": "af38d21b-6b74-4d32-a598-488936d13ce9",
           "kind": "acceptance",
           "platform": "all",
@@ -1598,11 +1708,18 @@
           "capability": "Consulta cuándo y dónde es el evento",
           "precondition": "Ninguna",
           "sort_order": 0
+        },
+        {
+          "id": "29545e3f-c915-40d8-9369-9ab2efe29b2d",
+          "role": "Chief Sales Operator",
+          "capability": "Configura en SmartVenues los datos del evento que muestra la cabecera",
+          "precondition": null,
+          "sort_order": 1
         }
       ],
       "counters": {
         "acceptance": 1,
-        "functional": 5,
+        "functional": 6,
         "out_of_scope": 2
       }
     },
@@ -1856,7 +1973,7 @@
           "seq": 7,
           "sort_order": 1,
           "tag": "pending-engineering",
-          "text": "SmartVenues debe enviar al portal, para cada evento, un identificador estable, su estado de publicación y sus fechas, para que el portal sepa si el evento existe, está publicado o ha terminado [TBD: API de SmartVenues; si el identificador forma la dirección del evento (EVT-07.1)]."
+          "text": "SmartVenues debe enviar al portal, para cada evento, un identificador estable, su estado de publicación y sus fechas, para que el portal sepa si el evento existe, está publicado o ha terminado (INT-01) [TBD: si el identificador forma la dirección del evento (EVT-07.1)]."
         },
         {
           "id": "ceb5eac8-e799-4177-b83e-dfc551c4f112",
@@ -1865,7 +1982,7 @@
           "seq": 8,
           "sort_order": 2,
           "tag": "pending-engineering",
-          "text": "Cuando se abra la venta de un evento, SmartVenues debe comunicar el cambio al portal en el momento de la apertura [TBD: mecanismo y plazo; ver EVT-07.4]."
+          "text": "Cuando se abra la venta de un evento, SmartVenues debe comunicar el cambio al portal en el momento de la apertura (INT-01; ver EVT-07.4)."
         }
       ],
       "roles": [
@@ -2380,8 +2497,8 @@
           "platform": "smartvenues",
           "seq": 15,
           "sort_order": 1,
-          "tag": "pending-product",
-          "text": "SmartVenues debe enviar al portal los eventos que el Chief Sales Operator configura y publica, con los datos que usa la selección de destacados: fechas de inicio y fin, estado de la venta y fecha y hora de apertura de la venta [TBD: API de SmartVenues: contrato y forma de comunicación con el portal]."
+          "tag": "pending-engineering",
+          "text": "SmartVenues debe enviar al portal los eventos que el Chief Sales Operator configura y publica, con los datos que usa la selección de destacados: fechas de inicio y fin, estado de la venta y fecha y hora de apertura de la venta (INT-01)."
         },
         {
           "id": "e5e17db0-4d17-4262-9745-5e5766296306",
@@ -2389,8 +2506,8 @@
           "platform": "smartvenues",
           "seq": 16,
           "sort_order": 2,
-          "tag": "pending-product",
-          "text": "Cuando el Chief Sales Operator cree, modifique o retire un evento en SmartVenues, SmartVenues debe comunicar el cambio al portal [TBD: mecanismo (el portal escucha los cambios o los consulta) y plazo máximo en que se refleja en Find Events]."
+          "tag": "pending-engineering",
+          "text": "Cuando el Chief Sales Operator cree, modifique o retire un evento en SmartVenues, SmartVenues debe comunicar el cambio al portal (INT-01)."
         },
         {
           "id": "1e15938c-7c79-4750-bc11-b771feb2e18d",
@@ -2686,8 +2803,8 @@
           "platform": "smartvenues",
           "seq": 19,
           "sort_order": 0,
-          "tag": "pending-product",
-          "text": "SmartVenues debe enviar al portal los eventos de «More events» con los datos de cada fila (nombre, fechas, venue, ciudad, país y estado de la venta) y la fecha y hora de apertura de la venta, por el mismo canal que los eventos destacados (FND-03.15 y FND-03.16) [TBD: API de SmartVenues]."
+          "tag": "pending-engineering",
+          "text": "SmartVenues debe enviar al portal los eventos de «More events» con los datos de cada fila (nombre, fechas, venue, ciudad, país y estado de la venta) y la fecha y hora de apertura de la venta, por el mismo canal que los eventos destacados (FND-03.15 y FND-03.16) (INT-01)."
         },
         {
           "id": "07798a7f-9d14-495c-90fb-c7c04b4ebeef",
@@ -3298,6 +3415,77 @@
         "comment": 2,
         "functional": 9,
         "out_of_scope": 1
+      }
+    },
+    {
+      "id": "624b129f-9226-48d0-9849-97743586dc86",
+      "code": "INT-01",
+      "feature": "Envío de eventos de SmartVenues al portal",
+      "description": "Como Chief Sales Operator, quiero que los eventos, pases y side events que configuro en SmartVenues lleguen al portal, para no mantenerlos en dos sitios.",
+      "epic_id": "5d7362e1-8b5f-41eb-8c7c-fa7b65f626a7",
+      "story_id": null,
+      "area": "INT",
+      "classification": "build",
+      "comments": "Define una sola vez la API que usan FND-03, FND-07, EVT-01, EVT-03, EVT-07, PAS-06 y AUD-01. Riot (5 oct 2026): los eventos se configuran en SmartVenues y el portal los escucha.",
+      "due_date": null,
+      "implementation_note": null,
+      "owner": "Globant",
+      "page": "—",
+      "platforms": "[\"riftbound\",\"smartvenues\"]",
+      "priority": "Crítica",
+      "prototype_view": null,
+      "source": "Análisis de gaps",
+      "status": "Pendiente de definir",
+      "wo_ref": "—",
+      "items": [
+        {
+          "id": "c6ec3de3-8c49-4b52-b0e9-452c01545ebd",
+          "kind": "functional",
+          "platform": "riftbound",
+          "seq": 4,
+          "sort_order": 0,
+          "tag": null,
+          "text": "El portal debe construir Find Events y la página de cada evento con los datos que recibe de SmartVenues por esta API."
+        },
+        {
+          "id": "e5656f0d-6169-4b5d-8947-3b699561eb06",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-engineering",
+          "text": "SmartVenues debe enviar al portal, mediante una API, todos los eventos que el Chief Sales Operator configura y publica, con sus pases y sus side events [TBD: contrato de la API: formato, autenticación y versionado]."
+        },
+        {
+          "id": "e06918e7-239f-45b1-a663-171b61dbd6d2",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 2,
+          "sort_order": 1,
+          "tag": null,
+          "text": "SmartVenues debe incluir, para cada evento: identificador estable, nombre, fechas de inicio y fin, venue, ciudad, país, estado de publicación, fecha y hora de apertura de la venta en UTC y estado de la venta; y, para cada pase y side event: nombre, descripción, precio, moneda, unidades disponibles, límite de compra, ventana de venta y restricciones de venta (AUD-01)."
+        },
+        {
+          "id": "39a4f917-8860-4cf5-a11e-e71aaa7c18ff",
+          "kind": "functional",
+          "platform": "smartvenues",
+          "seq": 3,
+          "sort_order": 2,
+          "tag": "pending-engineering",
+          "text": "Cuando el Chief Sales Operator cree, modifique, publique o retire un evento, un pase o un side event, o cambie su estado de venta, SmartVenues debe comunicar el cambio al portal [TBD: mecanismo (el portal escucha los cambios o los consulta) y plazo máximo en que se refleja]."
+        }
+      ],
+      "roles": [
+        {
+          "id": "3cda22eb-099d-4b46-83a3-0bfdbc5b3b96",
+          "role": "Chief Sales Operator",
+          "capability": "Configura y publica en SmartVenues los eventos que se envían al portal",
+          "precondition": null,
+          "sort_order": 0
+        }
+      ],
+      "counters": {
+        "functional": 4
       }
     },
     {
@@ -3956,7 +4144,7 @@
           "seq": 6,
           "sort_order": 1,
           "tag": "pending-engineering",
-          "text": "SmartVenues debe enviar al portal el límite de compra de cada tipo de pase [TBD: API de SmartVenues: contrato y forma de comunicación con el portal]."
+          "text": "SmartVenues debe enviar al portal el límite de compra de cada tipo de pase (INT-01)."
         },
         {
           "id": "e5fd3866-7c34-4beb-abbd-c5773e4862b7",
