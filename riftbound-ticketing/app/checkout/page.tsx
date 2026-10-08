@@ -10,7 +10,7 @@ import { IconCheck, IconLock, IconTicket } from "@/components/icons";
 import { ReqMarker } from "@/components/trace/ReqMarker";
 import { Container, TwoColumn } from "@/components/patterns/Layout";
 import { CartLine, GroupLabel } from "@/components/patterns/OrderPanel";
-import { priceCart, useStore } from "@/lib/state/store";
+import { ownedPassesFor, priceCart, useStore } from "@/lib/state/store";
 import { usePrivatePage } from "@/lib/state/private-page";
 import { dateRange, money } from "@/lib/format";
 
@@ -43,6 +43,9 @@ export default function CheckoutPage() {
       </Container>
     );
   }
+
+  // CHK-01 / SDE-06 (proposal for Riot): side events need a pass of the event, held or in this order.
+  const needsPass = sides.length > 0 && passes.length === 0 && ownedPassesFor(store.orders, ev.slug).length === 0;
 
   const used = priced.voucherIds.length;
   const remaining = priced.available - used;
@@ -80,7 +83,7 @@ export default function CheckoutPage() {
               <p className="mt-2 inline-flex items-center gap-1.5 text-caption text-muted">
                 <IconLock size={13} /> Payments are processed securely by Stripe.
               </p>
-              <ReqMarker ids={["CHK-01", "CHK-02"]} />
+              <ReqMarker ids={["CHK-01"]} />
             </section>
 
             <section className="relative">
@@ -185,10 +188,18 @@ export default function CheckoutPage() {
               <Overline>Total</Overline>
               <span className="text-display-md tabular-nums text-ink">{money(priced.total, ev.currency)}</span>
             </div>
-            <Button variant="primary" size="lg" block className="mt-4" disabled={!terms || paying} onClick={pay}>
+            {needsPass && (
+              <div className="relative mt-4">
+                <Callout tone="note" title="A pass is required for side events">
+                  Pick a pass in <InlineLink href={`/events/${ev.slug}`}>Event Passes</InlineLink> — you can buy it together with side events in one order.
+                </Callout>
+                <ReqMarker ids={["CHK-01", "SDE-06"]} />
+              </div>
+            )}
+            <Button variant="primary" size="lg" block className="mt-4" disabled={!terms || needsPass || paying} onClick={pay}>
               {paying ? "Processing…" : "Check out"}
             </Button>
-            {!terms && <p className="mt-2 text-center text-caption text-muted">Accept the terms to continue.</p>}
+            {!terms && !needsPass && <p className="mt-2 text-center text-caption text-muted">Accept the terms to continue.</p>}
             <div className="relative mt-3">
               <Callout tone="note">
                 Once you check out, you&apos;ll be added to these events on{" "}

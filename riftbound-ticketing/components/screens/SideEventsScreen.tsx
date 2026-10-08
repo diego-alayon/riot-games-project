@@ -17,8 +17,9 @@ export function SideEventsScreen({ ev }: { ev: RiftEvent }) {
   const owned = store.ready ? ownedPassesFor(store.orders, ev.slug).length > 0 : false;
   const registered = store.ready ? registeredSideIds(store.orders, ev.slug) : new Set<string>();
   const passInCart = store.cart.eventSlug === ev.slug && store.cart.passIds.length > 0;
-  // RN-06: a pass of this event is required. A pass in the cart counts (F-04; PQ-37 open).
-  const unlocked = !store.session || !!owned || passInCart;
+  // EVT-01.8: informative only. Side events can be added without a pass (PAS-10.8);
+  // Checkout blocks the payment until the order or the account has one (CHK-01, SDE-06).
+  const showPassNotice = !!store.session && !owned && !passInCart;
 
   const events = sideEventsFor(ev).sort((a, b) => (a.date + a.start).localeCompare(b.date + b.start));
   const days = [...new Set(events.map((e) => e.date))];
@@ -27,7 +28,6 @@ export function SideEventsScreen({ ev }: { ev: RiftEvent }) {
     if (registered.has(id)) return "registered";
     if (store.cart.eventSlug === ev.slug && store.cart.sideIds.includes(id)) return "added";
     if (seatsLeft === 0) return "full";
-    if (!unlocked) return "locked";
     return "add";
   };
 
@@ -39,12 +39,12 @@ export function SideEventsScreen({ ev }: { ev: RiftEvent }) {
         </Callout>
       ) : (
         <>
-          {!unlocked && (
+          {showPassNotice && (
             <div className="relative mb-6">
               <Callout tone="note" title="A pass is required for side events">
                 Pick a pass in <InlineLink href={`/events/${ev.slug}`}>Event Passes</InlineLink> — you can buy it together with side events in one order.
               </Callout>
-              <ReqMarker ids={["SDE-06", "SDE-07"]} />
+              <ReqMarker ids={["EVT-01", "SDE-06", "SDE-07"]} />
             </div>
           )}
           {days.map((day, i) => (

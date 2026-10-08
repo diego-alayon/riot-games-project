@@ -31,15 +31,11 @@ export function EventShell({
   const panelRef = useRef<HTMLDivElement>(null);
   const summary = orderSummary(ev, store.cart);
   const checkout = () => router.push(store.session ? "/checkout" : `/login?next=/checkout`);
-  // RN-06 at tab level (v2 comps): a signed-in fan with no pass of this event, held
-  // or in the cart, cannot open Side Events. A pass in the cart unlocks it so a pass
-  // and side events can be bought together (SDE-07; PQ-37 still open). Visitors
-  // without a session keep read access (ACC-01).
-  const passInCart = store.cart.eventSlug === ev.slug && store.cart.passIds.length > 0;
-  const noPass = store.ready && !!store.session && owned.length === 0 && !passInCart;
-  // EVT-01.6: also disabled while side events are not on sale (RN-07); the text is still to be defined.
-  const sideLocked = noPass || !ev.sideSaleOpen;
-  const sideHint = !ev.sideSaleOpen ? "Side events aren't on sale yet" : "Get a pass for this event to add side events";
+  // EVT-01.6: Side Events is disabled only while side events are not on sale (RN-07).
+  // A fan without a pass can still open it and add side events (PAS-10.8); the pass
+  // is checked at payment (CHK-01, SDE-06).
+  const sideLocked = !ev.sideSaleOpen;
+  const sideHint = "Side events aren't on sale yet";
 
   return (
     <>

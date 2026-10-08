@@ -198,6 +198,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const s = stateRef.current;
     if (!s.session || !s.cart.eventSlug) return null;
     const priced = priceCart(s.cart, s.vouchers, input);
+    // Stands in for SmartVenues rejecting side events without a pass of the event (SDE-06, proposal for Riot).
+    if (priced.sides.length > 0 && priced.passes.length === 0 && ownedPassesFor(s.orders, s.cart.eventSlug).length === 0) return null;
     const items = priced.items.map((i) => (i.kind === "pass" ? { ...i, badgeCode: code() } : i));
     const order: Order = {
       id: `ord-${Date.now().toString(36)}`,
