@@ -295,8 +295,8 @@
         {
           "code": "PAS-06",
           "page": "P-02",
-          "feature": "Límite de compra por tipo de pase",
-          "description": "Como fan, quiero saber cuántos pases de cada tipo puedo comprar, para no intentar comprar más de los permitidos.",
+          "feature": "Límite de compra por tipo de entrada",
+          "description": "Como Chief Sales Operator, quiero configurar cuántas entradas de cada tipo, pases o side events, puede comprar cada cuenta Riot, para que el portal no permita comprar más.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP",
@@ -455,8 +455,8 @@
         {
           "code": "SDE-06",
           "page": "P-03",
-          "feature": "Gateo por pase",
-          "description": "Solo pueden comprar side events los usuarios con un pase del mismo evento.",
+          "feature": "Side events y pase del evento",
+          "description": "Como fan, quiero que el portal reconozca el pase que ya tengo del evento, o el que llevo en el carrito, para poder comprar side events de ese evento.",
           "priority": "No crítica",
           "status": "Confirmado",
           "source": "RP",
@@ -575,8 +575,8 @@
         {
           "code": "PAS-10",
           "page": "P-02, P-03",
-          "feature": "Carrito lateral",
-          "description": "Panel \"Your Order\" con ítems, total y CTA \"Continue to checkout\".",
+          "feature": "Carrito de la orden",
+          "description": "Como fan, quiero ver en todo momento lo que he añadido a mi orden y su total, para revisarlo antes de pagar.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP; MK",
@@ -590,36 +590,24 @@
         {
           "code": "CHK-01",
           "page": "P-06",
-          "feature": "Pago con Stripe",
+          "feature": "Pago con Stripe en Checkout",
           "description": "Stripe es el único proveedor y método de pago. Las opciones del mockup (Google Pay/Apple Pay, PayPal, Credit Card) no se implementan como métodos independientes; los medios de pago disponibles los resuelve Stripe.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP",
           "woRef": "3.3; B4; 3.5",
           "owner": "Compartido",
-          "comments": "Riot aporta la cuenta y las credenciales de Stripe (CP6). Sin PayPal (DEC-04). RN-20",
+          "comments": "Riot aporta la cuenta y las credenciales de Stripe (CP6). Sin PayPal (DEC-04). RN-20. Incluye el antiguo CHK-02 (pago embebido).",
           "acceptance": [
             "El checkout ofrece un único proveedor de pago, Stripe. No aparecen PayPal ni otros métodos como opciones independientes.",
             "La orden solo se confirma cuando Stripe confirma el pago."
           ]
         },
         {
-          "code": "CHK-02",
-          "page": "P-06",
-          "feature": "Pago embebido",
-          "description": "Pago mediante iframe de Stripe en lugar de redirección completa.",
-          "priority": "No crítica",
-          "status": "Pendiente de definir",
-          "source": "RP",
-          "woRef": "B4",
-          "owner": "Globant",
-          "comments": "Preferencia de Riot. Stripe soporta ambos enfoques."
-        },
-        {
           "code": "CHK-03",
           "page": "P-06",
-          "feature": "Resumen de la orden",
-          "description": "Evento, fechas, ítems con precio, vouchers aplicados y total.",
+          "feature": "Resumen de la orden en Checkout",
+          "description": "Como fan, quiero revisar en Checkout qué compro, qué descuentos se aplican y cuánto voy a pagar, para pagar con seguridad.",
           "priority": "Crítica",
           "status": "Confirmado",
           "source": "RP; MK",
@@ -633,7 +621,7 @@
         {
           "code": "CHK-05",
           "page": "P-06",
-          "feature": "Aceptación de términos",
+          "feature": "Términos y política de reembolso",
           "description": "Checkbox de Terms of Service y Refund Policy que habilita el pago.",
           "priority": "No crítica",
           "status": "Pendiente de definir",
@@ -645,7 +633,7 @@
         {
           "code": "CHK-08",
           "page": "P-07",
-          "feature": "Confirmación de orden",
+          "feature": "Confirmación de la orden",
           "description": "Pantalla \"Order Confirmed\" con número de confirmación, resumen y CTAs \"View My Tickets\" y \"Browse More Events\".",
           "priority": "Crítica",
           "status": "Confirmado",
@@ -660,14 +648,26 @@
         {
           "code": "CHK-10",
           "page": "P-06, P-07",
-          "feature": "Vendedor e impuestos de la orden",
-          "description": "Como fan, quiero saber quién me vende las entradas y cuántos impuestos pago, para tener claro el importe de mi compra.",
+          "feature": "Impuestos por ubicación del evento",
+          "description": "Como fan, quiero pagar los impuestos que correspondan a la ubicación del evento, para saber el importe exacto de mi compra.",
           "priority": "Crítica",
           "status": "Pendiente de definir",
           "source": "Riot (5 oct 2026)",
           "woRef": "—",
           "owner": "Compartido",
-          "comments": "Riot (5 oct 2026): Riot Games figura como vendedor; los impuestos y el IVA se configuran según la ubicación del evento. La configuración no va en SmartVenues: se hará en el portal o en Stripe (pendiente de decidir)."
+          "comments": "Riot (5 oct 2026): los impuestos y el IVA se configuran según la ubicación del evento. La configuración no va en SmartVenues: se hará en el portal o en Stripe (pendiente de decidir). Riot Games como vendedor: CHK-03, CHK-08 y MYT-07."
+        },
+        {
+          "code": "CHK-11",
+          "page": "P-06",
+          "feature": "Integración con Stripe",
+          "description": "Como fan, quiero pagar con Stripe sin salir del portal y que mi orden se confirme solo cuando el cobro se haya completado, para no pagar dos veces ni perder lo que he pagado.",
+          "priority": "Crítica",
+          "status": "Pendiente de definir",
+          "source": "RP",
+          "woRef": "3.3; 3.5; B4",
+          "owner": "Compartido",
+          "comments": "Riot aporta la cuenta y las credenciales de Stripe (CP6). Lo que el fan ve y hace al pagar está en CHK-01."
         }
       ]
     },
@@ -1315,6 +1315,11 @@
       "code": "FND-10",
       "mergedInto": null,
       "reason": "Eliminado: Find Events no tiene título ni subtítulo."
+    },
+    {
+      "code": "CHK-02",
+      "mergedInto": "CHK-01",
+      "reason": "El pago embebido es parte del pago con Stripe en Checkout."
     }
   ],
   "organization": "Capacidades del producto en el orden del recorrido del fan. Los IDs no se renumeran; plataforma, página, estado y prioridad son atributos."

@@ -1,7 +1,7 @@
 /**
  * Functional requirements from the Riftbound Ticketing PRD v0.5 (28 sep 2026),
  * plus the gap-review additions, organised by capability (see data/prd/*.json).
- * Retired IDs (CHK-04, CHK-07, PAS-09, PAS-11, MYT-11, REF-06, NFR-02, FND-04, FND-05, FND-06, FND-08, FND-11) were merged; FND-09 and FND-10 were deleted.
+ * Retired IDs (CHK-04, CHK-07, PAS-09, PAS-11, MYT-11, REF-06, NFR-02, FND-04, FND-05, FND-06, FND-08, FND-11, CHK-02) were merged; FND-09 and FND-10 were deleted.
  * Only id, name, priority and status live here, to label markers. The source of
  * truth is the Riot Games Project catalog; markers link there.
  */
@@ -44,18 +44,18 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["PAS-03", "See more / See less", C, OK],
   ["PAS-04", "Tags de pase", C, OK],
   ["PAS-05", "Agrupación por rol", C, OK],
-  ["PAS-06", "Límite de compra por tipo de pase", C, OK],
+  ["PAS-06", "Límite de compra por tipo de entrada", C, OK],
   ["PAS-07", "Disponibilidad y resumen del pase", N, TBD],
   ["PAS-08", "Estado de venta por grupo de pases", N, TBD],
-  ["PAS-10", "Carrito lateral", C, OK],
-  ["CHK-01", "Pago con Stripe", C, OK],
-  ["CHK-02", "Pago embebido", N, TBD],
-  ["CHK-03", "Resumen de la orden", C, OK],
-  ["CHK-05", "Aceptación de términos", N, TBD],
+  ["PAS-10", "Carrito de la orden", C, OK],
+  ["CHK-01", "Pago con Stripe en Checkout", C, OK],
+  ["CHK-03", "Resumen de la orden en Checkout", C, OK],
+  ["CHK-05", "Términos y política de reembolso", N, TBD],
   ["CHK-06", "Checkout multipaso", N, OUT],
-  ["CHK-08", "Confirmación de orden", C, OK],
+  ["CHK-08", "Confirmación de la orden", C, OK],
   ["CHK-09", "Email de confirmación", C, TBD],
-  ["CHK-10", "Vendedor e impuestos de la orden", C, TBD],
+  ["CHK-10", "Impuestos por ubicación del evento", C, TBD],
+  ["CHK-11", "Integración con Stripe", C, TBD],
   ["MYT-01", "Upcoming / Past", C, OK],
   ["MYT-02", "Tarjeta de evento", C, OK],
   ["MYT-03", "QR del pase", C, TBD],
@@ -71,7 +71,7 @@ const LIST: Array<[string, string, Priority, Status]> = [
   ["SDE-03", "Atributos del side event", N, TBD],
   ["SDE-04", "Estado agotado", N, TBD],
   ["SDE-05", "Añadir al carrito", C, OK],
-  ["SDE-06", "Gateo por pase", N, OK],
+  ["SDE-06", "Side events y pase del evento", N, OK],
   ["SDE-07", "Compra conjunta", C, OK],
   ["SDE-08", "Registro en PlayRiftbound", C, OK],
   ["VOU-01", "Vouchers incluidos en pases", C, OK],

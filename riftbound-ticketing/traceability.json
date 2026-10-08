@@ -109,7 +109,6 @@
       "route": "/checkout",
       "requirements": [
         "CHK-01",
-        "CHK-02",
         "CHK-03",
         "CHK-05",
         "I18N-03",
@@ -193,7 +192,6 @@
     "ACC-04",
     "AUD-02",
     "CHK-01",
-    "CHK-02",
     "CHK-03",
     "CHK-05",
     "CHK-08",
