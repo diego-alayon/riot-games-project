@@ -37,6 +37,8 @@ export interface ExportRequirement {
   acceptance: ExportEntry[];
   /** Comentarios del drawer; `comments` is the note imported from the PRD. */
   commentEntries: ExportEntry[];
+  /** Dispositivos: requirements specific to desktop and to mobile. */
+  devices: { desktop: ExportEntry[]; mobile: ExportEntry[] };
 }
 
 export interface ExportEpic { code: string | null; name: string; requirements: ExportRequirement[] }
@@ -68,6 +70,7 @@ function toRequirement(r: any): ExportRequirement {
     outOfScope: entries(r.id, r.code, "out_of_scope", "all"),
     acceptance: entries(r.id, r.code, "acceptance", "all"),
     commentEntries: entries(r.id, r.code, "comment", "all"),
+    devices: { desktop: entries(r.id, r.code, "desktop", "all"), mobile: entries(r.id, r.code, "mobile", "all") },
   };
 }
 

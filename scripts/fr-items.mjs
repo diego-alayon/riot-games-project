@@ -5,7 +5,7 @@
  * the dev server does not need to be running; reopen the drawer to see changes.
  *
  *   npm run fr -- list [CODE]
- *   npm run fr -- add CODE <riftbound|smartvenues|acceptance|out-of-scope|comment> "text" ["text" ...]
+ *   npm run fr -- add CODE <riftbound|smartvenues|desktop|mobile|acceptance|out-of-scope|comment> "text" ["text" ...]
  *   npm run fr -- edit ID "new text"
  *   npm run fr -- tag ID <pending-riot|pending-architecture|pending-engineering|pending-product|out-of-scope|none>
  *   npm run fr -- rm ID [ID ...]
@@ -38,8 +38,10 @@ const TARGETS = {
   acceptance: { kind: "acceptance", scope: "all", label: "Criterios de aceptación" },
   "out-of-scope": { kind: "out_of_scope", scope: "all", label: "Out of scope" },
   comment: { kind: "comment", scope: "all", label: "Comentarios" },
+  desktop: { kind: "desktop", scope: "all", label: "Dispositivos · Desktop" },
+  mobile: { kind: "mobile", scope: "all", label: "Dispositivos · Mobile" },
 };
-const PREFIX = { functional: "", acceptance: "AC", out_of_scope: "OOS", comment: "C" }; // keep in sync with lib/requirements/items.ts
+const PREFIX = { functional: "", acceptance: "AC", out_of_scope: "OOS", comment: "C", desktop: "D", mobile: "M" }; // keep in sync with lib/requirements/items.ts
 // Keep in sync with ITEM_TAGS in lib/requirements/tags.ts.
 const TAGS = {
   "pending-riot": "Pending Riot Games confirmation",
@@ -48,9 +50,9 @@ const TAGS = {
   "pending-product": "Pending product definition",
   "out-of-scope": "Out of scope",
 };
-const SECTION_LABEL = { out_of_scope: "Out of scope", acceptance: "Criterios de aceptación", comment: "Comentarios" };
+const SECTION_LABEL = { out_of_scope: "Out of scope", acceptance: "Criterios de aceptación", comment: "Comentarios", desktop: "Dispositivos · Desktop", mobile: "Dispositivos · Mobile" };
 const labelOf = (kind, scope) => SECTION_LABEL[kind] ?? PLATFORMS[scope] ?? scope;
-const KIND_ORDER = "CASE i.kind WHEN 'functional' THEN 0 WHEN 'acceptance' THEN 1 WHEN 'out_of_scope' THEN 2 ELSE 3 END";
+const KIND_ORDER = "CASE i.kind WHEN 'functional' THEN 0 WHEN 'desktop' THEN 1 WHEN 'mobile' THEN 2 WHEN 'acceptance' THEN 3 WHEN 'out_of_scope' THEN 4 ELSE 5 END";
 const stableId = (code, kind, seq) => (seq ? `${code}.${PREFIX[kind] ?? ""}${seq}` : "(sin ID)");
 
 /** Next stable sequence number for (requirement, kind); never reuses a deleted one. */
@@ -92,10 +94,10 @@ function requirement(code) {
 
 /** Finds an entry by stable ID (FND-06.2, FND-06.AC1, FND-06.OOS1, FND-06.C1) or by UUID prefix. */
 function item(ref) {
-  const m = ref.match(/^([A-Z0-9]+-[A-Z0-9]+)\.(AC|OOS|C)?(\d+)$/i);
+  const m = ref.match(/^([A-Z0-9]+-[A-Z0-9]+)\.(AC|OOS|C|D|M)?(\d+)$/i);
   if (m) {
     const req = requirement(m[1]);
-    const kind = { AC: "acceptance", OOS: "out_of_scope", C: "comment" }[(m[2] ?? "").toUpperCase()] ?? "functional";
+    const kind = { AC: "acceptance", OOS: "out_of_scope", C: "comment", D: "desktop", M: "mobile" }[(m[2] ?? "").toUpperCase()] ?? "functional";
     const row = db.prepare("SELECT * FROM requirement_items WHERE requirement_id=? AND kind=? AND seq=?").get(req.id, kind, Number(m[3]));
     if (!row) fail(`No entry ${ref.toUpperCase()}.`);
     return row;
@@ -196,7 +198,7 @@ switch (cmd) {
     list(args[0]);
     break;
   case "add":
-    if (args.length < 3) fail('Usage: add CODE <riftbound|smartvenues|acceptance|out-of-scope|comment> "text" ["text" ...]');
+    if (args.length < 3) fail('Usage: add CODE <riftbound|smartvenues|desktop|mobile|acceptance|out-of-scope|comment> "text" ["text" ...]');
     add(args[0], args[1].toLowerCase(), args.slice(2));
     break;
   case "edit": {
@@ -257,7 +259,7 @@ switch (cmd) {
   case "snapshot":
     break;
   default:
-    console.log('Usage:\n  npm run fr -- list [CODE]\n  npm run fr -- add CODE <riftbound|smartvenues|acceptance|out-of-scope|comment> "text" ["text" ...]\n  npm run fr -- edit ID "new text"\n  npm run fr -- tag ID <pending-riot|pending-architecture|pending-engineering|pending-product|out-of-scope|none>\n  npm run fr -- rm ID [ID ...]\n  npm run fr -- roles [CODE]\n  npm run fr -- role-add CODE "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-rm ROLE_ID [ROLE_ID ...]\n  npm run fr -- snapshot');
+    console.log('Usage:\n  npm run fr -- list [CODE]\n  npm run fr -- add CODE <riftbound|smartvenues|desktop|mobile|acceptance|out-of-scope|comment> "text" ["text" ...]\n  npm run fr -- edit ID "new text"\n  npm run fr -- tag ID <pending-riot|pending-architecture|pending-engineering|pending-product|out-of-scope|none>\n  npm run fr -- rm ID [ID ...]\n  npm run fr -- roles [CODE]\n  npm run fr -- role-add CODE "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-edit ROLE_ID "Rol" "Funcionalidad soportada" ["Precondición"]\n  npm run fr -- role-rm ROLE_ID [ROLE_ID ...]\n  npm run fr -- snapshot');
 }
 
 if (WRITES.has(cmd)) {

@@ -86,6 +86,28 @@ function Plain({ value }: { value?: string | null }) {
 
 /* ── Sections ───────────────────────────────────────────────────────────── */
 
+/** Dispositivos: what a requirement does differently on desktop and on mobile (functional requirements, not acceptance criteria). */
+const DEVICES = [
+  {
+    kind: "desktop" as const,
+    label: "Desktop",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke={TXT_2} strokeWidth="1.4" strokeLinejoin="round" aria-hidden>
+        <rect x="1.5" y="2.5" width="13" height="8.5" rx="1.2" /><path d="M5.5 14h5M8 11v3" />
+      </svg>
+    ),
+  },
+  {
+    kind: "mobile" as const,
+    label: "Mobile",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke={TXT_2} strokeWidth="1.4" strokeLinejoin="round" aria-hidden>
+        <rect x="4.5" y="1.5" width="7" height="13" rx="1.4" /><path d="M7.2 12.3h1.6" />
+      </svg>
+    ),
+  },
+];
+
 const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => ReactNode }> = [
   {
     id: "roles",
@@ -110,6 +132,29 @@ const SECTIONS: Array<{ id: string; title: string; render: (p: SectionProps) => 
               kind="functional"
               addLabel="Añadir requerimiento funcional"
               emptyLabel={`Sin requerimientos funcionales para ${PLATFORMS[k]}.`}
+            />
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    id: "devices",
+    title: "Dispositivos",
+    render: ({ fr }) => (
+      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        {DEVICES.map(d => (
+          <div key={d.kind}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              {d.icon}
+              <span style={{ fontSize: 13, fontWeight: 500, color: TXT }}>{d.label}</span>
+            </div>
+            <RequirementBullets
+              requirementId={fr.id}
+              code={fr.code}
+              kind={d.kind}
+              addLabel={`Añadir requerimiento para ${d.label}`}
+              emptyLabel={`Sin requerimientos específicos para ${d.label}.`}
             />
           </div>
         ))}

@@ -657,13 +657,13 @@
           "text": "Cuando el login RSO se complete, el portal debe mostrar el game name y el Riot ID vigentes en RSO en ese momento."
         },
         {
-          "id": "b5bc4cf8-7c56-433e-bcdb-edeb35094b51",
-          "kind": "functional",
-          "platform": "riftbound",
-          "seq": 11,
-          "sort_order": 10,
+          "id": "0f07a2a9-17cb-4b4a-a7ce-b73169dfaa81",
+          "kind": "mobile",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
           "tag": null,
-          "text": "En dispositivos móviles, el portal debe mostrar en la cabecera la inicial del game name en lugar del nombre completo [TBD: pendiente del diseño móvil]."
+          "text": "El portal debe mostrar en la cabecera la inicial del game name en lugar del nombre completo [TBD: pendiente del diseño móvil]."
         },
         {
           "id": "2579a406-3860-4638-b609-ba5d39d4f8c9",
@@ -793,6 +793,7 @@
       "counters": {
         "acceptance": 7,
         "functional": 12,
+        "mobile": 1,
         "out_of_scope": 5
       }
     },
@@ -1498,15 +1499,6 @@
           "text": "El portal debe mostrar «On Demand Events» deshabilitada, con el texto «Not available in the first release», como propone el diseño v2; On Demand queda fuera de alcance en la v1 (EVT-02)."
         },
         {
-          "id": "a7bd7ea3-6b0c-47b1-8bd7-ef281b3246fc",
-          "kind": "functional",
-          "platform": "riftbound",
-          "seq": 12,
-          "sort_order": 11,
-          "tag": "pending-riot",
-          "text": "En dispositivos móviles, el portal debe mostrar las pestañas con [TBD: textos y disposición; pendiente del diseño móvil]."
-        },
-        {
           "id": "a40e6f8c-133d-411e-be71-640bfce7bbcc",
           "kind": "functional",
           "platform": "smartvenues",
@@ -1532,6 +1524,15 @@
           "sort_order": 2,
           "tag": "pending-engineering",
           "text": "Cuando el Chief Sales Operator cree, modifique o retire un pase o un side event, o cambie su estado de venta, SmartVenues debe comunicar el cambio al portal (INT-01)."
+        },
+        {
+          "id": "729981d4-a0a3-4d23-b629-88d2781fbbb1",
+          "kind": "mobile",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "El portal debe mostrar las pestañas con [TBD: textos y disposición; pendiente del diseño móvil]."
         },
         {
           "id": "a0405a0f-9858-40a4-b4fd-06b1cd58fa68",
@@ -1571,7 +1572,8 @@
       "counters": {
         "acceptance": 1,
         "comment": 1,
-        "functional": 15
+        "functional": 15,
+        "mobile": 1
       }
     },
     {
@@ -1656,15 +1658,6 @@
           "text": "El portal debe mostrar como fondo de la cabecera la imagen común de Riftbound del diseño v2, la misma para todos los eventos. Riot la aporta y va fija en el frontend."
         },
         {
-          "id": "72500b16-f811-4562-82a0-cc641f5ff149",
-          "kind": "functional",
-          "platform": "riftbound",
-          "seq": 5,
-          "sort_order": 4,
-          "tag": "pending-riot",
-          "text": "En dispositivos móviles, el portal debe mostrar la cabecera con [TBD: contenido y disposición; pendiente del diseño móvil]."
-        },
-        {
           "id": "f084d6b3-fa3d-451c-8581-d2f56bb0509c",
           "kind": "functional",
           "platform": "smartvenues",
@@ -1672,6 +1665,15 @@
           "sort_order": 0,
           "tag": "pending-engineering",
           "text": "SmartVenues debe enviar al portal el nombre, las fechas, el venue, la ciudad y el país de cada evento, que muestra la cabecera (INT-01)."
+        },
+        {
+          "id": "228159f5-eea6-4ba6-8535-82156116997a",
+          "kind": "mobile",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "El portal debe mostrar la cabecera con [TBD: contenido y disposición; pendiente del diseño móvil]."
         },
         {
           "id": "af38d21b-6b74-4d32-a598-488936d13ce9",
@@ -1720,6 +1722,7 @@
       "counters": {
         "acceptance": 1,
         "functional": 6,
+        "mobile": 1,
         "out_of_scope": 2
       }
     },
@@ -1781,15 +1784,6 @@
           "text": "Si el fan ha reembolsado su pase, el portal debe dejar de mostrar el aviso."
         },
         {
-          "id": "a9e508d7-859e-426d-bee8-384cbb33ff2b",
-          "kind": "functional",
-          "platform": "riftbound",
-          "seq": 5,
-          "sort_order": 4,
-          "tag": "pending-riot",
-          "text": "En dispositivos móviles, el portal debe mostrar el aviso con [TBD: posición; pendiente del diseño móvil]."
-        },
-        {
           "id": "34b36d17-3fe1-427a-ba39-f733a179ee60",
           "kind": "functional",
           "platform": "smartvenues",
@@ -1797,6 +1791,15 @@
           "sort_order": 0,
           "tag": "pending-engineering",
           "text": "SmartVenues debe informar al portal de los pases que tiene cada fan en cada evento, identificado por su cuenta Riot (PUID), incluido si un pase se ha reembolsado [TBD: API de SmartVenues: contrato y forma de comunicación con el portal]."
+        },
+        {
+          "id": "a9a632e3-f130-488c-b369-19c4bf9c48fe",
+          "kind": "mobile",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "El portal debe mostrar el aviso con [TBD: posición; pendiente del diseño móvil]."
         },
         {
           "id": "21fcc007-bbbf-45a7-8220-5c4214d3f552",
@@ -1819,7 +1822,8 @@
       ],
       "counters": {
         "acceptance": 1,
-        "functional": 6
+        "functional": 6,
+        "mobile": 1
       }
     },
     {
@@ -2129,13 +2133,13 @@
           "text": "El portal debe indicar en la cabecera que el fan tiene productos en el carrito [TBD: diseño de Riot]."
         },
         {
-          "id": "3d0e967f-2321-431d-98f0-ac81684bfa13",
-          "kind": "functional",
-          "platform": "riftbound",
-          "seq": 6,
-          "sort_order": 6,
+          "id": "a58496c2-74ff-4724-999f-b2dbc0c0156f",
+          "kind": "mobile",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
           "tag": null,
-          "text": "En dispositivos móviles, el portal debe mostrar la cabecera con [TBD: contenido y comportamiento; pendiente del diseño móvil]."
+          "text": "El portal debe mostrar la cabecera con [TBD: contenido y comportamiento; pendiente del diseño móvil]."
         },
         {
           "id": "99d5132c-2bdb-4e4c-9e4d-3cd05f341975",
@@ -2205,6 +2209,7 @@
         "acceptance": 1,
         "comment": 3,
         "functional": 7,
+        "mobile": 1,
         "out_of_scope": 2
       }
     },
@@ -2474,15 +2479,6 @@
           "text": "El frontend del portal debe calcular la selección y el orden de los eventos destacados cada vez que muestra Find Events, a partir de los eventos que envía SmartVenues. El resto de eventos publicados que no hayan terminado va a «More events» (FND-07.1)."
         },
         {
-          "id": "a713f04e-39f3-498b-b871-3df65fa4f95a",
-          "kind": "functional",
-          "platform": "riftbound",
-          "seq": 6,
-          "sort_order": 22,
-          "tag": null,
-          "text": "En dispositivos móviles, el portal debe mostrar los eventos destacados con [TBD: disposición de las tarjetas y recorte de la imagen; pendiente del diseño móvil]."
-        },
-        {
           "id": "11db5eaa-4391-4716-a4c8-d2495b2819d9",
           "kind": "functional",
           "platform": "smartvenues",
@@ -2508,6 +2504,15 @@
           "sort_order": 2,
           "tag": "pending-engineering",
           "text": "Cuando el Chief Sales Operator cree, modifique o retire un evento en SmartVenues, SmartVenues debe comunicar el cambio al portal (INT-01)."
+        },
+        {
+          "id": "63a7de0a-ff19-4c8b-b5b9-70a170e04724",
+          "kind": "mobile",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": null,
+          "text": "El portal debe mostrar los eventos destacados con [TBD: disposición de las tarjetas y recorte de la imagen; pendiente del diseño móvil]."
         },
         {
           "id": "1e15938c-7c79-4750-bc11-b771feb2e18d",
@@ -2611,6 +2616,7 @@
         "acceptance": 4,
         "comment": 3,
         "functional": 26,
+        "mobile": 1,
         "out_of_scope": 2
       }
     },
@@ -2789,15 +2795,6 @@
           "text": "Si no hay eventos fuera de los destacados, el portal debe mostrar en «More events» el mensaje «Check back later for more events»."
         },
         {
-          "id": "509786d7-5684-48d7-8707-62b758c7f738",
-          "kind": "functional",
-          "platform": "riftbound",
-          "seq": 18,
-          "sort_order": 17,
-          "tag": "pending-riot",
-          "text": "En dispositivos móviles, el portal debe mostrar «More events» con [TBD: disposición de las filas; pendiente del diseño móvil]."
-        },
-        {
           "id": "bb735e20-0467-4fd4-a20a-42a45f69ba81",
           "kind": "functional",
           "platform": "smartvenues",
@@ -2805,6 +2802,15 @@
           "sort_order": 0,
           "tag": "pending-engineering",
           "text": "SmartVenues debe enviar al portal los eventos de «More events» con los datos de cada fila (nombre, fechas, venue, ciudad, país y estado de la venta) y la fecha y hora de apertura de la venta, por el mismo canal que los eventos destacados (FND-03.15 y FND-03.16) (INT-01)."
+        },
+        {
+          "id": "8243d833-dd13-4897-a78d-dc2203e473ca",
+          "kind": "mobile",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
+          "tag": "pending-riot",
+          "text": "El portal debe mostrar «More events» con [TBD: disposición de las filas; pendiente del diseño móvil]."
         },
         {
           "id": "07798a7f-9d14-495c-90fb-c7c04b4ebeef",
@@ -2872,6 +2878,7 @@
         "acceptance": 1,
         "comment": 2,
         "functional": 19,
+        "mobile": 1,
         "out_of_scope": 2
       }
     },
@@ -2915,13 +2922,13 @@
           "text": "Si el portal no puede atender la petición por un error del servidor, el portal debe mostrar la cabecera, un mensaje [TBD: texto] y la opción de reintentar."
         },
         {
-          "id": "ee3f0394-a43c-4ba8-a1af-35ac72bae8b8",
-          "kind": "functional",
-          "platform": "riftbound",
-          "seq": 3,
-          "sort_order": 2,
+          "id": "111d2823-b6e5-45b4-93ad-82d9633ec11d",
+          "kind": "mobile",
+          "platform": "all",
+          "seq": 1,
+          "sort_order": 0,
           "tag": null,
-          "text": "En dispositivos móviles, el portal debe mostrar las páginas de error con [TBD: contenido y comportamiento; pendiente del diseño móvil]."
+          "text": "El portal debe mostrar las páginas de error con [TBD: contenido y comportamiento; pendiente del diseño móvil]."
         },
         {
           "id": "404eb208-cc4d-4a76-adda-d863668b72d1",
@@ -2944,7 +2951,8 @@
       ],
       "counters": {
         "comment": 1,
-        "functional": 3
+        "functional": 3,
+        "mobile": 1
       }
     },
     {

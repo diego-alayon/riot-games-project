@@ -111,6 +111,14 @@ function Requirement({ r }: { r: ExportRequirement }) {
         </View>
       ))}
 
+      {r.devices.desktop.length + r.devices.mobile.length > 0 && (
+        <>
+          <Text style={s.sectionLabel}>Dispositivos</Text>
+          {r.devices.desktop.length > 0 && (<View><Text style={s.platform}>Desktop</Text><Entries list={r.devices.desktop} /></View>)}
+          {r.devices.mobile.length > 0 && (<View><Text style={s.platform}>Mobile</Text><Entries list={r.devices.mobile} /></View>)}
+        </>
+      )}
+
       <Text style={s.sectionLabel}>Criterios de aceptación</Text>
       {r.acceptance.length === 0 ? <Text style={s.empty}>Sin criterios de aceptación todavía.</Text> : <Entries list={r.acceptance} />}
 

@@ -102,9 +102,11 @@ export async function catalogToXlsx(doc: CatalogExport): Promise<Buffer> {
     for (const epic of init.epics) {
       for (const r of epic.requirements) {
         const base = { epic: epicTitle(epic), code: r.code, feature: r.feature };
-        // Drawer order: functional per platform, acceptance criteria, out of scope, comments (roles have their own sheet).
+        // Drawer order: functional per platform, devices, acceptance criteria, out of scope, comments (roles have their own sheet).
         const sections = [
           ...PLATFORM_KEYS.map(p => [`Requerimiento funcional · ${PLATFORMS[p]}`, r.functional[p]] as const),
+          ["Dispositivo · Desktop", r.devices.desktop] as const,
+          ["Dispositivo · Mobile", r.devices.mobile] as const,
           ["Criterio de aceptación", r.acceptance] as const,
           ["Out of scope", r.outOfScope] as const,
           ["Comentario", r.commentEntries] as const,
